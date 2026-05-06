@@ -35,7 +35,7 @@ CAMOUFOX_DISABLE_COOP = os.getenv("CAMOUFOX_DISABLE_COOP", "").lower() in {
     "1", "true", "yes", "on",
 }
 
-TAB_URL = "https://tabs.ultimate-guitar.com/tab/eagles/hotel-california-official-1910943"
+TAB_URL = "https://tabs.ultimate-guitar.com/tab/led-zeppelin/stairway-to-heaven-official-1911433"
 BROWSER_PROFILE_DIR = BASE_DIR / "camoufox-profile"
 DUMP_DIR = BASE_DIR / "js_dump" / file_timestamp()
 

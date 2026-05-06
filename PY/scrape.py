@@ -16,6 +16,11 @@ from common import (
     wait_for_cloudflare_wall,
     wait_for_load_or_pause,
 )
+from xtz_decrypt import decrypt_xtz
+
+
+XTZ_MAGIC = b"XTZ\x00"
+ZIP_MAGIC = b"PK\x03\x04"
 
 
 TAB_BASE_URL = "https://tabs.ultimate-guitar.com/tab"
@@ -69,8 +74,8 @@ def body_extension(body: bytes) -> str:
     if body.startswith(b"\x1f\x8b"):
         return ".gz"
 
-    if body.startswith(b"XTZ"):
-        return ".gp"
+    if body.startswith(XTZ_MAGIC):
+        return ".xtz"
 
     return ".bin"
 
@@ -111,6 +116,10 @@ def redirect_chain(request: Request) -> list[str]:
 def write_jsonl(path: Path, payload: dict[str, object]) -> None:
     with path.open("a", encoding="utf-8") as file:
         file.write(f"{json.dumps(payload, ensure_ascii=True, sort_keys=True)}\n")
+
+
+def decrypted_gp_path(encrypted_path: Path) -> Path:
+    return encrypted_path.with_suffix(".gp")
 
 
 def scrape(
@@ -232,6 +241,32 @@ def scrape(
                         "error": str(error),
                     },
                 )
+                continue
+
+            if not body.startswith(XTZ_MAGIC):
+                continue
+
+            try:
+                plaintext = decrypt_xtz(body)
+            except Exception as error:
+                log_capture(
+                    "decrypt-error",
+                    {"source": str(output_path), "error": str(error)},
+                )
+                continue
+
+            gp_path = decrypted_gp_path(output_path)
+            gp_path.write_bytes(plaintext)
+            log_capture(
+                "decrypt-success",
+                {
+                    "source": str(output_path),
+                    "path": str(gp_path),
+                    "bytes": len(plaintext),
+                    "sha256": hashlib.sha256(plaintext).hexdigest(),
+                    "is_zip": plaintext[:4] == ZIP_MAGIC,
+                },
+            )
 
         print(
             f"Captured {len(captured_responses)} matching response(s), "
