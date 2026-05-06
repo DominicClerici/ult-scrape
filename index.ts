@@ -2,29 +2,34 @@ import { createWriteStream, writeFileSync, type WriteStream } from "node:fs";
 import { resolve } from "node:path";
 import { setTimeout as sleep } from "node:timers/promises";
 import { config } from "dotenv";
-import {
-  chromium,
-  type BrowserContext,
-  type ConsoleMessage,
-  type Locator,
-  type Page,
-  type Request,
-  type Response,
-  type Route,
+import { plugin as fingerprintPlugin } from "playwright-with-fingerprints";
+import type {
+  BrowserContext,
+  ConsoleMessage,
+  Locator,
+  Page,
+  Request,
+  Response,
+  Route,
 } from "playwright";
 
 config();
 
 const UG_EMAIL = process.env.UG_EMAIL;
 const UG_PASSWORD = process.env.UG_PASSWORD;
+const FINGERPRINT_SERVICE_KEY = process.env.FINGERPRINT_SERVICE_KEY ?? "";
+const FINGERPRINT_PROXY = process.env.FINGERPRINT_PROXY;
 
 const TAB_URL =
   "https://tabs.ultimate-guitar.com/tab/eagles/hotel-california-official-1910943";
 const OUTPUT_FILE = "hotel_california.gp";
 const DOWNLOAD_FILE_URL = /^https:\/\/tabs\.ultimate-guitar\.com\/tab\/download\/file\?/;
 const BROWSER_PROFILE_DIR = "playwright-profile";
-const BROWSER_CHANNEL = "chrome";
+const FINGERPRINT_WORKING_FOLDER = "fingerprint-engine";
 const MANUAL_LOGIN = false;
+const FINGERPRINT_TAGS = ["Microsoft Windows", "Chrome"] as const;
+const FINGERPRINT_REQUEST_TIMEOUT_MS = 5 * 60_000;
+const FINGERPRINT_ENGINE_TIMEOUT_MS = 10 * 60_000;
 const AUTH_LOG_URL_PARTS = [
   "/user/auth/processSignIn",
   "/v1/user/register/view",
@@ -531,13 +536,15 @@ async function main(): Promise<void> {
   let context: BrowserContext | undefined;
 
   try {
-    context = await chromium.launchPersistentContext(resolve(BROWSER_PROFILE_DIR), {
-      channel: BROWSER_CHANNEL,
+    await configureFingerprintPlugin(consoleLogger);
+
+    const launchedContext = await fingerprintPlugin.launchPersistentContext(resolve(BROWSER_PROFILE_DIR), {
       headless: false,
     });
-    consoleLogger.attachToContext(context);
+    context = launchedContext;
+    consoleLogger.attachToContext(launchedContext);
 
-    const page = context.pages()[0] ?? (await context.newPage());
+    const page = launchedContext.pages()[0] ?? (await launchedContext.newPage());
     consoleLogger.attachToPage(page);
 
     if (MANUAL_LOGIN) {
@@ -552,7 +559,7 @@ async function main(): Promise<void> {
           `Profile: ${resolve(BROWSER_PROFILE_DIR)}`,
       );
 
-      await waitForClose(context, page);
+      await waitForClose(launchedContext, page);
       return;
     }
 
@@ -569,6 +576,34 @@ async function main(): Promise<void> {
     await context?.close();
     consoleLogger.close();
   }
+}
+
+async function configureFingerprintPlugin(logger: BrowserConsoleLogger): Promise<void> {
+  fingerprintPlugin.setServiceKey(FINGERPRINT_SERVICE_KEY);
+  fingerprintPlugin.setWorkingFolder(resolve(FINGERPRINT_WORKING_FOLDER));
+  fingerprintPlugin.setRequestTimeout(FINGERPRINT_REQUEST_TIMEOUT_MS);
+  fingerprintPlugin.setEngineTimeout(FINGERPRINT_ENGINE_TIMEOUT_MS);
+
+  logger.write(
+    `[${timestamp()}] [fingerprint:fetch] tags=${JSON.stringify(FINGERPRINT_TAGS)}`,
+  );
+  const fingerprint = await fingerprintPlugin.fetch({
+    tags: [...FINGERPRINT_TAGS],
+  });
+
+  fingerprintPlugin.useFingerprint(fingerprint, {
+    safeElementSize: true,
+  });
+
+  if (FINGERPRINT_PROXY) {
+    fingerprintPlugin.useProxy(FINGERPRINT_PROXY, {
+      changeTimezone: true,
+      changeGeolocation: true,
+    });
+    logger.write(`[${timestamp()}] [fingerprint:proxy] enabled=true`);
+  }
+
+  logger.write(`[${timestamp()}] [fingerprint:applied]`);
 }
 
 async function waitForClose(context: BrowserContext, page: Page): Promise<void> {
