@@ -1,4 +1,5 @@
 .env
+__pycache__/
 playwright-profile/
 node_modules/
 hotel_california.gp
