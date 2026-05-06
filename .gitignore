@@ -1,6 +1,13 @@
 .env
+__pycache__/
 playwright-profile/
 node_modules/
+.venv/
+PY/.venv/
 hotel_california.gp
+PY/hotel_california.gp
 *-logs.txt
+PY/*-logs.txt
 fingerprint-engine/
+camoufox-profile/
+PY/camoufox-profile/
