@@ -5,6 +5,7 @@ import logging
 from camoufox.async_api import AsyncCamoufox
 
 from app.browser.base import CapturedArtifact
+from app.browser.discover import fetch_explore_html
 from app.browser.fingerprint import load_or_create_fingerprint
 from app.browser.login import is_logged_in, login
 from app.browser.scrape import scrape_tab
@@ -73,6 +74,11 @@ class CamoufoxBrowserSession:
         return await scrape_tab(
             self._page, tab_url, self.s.capture_window_ms,
             self.s.cloudflare_timeout_ms,
+        )
+
+    async def fetch_explore(self, query: str) -> str:
+        return await fetch_explore_html(
+            self._page, query, self.s.discovery_request_timeout_ms
         )
 
     async def close(self) -> None:

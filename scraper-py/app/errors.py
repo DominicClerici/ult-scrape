@@ -12,3 +12,7 @@ class PermanentScrapeError(ScrapeError):
 
 class SessionExpiredError(ScrapeError):
     """Logged-out state detected; re-login and resume without consuming a retry."""
+
+
+class DiscoveryParseError(Exception):
+    """Raised when the explore page's embedded js-store cannot be located or parsed."""

@@ -105,6 +105,7 @@ update that page. Use this map of code → doc:
 | `scraper-py/app/api/routes.py` or `models.py` (endpoints/shapes) | `docs/scraper-py/api.md` |
 | `scraper-py/app/repo.py`, `worker.py`, `db.py`, `errors.py`, `normalize.py` | `docs/scraper-py/queue-and-worker.md` |
 | `scraper-py/app/browser/*` | `docs/scraper-py/browser.md` |
+| `scraper-py/app/browser/discover.py`, `app/discovery/*` | `docs/scraper-py/discovery.md` |
 | `scraper-py/app/config.py`, `.env.example`, `app/output.py` | `docs/scraper-py/configuration.md` |
 | `decoder-rs/src/cipher.rs` or the XTZ format | `docs/decoder-rs/xtz-format-and-cipher.md` |
 | `decoder-rs/src/discover.rs`, `output.rs`, `lib.rs`, `main.rs` (flow/CLI) | `docs/decoder-rs/pipeline.md` |

@@ -38,6 +38,50 @@ claim query, and `idx_jobs_tab(tab_id, status)` for dedup lookups.
 A tiny key/value store for state that must survive restart. Currently just
 `paused` (`"1"`/`"0"`).
 
+### `tab_metadata` table
+
+Persists raw UG explore metadata for every discovered Pro tab (upsert on
+`tab_id`). Written only by discovery — never by the scrape path.
+
+| Column | Notes |
+|---|---|
+| `tab_id` | Canonical route — primary key (same key space as `jobs.tab_id`) |
+| `numeric_id` | UG's integer tab id from the explore record |
+| `route` | Same as `tab_id` |
+| `url` | Full `https://tabs.ultimate-guitar.com/tab/…` URL |
+| `explore_json` | Raw UG explore record (all fields UG returns) |
+| `first_seen_at` | Epoch seconds when the tab was first seen |
+| `last_seen_at` | Epoch seconds of the most recent discovery upsert |
+| `discovery_run_id` | The run that last upserted this row |
+
+### `discovery_runs` table
+
+Tracks every discovery run from `requested` to terminal state.
+
+| Column | Notes |
+|---|---|
+| `id` | UUID4 string — primary key |
+| `params_json` | JSON of per-run override params from `DiscoveryStartRequest` |
+| `state` | `requested` → `running` → `done` \| `canceled` \| `failed` |
+| `created_at` | Epoch seconds |
+| `started_at` | Epoch seconds when the worker claimed the run (nullable) |
+| `finished_at` | Epoch seconds when the run ended (nullable) |
+| `slices_total` | Running estimate of total slices |
+| `slices_done` | Slices completed so far |
+| `tabs_found` | Distinct tabs found (deduped) |
+| `cancel_requested` | `1` once a cancel has been requested; polled each slice |
+| `error` | Error message if `state='failed'` (nullable) |
+
+Index `idx_discovery_state` on `state` speeds up `claim_discovery()` and
+`has_active_discovery()`.
+
+Discovery repo methods in `repo.py`: `request_discovery()`,
+`claim_discovery()`, `get_discovery_run()`, `list_discovery_runs()`,
+`update_discovery_progress()`, `finish_discovery()`,
+`request_discovery_cancel()`, `is_discovery_cancel_requested()`,
+`fail_interrupted_discovery()`, `upsert_tab_metadata()`, `discovered_routes()`,
+`count_active_jobs()`, `has_active_discovery()`.
+
 ## Normalization
 
 `app/normalize.py` → `normalize_tab(url_or_route) -> (tab_id, url)`:
@@ -88,6 +132,7 @@ Each transition is a single committed SQL statement in `repo.py`:
 | `cancel()` | `queued → canceled`, only while queued (returns false otherwise → API 409). |
 | `retry()` | `failed → queued`, resets `attempts=0`, clears `error`/timestamps. |
 | `reset_running_to_queued()` | Startup recovery: any `running` job left over from a crash → `queued`. Called in the lifespan. |
+| `fail_interrupted_discovery()` | Startup recovery: any `running` discovery run left over from a crash → `failed` with error `"interrupted by restart"`. Called in the lifespan alongside `reset_running_to_queued()`. |
 
 ### Backoff
 
@@ -113,18 +158,21 @@ re-login, so a dropped session never burns a job's retry budget.
 up and login confirmed. Each iteration:
 
 1. If `repo.is_paused()` → set state `PAUSED`, await the resume event, loop.
-2. `repo.claim_next()`. If `None` → state `IDLE`, await the wakeup event (signaled
-   on enqueue/retry) with a `POLL_INTERVAL_SECONDS` timeout, loop.
-3. State `RUNNING`. `_process(job)`:
+2. `repo.claim_discovery()`. If a `requested` run exists, atomically promote it
+   to `running`, set state `DISCOVERING`, run `discovery_runner.run(...)`, then
+   loop. Discovery and scraping are mutually exclusive — both use the browser.
+3. `repo.claim_next()`. If `None` → state `IDLE`, await the wakeup event (signaled
+   on enqueue/retry/discover) with a `POLL_INTERVAL_SECONDS` timeout, loop.
+4. State `RUNNING`. `_process(job)`:
    - **Dedup short-circuit:** if not `force` and a succeeded output already exists
      for `tab_id`, `mark_succeeded` pointing at the existing dir; done.
    - `browser.scrape(job.url)` → list of `CapturedArtifact`.
    - Map exceptions via the taxonomy above; empty artifacts → transient failure.
    - On success → `write_job_output(...)` ([output contract](../output-contract.md))
      then `mark_succeeded`. A write failure is treated as transient.
-4. Human-like inter-job delay (`random.uniform(INTER_JOB_DELAY_MIN, MAX)`).
+5. Human-like inter-job delay (`random.uniform(INTER_JOB_DELAY_MIN, MAX)`).
 
-`ServiceState` (`starting | logging_in | idle | running | paused | error`) is
+`ServiceState` (`starting | logging_in | idle | running | paused | discovering | error`) is
 surfaced by `GET /status`. Control primitives: `notify_enqueued()` (wakeup),
 `request_resume()` (resume), `stop()` (shutdown; set in the lifespan `finally`).
 

@@ -13,10 +13,11 @@ that is [`decoder-rs`](../decoder-rs/overview.md)'s job.
 
 | Doc | Covers |
 |---|---|
-| [API](./api.md) | FastAPI endpoints: enqueue, status, pause/resume, retry, cancel. |
+| [API](./api.md) | FastAPI endpoints: enqueue, status, pause/resume, retry, cancel, discovery. |
 | [Queue & worker](./queue-and-worker.md) | SQLite schema, `repo.py` state machine, the worker loop, error taxonomy, retry/backoff/dead-letter. |
 | [Browser automation](./browser.md) | Camoufox/Playwright session, login, scrape capture, human-like behavior, Cloudflare handling. |
 | [Configuration](./configuration.md) | All settings/env vars and the output writer. |
+| [Discovery](./discovery.md) | Pro tab enumeration: adaptive crawl strategy, `app/discovery/` modules, tables, config. |
 
 ## Architecture in one breath
 
@@ -54,6 +55,12 @@ scraper-py/
       login.py            # async UG login flow + is_logged_in() check
       scrape.py           # scrape_tab(): navigate, clear CF, capture .xtz responses
       humanize.py         # human_* helpers + Cloudflare wait
+      discover.py         # fetch_explore_html(): in-page fetch + goto fallback
+    discovery/
+      parser.py           # parse_explore_html() -> ExploreStore; raises DiscoveryParseError
+      facets.py           # FacetCatalog, SliceSpec, build_query()
+      planner.py          # initial_slices(), subdivide(), sort_windows()
+      runner.py           # run(): top-level discovery coroutine called by the worker
     api/routes.py         # all HTTP endpoints
   tests/                  # unit tests (browser excluded by default) + gated integration test
 ```
@@ -102,6 +109,8 @@ python -m pytest -m integration   # live browser test; needs UG creds + network
 
 - **No decryption** (that is `decoder-rs`).
 - **No LLM / dynamic agent** — the worker is a deterministic loop.
-- **No search by artist/title** — jobs are exact tab URLs/routes.
+- **No search by artist/title in the job queue** — jobs are exact tab URLs/routes.
+  (The [discovery](./discovery.md) component enumerates Pro tabs via the explore
+  listing; enqueuing them remains a separate explicit step.)
 - **No concurrency** — a single sequential browser session, one job at a time.
 - **No remote deployment** — localhost-only API, optional local API key.

@@ -32,9 +32,21 @@ variables and a `.env` file (`extra="ignore"`). `get_settings()` returns a fresh
 | `API_HOST` | `127.0.0.1` | Bind address (localhost-only). |
 | `API_PORT` | `8000` | API port. |
 | `API_KEY` | `""` | Optional `X-API-Key` auth; empty disables the check. |
+| `DISCOVERY_SORT_ORDERS` | `date_desc,artistname_asc,artistname_desc,songname_asc` | Comma-separated list of sort-order names to use as sliding windows when a slice is over the 1000-result cap. |
+| `DISCOVERY_FACET_LADDER` | `genres,decade,tonality` | Comma-separated facet names tried for subdivision (in order) before falling back to sort windows. |
+| `DISCOVERY_PAGE_DELAY_MIN` | `2.0` | Min seconds of human-like delay between page fetches during discovery. |
+| `DISCOVERY_PAGE_DELAY_MAX` | `6.0` | Max seconds between page fetches (`0` disables the delay). |
+| `DISCOVERY_MAX_SLICES` | `0` | Stop after N slices; `0` = unlimited. |
+| `DISCOVERY_TARGET_CAP` | `0` | Stop once N distinct tabs are found; `0` = unlimited. |
+| `DISCOVERY_REQUEST_TIMEOUT_MS` | `30000` | Per-page fetch timeout in milliseconds passed to `fetch_explore_html`. |
+| `DISCOVERY_UNTAGGED_SWEEP` | `true` | When `true`, add a final no-genre slice to catch tabs that UG hasn't tagged to any genre. |
 
 Notes:
 
+- `DISCOVERY_*` keys control the [Pro tab discovery](./discovery.md) component
+  only. They have no effect on the scrape job queue. Every key can be overridden
+  **per run** via the `DiscoveryStartRequest` body on `POST /discover`; the
+  runner merges request-level overrides on top of these defaults.
 - `OUTPUT_DIR` **must match** the directory the [decoder](../decoder-rs/overview.md)
   scans. Both default to the **repo-root `output/`** directory: the scraper via
   `../output` (it runs from `scraper-py/`), the decoder by walking up for the repo

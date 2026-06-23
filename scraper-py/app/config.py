@@ -28,6 +28,15 @@ class Settings(BaseSettings):
     capture_window_ms: int = 10_000
     poll_interval_seconds: float = 5.0
 
+    discovery_sort_orders: str = "date_desc,artistname_asc,artistname_desc,songname_asc"
+    discovery_facet_ladder: str = "genres,decade,tonality"
+    discovery_page_delay_min: float = 2.0
+    discovery_page_delay_max: float = 6.0
+    discovery_max_slices: int = 0
+    discovery_target_cap: int = 0
+    discovery_request_timeout_ms: int = 30_000
+    discovery_untagged_sweep: bool = True
+
     api_host: str = "127.0.0.1"
     api_port: int = 8000
     api_key: str = ""

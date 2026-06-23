@@ -39,10 +39,11 @@ They communicate **only** through the filesystem — see the output contract bel
 | Doc | Covers |
 |---|---|
 | 📦 [Overview](./docs/scraper-py/overview.md) | Project map, architecture, layout, setup/run/test. **Entry point for the scraper.** |
-| 🌐 [HTTP API](./docs/scraper-py/api.md) | Endpoints: enqueue, status, pause/resume, retry, cancel. |
+| 🌐 [HTTP API](./docs/scraper-py/api.md) | Endpoints: enqueue, status, pause/resume, retry, cancel, discovery. |
 | ⚙️ [Queue & worker](./docs/scraper-py/queue-and-worker.md) | SQLite schema, job state machine, the worker loop, error taxonomy, retry/backoff. |
 | 🕸️ [Browser automation](./docs/scraper-py/browser.md) | Camoufox session, login, scrape capture, human-like behavior, Cloudflare. |
 | 🔧 [Configuration](./docs/scraper-py/configuration.md) | Every setting/env var, and the atomic output writer. |
+| 🔍 [Discovery](./docs/scraper-py/discovery.md) | Pro tab enumeration: adaptive crawl strategy, modules, DB tables, config. |
 
 ### decoder-rs (Rust · CLI)
 
