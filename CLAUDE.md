@@ -69,7 +69,7 @@ cargo test                       # see fixture caveat below
 cd enricher-py
 pip install -e ".[dev]"          # installs the enricher CLI
 enricher scan                    # enqueue tabs that need audio
-enricher run [--jobs N] [--limit N] [--retry-failed] [--output-dir DIR] [--quiet]
+enricher run [--jobs N] [--limit N] [--retry-failed] [--output-dir DIR] [--db PATH] [--quiet]
 enricher status                  # counts by state
 python3 -m pytest                # unit tests (network-free by default)
 python3 -m pytest -m integration # live yt-dlp + ffprobe tests

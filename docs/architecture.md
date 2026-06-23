@@ -19,7 +19,7 @@ directories, and the decoder and enricher independently discover and process the
 That interface is frozen and documented on its own page:
 
 ➡️ **[The output contract](./output-contract.md)** — read this to understand how
-the two halves fit together.
+the three projects fit together.
 
 This split was deliberate (see the original [design specs](#design-history)):
 

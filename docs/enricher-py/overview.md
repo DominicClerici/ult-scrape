@@ -47,11 +47,12 @@ downloads best-available audio, and writes `audio.<ext>` + `audio.json`. See the
 ```bash
 cd enricher-py
 pip install -e ".[dev]"     # needs ffmpeg (ffprobe) on PATH
-enricher scan               # enqueue tabs needing audio
-enricher run --jobs 2       # download (Ctrl-C = graceful pause)
-enricher status             # counts by state
-python3 -m pytest            # unit tests (browser/network-free)
-python3 -m pytest -m integration  # live yt-dlp + ffprobe
+enricher scan                           # enqueue tabs needing audio
+enricher run --jobs 2                   # download (Ctrl-C = graceful pause)
+enricher run --db PATH --output-dir DIR # override DB / output-dir paths
+enricher status                         # counts by state
+python3 -m pytest                       # unit tests (browser/network-free)
+python3 -m pytest -m integration        # live yt-dlp + ffprobe
 ```
 
 ## Deferred / future

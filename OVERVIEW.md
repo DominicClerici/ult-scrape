@@ -36,8 +36,8 @@ All three communicate **only** through the filesystem — see the output contrac
 
 | Doc | Read it to understand… |
 |---|---|
-| 📐 [Architecture](./docs/architecture.md) | The two-project split, end-to-end data flow, and why it's decoupled. **Start here.** |
-| 🔌 [Output contract](./docs/output-contract.md) | The single interface between the two projects: directory layout, the `metadata.json` commit marker, `.xtz`/`.gp`/`.gpif` files, idempotency. |
+| 📐 [Architecture](./docs/architecture.md) | The three-project architecture, end-to-end data flow, and why it's decoupled. **Start here.** |
+| 🔌 [Output contract](./docs/output-contract.md) | The shared filesystem interface all three projects communicate through: directory layout, the `metadata.json` commit marker, `.xtz`/`.gp`/`.gpif`/`audio.*` files, idempotency. |
 | 🛠️ [Operator scripts](./docs/scripts.md) | The `scripts/` wrappers for running and driving the scraper from the CLI: `start-scraper.sh`, `enqueue.sh`, `status.sh`, `pause.sh`, `resume.sh`. |
 
 ### scraper-py (Python · FastAPI + Camoufox)
