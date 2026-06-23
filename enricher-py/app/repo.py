@@ -4,8 +4,6 @@ import aiosqlite
 
 from app.models import Job, JobStatus
 
-_TERMINAL = ("done", "no_match", "failed")
-
 
 def backoff(attempts: int, base: float) -> float:
     return base * (2 ** max(0, attempts - 1))
@@ -40,7 +38,6 @@ class JobRepo:
 
     async def upsert_pending(self, tab_id: str, route: str) -> None:
         now = self._now()
-        # Insert as pending only when absent; never disturb an existing row.
         await self.conn.execute(
             "INSERT INTO jobs (tab_id, route, status, attempts, next_attempt_at, "
             "created_at, updated_at) VALUES (?,?,?,?,?,?,?) "

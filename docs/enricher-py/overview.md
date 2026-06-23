@@ -42,6 +42,19 @@ downloads best-available audio, and writes `audio.<ext>` + `audio.json`. See the
   reclaims interrupted jobs. Downloads land in a temp dir and are renamed in only
   on success, so a partial never satisfies the done gate.
 
+## Known limitations
+
+- **`--limit` semantics:** `run --limit N` caps the number of jobs *claimed* in
+  that run, not the number of downloads completed. A job that hits a transient
+  failure consumes a budget unit and is re-queued (with backoff) for a later run;
+  a single `--limit N` run may therefore complete fewer than N tabs.
+- **Search metadata is best-effort:** the YouTube search uses `yt-dlp
+  --flat-playlist`, which can return sparse per-result metadata (duration,
+  view_count, and channel may be missing). Selection degrades gracefully — a
+  candidate with unknown duration is not rejected by the `MIN_DURATION_S` guard,
+  and Topic-channel detection requires the channel field to be present. This is a
+  known area for future hardening (see the design spec's future-work section).
+
 ## Commands
 
 ```bash

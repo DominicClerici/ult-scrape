@@ -22,7 +22,7 @@ class EnrichDeps:
     searcher: Searcher
     downloader: Downloader
     prober: Prober
-    settings: "object"
+    settings: object
     clock: callable = time.time
     version: str = field(default_factory=lambda: app.__version__)
     yt_dlp_version: str = "unknown"
@@ -66,7 +66,7 @@ async def enrich_tab(tab: TabDir, deps: EnrichDeps) -> JobStatus:
         )
         return JobStatus.NO_MATCH
 
-    with tempfile.TemporaryDirectory(dir=str(tab.path)) as tmp:
+    with tempfile.TemporaryDirectory(dir=tab.path) as tmp:
         try:
             dl = await deps.downloader.download(
                 chosen.candidate.video_id, Path(tmp), s.ytdlp_format
