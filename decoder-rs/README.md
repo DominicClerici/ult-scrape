@@ -19,7 +19,10 @@ cargo build --release
 decoder-rs [OUTPUT_DIR] [--force] [--jobs N] [--quiet]
 ```
 
-- `OUTPUT_DIR` — scan root. Defaults to `$OUTPUT_DIR`, then `./output`.
+- `OUTPUT_DIR` — scan root. Defaults to `$OUTPUT_DIR`, then the repo-root
+  `output/` directory (found by walking up from the current dir for the
+  `scraper-py/` + `decoder-rs/` pair, so it works from any launch dir inside the
+  repo), then `./output` when run outside the repo tree.
 - `--force` — re-decode even when a sibling `.gp` exists.
 - `--jobs N` — parallel decode threads (default: CPU count).
 - `--quiet` — suppress per-file lines; still print the summary.

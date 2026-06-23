@@ -71,7 +71,9 @@ re-decode next run. Nothing is written unless validation passes.
 decoder-rs [OUTPUT_DIR] [--force] [--jobs N] [--quiet]
 ```
 
-- `OUTPUT_DIR` resolution: positional arg → `$OUTPUT_DIR` env → `./output`.
+- `OUTPUT_DIR` resolution: positional arg → `$OUTPUT_DIR` env → repo-root
+  `output/` (found by walking up from the current dir for the `scraper-py/` +
+  `decoder-rs/` pair — robust to the launch dir) → `./output` outside the repo.
 - `--jobs` defaults to `available_parallelism()` (CPU count), floored at 1.
 - Always prints `decoded N | skipped N | failed N` and **exits 0**, even with
   per-file failures. (A `--strict` non-zero-on-failure flag could be added later

@@ -14,7 +14,7 @@ class Settings(BaseSettings):
     ug_proxy_username: str = ""
     ug_proxy_password: str = ""
 
-    output_dir: Path = Path("./output")
+    output_dir: Path = Path("../output")
     db_path: Path = Path("./scraper.db")
     profile_dir: Path = Path("./camoufox-profile")
     fingerprint_path: Path = Path("./camoufox-fingerprint.json")

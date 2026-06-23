@@ -39,6 +39,8 @@ The production implementation of the Protocol.
   page or opens one.
 - `ensure_logged_in()` delegates to `login.login(...)`; raises if login fails.
 - `is_logged_in()` / `scrape()` delegate to `login.is_logged_in` / `scrape.scrape_tab`.
+- `open_home()` navigates the page to the UG homepage; used only by the
+  [manual-login flow](#manual-login-app-manual_loginpy).
 - `close()` exits the Camoufox context manager.
 
 Two things persist across restarts, and together they make every run look like
@@ -70,6 +72,28 @@ systems flag, so this module pins it:
 
 > Delete `FINGERPRINT_PATH` to mint a fresh device (do it alongside clearing
 > `PROFILE_DIR` if you also want a fresh session).
+
+## Manual login (`app/manual_login.py`)
+
+The automated `login()` flow is brittle (UG markup + Cloudflare). To sidestep it,
+`app/manual_login.py` lets you log in **by hand once** and reuse the session:
+
+```bash
+scripts/start-scraper.sh --login    # or -l
+```
+
+This launches the *same* Camoufox browser the worker uses — persistent profile
+(`PROFILE_DIR`) and pinned fingerprint (`FINGERPRINT_PATH`) — but **visible**
+(`headless` is forced off), opens Ultimate Guitar, and waits. You log in in the
+browser window, then press **Enter** in the terminal. That closes the browser
+cleanly, flushing the now-authenticated cookies / `localStorage` to
+`PROFILE_DIR`. Subsequent `scripts/start-scraper.sh` runs (without `--login`)
+reuse that session: the service's `ensure_logged_in()` finds you already logged
+in and skips the automated flow.
+
+Each `--login` run starts from a clean device — it **deletes** any previously
+saved `PROFILE_DIR` and `FINGERPRINT_PATH` first (a fresh fingerprint is then
+minted on launch), so it overwrites whatever was stored before.
 
 ## `login.py` — UG login flow
 
@@ -135,3 +159,24 @@ markup and on Cloudflare. Things likely to need updating over time:
 
 If a scrape mysteriously yields "no XTZ download captured" or "not logged in",
 start here. When you change any of these, update this page.
+
+### Playwright driver crash on uncaught page errors
+
+Symptom: the Node driver dies mid-login with `TypeError: Cannot read properties
+of undefined (reading 'url')` in `coreBundle.js`, and Python then fails with
+`unable to perform operation on <... closed>; the handler is closed`.
+
+Cause: an upstream Playwright bug. Its `PageError` dispatcher reads
+`pageError.location.url` unconditionally, but Camoufox/Firefox emits some
+uncaught page errors (e.g. from third-party scripts on UG) with no `location`,
+so the read throws *inside* the Node event loop and crashes the whole driver. We
+don't subscribe to `pageError`, so this can't be dodged from Python.
+
+Workaround: `scripts/patch-playwright-driver.sh` rewrites those reads to
+optional-chain and fall back to the driver schema's required types
+(`url` → `""`, `line`/`column` → `0`) — a bare `undefined` would instead trip
+the driver's own validator (`location.url: expected string, got undefined`).
+It's idempotent, and `scripts/start-scraper.sh` runs it on
+every start (a fresh `pip install` restores the vendored, unpatched bundle, so
+the patch must be re-applied). If you don't use the start script, run the patch
+script once after installing/reinstalling Playwright.

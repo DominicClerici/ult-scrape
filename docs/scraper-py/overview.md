@@ -47,6 +47,7 @@ scraper-py/
     output.py             # write_job_output(): atomic per-job dir + metadata.json
     normalize.py          # normalize_tab(): URL/route -> (tab_id, url)
     errors.py             # ScrapeError taxonomy (Transient/Permanent/SessionExpired)
+    manual_login.py       # `python -m app.manual_login`: interactive one-time login (see browser.md)
     browser/
       base.py             # BrowserSession Protocol + CapturedArtifact dataclass
       session.py          # CamoufoxBrowserSession: launch, ensure_logged_in, scrape, close

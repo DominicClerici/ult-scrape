@@ -17,7 +17,7 @@ variables and a `.env` file (`extra="ignore"`). `get_settings()` returns a fresh
 | `UG_PROXY` | `""` | Optional proxy `server` URL (e.g. `http://gate.decodo.com:7000`). Blank → bare requests, no proxy. When set, Camoufox `geoip` is enabled. Use a **sticky-session** endpoint so the exit IP stays stable across login + scrape. |
 | `UG_PROXY_USERNAME` | `""` | Proxy auth username (required for authenticated proxies like Decodo). Passed as a separate field — credentials in the `UG_PROXY` URL are ignored by Playwright/Camoufox. Only sent when `UG_PROXY` is set. |
 | `UG_PROXY_PASSWORD` | `""` | Proxy auth password. Paired with `UG_PROXY_USERNAME`. |
-| `OUTPUT_DIR` | `./output` | Root for committed per-job output dirs. **Shared with the decoder.** |
+| `OUTPUT_DIR` | `../output` | Root for committed per-job output dirs. Relative to the service's working dir (`scraper-py/`), so the default resolves to the **repo-root `output/`** directory. **Shared with the decoder.** |
 | `DB_PATH` | `./scraper.db` | SQLite file path (queue + state). |
 | `PROFILE_DIR` | `./camoufox-profile` | Persistent Camoufox profile dir (cookies, localStorage, cache — keeps the login session). |
 | `FINGERPRINT_PATH` | `./camoufox-fingerprint.json` | Persisted browser fingerprint (device identity). Generated once, reloaded every launch so the device matches the saved session. |
@@ -36,8 +36,10 @@ variables and a `.env` file (`extra="ignore"`). `get_settings()` returns a fresh
 Notes:
 
 - `OUTPUT_DIR` **must match** the directory the [decoder](../decoder-rs/overview.md)
-  scans. The decoder defaults to `$OUTPUT_DIR` then `./output`, so sharing the env
-  var keeps them aligned.
+  scans. Both default to the **repo-root `output/`** directory: the scraper via
+  `../output` (it runs from `scraper-py/`), the decoder by walking up for the repo
+  root from wherever it is launched. Setting `$OUTPUT_DIR` (which the decoder also
+  reads) overrides both and keeps them aligned anywhere.
 - Path settings are `pathlib.Path`. Secrets (`UG_PASSWORD`, `API_KEY`) should
   never be logged.
 

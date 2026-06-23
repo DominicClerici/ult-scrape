@@ -8,6 +8,11 @@
 
 ## Directory layout
 
+`OUTPUT_DIR` lives at the **repo root** (`output/`). Both projects default to it
+without configuration: the scraper resolves `../output` from its working dir
+(`scraper-py/`), and the decoder walks up from wherever it is launched to find the
+repo root. Either can be pointed elsewhere via the `OUTPUT_DIR` env var / CLI arg.
+
 Each successfully scraped tab is committed as one directory under `OUTPUT_DIR`:
 
 ```

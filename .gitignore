@@ -13,3 +13,5 @@ camoufox-profile/
 PY/camoufox-profile/
 # PY/captures/
 DadaGP-v1.1/
+# Shared scraper→decoder output (committed .xtz/.gp/.gpif live here at runtime).
+/output/

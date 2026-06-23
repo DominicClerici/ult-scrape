@@ -11,6 +11,7 @@ from app.browser.scrape import scrape_tab
 from app.config import Settings
 
 WINDOW_OS = "windows"
+UG_HOME = "https://www.ultimate-guitar.com/"
 
 log = logging.getLogger(__name__)
 
@@ -49,6 +50,12 @@ class CamoufoxBrowserSession:
             self._context.pages[0]
             if self._context.pages
             else await self._context.new_page()
+        )
+
+    async def open_home(self) -> None:
+        """Navigate the page to the UG homepage (used by the manual-login flow)."""
+        await self._page.goto(
+            UG_HOME, wait_until="domcontentloaded", timeout=60_000
         )
 
     async def ensure_logged_in(self) -> None:
