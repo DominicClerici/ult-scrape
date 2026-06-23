@@ -1,0 +1,19 @@
+[package]
+name = "decoder-rs"
+version = "0.1.0"
+edition = "2021"
+
+[dependencies]
+clap = { version = "4.6", features = ["derive"] }
+walkdir = "2.5"
+zip = "2.4"
+rayon = "1.12"
+anyhow = "1.0"
+
+[[bin]]
+name = "decoder-rs"
+path = "src/main.rs"
+
+[lib]
+name = "decoder_rs"
+path = "src/lib.rs"
