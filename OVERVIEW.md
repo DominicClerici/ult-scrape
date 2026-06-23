@@ -7,12 +7,15 @@ neighbors, so you can explore the system one hop at a time.
 ## What this project is
 
 `ult-scrape` turns an Ultimate Guitar (UG) tab URL into a usable Guitar Pro file,
-in **two decoupled stages** that share no code — only a filesystem directory:
+in **three decoupled stages** that share no code — only a filesystem directory:
 
 ```
   UG tab URL ──▶  scraper-py  ──▶  OUTPUT_DIR/<tab_id>/*.xtz  ──▶  decoder-rs  ──▶  *.gp + *.gpif
                   (downloads raw      (the frozen seam:            (decrypts;
                    encrypted bytes)    output contract)             no scraping)
+                                             │
+                                       enricher-py  ──▶  audio.<ext> + audio.json
+                                       (downloads best-available source audio per tab)
 ```
 
 - **[`scraper-py/`](./scraper-py/)** — a FastAPI service that logs into UG, works a
@@ -21,8 +24,11 @@ in **two decoupled stages** that share no code — only a filesystem directory:
 - **[`decoder-rs/`](./decoder-rs/)** — a one-shot Rust CLI that walks the scraper's
   output and decrypts each `.xtz` into a Guitar Pro `.gp` (+ extracted `.gpif`). It
   does **no** scraping.
+- **[`enricher-py/`](./enricher-py/)** — an async Python CLI that walks the shared
+  `output/` tree and downloads the best-available full audio (YouTube, Topic-first
+  via `yt-dlp`) into each tab directory.
 
-They communicate **only** through the filesystem — see the output contract below.
+All three communicate **only** through the filesystem — see the output contract below.
 
 ## The map
 
@@ -51,6 +57,12 @@ They communicate **only** through the filesystem — see the output contract bel
 | 📦 [Overview](./docs/decoder-rs/overview.md) | Crate layout, build/run, dependencies, tests. **Entry point for the decoder.** |
 | 🔐 [XTZ format & cipher](./docs/decoder-rs/xtz-format-and-cipher.md) | The `.xtz` binary format, dual-LFSR key schedule, and hand-rolled ChaCha8. |
 | 🏭 [Pipeline](./docs/decoder-rs/pipeline.md) | discover → decode → validate → write, CLI flags, idempotency, parallelism, errors. |
+
+### enricher-py (Python · async CLI)
+
+| Doc | Covers |
+|---|---|
+| 📦 [Overview](./docs/enricher-py/overview.md) | Module map, queue/idempotency/recovery, commands, deferred work. **Entry point for the enricher.** |
 
 ### Design history (the "why")
 
