@@ -33,6 +33,7 @@ def create_app(repo=None, worker=None, settings=None) -> FastAPI:
         await db.init_schema(conn)
         repo_ = JobRepo(conn)
         await repo_.reset_running_to_queued()
+        await repo_.fail_interrupted_discovery()
         browser = CamoufoxBrowserSession(s)
         await browser.start()
         await browser.ensure_logged_in()

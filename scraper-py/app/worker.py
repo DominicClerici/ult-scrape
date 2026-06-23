@@ -11,6 +11,7 @@ log = logging.getLogger(__name__)
 from app import __version__
 from app.browser.base import BrowserSession
 from app.config import Settings
+from app.discovery import runner as discovery_runner
 from app.errors import (
     PermanentScrapeError,
     ScrapeError,
@@ -54,6 +55,15 @@ class Worker:
                 self.state = ServiceState.PAUSED
                 self._resume.clear()
                 await self._resume.wait()
+                continue
+
+            run = await self.repo.claim_discovery()
+            if run is not None:
+                self.state = ServiceState.DISCOVERING
+                try:
+                    await discovery_runner.run(self.browser, self.repo, run, self.settings)
+                except Exception:
+                    log.exception("discovery run %s crashed", run.id)
                 continue
 
             job = await self.repo.claim_next()
