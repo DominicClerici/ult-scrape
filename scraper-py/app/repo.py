@@ -111,3 +111,96 @@ class JobRepo:
         )
         row = await cur.fetchone()
         return bool(row and row["value"] == "1")
+
+    async def claim_next(self) -> Job | None:
+        now = self._now()
+        cur = await self.conn.execute(
+            "UPDATE jobs SET status='running', started_at=?, updated_at=? "
+            "WHERE id = (SELECT id FROM jobs WHERE status='queued' "
+            "AND next_attempt_at<=? ORDER BY priority ASC, created_at ASC LIMIT 1) "
+            "RETURNING *",
+            (now, now, now),
+        )
+        row = await cur.fetchone()
+        await self.conn.commit()
+        return self._row_to_job(row) if row else None
+
+    async def succeeded_output_for(self, tab_id: str, exclude_id: str) -> str | None:
+        cur = await self.conn.execute(
+            "SELECT output_dir FROM jobs WHERE tab_id=? AND status='succeeded' "
+            "AND id!=? AND output_dir IS NOT NULL ORDER BY finished_at DESC LIMIT 1",
+            (tab_id, exclude_id),
+        )
+        row = await cur.fetchone()
+        return row["output_dir"] if row else None
+
+    async def mark_succeeded(self, job_id: str, output_dir: str) -> None:
+        now = self._now()
+        await self.conn.execute(
+            "UPDATE jobs SET status='succeeded', output_dir=?, finished_at=?, "
+            "updated_at=?, error=NULL WHERE id=?",
+            (output_dir, now, now, job_id),
+        )
+        await self.conn.commit()
+
+    async def mark_permanent_failure(self, job_id: str, error: str) -> None:
+        now = self._now()
+        await self.conn.execute(
+            "UPDATE jobs SET status='failed', attempts=attempts+1, error=?, "
+            "finished_at=?, updated_at=? WHERE id=?",
+            (error, now, now, job_id),
+        )
+        await self.conn.commit()
+
+    async def record_transient_failure(
+        self, job_id: str, error: str, base_backoff: float
+    ) -> str:
+        now = self._now()
+        job = await self.get(job_id)
+        attempts = job.attempts + 1
+        if attempts >= job.max_attempts:
+            await self.conn.execute(
+                "UPDATE jobs SET status='failed', attempts=?, error=?, "
+                "finished_at=?, updated_at=? WHERE id=?",
+                (attempts, error, now, now, job_id),
+            )
+            result = "failed"
+        else:
+            nxt = now + backoff(attempts, base_backoff)
+            await self.conn.execute(
+                "UPDATE jobs SET status='queued', attempts=?, error=?, "
+                "next_attempt_at=?, started_at=NULL, updated_at=? WHERE id=?",
+                (attempts, error, nxt, now, job_id),
+            )
+            result = "queued"
+        await self.conn.commit()
+        return result
+
+    async def requeue_unchanged(self, job_id: str) -> None:
+        now = self._now()
+        await self.conn.execute(
+            "UPDATE jobs SET status='queued', started_at=NULL, updated_at=? WHERE id=?",
+            (now, job_id),
+        )
+        await self.conn.commit()
+
+    async def cancel(self, job_id: str) -> bool:
+        now = self._now()
+        cur = await self.conn.execute(
+            "UPDATE jobs SET status='canceled', finished_at=?, updated_at=? "
+            "WHERE id=? AND status='queued'",
+            (now, now, job_id),
+        )
+        await self.conn.commit()
+        return cur.rowcount > 0
+
+    async def retry(self, job_id: str) -> bool:
+        now = self._now()
+        cur = await self.conn.execute(
+            "UPDATE jobs SET status='queued', attempts=0, error=NULL, "
+            "next_attempt_at=?, started_at=NULL, finished_at=NULL, updated_at=? "
+            "WHERE id=? AND status='failed'",
+            (now, now, job_id),
+        )
+        await self.conn.commit()
+        return cur.rowcount > 0
