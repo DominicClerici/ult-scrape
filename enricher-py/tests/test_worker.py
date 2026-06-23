@@ -47,6 +47,19 @@ async def test_enrich_no_match_writes_marker(tmp_path):
     assert (tab_dir / "audio.json").exists()
 
 
+async def test_enrich_skips_when_audio_exists(tmp_path, fakes):
+    tab_dir = tmp_path / "eagles/hc-1"
+    tab_dir.mkdir(parents=True)
+    (tab_dir / "metadata.json").write_text("{}")
+    (tab_dir / "audio.opus").write_bytes(b"existing")
+    tab = TabDir("eagles/hc-1", "eagles/hc-1", tab_dir)
+    searcher = FakeSearcher(results=[fakes["topic_candidate"]])
+    status = await enrich_tab(tab, _deps(searcher))
+    assert status == JobStatus.DONE
+    assert searcher.calls == []  # no search/download attempted — not wasted
+    assert (tab_dir / "audio.opus").read_bytes() == b"existing"
+
+
 async def test_enrich_transient_on_download_error(tmp_path, fakes):
     tab_dir = tmp_path / "eagles/hc-1"
     tab_dir.mkdir(parents=True)

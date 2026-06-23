@@ -8,7 +8,7 @@ from datetime import datetime
 from pathlib import Path
 
 import app
-from app.discover import TabDir
+from app.discover import TabDir, find_audio_file
 from app.errors import PermanentEnrichError, TransientEnrichError
 from app.models import JobStatus
 from app.output import commit_audio, write_no_match
@@ -37,6 +37,12 @@ def _select_config(settings) -> SelectConfig:
 
 
 async def enrich_tab(tab: TabDir, deps: EnrichDeps) -> JobStatus:
+    # Filesystem is the source of truth for completion: if audio already
+    # exists (e.g. a prior run committed it then crashed before mark_done),
+    # skip the expensive search/download and report done.
+    if find_audio_file(tab.path) is not None:
+        return JobStatus.DONE
+
     s = deps.settings
     now_iso = datetime.fromtimestamp(deps.clock()).isoformat(timespec="seconds")
 
