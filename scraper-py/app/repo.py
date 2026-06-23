@@ -1,9 +1,13 @@
+from __future__ import annotations
+
+import json
 import time
 from uuid import uuid4
 
 import aiosqlite
 
-from app.models import Job, JobStatus
+from app.models import DiscoveryRun, Job, JobStatus
+from app.normalize import normalize_tab
 
 
 def backoff(attempts: int, base: float) -> float:
@@ -214,3 +218,145 @@ class JobRepo:
         )
         await self.conn.commit()
         return cur.rowcount
+
+    @staticmethod
+    def _row_to_discovery(row) -> DiscoveryRun:
+        return DiscoveryRun(
+            id=row["id"],
+            params=json.loads(row["params_json"]),
+            state=row["state"],
+            created_at=row["created_at"],
+            started_at=row["started_at"],
+            finished_at=row["finished_at"],
+            slices_total=row["slices_total"],
+            slices_done=row["slices_done"],
+            tabs_found=row["tabs_found"],
+            cancel_requested=bool(row["cancel_requested"]),
+            error=row["error"],
+        )
+
+    async def count_active_jobs(self) -> int:
+        cur = await self.conn.execute(
+            "SELECT COUNT(*) c FROM jobs WHERE status IN ('queued','running')"
+        )
+        return (await cur.fetchone())["c"]
+
+    async def has_active_discovery(self) -> bool:
+        cur = await self.conn.execute(
+            "SELECT COUNT(*) c FROM discovery_runs WHERE state IN ('requested','running')"
+        )
+        return (await cur.fetchone())["c"] > 0
+
+    async def request_discovery(self, params: dict) -> DiscoveryRun | None:
+        if await self.has_active_discovery():
+            return None
+        run_id = str(uuid4())
+        now = self._now()
+        await self.conn.execute(
+            "INSERT INTO discovery_runs (id, params_json, state, created_at) "
+            "VALUES (?,?, 'requested', ?)",
+            (run_id, json.dumps(params), now),
+        )
+        await self.conn.commit()
+        return await self.get_discovery_run(run_id)
+
+    async def claim_discovery(self) -> DiscoveryRun | None:
+        now = self._now()
+        cur = await self.conn.execute(
+            "UPDATE discovery_runs SET state='running', started_at=? "
+            "WHERE id = (SELECT id FROM discovery_runs WHERE state='requested' "
+            "ORDER BY created_at ASC LIMIT 1) RETURNING *",
+            (now,),
+        )
+        row = await cur.fetchone()
+        await self.conn.commit()
+        return self._row_to_discovery(row) if row else None
+
+    async def get_discovery_run(self, run_id: str) -> DiscoveryRun | None:
+        cur = await self.conn.execute(
+            "SELECT * FROM discovery_runs WHERE id=?", (run_id,)
+        )
+        row = await cur.fetchone()
+        return self._row_to_discovery(row) if row else None
+
+    async def list_discovery_runs(self, limit: int = 20) -> list[DiscoveryRun]:
+        cur = await self.conn.execute(
+            "SELECT * FROM discovery_runs ORDER BY created_at DESC LIMIT ?", (limit,)
+        )
+        return [self._row_to_discovery(r) for r in await cur.fetchall()]
+
+    async def update_discovery_progress(
+        self, run_id: str, slices_total: int, slices_done: int, tabs_found: int
+    ) -> None:
+        await self.conn.execute(
+            "UPDATE discovery_runs SET slices_total=?, slices_done=?, tabs_found=? WHERE id=?",
+            (slices_total, slices_done, tabs_found, run_id),
+        )
+        await self.conn.commit()
+
+    async def finish_discovery(
+        self, run_id: str, state: str, error: str | None = None
+    ) -> None:
+        now = self._now()
+        await self.conn.execute(
+            "UPDATE discovery_runs SET state=?, error=?, finished_at=? WHERE id=?",
+            (state, error, now, run_id),
+        )
+        await self.conn.commit()
+
+    async def request_discovery_cancel(self, run_id: str) -> bool:
+        cur = await self.conn.execute(
+            "UPDATE discovery_runs SET cancel_requested=1 "
+            "WHERE id=? AND state IN ('requested','running')",
+            (run_id,),
+        )
+        await self.conn.commit()
+        return cur.rowcount > 0
+
+    async def is_discovery_cancel_requested(self, run_id: str) -> bool:
+        cur = await self.conn.execute(
+            "SELECT cancel_requested FROM discovery_runs WHERE id=?", (run_id,)
+        )
+        row = await cur.fetchone()
+        return bool(row and row["cancel_requested"])
+
+    async def fail_interrupted_discovery(self) -> int:
+        now = self._now()
+        cur = await self.conn.execute(
+            "UPDATE discovery_runs SET state='failed', error='interrupted by restart', "
+            "finished_at=? WHERE state='running'",
+            (now,),
+        )
+        await self.conn.commit()
+        return cur.rowcount
+
+    async def upsert_tab_metadata(self, run_id: str, record: dict) -> None:
+        tab_id, url = normalize_tab(record["tab_url"])
+        now = self._now()
+        await self.conn.execute(
+            "INSERT INTO tab_metadata "
+            "(tab_id, numeric_id, route, url, explore_json, first_seen_at, last_seen_at, discovery_run_id) "
+            "VALUES (?,?,?,?,?,?,?,?) "
+            "ON CONFLICT(tab_id) DO UPDATE SET "
+            "numeric_id=excluded.numeric_id, url=excluded.url, "
+            "explore_json=excluded.explore_json, last_seen_at=excluded.last_seen_at, "
+            "discovery_run_id=excluded.discovery_run_id",
+            (tab_id, record.get("id"), tab_id, url, json.dumps(record), now, now, run_id),
+        )
+        await self.conn.commit()
+
+    async def discovered_routes(
+        self, exclude_succeeded: bool = True
+    ) -> list[tuple[str, str]]:
+        if exclude_succeeded:
+            cur = await self.conn.execute(
+                "SELECT m.tab_id, m.url FROM tab_metadata m "
+                "WHERE NOT EXISTS (SELECT 1 FROM jobs j "
+                "WHERE j.tab_id=m.tab_id AND j.status='succeeded') "
+                "ORDER BY m.first_seen_at ASC"
+            )
+        else:
+            cur = await self.conn.execute(
+                "SELECT tab_id, url FROM tab_metadata ORDER BY first_seen_at ASC"
+            )
+        return [(r["tab_id"], r["url"]) for r in await cur.fetchall()]
