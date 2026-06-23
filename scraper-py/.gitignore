@@ -1,0 +1,9 @@
+.env
+__pycache__/
+.venv/
+*.db
+*.db-wal
+*.db-shm
+camoufox-profile/
+output/
+*.egg-info/
