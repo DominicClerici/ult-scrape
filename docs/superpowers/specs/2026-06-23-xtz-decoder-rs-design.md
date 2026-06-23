@@ -57,12 +57,14 @@ OUTPUT_DIR/<tab_id>/                 # <tab_id> contains a slash, e.g. eagles/ho
 
 ## Known caveats (carried from the Python reference)
 
-1. **`second16` zero-seed edge case.** The Python guard tests raw `z > 1` but
-   seeds from `z & mask`. If `z > 1` yet `z & mask == 0`, the LFSR seeds to 0 and
-   emits all-zero key bytes → garbage output. We **replicate the Python behavior
-   exactly** (for bit-parity with the verified reference) and rely on output
-   validation to reject any mis-decrypt rather than write a corrupt file. Flagged
-   in a code comment.
+1. **`second16` zero-seed edge case — investigated, proven a non-issue.** The
+   Python guard tests raw `z > 1` while seeding from `z & mask`, which looked like
+   a latent bug (seed 0 → all-zero key → garbage). On inspection it cannot happen:
+   `L = (c & 31) + 33 ≥ 33`, strictly greater than the 32-bit width of `z`, so
+   `mask = (1<<L)-1` covers every bit of `z` and `z & mask == z` for all uint32
+   `z`. Thus the masked seed is 0 only when `z == 0`, which the `z > 1` guard maps
+   to `1`. The LFSR never seeds to 0. We still **replicate the Python behavior
+   exactly** for bit-parity, with a code comment recording this proof.
 2. **Single format version.** Magic strictly `XTZ\0`, taps baked to one WASM
    build. A new container version decrypts to non-ZIP; we skip+warn, never crash
    or emit corrupt output.
