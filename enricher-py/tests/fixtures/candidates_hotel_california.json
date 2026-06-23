@@ -1,0 +1,10 @@
+[
+  {"video_id": "lesson1", "title": "Hotel California Guitar Lesson Pt.1",
+   "channel": "GuitarJamz", "duration_s": 700, "view_count": 5000000, "url": "u1"},
+  {"video_id": "topic1", "title": "Hotel California",
+   "channel": "Eagles - Topic", "duration_s": 391, "view_count": 80000000, "url": "u2"},
+  {"video_id": "live1", "title": "Hotel California (Live 1977)",
+   "channel": "Eagles", "duration_s": 400, "view_count": 9000000, "url": "u3"},
+  {"video_id": "short1", "title": "Hotel California",
+   "channel": "randomuser", "duration_s": 35, "view_count": 100, "url": "u4"}
+]
