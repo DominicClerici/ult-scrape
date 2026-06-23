@@ -59,12 +59,21 @@ def _filename(response_url: str, headers: dict, body: bytes) -> str:
     return base
 
 
-# Pulls the tab's song fields out of UG's hydrated page store. Returns the raw
-# candidate fields (or null) — normalization happens in Python (_song_block).
-_SONG_META_JS = """() => {
-  try {
-    const d = window.UGAPP && window.UGAPP.store && window.UGAPP.store.page
-      && window.UGAPP.store.page.data;
+# Pulls the tab's song fields out of UG's page data. Returns the raw candidate
+# fields (or null) — normalization happens in Python (_song_block).
+#
+# UG ships the page store as a JSON blob in a `.js-store` element's data-content
+# attribute, then its JS bundle parses that into `window.UGAPP.store` and removes
+# the element. By the time this runs (after load), the bundle has usually already
+# stripped `.js-store` from the live DOM *and* `window.UGAPP` is frequently not
+# yet/no longer readable — so reading the live page yields nothing. The reliable
+# source is the server HTML itself: re-fetch it from the same authenticated
+# session (as discover.py does for explore) and parse the still-present blob.
+# The live window store is tried first as a no-extra-request fast path.
+_SONG_META_JS = """async () => {
+  const pageData = (root) =>
+    root && root.store && root.store.page && root.store.page.data;
+  const extract = (d) => {
     if (!d) return null;
     const tab = d.tab || {};
     const meta = (d.tab_view && d.tab_view.meta) || {};
@@ -78,6 +87,18 @@ _SONG_META_JS = """() => {
       tonality: meta.tonality ?? null,
       tuning: meta.tuning ?? null,
     };
+  };
+  try {
+    let d = window.UGAPP && pageData(window.UGAPP);
+    if (!d) {
+      const r = await fetch(location.href, { credentials: 'include' });
+      const html = await r.text();
+      const el = new DOMParser()
+        .parseFromString(html, 'text/html')
+        .querySelector('.js-store');
+      if (el) d = pageData(JSON.parse(el.getAttribute('data-content')));
+    }
+    return extract(d);
   } catch (e) { return null; }
 }"""
 
@@ -114,7 +135,7 @@ def _song_block(raw) -> dict | None:
 
 
 async def extract_song_meta(page) -> dict | None:
-    """Read the hydrated UG page store and return the `song` block, or None.
+    """Read UG's page store (see `_SONG_META_JS`) and return the `song` block.
 
     Best-effort: any failure (no store, navigation error, unexpected shape) is
     swallowed so the primary job — capturing the `.xtz` — is never jeopardized.

@@ -97,7 +97,9 @@ Written by `write_job_output()` with `indent=2, sort_keys=True`:
 
 `song` is written by `scraper-py` (`extract_song_meta` in
 [`browser/scrape.py`](./scraper-py/browser.md#song-metadata-capture-extract_song_meta--_song_block))
-from UG's `window.UGAPP.store.page.data`. It is **best-effort and optional** — a
+from UG's page store (the `.js-store` JSON blob in the server HTML; see
+[browser.md](./scraper-py/browser.md#song-metadata-capture-extract_song_meta--_song_block)).
+It is **best-effort and optional** — a
 tab scraped before this field existed, or one whose store could not be read,
 simply has no `song` key. Sub-fields (`artist_id`, `song_id`, `album_id`,
 `tonality`, `tuning`) are each omitted when absent.

@@ -6,9 +6,11 @@
 
 ## What shipped
 
-- **scraper-py** reads UG's hydrated `window.UGAPP.store.page.data` during the
-  existing tab-page load (`app/browser/scrape.py` → `extract_song_meta` /
-  `_song_block`) and writes an additive `song` block into `metadata.json`:
+- **scraper-py** reads UG's page store during the existing tab-page load
+  (`app/browser/scrape.py` → `extract_song_meta` / `_song_block`) and writes an
+  additive `song` block into `metadata.json`. The data lives in the server HTML's
+  `.js-store` JSON blob (UG's bundle parses it into `window.UGAPP.store` then
+  removes it, so the scraper re-fetches the HTML to read the blob reliably):
 
   ```json
   "song": {

@@ -138,10 +138,17 @@ returned untouched — **no decryption** — for
 
 ### Song metadata capture (`extract_song_meta` / `_song_block`)
 
-UG hydrates `window.UGAPP.store.page.data` on every tab page. `extract_song_meta`
-evaluates a small JS snippet (`_SONG_META_JS`) that pulls `tab.artist_name`,
-`tab.artist_id`, `tab.song_name`, `tab.song_id`, `tab.recording.album_id`,
-`tab_view.meta.tonality`, and `tab_view.meta.tuning`, then normalizes them in
+UG ships the page store as a JSON blob in a `.js-store` element's `data-content`
+attribute, which its JS bundle parses into `window.UGAPP.store` and then removes.
+By the time the scraper runs (after load) the live DOM no longer has `.js-store`
+and `window.UGAPP` is frequently unreadable, so reading the live page yields
+nothing. `extract_song_meta` evaluates `_SONG_META_JS`, which tries the live
+`window.UGAPP.store.page.data` as a no-extra-request fast path and otherwise
+**re-fetches the server HTML** from the same authenticated session (as
+`discover.py` does for explore) and parses the still-present `.js-store` blob. It
+pulls `tab.artist_name`, `tab.artist_id`, `tab.song_name`, `tab.song_id`,
+`tab.recording.album_id`, `tab_view.meta.tonality`, and `tab_view.meta.tuning`,
+then normalizes them in
 Python (`_song_block`): blank/null fields are dropped, the tuning object is
 flattened to its string value, and the block is **only** returned when both
 `artist_name` and `song_name` are present (otherwise `None`). The whole thing is
