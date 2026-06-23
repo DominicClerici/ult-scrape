@@ -106,7 +106,7 @@ full crawl model.
 have no `succeeded` job and enqueues them using the same `repo.enqueue()` path
 as `POST /jobs`. Tabs that already succeeded are skipped by default.
 
-## Models
+## Wiring note
 
 Endpoints read `repo`, `worker`, and `settings` off `request.app.state`. These are
 set either by the lifespan (production, `app/main.py`) or directly via
