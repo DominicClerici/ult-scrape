@@ -1,10 +1,11 @@
 # The Output Contract (the seam between scraper and decoder)
 
-> Part of the [documentation map](../OVERVIEW.md). This is the **single
-> interface** between [`scraper-py`](./scraper-py/overview.md) (the producer) and
-> [`decoder-rs`](./decoder-rs/overview.md) (the consumer). The two projects share
-> no code — only this filesystem layout. Treat it as **frozen**: a change here
-> must be made on both sides at once.
+> Part of the [documentation map](../OVERVIEW.md). This is the **shared
+> interface** between all three projects: [`scraper-py`](./scraper-py/overview.md)
+> (producer), [`decoder-rs`](./decoder-rs/overview.md) (decoder consumer), and
+> [`enricher-py`](./enricher-py/overview.md) (audio consumer/writer). All three
+> share no code — only this filesystem layout. Treat it as **frozen**: a change
+> here must be reflected in every affected project at once.
 
 ## Directory layout
 
@@ -21,6 +22,8 @@ OUTPUT_DIR/<tab_id>/                # <tab_id> contains a slash, e.g. eagles/hot
   metadata.json                     # written LAST — its presence marks the dir complete
   <name>.gp                         # (added later by decoder-rs) decrypted Guitar Pro ZIP
   <name>.gpif                       # (added later by decoder-rs) extracted Content/score.gpif XML
+  audio.<ext>                       # (added later by enricher-py) best-available source audio
+  audio.json                        # (added later by enricher-py) provenance + status sidecar
 ```
 
 - `<tab_id>` is the canonical route, e.g. `eagles/hotel-california-official-1910943`.
@@ -104,3 +107,31 @@ For each pending `<stem>.xtz`, the decoder writes (atomically, temp + rename):
 The `.gpif` is written **before** the `.gp`, because the `.gp`'s existence is the
 decoder's idempotency marker; this ordering guarantees that whenever the marker
 exists, the `.gpif` does too.
+
+## Output files written by the enricher
+
+For each tab directory that has `metadata.json` but no audio yet, `enricher-py`
+writes (at most) two files:
+
+- `audio.json` — written **first**. Contains provenance (YouTube video id, title,
+  channel, duration, format) and a `status` field (`ok` or `no_match`).
+- `audio.<ext>` — the downloaded audio file (e.g. `audio.opus`, `audio.m4a`),
+  renamed into place **last** as the enricher's commit marker. Its presence
+  (any `audio.*` file matching `audio.<ext>`) is the done gate — the enricher
+  skips this tab on subsequent runs.
+
+**`no_match` tabs:** when no suitable YouTube candidate is found, only `audio.json`
+is written (with `"status": "no_match"`). These tabs are permanently skipped
+unless re-enriched with `enricher run --retry-failed`.
+
+**Commit ordering:** `audio.json` is written first; the audio file is renamed in
+last. This guarantees that whenever the audio file exists, the sidecar does too.
+Downloads land in a temp directory and are only renamed in on success, so a
+partial download never satisfies the done gate.
+
+**Re-scrape / self-healing:** a scraper re-scrape calls `rmtree(<tab_id>)` before
+re-committing, which wipes any `audio.*` files too. The tab will be re-enriched
+on the next `enricher run`. No extra state is required.
+
+**Decoder interaction:** the decoder ignores `audio.*` files entirely — they play
+no role in the `<stem>.xtz` → `<stem>.gp` pipeline.

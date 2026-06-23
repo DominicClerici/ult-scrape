@@ -7,7 +7,7 @@ already explains it; read the page, then read the code it points to.
 
 ## What this repo is
 
-`ult-scrape` turns an Ultimate Guitar tab URL into a Guitar Pro file in **two
+`ult-scrape` turns an Ultimate Guitar tab URL into a Guitar Pro file in **three
 decoupled projects that share no code**, communicating only through a filesystem
 directory:
 
@@ -16,18 +16,21 @@ directory:
   **No decryption.**
 - **`decoder-rs/`** — one-shot Rust CLI. Walks the scraper's output and decrypts
   each `.xtz` into a `.gp` (+ extracted `.gpif`). **No scraping.**
+- **`enricher-py/`** — async Python CLI. Walks the shared `output/` tree and
+  downloads best-available source audio (YouTube, Topic-first via `yt-dlp`) per
+  tab. **No scraping, no decryption.**
 
 The boundary between them is the [output contract](./docs/output-contract.md) — a
 frozen filesystem layout. **Never** make one project import, call, or read the
-other's internals; if you change the contract, change both sides at once and
-update `docs/output-contract.md`.
+other's internals; if you change the contract, change all affected projects at once
+and update `docs/output-contract.md`.
 
 ## Where to read about each part
 
 | You're working on… | Read |
 |---|---|
 | The whole system / data flow | [docs/architecture.md](./docs/architecture.md) |
-| The scraper↔decoder interface | [docs/output-contract.md](./docs/output-contract.md) |
+| The scraper↔decoder↔enricher interface | [docs/output-contract.md](./docs/output-contract.md) |
 | Scraper service (any part) | [docs/scraper-py/overview.md](./docs/scraper-py/overview.md) |
 | Scraper HTTP endpoints | [docs/scraper-py/api.md](./docs/scraper-py/api.md) |
 | Queue / job state machine / worker | [docs/scraper-py/queue-and-worker.md](./docs/scraper-py/queue-and-worker.md) |
@@ -36,6 +39,7 @@ update `docs/output-contract.md`.
 | Decoder (any part) | [docs/decoder-rs/overview.md](./docs/decoder-rs/overview.md) |
 | The XTZ format / cipher | [docs/decoder-rs/xtz-format-and-cipher.md](./docs/decoder-rs/xtz-format-and-cipher.md) |
 | Decoder discovery/decode/write flow | [docs/decoder-rs/pipeline.md](./docs/decoder-rs/pipeline.md) |
+| Enricher (any part) | [docs/enricher-py/overview.md](./docs/enricher-py/overview.md) |
 
 ## Common commands
 
@@ -57,6 +61,18 @@ cd decoder-rs
 cargo build --release
 cargo test                       # see fixture caveat below
 ./target/release/decoder-rs [OUTPUT_DIR] [--force] [--jobs N] [--quiet]
+```
+
+**enricher-py** (Python ≥ 3.13; requires `ffmpeg` + `yt-dlp` on PATH):
+
+```bash
+cd enricher-py
+pip install -e ".[dev]"          # installs the enricher CLI
+enricher scan                    # enqueue tabs that need audio
+enricher run [--jobs N] [--limit N] [--retry-failed] [--output-dir DIR] [--db PATH] [--quiet]
+enricher status                  # counts by state
+python3 -m pytest                # unit tests (network-free by default)
+python3 -m pytest -m integration # live yt-dlp + ffprobe tests
 ```
 
 ## Conventions & invariants (don't break these)
@@ -100,8 +116,9 @@ update that page. Use this map of code → doc:
 
 | If you change… | Update… |
 |---|---|
-| The filesystem layout, `metadata.json`, or `.xtz`/`.gp`/`.gpif` files (either project) | `docs/output-contract.md` **and** both projects' pages |
-| The two-project relationship / data flow | `docs/architecture.md` |
+| The filesystem layout, `metadata.json`, or `.xtz`/`.gp`/`.gpif` files (either scraper/decoder project) | `docs/output-contract.md` **and** both projects' pages |
+| The `audio.<ext>` / `audio.json` contract (enricher) | `docs/output-contract.md` **and** `docs/enricher-py/overview.md` |
+| The three-project relationship / data flow | `docs/architecture.md` |
 | `scraper-py/app/api/routes.py` or `models.py` (endpoints/shapes) | `docs/scraper-py/api.md` |
 | `scraper-py/app/repo.py`, `worker.py`, `db.py`, `errors.py`, `normalize.py` | `docs/scraper-py/queue-and-worker.md` |
 | `scraper-py/app/browser/*` | `docs/scraper-py/browser.md` |
@@ -109,7 +126,8 @@ update that page. Use this map of code → doc:
 | `scraper-py/app/config.py`, `.env.example`, `app/output.py` | `docs/scraper-py/configuration.md` |
 | `decoder-rs/src/cipher.rs` or the XTZ format | `docs/decoder-rs/xtz-format-and-cipher.md` |
 | `decoder-rs/src/discover.rs`, `output.rs`, `lib.rs`, `main.rs` (flow/CLI) | `docs/decoder-rs/pipeline.md` |
-| Crate/module layout, deps, build/test commands (either project) | the relevant `overview.md` (+ this file's commands) |
+| `enricher-py/app/` (any module), CLI flags, config keys | `docs/enricher-py/overview.md` (+ this file's commands) |
+| Crate/module layout, deps, build/test commands (any project) | the relevant `overview.md` (+ this file's commands) |
 
 Also:
 
