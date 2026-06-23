@@ -35,8 +35,11 @@ fn atomic_write(path: &Path, bytes: &[u8]) -> Result<()> {
 
 /// Write `<stem>.gp` and `<stem>.gpif` beside the given `.xtz`, atomically.
 pub fn write_outputs(xtz_path: &Path, gp: &[u8], gpif: &[u8]) -> Result<()> {
-    atomic_write(&xtz_path.with_extension("gp"), gp)?;
+    // Write the convenience .gpif BEFORE the .gp: the .gp is discovery's
+    // idempotency marker, so this ordering ensures that whenever the marker
+    // exists the .gpif does too (a crash between writes just re-decodes next run).
     atomic_write(&xtz_path.with_extension("gpif"), gpif)?;
+    atomic_write(&xtz_path.with_extension("gp"), gp)?;
     Ok(())
 }
 
