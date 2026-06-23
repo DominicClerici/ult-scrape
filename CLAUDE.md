@@ -40,6 +40,7 @@ and update `docs/output-contract.md`.
 | The XTZ format / cipher | [docs/decoder-rs/xtz-format-and-cipher.md](./docs/decoder-rs/xtz-format-and-cipher.md) |
 | Decoder discovery/decode/write flow | [docs/decoder-rs/pipeline.md](./docs/decoder-rs/pipeline.md) |
 | Enricher (any part) | [docs/enricher-py/overview.md](./docs/enricher-py/overview.md) |
+| Running/driving the scraper from the CLI | [docs/scripts.md](./docs/scripts.md) |
 
 ## Common commands
 
@@ -128,6 +129,7 @@ update that page. Use this map of code → doc:
 | `decoder-rs/src/discover.rs`, `output.rs`, `lib.rs`, `main.rs` (flow/CLI) | `docs/decoder-rs/pipeline.md` |
 | `enricher-py/app/` (any module), CLI flags, config keys | `docs/enricher-py/overview.md` (+ this file's commands) |
 | Crate/module layout, deps, build/test commands (any project) | the relevant `overview.md` (+ this file's commands) |
+| `scripts/*.sh` (operator wrappers) | `docs/scripts.md` |
 
 Also:
 
