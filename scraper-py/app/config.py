@@ -15,6 +15,7 @@ class Settings(BaseSettings):
     output_dir: Path = Path("./output")
     db_path: Path = Path("./scraper.db")
     profile_dir: Path = Path("./camoufox-profile")
+    fingerprint_path: Path = Path("./camoufox-fingerprint.json")
 
     headless: bool = False
     max_attempts: int = 3

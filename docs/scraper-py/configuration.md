@@ -17,7 +17,8 @@ variables and a `.env` file (`extra="ignore"`). `get_settings()` returns a fresh
 | `UG_PROXY` | `""` | Optional proxy `server` URL; when set, Camoufox `geoip` is enabled. |
 | `OUTPUT_DIR` | `./output` | Root for committed per-job output dirs. **Shared with the decoder.** |
 | `DB_PATH` | `./scraper.db` | SQLite file path (queue + state). |
-| `PROFILE_DIR` | `./camoufox-profile` | Persistent Camoufox profile dir (keeps the login session). |
+| `PROFILE_DIR` | `./camoufox-profile` | Persistent Camoufox profile dir (cookies, localStorage, cache — keeps the login session). |
+| `FINGERPRINT_PATH` | `./camoufox-fingerprint.json` | Persisted browser fingerprint (device identity). Generated once, reloaded every launch so the device matches the saved session. |
 | `HEADLESS` | `false` | Headful by default (local Mac). |
 | `MAX_ATTEMPTS` | `3` | Retry limit per job before dead-letter. |
 | `BACKOFF_BASE_SECONDS` | `30` | Base for exponential retry backoff (`base * 2^(attempts-1)`). |

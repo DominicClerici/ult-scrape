@@ -5,9 +5,12 @@ import logging
 from camoufox.async_api import AsyncCamoufox
 
 from app.browser.base import CapturedArtifact
+from app.browser.fingerprint import load_or_create_fingerprint
 from app.browser.login import is_logged_in, login
 from app.browser.scrape import scrape_tab
 from app.config import Settings
+
+WINDOW_OS = "windows"
 
 log = logging.getLogger(__name__)
 
@@ -20,14 +23,18 @@ class CamoufoxBrowserSession:
         self._page = None
 
     async def start(self) -> None:
+        fingerprint = load_or_create_fingerprint(
+            self.s.fingerprint_path, WINDOW_OS
+        )
         opts = dict(
             headless=self.s.headless,
             humanize=True,
             persistent_context=True,
             user_data_dir=str(self.s.profile_dir),
-            os="windows",
+            os=WINDOW_OS,
             locale="en-US",
             block_webrtc=True,
+            fingerprint=fingerprint,
         )
         if self.s.ug_proxy:
             opts["proxy"] = {"server": self.s.ug_proxy}

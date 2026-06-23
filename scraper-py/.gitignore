@@ -5,5 +5,6 @@ __pycache__/
 *.db-wal
 *.db-shm
 camoufox-profile/
+camoufox-fingerprint.json
 output/
 *.egg-info/

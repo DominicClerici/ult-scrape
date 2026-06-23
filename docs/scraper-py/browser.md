@@ -32,14 +32,42 @@ The production implementation of the Protocol.
 
 - `start()` launches `AsyncCamoufox` with a **persistent context**
   (`user_data_dir = PROFILE_DIR`), `humanize=True`, `os="windows"`,
-  `locale="en-US"`, `block_webrtc=True`. If `UG_PROXY` is set it adds the proxy
-  and enables `geoip`. Reuses the first existing page or opens one.
+  `locale="en-US"`, `block_webrtc=True`, and a **persisted `fingerprint`** (see
+  `fingerprint.py`). If `UG_PROXY` is set it adds the proxy and enables `geoip`.
+  Reuses the first existing page or opens one.
 - `ensure_logged_in()` delegates to `login.login(...)`; raises if login fails.
 - `is_logged_in()` / `scrape()` delegate to `login.is_logged_in` / `scrape.scrape_tab`.
 - `close()` exits the Camoufox context manager.
 
-The **persistent profile** is why login usually survives restarts: the saved
-session cookies mean the full login flow only runs when actually logged out.
+Two things persist across restarts, and together they make every run look like
+the **same logged-in browser**:
+
+1. The **persistent profile** (`user_data_dir = PROFILE_DIR`) holds cookies,
+   `localStorage`, `IndexedDB`, and cache — so the login session survives and the
+   full login flow only runs when actually logged out.
+2. The **persisted fingerprint** (`FINGERPRINT_PATH`) holds the device identity.
+
+## `fingerprint.py` — stable device identity
+
+By default Camoufox generates a **new** fingerprint on every launch (user-agent,
+screen, fonts, GPU/WebGL, codecs, `hardwareConcurrency`, …). Reusing persisted
+cookies under a *different* device each run is a correlation signal anti-bot
+systems flag, so this module pins it:
+
+- `load_or_create_fingerprint(path, os_name)` — on first launch generates a
+  Windows Firefox fingerprint via Camoufox's own generator and writes it to
+  `FINGERPRINT_PATH` (atomic write); on every later launch it reloads that file
+  and returns the same device. A corrupt/incompatible file is regenerated.
+- `session.start()` passes the result as `fingerprint=` to `AsyncCamoufox`, which
+  skips fingerprint regeneration when one is supplied.
+
+> Camoufox logs a one-time `LeakWarning` ("passing your own fingerprint is not
+> recommended") on each launch — benign here, since the fingerprint was produced
+> by Camoufox's own generator. The small per-launch anti-fingerprinting *noise*
+> (canvas/WebGL jitter, font-spacing seed) is intentionally left random.
+
+> Delete `FINGERPRINT_PATH` to mint a fresh device (do it alongside clearing
+> `PROFILE_DIR` if you also want a fresh session).
 
 ## `login.py` — UG login flow
 
