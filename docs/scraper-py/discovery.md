@@ -135,6 +135,9 @@ full up to the page cap.
 
 Deduplication is by **numeric tab ID** (`seen` set in `runner.run`). The same
 tab appearing in multiple slices or sort windows is persisted only once.
+The `seen` set is in-memory and scoped to a single run, so each discovery run
+re-crawls from scratch; `tabs_found` reflects tabs seen in that run, not a
+running total across all runs.
 
 The optional **untagged sweep** (`DISCOVERY_UNTAGGED_SWEEP=true`) adds a final
 slice with no genre filter to catch tabs that UG hasn't tagged to any genre.

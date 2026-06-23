@@ -67,6 +67,13 @@ async def run(browser, repo, run, settings, *, sleep=asyncio.sleep) -> None:
     async def crawl_full(spec: SliceSpec, first_store) -> None:
         await absorb(first_store)
         pages = min(first_store.pages, PAGES_CAP)
+        if spec.order is not None and first_store.total_results > PAGES_CAP * (first_store.per_page or 50):
+            log.warning(
+                "slice %s is saturated: total_results=%d exceeds ~%d reachable; some tabs will be missed",
+                spec.label(),
+                first_store.total_results,
+                PAGES_CAP * (first_store.per_page or 50),
+            )
         for page in range(2, pages + 1):
             await delay()
             await absorb(await fetch(spec, page))

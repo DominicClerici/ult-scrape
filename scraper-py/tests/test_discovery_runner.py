@@ -1,5 +1,6 @@
 import html
 import json
+import logging
 
 import pytest
 import pytest_asyncio
@@ -122,6 +123,38 @@ async def test_runner_subdivides_when_slice_hits_cap(repo):
 
     routes = {r[0] for r in await repo.discovered_routes(exclude_succeeded=False)}
     assert routes == {"band/song-1-official-1", "band/song-2-official-2"}
+
+
+async def test_runner_warns_on_saturated_sort_window(repo, caplog):
+    # A genre slice that's capped with no remaining ladder facets triggers sort_windows().
+    # Each sort-window slice (spec.order is not None) also reports saturated results —
+    # crawl_full must emit a warning naming the slice.
+    catalog_filters = [
+        {"param_name": "genres", "values": [{"name": "Rock", "url_name": 4, "count": 99999}]},
+    ]
+    bootstrap = _html([], filters=catalog_filters, sorts=("date_desc", "rating_desc"))
+    # Genre-only slice: capped, ladder exhausted (no decade/tonality facets) -> sort_windows().
+    genre_capped = _html([_tab(1)], pages=20, total=99999, filters=catalog_filters,
+                         sorts=("date_desc", "rating_desc"))
+    # Each sort-window slice is also saturated (total > 1000).
+    sort_saturated = _html([_tab(2)], pages=20, total=99999, filters=catalog_filters,
+                           sorts=("date_desc", "rating_desc"))
+
+    browser = FakeBrowser(
+        responses=[
+            ("genres%5B%5D=4", genre_capped),
+        ],
+        default_html=sort_saturated,
+    )
+
+    run = await repo.request_discovery({})
+    run = await repo.claim_discovery()
+    with caplog.at_level(logging.WARNING, logger="app.discovery.runner"):
+        await runner.run(browser, repo, run, _settings(), sleep=_noop_sleep)
+
+    saturated_warnings = [r for r in caplog.records if "saturated" in r.message]
+    assert saturated_warnings, "expected at least one saturation warning"
+    assert any("order=" in r.message for r in saturated_warnings)
 
 
 async def test_runner_honors_cancel(repo):
