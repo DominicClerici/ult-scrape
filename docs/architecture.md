@@ -81,17 +81,3 @@ projects live under [`docs/superpowers/`](./superpowers/):
 
 These capture the *why* behind locked decisions. The pages under `docs/` (this
 map) describe the system *as built* and are the docs to keep current.
-
-## Origin: the `PY/` reference project
-
-Both projects were carved out of an earlier one-shot script, `PY/` (a synchronous
-Playwright + Camoufox scraper that decrypted inline). `PY/` is the source of:
-
-- the **async port** of the browser/login/scrape logic now in `scraper-py/app/browser/`, and
-- the **bit-exact cipher reference** (`PY/xtz_decrypt.py`) that `decoder-rs/src/cipher.rs` ports, plus the
-  **golden test fixtures** (`PY/captures/.../*.xtz` + `*.gp`) the decoder's tests verify against.
-
-> ⚠️ `PY/` (and a `TS/` experiment) are tracked in git but may be absent from the
-> working tree. The decoder's golden tests reference `decoder-rs/../PY/captures/...`;
-> if `PY/` is missing those tests fail. See
-> [decoder testing](./decoder-rs/overview.md#testing).

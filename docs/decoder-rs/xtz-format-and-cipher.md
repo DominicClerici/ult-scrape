@@ -1,9 +1,9 @@
 # decoder-rs — XTZ Format & Cipher
 
 > Part of the [documentation map](../../OVERVIEW.md) ·
-> [decoder overview](./overview.md). Source: `src/cipher.rs`. This is a bit-exact
-> port of `PY/xtz_decrypt.py`, itself documented as verified against UG's
-> `xtzmain.wasm`.
+> [decoder overview](./overview.md). Source: `src/cipher.rs`. The algorithm is
+> verified byte-for-byte against UG's `xtzmain.wasm` via the committed golden
+> fixture (`tests/fixtures/sample.{xtz,gp}`).
 
 `cipher.rs` is **pure** (no I/O) and exhaustively unit-tested. Its public entry
 point is:
@@ -51,11 +51,11 @@ by `taps_bitmap`.
 `c & 31`, seeded with `z` (when `z > 1`, else `1`).
 
 > **The zero-seed edge case — proven a non-issue (preserved for parity).** The
-> Python guard tests raw `z > 1` while the seed is implicitly masked to
+> reference guard tests raw `z > 1` while the seed is implicitly masked to
 > `z & ((1<<L)-1)`. Since `L >= 33` exceeds the 32-bit width of `z`, the mask
 > never truncates `z`, so the masked seed is 0 only when `z == 0` — which the
 > `z > 1` guard maps to `1`. The LFSR therefore never seeds to 0. The code keeps
-> the exact Python behavior, with a comment recording this proof. Do not
+> the exact reference behavior, with a comment recording this proof. Do not
 > "simplify" the guard — it would break bit-parity if a future input ever hit the
 > boundary.
 
@@ -74,7 +74,7 @@ would lay out the state words differently and produce the wrong keystream.
 ## Why it's a faithful port (and must stay one)
 
 The only correctness guarantee that matters is **byte-equality with the verified
-Python decoder**. The `decrypts_fixture_byte_for_byte` test asserts exactly that
+reference decoder**. The `decrypts_fixture_byte_for_byte` test asserts exactly that
 against the committed fixture (and that the result starts with the ZIP magic
 `PK\x03\x04`). Reference key-schedule vectors are pinned in the unit tests:
 

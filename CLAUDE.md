@@ -61,10 +61,12 @@ cargo test                       # see fixture caveat below
 
 ## Conventions & invariants (don't break these)
 
-- **The cipher is a bit-exact port and must stay one.** `decoder-rs/src/cipher.rs`
-  mirrors `PY/xtz_decrypt.py` byte-for-byte. Do not "simplify" the LFSR zero-seed
-  guard or the Bernstein-layout ChaCha8 — they preserve parity. All cipher tests
-  must stay green. See [the cipher doc](./docs/decoder-rs/xtz-format-and-cipher.md).
+- **The cipher is bit-exact and must stay one.** `decoder-rs/src/cipher.rs` is
+  verified byte-for-byte against UG's `xtzmain.wasm` via the committed golden
+  fixture (`decoder-rs/tests/fixtures/sample.{xtz,gp}`). Do not "simplify" the
+  LFSR zero-seed guard or the Bernstein-layout ChaCha8 — they preserve parity.
+  All cipher tests must stay green. See
+  [the cipher doc](./docs/decoder-rs/xtz-format-and-cipher.md).
 - **`repo.py` is the only place that issues SQL** and owns the job state machine.
   Add new queries/transitions there, not inline elsewhere.
 - **Only `worker.py` drives the browser**, through the `BrowserSession` Protocol.
@@ -80,10 +82,9 @@ cargo test                       # see fixture caveat below
 
 ## Gotchas
 
-- **`PY/` and `TS/` are git-tracked but may be absent from the working tree.** The
-  decoder's golden tests read fixtures from `decoder-rs/../PY/captures/...`; if
-  `PY/` is missing, `cargo test` fails on the fixture-dependent tests. Run
-  `git checkout PY/` to restore them before testing the cipher.
+- The decoder's golden tests depend on the vendored fixtures in
+  `decoder-rs/tests/fixtures/` (`sample.xtz` + `sample.gp`). They are committed and
+  self-contained — don't delete them, or the cipher's byte-for-byte test breaks.
 - The scraper's browser layer depends on UG's live markup and Cloudflare and is
   the most brittle part — start at [browser.md](./docs/scraper-py/browser.md)
   (especially the hardcoded `PROFILE_HREF` and the capture/CF heuristics) when a

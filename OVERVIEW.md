@@ -30,7 +30,7 @@ They communicate **only** through the filesystem — see the output contract bel
 
 | Doc | Read it to understand… |
 |---|---|
-| 📐 [Architecture](./docs/architecture.md) | The two-project split, end-to-end data flow, why it's decoupled, and the `PY/` origin. **Start here.** |
+| 📐 [Architecture](./docs/architecture.md) | The two-project split, end-to-end data flow, and why it's decoupled. **Start here.** |
 | 🔌 [Output contract](./docs/output-contract.md) | The single interface between the two projects: directory layout, the `metadata.json` commit marker, `.xtz`/`.gp`/`.gpif` files, idempotency. |
 
 ### scraper-py (Python · FastAPI + Camoufox)

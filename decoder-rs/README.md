@@ -32,8 +32,9 @@ exits 0.
 ## How it works
 
 `.xtz` is a 20-byte header (`XTZ\0` magic, 8-byte nonce, two key-schedule
-integers) followed by a ChaCha8 stream-XOR payload. The cipher is a bit-exact
-port of `PY/xtz_decrypt.py`, verified byte-for-byte against a known fixture.
+integers) followed by a ChaCha8 stream-XOR payload. The cipher is verified
+byte-for-byte against UG's `xtzmain.wasm` via a committed golden fixture
+(`tests/fixtures/sample.{xtz,gp}`).
 
 ## Test
 

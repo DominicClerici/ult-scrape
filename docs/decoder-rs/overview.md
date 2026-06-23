@@ -10,8 +10,8 @@ Pro 7/8 `.gp` (a ZIP), extracts `Content/score.gpif` alongside it, and skips
 anything already decoded. It **shares no code** with the scraper — only the frozen
 [output contract](../output-contract.md). It never scrapes.
 
-The decryption is a **bit-exact port** of `PY/xtz_decrypt.py`, verified
-byte-for-byte against a known fixture.
+The decryption is verified **byte-for-byte** against a committed golden fixture
+(and matches UG's `xtzmain.wasm`).
 
 ## Component docs
 
@@ -75,7 +75,7 @@ cargo test
 - **`cipher.rs` unit tests** — key-schedule vectors (LFSR bytes, `first16`,
   `second16` for the fixture's `c`/`z`), header-parsing errors, and the
   **golden end-to-end test**: decrypt the committed fixture and assert
-  byte-equality with its Python-decoded `.gp` (the strongest correctness guarantee).
+  byte-equality with its reference-decoded `.gp` (the strongest correctness guarantee).
 - **`discover.rs` tests** — eligible dir with pending xtz, already-decoded
   (sibling `.gp`), ineligible dir (no `metadata.json`), `--force` re-inclusion.
 - **`output.rs` tests** — valid GP ZIP yields `score.gpif`; non-ZIP and
@@ -83,9 +83,7 @@ cargo test
 - **`lib.rs` run tests** — full `run()`: decode → idempotent skip → `--force`
   re-decode; corrupt `.xtz` counted as failed without writing output.
 
-> ⚠️ **Golden-test fixture dependency.** Several tests read the committed fixture at
-> `decoder-rs/../PY/captures/20260506-135324-eagles-hotel-california-official-1910943/002-tab-download-ssid-1910943-1e895791e7ac.{xtz,gp}`.
-> The path is baked in via `CARGO_MANIFEST_DIR`. If the `PY/` directory is absent
-> from the working tree (it is git-tracked but may be deleted locally), these
-> tests fail with "fixture .xtz present". Restore `PY/` (`git checkout PY/`) before
-> running `cargo test`, or these golden checks won't run.
+> **Golden-test fixtures** are vendored in `decoder-rs/tests/fixtures/`
+> (`sample.xtz` + its reference-decoded `sample.gp`), referenced via
+> `CARGO_MANIFEST_DIR`. They are self-contained — `cargo test` needs no other
+> directories. If you add a new format/version, add a matching fixture pair here.

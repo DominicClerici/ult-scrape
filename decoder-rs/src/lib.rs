@@ -81,11 +81,7 @@ mod run_tests {
     use super::*;
 
     fn fixture_xtz() -> PathBuf {
-        PathBuf::from(concat!(
-            env!("CARGO_MANIFEST_DIR"),
-            "/../PY/captures/20260506-135324-eagles-hotel-california-official-1910943/",
-            "002-tab-download-ssid-1910943-1e895791e7ac.xtz"
-        ))
+        PathBuf::from(concat!(env!("CARGO_MANIFEST_DIR"), "/tests/fixtures/sample.xtz"))
     }
 
     fn staged_tree() -> PathBuf {

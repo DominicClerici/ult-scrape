@@ -1,4 +1,5 @@
-//! Bit-exact port of PY/xtz_decrypt.py: dual-LFSR key schedule + ChaCha8.
+//! Bit-exact XTZ decryptor: dual-LFSR key schedule + ChaCha8, verified
+//! byte-for-byte against UG's xtzmain.wasm via the committed golden fixture.
 
 use anyhow::{bail, Result};
 
@@ -167,21 +168,13 @@ mod tests {
     }
 
     fn fixture_xtz() -> Vec<u8> {
-        std::fs::read(concat!(
-            env!("CARGO_MANIFEST_DIR"),
-            "/../PY/captures/20260506-135324-eagles-hotel-california-official-1910943/",
-            "002-tab-download-ssid-1910943-1e895791e7ac.xtz"
-        ))
-        .expect("fixture .xtz present")
+        std::fs::read(concat!(env!("CARGO_MANIFEST_DIR"), "/tests/fixtures/sample.xtz"))
+            .expect("fixture .xtz present")
     }
 
     fn fixture_gp() -> Vec<u8> {
-        std::fs::read(concat!(
-            env!("CARGO_MANIFEST_DIR"),
-            "/../PY/captures/20260506-135324-eagles-hotel-california-official-1910943/",
-            "002-tab-download-ssid-1910943-1e895791e7ac.gp"
-        ))
-        .expect("fixture .gp present")
+        std::fs::read(concat!(env!("CARGO_MANIFEST_DIR"), "/tests/fixtures/sample.gp"))
+            .expect("fixture .gp present")
     }
 
     #[test]

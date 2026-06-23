@@ -79,7 +79,7 @@ The raw bytes are returned untouched — **no decryption** — for
 
 ## `humanize.py` — human-like behavior & Cloudflare
 
-Pure helpers (ported from the original `PY/common.py`), all randomized:
+Pure helpers (human-like behavior + Cloudflare handling), all randomized:
 
 - `human_pause`, `human_click` (mouse move with jitter, steps, down/up), `human_type`
   (per-character delays with occasional longer pauses).
