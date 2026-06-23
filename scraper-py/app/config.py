@@ -11,6 +11,8 @@ class Settings(BaseSettings):
     ug_email: str = ""
     ug_password: str = ""
     ug_proxy: str = ""
+    ug_proxy_username: str = ""
+    ug_proxy_password: str = ""
 
     output_dir: Path = Path("./output")
     db_path: Path = Path("./scraper.db")

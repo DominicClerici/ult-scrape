@@ -32,6 +32,7 @@ They communicate **only** through the filesystem — see the output contract bel
 |---|---|
 | 📐 [Architecture](./docs/architecture.md) | The two-project split, end-to-end data flow, and why it's decoupled. **Start here.** |
 | 🔌 [Output contract](./docs/output-contract.md) | The single interface between the two projects: directory layout, the `metadata.json` commit marker, `.xtz`/`.gp`/`.gpif` files, idempotency. |
+| 🛠️ [Operator scripts](./docs/scripts.md) | The `scripts/` wrappers for running and driving the scraper from the CLI: `start-scraper.sh`, `enqueue.sh`, `status.sh`, `pause.sh`, `resume.sh`. |
 
 ### scraper-py (Python · FastAPI + Camoufox)
 
@@ -67,6 +68,8 @@ python -m venv .venv && source .venv/bin/activate
 pip install -e ".[dev]" && python -m camoufox fetch
 cp .env.example .env            # fill in UG_EMAIL / UG_PASSWORD / OUTPUT_DIR
 uvicorn app.main:app            # then POST /jobs to enqueue tabs
+# …or use the operator scripts (see docs/scripts.md):
+#   ./scripts/start-scraper.sh  &&  ./scripts/enqueue.sh scripts/tabs.csv
 
 # 2. Decode (consumes the same OUTPUT_DIR, produces *.gp + *.gpif)
 cd ../decoder-rs

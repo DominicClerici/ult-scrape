@@ -33,8 +33,10 @@ The production implementation of the Protocol.
 - `start()` launches `AsyncCamoufox` with a **persistent context**
   (`user_data_dir = PROFILE_DIR`), `humanize=True`, `os="windows"`,
   `locale="en-US"`, `block_webrtc=True`, and a **persisted `fingerprint`** (see
-  `fingerprint.py`). If `UG_PROXY` is set it adds the proxy and enables `geoip`.
-  Reuses the first existing page or opens one.
+  `fingerprint.py`). If `UG_PROXY` is set it adds the proxy and enables `geoip`,
+  attaching `UG_PROXY_USERNAME`/`UG_PROXY_PASSWORD` as separate auth fields when
+  present (blank `UG_PROXY` → no proxy, bare requests). Reuses the first existing
+  page or opens one.
 - `ensure_logged_in()` delegates to `login.login(...)`; raises if login fails.
 - `is_logged_in()` / `scrape()` delegate to `login.is_logged_in` / `scrape.scrape_tab`.
 - `close()` exits the Camoufox context manager.

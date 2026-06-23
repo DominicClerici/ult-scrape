@@ -14,7 +14,9 @@ variables and a `.env` file (`extra="ignore"`). `get_settings()` returns a fresh
 |---|---|---|
 | `UG_EMAIL` | `""` | Ultimate Guitar login email. Required to scrape. |
 | `UG_PASSWORD` | `""` | UG password. Required to scrape. |
-| `UG_PROXY` | `""` | Optional proxy `server` URL; when set, Camoufox `geoip` is enabled. |
+| `UG_PROXY` | `""` | Optional proxy `server` URL (e.g. `http://gate.decodo.com:7000`). Blank → bare requests, no proxy. When set, Camoufox `geoip` is enabled. Use a **sticky-session** endpoint so the exit IP stays stable across login + scrape. |
+| `UG_PROXY_USERNAME` | `""` | Proxy auth username (required for authenticated proxies like Decodo). Passed as a separate field — credentials in the `UG_PROXY` URL are ignored by Playwright/Camoufox. Only sent when `UG_PROXY` is set. |
+| `UG_PROXY_PASSWORD` | `""` | Proxy auth password. Paired with `UG_PROXY_USERNAME`. |
 | `OUTPUT_DIR` | `./output` | Root for committed per-job output dirs. **Shared with the decoder.** |
 | `DB_PATH` | `./scraper.db` | SQLite file path (queue + state). |
 | `PROFILE_DIR` | `./camoufox-profile` | Persistent Camoufox profile dir (cookies, localStorage, cache — keeps the login session). |

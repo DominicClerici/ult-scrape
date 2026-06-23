@@ -37,7 +37,11 @@ class CamoufoxBrowserSession:
             fingerprint=fingerprint,
         )
         if self.s.ug_proxy:
-            opts["proxy"] = {"server": self.s.ug_proxy}
+            proxy = {"server": self.s.ug_proxy}
+            if self.s.ug_proxy_username:
+                proxy["username"] = self.s.ug_proxy_username
+                proxy["password"] = self.s.ug_proxy_password
+            opts["proxy"] = proxy
             opts["geoip"] = True
         self._cm = AsyncCamoufox(**opts)
         self._context = await self._cm.__aenter__()

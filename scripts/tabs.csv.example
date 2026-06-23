@@ -1,0 +1,5 @@
+# url_or_route[,priority[,force]]
+# A full UG tab URL or a bare "artist/song-slug" route. priority and force are optional.
+eagles/hotel-california-official-1910943
+https://tabs.ultimate-guitar.com/tab/metallica/nothing-else-matters-guitar-pro-8travis-1234567,1
+pink-floyd/wish-you-were-here-1234,0,true

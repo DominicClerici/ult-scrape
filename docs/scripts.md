@@ -1,0 +1,81 @@
+# Operator scripts (`scripts/`)
+
+> Part of the [documentation map](../OVERVIEW.md). These are thin convenience
+> wrappers around the scraper's [HTTP API](./scraper-py/api.md) — they add no
+> behavior the API doesn't already expose. Source of truth for shapes and status
+> codes is still [`api.md`](./scraper-py/api.md).
+
+A small set of Bash scripts for running and driving the scraper from the command
+line. They live at the **repo root** (not inside either project) because they
+operate the scraper as a black box over HTTP — they never import its internals,
+keeping the [two-project split](./architecture.md) intact.
+
+## The scripts
+
+| Script | What it does |
+|---|---|
+| `start-scraper.sh` | Activates `scraper-py/.venv` (if present) and runs `uvicorn app.main:app`, bound to the `API_HOST`/`API_PORT` from `scraper-py/.env`. Extra args pass through to uvicorn (e.g. `--reload`). |
+| `enqueue.sh [CSV]` | Reads a CSV of tabs and enqueues them in one `POST /jobs/bulk` call. Defaults to `scripts/tabs.csv`. |
+| `status.sh` | Pretty-prints `GET /status` (state, current job, queue depth, counts, paused, login health). |
+| `pause.sh` | `POST /pause` — stop the worker after the current job finishes. |
+| `resume.sh` | `POST /resume`. |
+| `_common.sh` | Shared helper, **sourced** by the others (not run directly). Loads `.env`, derives `BASE_URL`, and provides an auth-aware curl wrapper. |
+
+## How they find the service
+
+`_common.sh` loads `scraper-py/.env` (without clobbering anything already set in
+your environment) and reads:
+
+- `API_HOST` (default `127.0.0.1`), `API_PORT` (default `8000`) → `BASE_URL`.
+  A `0.0.0.0` bind host is rewritten to `127.0.0.1` for the client.
+- `API_KEY` — when non-empty, every request sends the `X-API-Key` header.
+
+Any value can be overridden from the environment, and `BASE_URL` can be set
+directly:
+
+```bash
+SCRAPER_URL=http://otherhost:9000 ./status.sh
+API_KEY=… ./enqueue.sh my-tabs.csv
+```
+
+On a connection failure or any HTTP status ≥ 400 the scripts print a one-line
+error (plus the response body) to stderr and exit non-zero.
+
+## The enqueue CSV
+
+One tab per line, comma-separated:
+
+```
+url_or_route[,priority[,force]]
+```
+
+- `url_or_route` — a full UG tab URL **or** a bare `artist/song-slug` route
+  (required). Server-side [normalization](./scraper-py/queue-and-worker.md#normalization)
+  turns either into the canonical `tab_id`.
+- `priority` — integer, lower runs sooner (default `0`).
+- `force` — `true`/`false` (also `1`/`yes`); re-scrape even if already succeeded
+  (default `false`).
+
+Blank lines and `#` comments are skipped, as is a header row whose first cell is
+`url_or_route` or `url`. See [`scripts/tabs.csv.example`](../scripts/tabs.csv.example).
+
+Because the call goes through `POST /jobs/bulk`, two server-side behaviors apply
+(see [api.md](./scraper-py/api.md#enqueue)): rows that fail normalization are
+**silently skipped**, and a tab that already `succeeded` is **deduped** (the
+existing job is returned, no new job created) unless `force` is set. So the
+accepted-job count the script prints can be lower than the number of rows
+submitted — that's expected.
+
+> Requires `jq` (used to build the request body safely).
+
+## Typical loop
+
+```bash
+./start-scraper.sh                 # in one terminal (foreground)
+./enqueue.sh scripts/tabs.csv      # in another
+./status.sh                        # watch progress
+./pause.sh   # / ./resume.sh       # control the worker
+```
+
+Then run the [decoder](./decoder-rs/overview.md) over the same `OUTPUT_DIR` to
+turn the captured `.xtz` files into `.gp`.
