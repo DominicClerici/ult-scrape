@@ -18,6 +18,7 @@ class ServiceState(str, Enum):
     RUNNING = "running"
     PAUSED = "paused"
     ERROR = "error"
+    DISCOVERING = "discovering"
 
 
 class Job(BaseModel):
@@ -55,3 +56,27 @@ class StatusResponse(BaseModel):
     counts: dict[str, int]
     paused: bool
     logged_in: bool
+
+
+class DiscoveryRun(BaseModel):
+    id: str
+    params: dict
+    state: str
+    created_at: float
+    started_at: float | None = None
+    finished_at: float | None = None
+    slices_total: int = 0
+    slices_done: int = 0
+    tabs_found: int = 0
+    cancel_requested: bool = False
+    error: str | None = None
+
+
+class DiscoveryStartRequest(BaseModel):
+    sorts: list[str] | None = None
+    facet_ladder: list[str] | None = None
+    max_slices: int | None = None
+    target_cap: int | None = None
+    genres: list[int] | None = None
+    decades: list[int] | None = None
+    untagged_sweep: bool | None = None
