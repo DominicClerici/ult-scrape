@@ -2,6 +2,8 @@ from fastapi import APIRouter, Depends, Header, HTTPException, Request
 
 from app.models import (
     BulkEnqueueRequest,
+    DiscoveryRun,
+    DiscoveryStartRequest,
     EnqueueRequest,
     Job,
     StatusResponse,
@@ -133,3 +135,55 @@ async def resume(request: Request, _=Depends(require_api_key)):
     await _repo(request).set_paused(False)
     _worker(request).request_resume()
     return {"paused": False}
+
+
+@router.post("/discover", response_model=DiscoveryRun)
+async def discover_start(
+    req: DiscoveryStartRequest, request: Request, _=Depends(require_api_key)
+):
+    repo, worker = _repo(request), _worker(request)
+    if await repo.count_active_jobs() > 0:
+        raise HTTPException(status_code=409, detail="queue not empty")
+    params = req.model_dump(exclude_none=True)
+    run = await repo.request_discovery(params)
+    if run is None:
+        raise HTTPException(status_code=409, detail="discovery already active")
+    worker.notify_enqueued()
+    return run
+
+
+@router.get("/discover", response_model=list[DiscoveryRun])
+async def discover_list(request: Request, limit: int = 20, _=Depends(require_api_key)):
+    return await _repo(request).list_discovery_runs(limit=limit)
+
+
+@router.post("/discover/enqueue", response_model=list[Job])
+async def discover_enqueue(request: Request, _=Depends(require_api_key)):
+    repo, worker, settings = _repo(request), _worker(request), _settings(request)
+    routes = await repo.discovered_routes(exclude_succeeded=True)
+    out = []
+    for tab_id, url in routes:
+        out.append(await repo.enqueue(
+            tab_id=tab_id, url=url, max_attempts=settings.max_attempts,
+        ))
+    if out:
+        worker.notify_enqueued()
+    return out
+
+
+@router.get("/discover/{run_id}", response_model=DiscoveryRun)
+async def discover_get(run_id: str, request: Request, _=Depends(require_api_key)):
+    run = await _repo(request).get_discovery_run(run_id)
+    if run is None:
+        raise HTTPException(status_code=404, detail="discovery run not found")
+    return run
+
+
+@router.post("/discover/{run_id}/cancel")
+async def discover_cancel(run_id: str, request: Request, _=Depends(require_api_key)):
+    repo = _repo(request)
+    if await repo.get_discovery_run(run_id) is None:
+        raise HTTPException(status_code=404, detail="discovery run not found")
+    if not await repo.request_discovery_cancel(run_id):
+        raise HTTPException(status_code=409, detail="discovery run not cancelable")
+    return {"canceled": run_id}
