@@ -70,7 +70,16 @@ Written by `write_job_output()` with `indent=2, sort_keys=True`:
       "content_headers": { "content-type": "…", "content-disposition": "…" },
       "xtz_magic_ok": true
     }
-  ]
+  ],
+  "song": {
+    "artist_name": "Eagles",
+    "artist_id": 1509,
+    "song_name": "Hotel California",
+    "song_id": 12345,
+    "album_id": 2992,
+    "tonality": "Em",
+    "tuning": "E A D G B E"
+  }
 }
 ```
 
@@ -82,6 +91,26 @@ Written by `write_job_output()` with `indent=2, sort_keys=True`:
 | `scraper_version` | `app.__version__` at scrape time. |
 | `http_status` | HTTP status of the first captured artifact. |
 | `files[]` | One entry per captured `.xtz`: name, sha256, size, source URL, selected response headers, and whether the bytes start with the `XTZ\0` magic. |
+| `song` | **Optional, additive.** Clean song fields read from UG's hydrated page store at scrape time. Present only when both `artist_name` and `song_name` were captured; individual null/blank sub-fields are omitted. Consumed by the enricher; ignored by the decoder. |
+
+### The additive `song` block
+
+`song` is written by `scraper-py` (`extract_song_meta` in
+[`browser/scrape.py`](./scraper-py/browser.md#song-metadata-capture-extract_song_meta--_song_block))
+from UG's `window.UGAPP.store.page.data`. It is **best-effort and optional** — a
+tab scraped before this field existed, or one whose store could not be read,
+simply has no `song` key. Sub-fields (`artist_id`, `song_id`, `album_id`,
+`tonality`, `tuning`) are each omitted when absent.
+
+**Consumer:** `enricher-py` prefers `song.artist_name` + `song.song_name` for its
+YouTube query and falls back to slug-parsing the route (`app/query.py`
+`resolve_artist_song`) when the block is missing or lacks either field — so adding
+or omitting `song` never changes which tabs are enrichable. The decoder ignores
+it entirely (it uses `metadata.json` only as an existence gate).
+
+> **Never source audio from `song_image`.** UG's `tab_view.song_image` is a
+> YouTube id for a community video *lesson*, not the master recording — the
+> scraper does not capture it, and the enricher selects audio via search.
 
 ## `.xtz` file format (summary)
 

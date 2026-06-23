@@ -1,4 +1,10 @@
-from app.browser.scrape import _filename, _selected_headers, _should_capture
+from app.browser.scrape import (
+    _filename,
+    _selected_headers,
+    _should_capture,
+    _song_block,
+    extract_song_meta,
+)
 
 
 def test_should_capture_matches_download_endpoints():
@@ -35,3 +41,72 @@ def test_filename_from_ssid_query_when_no_disposition():
         b"XTZ\x00data",
     )
     assert name == "tab-download-ssid-1910943.xtz"
+
+
+def test_song_block_full_record():
+    raw = {
+        "artist_name": "Eagles", "artist_id": 1509,
+        "song_name": "Hotel California", "song_id": 12345,
+        "album_id": 2992, "tonality": "Em",
+        "tuning": {"name": "Standard", "value": "E A D G B E", "index": 0},
+    }
+    assert _song_block(raw) == {
+        "artist_name": "Eagles", "artist_id": 1509,
+        "song_name": "Hotel California", "song_id": 12345,
+        "album_id": 2992, "tonality": "Em",
+        "tuning": "E A D G B E",
+    }
+
+
+def test_song_block_drops_nulls_and_blanks():
+    raw = {
+        "artist_name": "Eagles", "song_name": "Hotel California",
+        "artist_id": None, "song_id": None, "album_id": None,
+        "tonality": "", "tuning": None,
+    }
+    assert _song_block(raw) == {
+        "artist_name": "Eagles", "song_name": "Hotel California",
+    }
+
+
+def test_song_block_tuning_plain_string():
+    raw = {"artist_name": "A", "song_name": "B", "tuning": "D A D G B E"}
+    assert _song_block(raw)["tuning"] == "D A D G B E"
+
+
+def test_song_block_requires_artist_and_song():
+    assert _song_block({"artist_name": "Eagles", "tonality": "Em"}) is None
+    assert _song_block({"song_name": "Hotel California"}) is None
+
+
+def test_song_block_non_dict_input():
+    assert _song_block(None) is None
+    assert _song_block("nope") is None
+
+
+class _FakePage:
+    def __init__(self, result=None, raises=False):
+        self._result = result
+        self._raises = raises
+
+    async def evaluate(self, script):
+        if self._raises:
+            raise RuntimeError("evaluate boom")
+        return self._result
+
+
+async def test_extract_song_meta_returns_block():
+    page = _FakePage(result={
+        "artist_name": "Eagles", "song_name": "Hotel California",
+    })
+    assert await extract_song_meta(page) == {
+        "artist_name": "Eagles", "song_name": "Hotel California",
+    }
+
+
+async def test_extract_song_meta_swallows_eval_errors():
+    assert await extract_song_meta(_FakePage(raises=True)) is None
+
+
+async def test_extract_song_meta_none_when_no_ugapp():
+    assert await extract_song_meta(_FakePage(result=None)) is None

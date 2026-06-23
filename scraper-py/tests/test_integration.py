@@ -26,7 +26,7 @@ async def test_live_scrape_hotel_california(tmp_path):
             "https://tabs.ultimate-guitar.com/tab/"
             "eagles/hotel-california-official-1910943"
         )
-        artifacts = await session.scrape(url)
+        artifacts, song = await session.scrape(url)
         assert artifacts
         assert artifacts[0].data[:4] == b"XTZ\x00"
         final = write_job_output(
@@ -38,6 +38,7 @@ async def test_live_scrape_hotel_california(tmp_path):
             http_status=artifacts[0].http_status,
             artifacts=artifacts,
             scraped_at="live",
+            song=song,
         )
         assert (final / "metadata.json").exists()
     finally:

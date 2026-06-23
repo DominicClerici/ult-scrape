@@ -8,11 +8,11 @@ from datetime import datetime
 from pathlib import Path
 
 import app
-from app.discover import TabDir, find_audio_file
+from app.discover import TabDir, find_audio_file, read_song_meta
 from app.errors import PermanentEnrichError, TransientEnrichError
 from app.models import JobStatus
 from app.output import commit_audio, write_no_match
-from app.query import build_query, split_route
+from app.query import build_query, resolve_artist_song
 from app.select import SelectConfig, choose
 from app.sources.base import Downloader, Prober, Searcher
 
@@ -46,11 +46,12 @@ async def enrich_tab(tab: TabDir, deps: EnrichDeps) -> JobStatus:
     s = deps.settings
     now_iso = datetime.fromtimestamp(deps.clock()).isoformat(timespec="seconds")
 
+    song_meta = read_song_meta(tab.path)
     try:
-        artist, song = split_route(tab.route)
+        artist, song = resolve_artist_song(tab.route, song_meta)
     except ValueError as e:
         raise PermanentEnrichError(str(e)) from e
-    query = build_query(tab.route)
+    query = f"{artist} {song}"
 
     try:
         candidates = await deps.searcher.search(query, s.search_results)
@@ -100,11 +101,14 @@ async def _worker_loop(
         tab = TabDir(job.tab_id, job.route, output_root / job.tab_id)
         try:
             status = await enrich_tab(tab, deps)
+            # Recompute the query the same way enrich_tab did, so the recorded
+            # query matches the one actually searched (song block > slug).
+            query = build_query(job.route, read_song_meta(tab.path))
             if status == JobStatus.DONE:
-                await repo.mark_done(job.tab_id, "", build_query(job.route))
+                await repo.mark_done(job.tab_id, "", query)
                 summary["done"] += 1
             else:
-                await repo.mark_no_match(job.tab_id, build_query(job.route))
+                await repo.mark_no_match(job.tab_id, query)
                 summary["no_match"] += 1
         except PermanentEnrichError as e:
             await repo.mark_failed(job.tab_id, str(e))

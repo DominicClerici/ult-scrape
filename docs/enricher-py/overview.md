@@ -8,9 +8,11 @@
 ## What it does
 
 For each `output/<tab_id>/` that has a `metadata.json` but no audio yet, the
-enricher builds a search query from the tab slug, searches YouTube, selects the
-best candidate (preferring `<Artist> - Topic` Art Tracks = studio masters),
-downloads best-available audio, and writes `audio.<ext>` + `audio.json`. See the
+enricher builds a search query — preferring the clean `artist_name` +
+`song_name` from the [`metadata.json` `song` block](../output-contract.md#the-additive-song-block)
+when present, otherwise parsing the tab slug — searches YouTube, selects the best
+candidate (preferring `<Artist> - Topic` Art Tracks = studio masters), downloads
+best-available audio, and writes `audio.<ext>` + `audio.json`. See the
 [output contract](../output-contract.md) for the artifacts.
 
 ## Module map
@@ -20,9 +22,9 @@ downloads best-available audio, and writes `audio.<ext>` + `audio.json`. See the
 | `app/config.py` | Settings (`.env`). |
 | `app/db.py` | SQLite schema + connection (`enricher.db`). |
 | `app/repo.py` | **Only** SQL owner: queue, transitions, backoff, recovery. |
-| `app/query.py` | Tab slug → search query (pure). |
+| `app/query.py` | `song` block / tab slug → search query (pure; `resolve_artist_song`). |
 | `app/select.py` | Topic-first candidate selection (pure). |
-| `app/discover.py` | Walk `output/`; per-tab filesystem state. |
+| `app/discover.py` | Walk `output/`; per-tab filesystem state; read `metadata.json` `song` block (`read_song_meta`). |
 | `app/output.py` | Atomic commit of `audio.<ext>` + `audio.json`. |
 | `app/sources/base.py` | `Candidate`/`DownloadResult`/`AudioProbe` + Protocols. |
 | `app/sources/youtube.py` | `yt-dlp`-backed search + download. |
@@ -70,7 +72,5 @@ python3 -m pytest -m integration        # live yt-dlp + ffprobe
 
 ## Deferred / future
 
-- `CAPTURE_NOTE.md` — optional `scraper-py` change to capture clean song
-  metadata into `metadata.json`.
 - Verification (correct-recording confirmation) and time-alignment are separate
   future steps (see the design spec, §15).

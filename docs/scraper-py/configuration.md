@@ -64,6 +64,9 @@ Notes:
 2. Writes each artifact's raw bytes (untouched), computing `sha256`, `byte_size`,
    and the `XTZ\0` magic check for `metadata.json`.
 3. Writes `metadata.json` **last** (the commit marker), `sort_keys=True, indent=2`.
+   The optional `song=` argument (captured by the browser layer) is added as the
+   additive [`song` block](../output-contract.md#the-additive-song-block) only
+   when truthy — omitted entirely otherwise.
 4. Removes any existing `OUTPUT_DIR/<tab_id>/`, then `os.replace(staging, final)` —
    an **atomic directory rename** within the same filesystem.
 5. Cleans up the staging dir in a `finally`.

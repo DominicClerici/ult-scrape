@@ -70,7 +70,9 @@ class CamoufoxBrowserSession:
     async def is_logged_in(self) -> bool:
         return await is_logged_in(self._page)
 
-    async def scrape(self, tab_url: str) -> list[CapturedArtifact]:
+    async def scrape(
+        self, tab_url: str
+    ) -> tuple[list[CapturedArtifact], dict | None]:
         return await scrape_tab(
             self._page, tab_url, self.s.capture_window_ms,
             self.s.cloudflare_timeout_ms,

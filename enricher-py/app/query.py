@@ -27,6 +27,23 @@ def split_route(route: str) -> tuple[str, str]:
     return artist, song
 
 
-def build_query(route: str) -> str:
-    artist, song = split_route(route)
+def resolve_artist_song(
+    route: str, song_meta: dict | None = None
+) -> tuple[str, str]:
+    """Prefer the scraper's clean `song` block; fall back to slug parsing.
+
+    The block is only trusted when it carries both `artist_name` and `song_name`
+    (the two fields the query is built from); anything less falls back to
+    `split_route`, which raises ValueError on an unusable route.
+    """
+    if song_meta:
+        artist = (song_meta.get("artist_name") or "").strip()
+        song = (song_meta.get("song_name") or "").strip()
+        if artist and song:
+            return artist, song
+    return split_route(route)
+
+
+def build_query(route: str, song_meta: dict | None = None) -> str:
+    artist, song = resolve_artist_song(route, song_meta)
     return f"{artist} {song}"

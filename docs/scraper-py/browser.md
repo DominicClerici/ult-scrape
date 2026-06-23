@@ -19,7 +19,9 @@ anti-fingerprint Firefox driven through Playwright's async API.
 class BrowserSession(Protocol):
     async def ensure_logged_in(self) -> None: ...
     async def is_logged_in(self) -> bool: ...
-    async def scrape(self, tab_url: str) -> list[CapturedArtifact]: ...
+    async def scrape(
+        self, tab_url: str
+    ) -> tuple[list[CapturedArtifact], dict | None]: ...
     async def close(self) -> None: ...
 ```
 
@@ -122,14 +124,39 @@ The core capture routine:
 3. Classifies the page state and raises a typed error if needed:
    - not logged in → `SessionExpiredError`
    - HTTP 404 → `PermanentScrapeError`
-4. Waits `CAPTURE_WINDOW_MS` for the download response(s) to arrive.
-5. For each captured response: skips 3xx, reads the body, **keeps only bytes
+4. Reads the tab's **song metadata** off the hydrated page store
+   (`extract_song_meta` → `_song_block`), best-effort — see below.
+5. Waits `CAPTURE_WINDOW_MS` for the download response(s) to arrive.
+6. For each captured response: skips 3xx, reads the body, **keeps only bytes
    starting with the `XTZ\0` magic**, and builds a `CapturedArtifact` (with a safe
    filename derived from `Content-Disposition` or the URL's `ssid`).
-6. If nothing matched → `TransientScrapeError` (retryable).
+7. If nothing matched → `TransientScrapeError` (retryable).
 
-The raw bytes are returned untouched — **no decryption** — for
+`scrape_tab` returns a `(artifacts, song)` tuple. The raw artifact bytes are
+returned untouched — **no decryption** — for
 [`write_job_output`](../output-contract.md) to persist.
+
+### Song metadata capture (`extract_song_meta` / `_song_block`)
+
+UG hydrates `window.UGAPP.store.page.data` on every tab page. `extract_song_meta`
+evaluates a small JS snippet (`_SONG_META_JS`) that pulls `tab.artist_name`,
+`tab.artist_id`, `tab.song_name`, `tab.song_id`, `tab.recording.album_id`,
+`tab_view.meta.tonality`, and `tab_view.meta.tuning`, then normalizes them in
+Python (`_song_block`): blank/null fields are dropped, the tuning object is
+flattened to its string value, and the block is **only** returned when both
+`artist_name` and `song_name` are present (otherwise `None`). The whole thing is
+wrapped so any failure yields `None` — capturing the `.xtz` must never be
+jeopardized by brittle store shape. The block becomes the additive
+[`metadata.json` `song`](../output-contract.md#metadatajson-schema) field, which
+the [enricher](../enricher-py/overview.md) prefers over slug parsing.
+
+> ⚠️ Do **not** source audio from `tab_view.song_image` — it is an 11-char
+> YouTube id pointing at a community video *lesson*, not the master recording.
+> The `song` block carries clean text fields only; audio selection stays the
+> enricher's job.
+
+The `_song_block` normalization and `extract_song_meta`'s error-swallowing are
+unit-tested (browser-free) in `tests/test_scrape_helpers.py`.
 
 ## `humanize.py` — human-like behavior & Cloudflare
 

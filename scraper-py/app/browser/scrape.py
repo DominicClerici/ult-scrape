@@ -59,9 +59,76 @@ def _filename(response_url: str, headers: dict, body: bytes) -> str:
     return base
 
 
+# Pulls the tab's song fields out of UG's hydrated page store. Returns the raw
+# candidate fields (or null) — normalization happens in Python (_song_block).
+_SONG_META_JS = """() => {
+  try {
+    const d = window.UGAPP && window.UGAPP.store && window.UGAPP.store.page
+      && window.UGAPP.store.page.data;
+    if (!d) return null;
+    const tab = d.tab || {};
+    const meta = (d.tab_view && d.tab_view.meta) || {};
+    const rec = tab.recording || {};
+    return {
+      artist_name: tab.artist_name ?? null,
+      artist_id: tab.artist_id ?? null,
+      song_name: tab.song_name ?? null,
+      song_id: tab.song_id ?? null,
+      album_id: rec.album_id ?? null,
+      tonality: meta.tonality ?? null,
+      tuning: meta.tuning ?? null,
+    };
+  } catch (e) { return null; }
+}"""
+
+_SONG_SCALAR_FIELDS = (
+    "artist_name", "artist_id", "song_name", "song_id", "album_id", "tonality",
+)
+
+
+def _song_block(raw) -> dict | None:
+    """Normalize UG's raw song fields into the additive metadata `song` block.
+
+    Drops null/blank fields, flattens the tuning object to its string value, and
+    returns None unless both `artist_name` and `song_name` are present (anything
+    less is useless to the enricher, which keys its fallback on those two).
+    """
+    if not isinstance(raw, dict):
+        return None
+    block: dict = {}
+    for key in _SONG_SCALAR_FIELDS:
+        val = raw.get(key)
+        if isinstance(val, str):
+            val = val.strip()
+        if val in (None, ""):
+            continue
+        block[key] = val
+    tuning = raw.get("tuning")
+    if isinstance(tuning, dict):
+        tuning = tuning.get("value")
+    if isinstance(tuning, str) and tuning.strip():
+        block["tuning"] = tuning.strip()
+    if not block.get("artist_name") or not block.get("song_name"):
+        return None
+    return block
+
+
+async def extract_song_meta(page) -> dict | None:
+    """Read the hydrated UG page store and return the `song` block, or None.
+
+    Best-effort: any failure (no store, navigation error, unexpected shape) is
+    swallowed so the primary job — capturing the `.xtz` — is never jeopardized.
+    """
+    try:
+        raw = await page.evaluate(_SONG_META_JS)
+    except Exception:
+        return None
+    return _song_block(raw)
+
+
 async def scrape_tab(
     page, tab_url: str, capture_window_ms: int, cf_timeout_ms: int
-) -> list[CapturedArtifact]:
+) -> tuple[list[CapturedArtifact], dict | None]:
     captured = []
 
     def on_response(response):
@@ -80,6 +147,8 @@ async def scrape_tab(
             raise SessionExpiredError(f"not logged in on {tab_url}")
         if resp is not None and resp.status == 404:
             raise PermanentScrapeError(f"tab not found (404): {tab_url}")
+
+        song = await extract_song_meta(page)
 
         await page.wait_for_timeout(capture_window_ms)
 
@@ -103,6 +172,6 @@ async def scrape_tab(
 
         if not artifacts:
             raise TransientScrapeError(f"no XTZ download captured for {tab_url}")
-        return artifacts
+        return artifacts, song
     finally:
         page.remove_listener("response", on_response)

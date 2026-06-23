@@ -23,6 +23,23 @@ def find_audio_file(tab_dir: Path) -> Path | None:
     return None
 
 
+def read_song_meta(tab_dir: Path) -> dict | None:
+    """Return the additive `song` block the scraper wrote to metadata.json.
+
+    Best-effort: missing file, bad JSON, or a non-dict `song` all yield None,
+    which the caller treats as "fall back to slug parsing".
+    """
+    p = Path(tab_dir) / "metadata.json"
+    if not p.exists():
+        return None
+    try:
+        data = json.loads(p.read_text())
+    except (ValueError, OSError):
+        return None
+    song = data.get("song") if isinstance(data, dict) else None
+    return song if isinstance(song, dict) else None
+
+
 def read_status(tab_dir: Path) -> str | None:
     p = tab_dir / "audio.json"
     if not p.exists():

@@ -12,9 +12,10 @@ from app.worker import Worker
 
 
 class FakeBrowser:
-    def __init__(self, artifacts=None, error=None):
+    def __init__(self, artifacts=None, error=None, song=None):
         self.artifacts = artifacts or []
         self.error = error
+        self.song = song
         self.scrape_calls = 0
         self.login_calls = 0
         self._logged_in = True
@@ -30,7 +31,7 @@ class FakeBrowser:
         self.scrape_calls += 1
         if self.error:
             raise self.error
-        return list(self.artifacts)
+        return list(self.artifacts), self.song
 
     async def close(self):
         pass
@@ -158,3 +159,17 @@ async def test_process_relogin_failure_does_not_escape(repo, worker_factory):
     assert got.attempts == 0               # session expiry consumes no retry
     assert w.state is ServiceState.ERROR
     assert browser.login_calls == 1
+
+
+async def test_process_writes_song_block(repo, worker_factory, tmp_path):
+    import json
+    job = await repo.enqueue(tab_id="a/b-1", url="u", max_attempts=3)
+    await repo.claim_next()
+    song = {"artist_name": "Eagles", "song_name": "Hotel California"}
+    browser = FakeBrowser(artifacts=[_artifact()], song=song)
+    w = worker_factory(browser)
+    await w._process(job)
+    meta = json.loads(
+        (tmp_path / "out" / "a/b-1" / "metadata.json").read_text()
+    )
+    assert meta["song"] == song

@@ -75,3 +75,19 @@ async def test_enrich_transient_on_download_error(tmp_path, fakes):
     # no partial artifacts left behind
     assert find_audio_file(tab_dir) is None
     assert not (tab_dir / "audio.json").exists()
+
+
+async def test_enrich_uses_song_meta_for_query(tmp_path, fakes):
+    import json
+    tab_dir = tmp_path / "eagles/hotel-california-guitar-pro-1"
+    tab_dir.mkdir(parents=True)
+    # metadata.json carries a clean song block; query must use it (capitalized),
+    # not the lowercase slug-derived "eagles hotel california".
+    (tab_dir / "metadata.json").write_text(json.dumps({
+        "song": {"artist_name": "Eagles", "song_name": "Hotel California"}}))
+    tab = TabDir("eagles/hotel-california-guitar-pro-1",
+                 "eagles/hotel-california-guitar-pro-1", tab_dir)
+    searcher = FakeSearcher(results=[fakes["topic_candidate"]])
+    status = await enrich_tab(tab, _deps(searcher))
+    assert status == JobStatus.DONE
+    assert searcher.calls[0][0] == "Eagles Hotel California"

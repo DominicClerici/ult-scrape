@@ -61,3 +61,26 @@ def test_rescrape_overwrites(tmp_path):
     )
     meta = json.loads((final / "metadata.json").read_text())
     assert meta["scraped_at"] == "t2"
+
+
+def test_song_block_written_when_provided(tmp_path):
+    final = write_job_output(
+        output_root=tmp_path, tab_id="a/b-1", url="u", route="a/b-1",
+        scraper_version="0.1.0", http_status=200,
+        artifacts=[_artifact()], scraped_at="t",
+        song={"artist_name": "Eagles", "song_name": "Hotel California"},
+    )
+    meta = json.loads((final / "metadata.json").read_text())
+    assert meta["song"] == {
+        "artist_name": "Eagles", "song_name": "Hotel California",
+    }
+
+
+def test_song_block_omitted_when_absent(tmp_path):
+    final = write_job_output(
+        output_root=tmp_path, tab_id="a/b-1", url="u", route="a/b-1",
+        scraper_version="0.1.0", http_status=200,
+        artifacts=[_artifact()], scraped_at="t",
+    )
+    meta = json.loads((final / "metadata.json").read_text())
+    assert "song" not in meta

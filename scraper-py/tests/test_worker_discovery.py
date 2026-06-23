@@ -13,7 +13,7 @@ from app.worker import Worker
 class FakeBrowser:
     async def ensure_logged_in(self): ...
     async def is_logged_in(self): return True
-    async def scrape(self, url): return []
+    async def scrape(self, url): return [], None
     async def fetch_explore(self, query): return ""
     async def close(self): ...
 

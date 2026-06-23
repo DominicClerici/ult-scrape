@@ -103,7 +103,7 @@ class Worker:
                 return
 
         try:
-            artifacts = await self.browser.scrape(job.url)
+            artifacts, song = await self.browser.scrape(job.url)
         except SessionExpiredError:
             await self.repo.requeue_unchanged(job.id)
             self.state = ServiceState.LOGGING_IN
@@ -143,6 +143,7 @@ class Worker:
                 http_status=artifacts[0].http_status,
                 artifacts=artifacts,
                 scraped_at=datetime.now().isoformat(timespec="seconds"),
+                song=song,
             )
         except Exception as e:
             log.warning("write_job_output failed for %s: %r", job.id, e)

@@ -22,6 +22,7 @@ def write_job_output(
     http_status: int,
     artifacts: list[CapturedArtifact],
     scraped_at: str,
+    song: dict | None = None,
 ) -> Path:
     output_root = Path(output_root)
     staging = output_root / ".tmp" / uuid4().hex
@@ -48,6 +49,8 @@ def write_job_output(
             "http_status": http_status,
             "files": files_meta,
         }
+        if song:
+            metadata["song"] = song
         # metadata.json is written LAST — it is the commit marker.
         (staging / "metadata.json").write_text(
             json.dumps(metadata, indent=2, sort_keys=True), encoding="utf-8"

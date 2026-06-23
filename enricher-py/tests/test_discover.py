@@ -36,3 +36,37 @@ def test_read_status(tmp_path):
     assert read_status(d) == "no_match"
     d2 = _make_tab(tmp_path, "a/e-1")
     assert read_status(d2) is None
+
+
+def test_read_song_meta_reads_block(tmp_path):
+    from app.discover import read_song_meta
+    d = tmp_path / "a/b-1"
+    d.mkdir(parents=True)
+    (d / "metadata.json").write_text(json.dumps(
+        {"route": "a/b-1", "song": {"artist_name": "Eagles",
+                                    "song_name": "Hotel California"}}))
+    assert read_song_meta(d) == {
+        "artist_name": "Eagles", "song_name": "Hotel California"}
+
+
+def test_read_song_meta_none_when_absent(tmp_path):
+    from app.discover import read_song_meta
+    d = tmp_path / "a/c-1"
+    d.mkdir(parents=True)
+    (d / "metadata.json").write_text("{}")
+    assert read_song_meta(d) is None
+
+
+def test_read_song_meta_none_when_no_metadata_file(tmp_path):
+    from app.discover import read_song_meta
+    d = tmp_path / "a/d-1"
+    d.mkdir(parents=True)
+    assert read_song_meta(d) is None
+
+
+def test_read_song_meta_tolerates_bad_json(tmp_path):
+    from app.discover import read_song_meta
+    d = tmp_path / "a/e-1"
+    d.mkdir(parents=True)
+    (d / "metadata.json").write_text("{not json")
+    assert read_song_meta(d) is None
