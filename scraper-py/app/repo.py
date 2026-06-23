@@ -204,3 +204,13 @@ class JobRepo:
         )
         await self.conn.commit()
         return cur.rowcount > 0
+
+    async def reset_running_to_queued(self) -> int:
+        now = self._now()
+        cur = await self.conn.execute(
+            "UPDATE jobs SET status='queued', started_at=NULL, updated_at=? "
+            "WHERE status='running'",
+            (now,),
+        )
+        await self.conn.commit()
+        return cur.rowcount

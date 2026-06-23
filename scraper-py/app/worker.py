@@ -1,9 +1,12 @@
 from __future__ import annotations
 
 import asyncio
+import logging
 import random
 import time
 from datetime import datetime
+
+log = logging.getLogger(__name__)
 
 from app import __version__
 from app.browser.base import BrowserSession
@@ -70,6 +73,14 @@ class Worker:
             self.current_job_id = job.id
             try:
                 await self._process(job)
+            except Exception as e:
+                log.exception("unexpected error processing job %s", job.id)
+                try:
+                    await self.repo.record_transient_failure(
+                        job.id, f"worker error: {e!r}", self.settings.backoff_base_seconds
+                    )
+                except Exception:
+                    pass
             finally:
                 self.current_job_id = None
             await self._delay_between_jobs()
@@ -86,7 +97,11 @@ class Worker:
         except SessionExpiredError:
             await self.repo.requeue_unchanged(job.id)
             self.state = ServiceState.LOGGING_IN
-            await self.browser.ensure_logged_in()
+            try:
+                await self.browser.ensure_logged_in()
+            except Exception as e:
+                log.warning("re-login after session expiry failed: %r", e)
+                self.state = ServiceState.ERROR
             return
         except PermanentScrapeError as e:
             await self.repo.mark_permanent_failure(job.id, str(e))
@@ -108,16 +123,23 @@ class Worker:
             )
             return
 
-        final = write_job_output(
-            output_root=self.settings.output_dir,
-            tab_id=job.tab_id,
-            url=job.url,
-            route=job.tab_id,
-            scraper_version=__version__,
-            http_status=artifacts[0].http_status,
-            artifacts=artifacts,
-            scraped_at=datetime.now().isoformat(timespec="seconds"),
-        )
+        try:
+            final = write_job_output(
+                output_root=self.settings.output_dir,
+                tab_id=job.tab_id,
+                url=job.url,
+                route=job.tab_id,
+                scraper_version=__version__,
+                http_status=artifacts[0].http_status,
+                artifacts=artifacts,
+                scraped_at=datetime.now().isoformat(timespec="seconds"),
+            )
+        except Exception as e:
+            log.warning("write_job_output failed for %s: %r", job.id, e)
+            await self.repo.record_transient_failure(
+                job.id, f"output write failed: {e!r}", self.settings.backoff_base_seconds
+            )
+            return
         await self.repo.mark_succeeded(job.id, str(final))
 
     async def _delay_between_jobs(self) -> None:

@@ -123,3 +123,38 @@ async def test_process_empty_artifacts_is_transient(repo, worker_factory):
     w = worker_factory(FakeBrowser(artifacts=[]))
     await w._process(job)
     assert (await repo.get(job.id)).status is JobStatus.QUEUED
+
+
+async def test_process_output_write_failure_is_transient(repo, worker_factory, tmp_path):
+    # Make output_dir unusable: a FILE where the output root should be a dir.
+    bad_root = tmp_path / "out_is_a_file"
+    bad_root.write_text("x")
+    job = await repo.enqueue(tab_id="a/b-1", url="u", max_attempts=3)
+    await repo.claim_next()
+    w = worker_factory(FakeBrowser(artifacts=[_artifact()]))
+    w.settings.output_dir = bad_root  # write_job_output will raise
+    await w._process(job)  # must NOT raise
+    got = await repo.get(job.id)
+    assert got.status is JobStatus.QUEUED
+    assert got.attempts == 1
+
+
+async def test_process_relogin_failure_does_not_escape(repo, worker_factory):
+    from app.errors import SessionExpiredError
+    from app.models import ServiceState
+
+    class FailReloginBrowser(FakeBrowser):
+        async def ensure_logged_in(self):
+            self.login_calls += 1
+            raise RuntimeError("re-login failed")
+
+    job = await repo.enqueue(tab_id="a/b-1", url="u", max_attempts=3)
+    await repo.claim_next()
+    browser = FailReloginBrowser(error=SessionExpiredError("logged out"))
+    w = worker_factory(browser)
+    await w._process(job)  # must NOT raise
+    got = await repo.get(job.id)
+    assert got.status is JobStatus.QUEUED  # requeued unchanged
+    assert got.attempts == 0               # session expiry consumes no retry
+    assert w.state is ServiceState.ERROR
+    assert browser.login_calls == 1

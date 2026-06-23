@@ -104,3 +104,14 @@ async def test_retry_only_failed_resets_attempts(repo):
     assert got.status is JobStatus.QUEUED
     assert got.attempts == 0
     assert got.error is None
+
+
+async def test_reset_running_to_queued(repo):
+    job = await repo.enqueue(tab_id="a/b-1", url="u", max_attempts=3)
+    await repo.claim_next()
+    assert (await repo.get(job.id)).status is JobStatus.RUNNING
+    n = await repo.reset_running_to_queued()
+    assert n == 1
+    got = await repo.get(job.id)
+    assert got.status is JobStatus.QUEUED
+    assert got.started_at is None
