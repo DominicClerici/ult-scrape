@@ -1,5 +1,6 @@
 from __future__ import annotations
 
+import asyncio
 import tempfile
 import time
 from dataclasses import dataclass, field
@@ -74,3 +75,55 @@ async def enrich_tab(tab: TabDir, deps: EnrichDeps) -> JobStatus:
             yt_dlp_version=deps.yt_dlp_version, now_iso=now_iso,
         )
     return JobStatus.DONE
+
+
+async def _worker_loop(
+    *, name: str, repo, deps: EnrichDeps, output_root: Path,
+    stop_event: "asyncio.Event", budget: list[int], summary: dict,
+) -> None:
+    while True:
+        if stop_event.is_set():
+            return
+        if budget[0] is not None and budget[0] <= 0:
+            return
+        job = await repo.claim_next(name)
+        if job is None:
+            return
+        if budget[0] is not None:
+            budget[0] -= 1
+        tab = TabDir(job.tab_id, job.route, output_root / job.tab_id)
+        try:
+            status = await enrich_tab(tab, deps)
+            if status == JobStatus.DONE:
+                await repo.mark_done(job.tab_id, "", build_query(job.route))
+                summary["done"] += 1
+            else:
+                await repo.mark_no_match(job.tab_id, build_query(job.route))
+                summary["no_match"] += 1
+        except PermanentEnrichError as e:
+            await repo.mark_failed(job.tab_id, str(e))
+            summary["failed"] += 1
+        except TransientEnrichError as e:
+            result = await repo.record_transient_failure(
+                job.tab_id, str(e), deps.settings.backoff_base_seconds,
+                deps.settings.max_attempts,
+            )
+            summary["failed" if result == "failed" else "retried"] += 1
+
+
+async def run_pool(
+    *, repo, deps: EnrichDeps, output_root: Path, concurrency: int,
+    stop_event: "asyncio.Event | None" = None, limit: int | None = None,
+) -> dict:
+    output_root = Path(output_root)
+    stop_event = stop_event or asyncio.Event()
+    summary = {"done": 0, "no_match": 0, "failed": 0, "retried": 0}
+    budget = [limit]  # shared mutable cell across workers
+    workers = [
+        _worker_loop(name=f"w{i}", repo=repo, deps=deps,
+                     output_root=output_root, stop_event=stop_event,
+                     budget=budget, summary=summary)
+        for i in range(max(1, concurrency))
+    ]
+    await asyncio.gather(*workers)
+    return summary
