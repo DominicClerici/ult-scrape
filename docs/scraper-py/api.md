@@ -22,6 +22,11 @@ see [configuration](./configuration.md)).
 | `POST /jobs/{id}/retry` | Re-queue a **failed** job. 404 if unknown, 409 if not failed. |
 | `POST /pause` | Pause the worker after the current job finishes (persists `paused=true`). |
 | `POST /resume` | Resume the worker. |
+| `POST /discover` | Start a discovery run. **409** if any queued/running jobs exist, or a discovery run is already active. |
+| `GET /discover` | List discovery runs (newest first). Optional `?limit=` (default 20). |
+| `GET /discover/{run_id}` | Get a single discovery run. 404 if unknown. |
+| `POST /discover/{run_id}/cancel` | Request cancellation of an active run. 404 if unknown, 409 if not cancelable (already finished). |
+| `POST /discover/enqueue` | Enqueue all discovered tabs that have no `succeeded` job yet. Returns the list of created/existing jobs. |
 
 ## Enqueue
 
@@ -60,7 +65,7 @@ skipped** (no 422 for the batch).
 }
 ```
 
-- `state` is the live `ServiceState`: `starting | logging_in | idle | running | paused | error`.
+- `state` is the live `ServiceState`: `starting | logging_in | idle | running | paused | discovering | error`.
 - `logged_in` calls the browser's `is_logged_in()` live (checks for the UG profile link).
 
 ## Models
@@ -71,9 +76,37 @@ Defined in `app/models.py`:
 - `BulkEnqueueRequest { items: list[EnqueueRequest] }`
 - `Job` — the full persisted job row (see [queue & worker](./queue-and-worker.md#jobs-table)).
 - `StatusResponse { state, current_job_id, queue_depth, counts, paused, logged_in }`
-- Enums `JobStatus` (`queued|running|succeeded|failed|canceled`) and `ServiceState`.
+- `DiscoveryRun { id, params, state, created_at, started_at, finished_at, slices_total, slices_done, tabs_found, cancel_requested, error }`
+- `DiscoveryStartRequest { sorts?, facet_ladder?, max_slices?, target_cap?, genres?, decades?, untagged_sweep? }` — all fields optional; omitted fields inherit settings defaults.
+- Enums `JobStatus` (`queued|running|succeeded|failed|canceled`) and `ServiceState` (`starting|logging_in|idle|running|paused|discovering|error`).
 
-## Wiring note
+## Discovery
+
+`POST /discover` accepts an optional `DiscoveryStartRequest` body with
+per-run overrides. Any field omitted (or `null`) falls back to the corresponding
+`DISCOVERY_*` setting:
+
+```json
+{
+  "sorts": ["date_desc", "artistname_asc"],
+  "facet_ladder": ["genres", "decade"],
+  "max_slices": 50,
+  "target_cap": 5000,
+  "genres": [1, 6],
+  "untagged_sweep": false
+}
+```
+
+The endpoint records a `DiscoveryRun` row in state `requested` and signals the
+worker. The worker claims the run only after the scrape queue drains — scraping
+and discovery are mutually exclusive. See [discovery](./discovery.md) for the
+full crawl model.
+
+`POST /discover/enqueue` draws from `tab_metadata`: it fetches all tabs that
+have no `succeeded` job and enqueues them using the same `repo.enqueue()` path
+as `POST /jobs`. Tabs that already succeeded are skipped by default.
+
+## Models
 
 Endpoints read `repo`, `worker`, and `settings` off `request.app.state`. These are
 set either by the lifespan (production, `app/main.py`) or directly via
