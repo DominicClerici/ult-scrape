@@ -1,2 +1,0 @@
-camoufox[geoip]==0.4.11
-python-dotenv==1.2.2
