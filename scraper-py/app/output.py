@@ -50,7 +50,7 @@ def write_job_output(
         }
         # metadata.json is written LAST — it is the commit marker.
         (staging / "metadata.json").write_text(
-            json.dumps(metadata, indent=2, sort_keys=True)
+            json.dumps(metadata, indent=2, sort_keys=True), encoding="utf-8"
         )
 
         final = output_root / tab_id
