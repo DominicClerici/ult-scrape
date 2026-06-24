@@ -127,8 +127,9 @@ The core capture routine:
      session)
    - not logged in → `SessionExpiredError`
    - HTTP 404 → `PermanentScrapeError`
-4. Reads the tab's **song metadata** off the hydrated page store
-   (`extract_song_meta` → `_song_block`), best-effort — see below.
+4. Reads the tab's **song metadata** off the navigation document body it already
+   downloaded (`extract_song_meta` → `_song_block`), with an in-page fallback —
+   best-effort, no extra request in the common case; see below.
 5. Waits for the download to arrive, polling the buffered responses and
    returning as soon as a non-3xx capture lands (the actual file) — so fast tabs
    don't pay the full window — capped at `CAPTURE_WINDOW_MS` for slow players
@@ -152,10 +153,15 @@ UG ships the page store as a JSON blob in a `.js-store` element's `data-content`
 attribute, which its JS bundle parses into `window.UGAPP.store` and then removes.
 By the time the scraper runs (after load) the live DOM no longer has `.js-store`
 and `window.UGAPP` is frequently unreadable, so reading the live page yields
-nothing. `extract_song_meta` evaluates `_SONG_META_JS`, which tries the live
-`window.UGAPP.store.page.data` as a no-extra-request fast path and otherwise
-**re-fetches the server HTML** from the same authenticated session (as
-`discover.py` does for explore) and parses the still-present `.js-store` blob. It
+nothing. Instead, `extract_song_meta` parses the **navigation document body** the
+scrape already downloaded — `scrape_tab` hands it `resp.text()` from the
+`page.goto`, and the server HTML reliably embeds the `.js-store` blob, so this
+costs **no extra request** (`_song_from_html` runs the same `.js-store data-content`
+regex the explore [`parser.py`](./discovery.md#parserpy) uses). Only when that body
+lacks the store — a Cloudflare challenge intercepted the navigation, so `resp` is
+the challenge page — does it fall back to the in-page reader `_SONG_META_JS`, which
+tries the live `window.UGAPP.store.page.data` and otherwise **re-fetches the server
+HTML** from the same authenticated session (as `discover.py` does for explore). It
 pulls `tab.artist_name`, `tab.artist_id`, `tab.song_name`, `tab.song_id`,
 `tab.recording.album_id`, `tab_view.meta.tonality`, and `tab_view.meta.tuning`,
 then normalizes them in

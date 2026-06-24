@@ -1,5 +1,7 @@
 from __future__ import annotations
 
+import html
+import json
 import logging
 import re
 from pathlib import Path
@@ -85,17 +87,19 @@ def _filename(response_url: str, headers: dict, body: bytes) -> str:
     return base
 
 
-# Pulls the tab's song fields out of UG's page data. Returns the raw candidate
-# fields (or null) — normalization happens in Python (_song_block).
+# Fallback song-meta reader, used only when the navigation document body did not
+# carry the store (see `extract_song_meta`). Pulls the tab's song fields out of
+# UG's page data and returns the raw candidate fields (or null) — normalization
+# happens in Python (_song_block).
 #
 # UG ships the page store as a JSON blob in a `.js-store` element's data-content
 # attribute, then its JS bundle parses that into `window.UGAPP.store` and removes
 # the element. By the time this runs (after load), the bundle has usually already
 # stripped `.js-store` from the live DOM *and* `window.UGAPP` is frequently not
-# yet/no longer readable — so reading the live page yields nothing. The reliable
-# source is the server HTML itself: re-fetch it from the same authenticated
-# session (as discover.py does for explore) and parse the still-present blob.
-# The live window store is tried first as a no-extra-request fast path.
+# yet/no longer readable — so reading the live page yields nothing. As a last
+# resort the server HTML is re-fetched from the same authenticated session (as
+# discover.py does for explore) and the still-present blob is parsed. The live
+# window store is tried first as a no-extra-request fast path.
 _SONG_META_JS = """async () => {
   const pageData = (root) =>
     root && root.store && root.store.page && root.store.page.data;
@@ -160,12 +164,59 @@ def _song_block(raw) -> dict | None:
     return block
 
 
-async def extract_song_meta(page) -> dict | None:
-    """Read UG's page store (see `_SONG_META_JS`) and return the `song` block.
+# Same `.js-store data-content` blob the explore parser reads (parser.py), but
+# on a tab page rather than the listing.
+_STORE_RE = re.compile(r'class="js-store"[^>]*\sdata-content="([^"]*)"')
 
-    Best-effort: any failure (no store, navigation error, unexpected shape) is
-    swallowed so the primary job — capturing the `.xtz` — is never jeopardized.
+
+def _raw_song_from_store(data) -> dict | None:
+    """Mirror `_SONG_META_JS`'s `extract`: pull the raw candidate fields out of a
+    decoded `store.page.data` dict. Returns None if the shape isn't a dict."""
+    if not isinstance(data, dict):
+        return None
+    tab = data.get("tab") or {}
+    meta = (data.get("tab_view") or {}).get("meta") or {}
+    rec = tab.get("recording") or {}
+    return {
+        "artist_name": tab.get("artist_name"),
+        "artist_id": tab.get("artist_id"),
+        "song_name": tab.get("song_name"),
+        "song_id": tab.get("song_id"),
+        "album_id": rec.get("album_id"),
+        "tonality": meta.get("tonality"),
+        "tuning": meta.get("tuning"),
+    }
+
+
+def _song_from_html(page_html: str) -> dict | None:
+    """Parse the `song` block out of a tab page's server HTML. Returns None if the
+    `.js-store` blob is absent (e.g. the body was a Cloudflare challenge) or its
+    shape is unexpected — callers then fall back to the in-page reader."""
+    m = _STORE_RE.search(page_html or "")
+    if not m:
+        return None
+    try:
+        data = json.loads(html.unescape(m.group(1)))["store"]["page"]["data"]
+    except (ValueError, KeyError, TypeError):
+        return None
+    return _song_block(_raw_song_from_store(data))
+
+
+async def extract_song_meta(page, nav_html: str | None = None) -> dict | None:
+    """Return the `song` block for the current tab. Best-effort: any failure (no
+    store, navigation error, unexpected shape) is swallowed so the primary job —
+    capturing the `.xtz` — is never jeopardized.
+
+    Primary source is `nav_html`, the navigation document body the scrape already
+    downloaded — the server HTML reliably embeds the `.js-store` blob, so parsing
+    it costs no extra request. Only when that body lacks the store (a Cloudflare
+    challenge intercepted the navigation) do we fall back to the in-page reader
+    (`_SONG_META_JS`: live window store, then a re-fetch).
     """
+    if nav_html:
+        block = _song_from_html(nav_html)
+        if block is not None:
+            return block
     try:
         raw = await page.evaluate(_SONG_META_JS)
     except Exception:
@@ -216,7 +267,13 @@ async def scrape_tab(
         if resp is not None and resp.status == 404:
             raise PermanentScrapeError(f"tab not found (404): {tab_url}")
 
-        song = await extract_song_meta(page)
+        nav_html = None
+        if resp is not None:
+            try:
+                nav_html = await resp.text()
+            except Exception:
+                nav_html = None
+        song = await extract_song_meta(page, nav_html)
 
         waited_ms = await _wait_for_download(page, captured, capture_window_ms)
 

@@ -86,7 +86,12 @@ crash.
 attribute name, the nesting under `store.page.data` (e.g. moving or renaming the
 `data.tabs` list), or the `totalResults`/`pagination` keys — this step raises
 `DiscoveryParseError` or yields an empty tab list. When a discovery run
-mysteriously fails or finds nothing, start here.
+mysteriously fails or finds nothing, start here. The `DiscoveryParseError`
+message now self-diagnoses: it appends whether the HTML looked like a Cloudflare
+challenge, a login page, or genuinely had no `js-store` (a likely markup
+change), plus the byte count — so the error itself tells you which case you're
+in. A Cloudflare diagnosis means the `browser/discover.py` fallback (below)
+couldn't clear the wall, not a markup change.
 
 ### `facets.py`
 
@@ -135,15 +140,24 @@ tabs` on success (and a matching `[COMPLETE] Discovery canceled after Y tabs` /
 ### `browser/discover.py`
 
 The thin seam between the runner and the browser. `fetch_explore_html(page,
-query, timeout_ms)` fetches one explore page:
+query, timeout_ms, cf_timeout_ms)` fetches one explore page:
 
 - First attempt: in-page `fetch()` with `credentials: 'include'` (fast, uses
-  the existing logged-in session without a navigation).
-- Fallback: `page.goto()` to `domcontentloaded` if the fetch call throws (e.g.
-  CORS or network error).
+  the existing logged-in session without a navigation). The JS returns
+  `{ok, status, body}` so the caller can tell a real `200` page from a
+  Cloudflare interstitial — a bare `await r.text()` would hand the challenge
+  HTML straight to the parser.
+- Fallback (when the XHR is not OK or throws): a real `page.goto()` navigation,
+  then `wait_for_load_or_pause` + `wait_for_cloudflare_wall(cf_timeout_ms)` —
+  the same Cloudflare-survival pattern `scrape.py` uses. A real navigation
+  clears the challenge and refreshes the `cf_clearance` cookie; the XHR is then
+  retried and now returns the real server HTML with `.js-store` intact.
+- If the retried XHR is still blocked, raises `DiscoveryFetchError` (with the
+  status and byte count) rather than feeding a challenge page to the parser.
 
 The runner calls this through `browser.fetch_explore(query)` — the
-`CamoufoxBrowserSession` method that wraps `fetch_explore_html`.
+`CamoufoxBrowserSession` method that wraps `fetch_explore_html` and supplies
+`DISCOVERY_REQUEST_TIMEOUT_MS` and `CLOUDFLARE_TIMEOUT_MS`.
 
 ## The 1000-cap and adaptive crawl strategy
 

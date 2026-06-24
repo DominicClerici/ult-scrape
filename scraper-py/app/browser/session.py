@@ -80,7 +80,10 @@ class CamoufoxBrowserSession:
 
     async def fetch_explore(self, query: str) -> str:
         return await fetch_explore_html(
-            self._page, query, self.s.discovery_request_timeout_ms
+            self._page,
+            query,
+            self.s.discovery_request_timeout_ms,
+            self.s.cloudflare_timeout_ms,
         )
 
     async def close(self) -> None:

@@ -48,6 +48,8 @@ class Worker:
         self.current_job_id: str | None = None
         self._scraped_count = 0  # tabs scraped since the queue last drained
         self._consecutive_failures = 0  # for the circuit breaker
+        self._rate_limit_level = 0  # escalating 403/429 pacing (0 = baseline)
+        self._clean_streak = 0  # successes in a row, for clearing the escalation
         self._wakeup = asyncio.Event()
         self._resume = asyncio.Event()
         self._stop = False
@@ -111,6 +113,7 @@ class Worker:
             finally:
                 self.current_job_id = None
             await self._note_outcome(outcome)
+            self._record_pacing_outcome(outcome)
             await self._delay_between_jobs(outcome)
 
     def _log_batch_complete(self) -> None:
@@ -209,13 +212,40 @@ class Worker:
             self.state = ServiceState.PAUSED
             self._consecutive_failures = 0
 
-    async def _delay_between_jobs(self, outcome: Outcome | None = None) -> None:
+    def _record_pacing_outcome(self, outcome: Outcome) -> None:
+        """Escalate or relax the 403/429 pacing. Each rate-limit bumps the
+        escalation level (capped), widening both the cool-off and the inter-job
+        gap; a clean streak of successes clears it. Other failures hold the level
+        but break the recovery streak so it can't be cleared by stray progress."""
         if outcome is Outcome.RATE_LIMITED:
-            delay = self.settings.rate_limit_delay_seconds
+            self._rate_limit_level = min(
+                self._rate_limit_level + 1, self.settings.rate_limit_max_level
+            )
+            self._clean_streak = 0
+            return
+        if outcome in (Outcome.SUCCESS, Outcome.DEDUP):
+            self._clean_streak += 1
+            if (
+                self._rate_limit_level > 0
+                and self._clean_streak >= self.settings.rate_limit_recovery_successes
+            ):
+                self._rate_limit_level = 0
+                self._clean_streak = 0
+            return
+        self._clean_streak = 0
+
+    async def _delay_between_jobs(self, outcome: Outcome | None = None) -> None:
+        factor = self.settings.rate_limit_escalation_factor
+        if outcome is Outcome.RATE_LIMITED:
+            # Escalating global cool-off: level 1 = base, then *factor per strike.
+            level = max(self._rate_limit_level, 1)
+            delay = self.settings.rate_limit_delay_seconds * factor ** (level - 1)
+            delay = min(delay, self.settings.rate_limit_max_delay_seconds)
             if delay > 0:
                 await asyncio.sleep(delay)
             return
         hi = self.settings.inter_job_delay_max
         if hi > 0:
             lo = self.settings.inter_job_delay_min
-            await asyncio.sleep(random.uniform(lo, hi))
+            # Widen the gap while we're in an escalated (post 403/429) state.
+            await asyncio.sleep(random.uniform(lo, hi) * factor ** self._rate_limit_level)

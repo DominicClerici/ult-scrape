@@ -9,6 +9,24 @@ from app.errors import DiscoveryParseError
 
 _STORE_RE = re.compile(r'class="js-store"[^>]*\sdata-content="([^"]*)"')
 
+_CF_MARKERS = (
+    "just a moment",
+    "challenges.cloudflare.com",
+    "/cdn-cgi/challenge-platform/",
+    "cf-chl",
+    "verify you are human",
+    "attention required",
+)
+
+
+def _diagnose(page_html: str) -> str:
+    low = page_html.lower()
+    if any(m in low for m in _CF_MARKERS):
+        return "response looks like a Cloudflare challenge"
+    if "login" in low and "password" in low:
+        return "response looks like a login page"
+    return "no js-store in HTML (markup change or unexpected response)"
+
 
 @dataclass
 class ExploreStore:
@@ -35,7 +53,10 @@ def _tab_list(raw) -> list[dict]:
 def parse_explore_html(page_html: str) -> ExploreStore:
     m = _STORE_RE.search(page_html)
     if not m:
-        raise DiscoveryParseError("js-store data-content not found")
+        raise DiscoveryParseError(
+            f"js-store data-content not found — {_diagnose(page_html)} "
+            f"({len(page_html)} bytes)"
+        )
     try:
         payload = json.loads(html.unescape(m.group(1)))
         data = payload["store"]["page"]["data"]

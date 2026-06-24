@@ -1,5 +1,8 @@
 import pytest
 
+import html as _html
+import json as _json
+
 from app.browser.scrape import (
     _captured_rate_limit_status,
     _filename,
@@ -7,6 +10,7 @@ from app.browser.scrape import (
     _selected_headers,
     _should_capture,
     _song_block,
+    _song_from_html,
     _wait_for_download,
     extract_song_meta,
 )
@@ -105,12 +109,51 @@ def test_song_block_non_dict_input():
     assert _song_block("nope") is None
 
 
+def _tab_html(data: dict) -> str:
+    """Build a tab page whose `.js-store data-content` carries `store.page.data`,
+    HTML-escaped exactly as UG serves it."""
+    content = _html.escape(_json.dumps({"store": {"page": {"data": data}}}), quote=True)
+    return f'<div class="js-store" data-content="{content}"></div>'
+
+
+def test_song_from_html_full_record():
+    html = _tab_html({
+        "tab": {
+            "artist_name": "Frank Turner", "artist_id": 1509,
+            "song_name": "Scavenger Type", "song_id": 3276446,
+            "recording": {"album_id": 2992},
+        },
+        "tab_view": {"meta": {
+            "tonality": "D",
+            "tuning": {"name": "Standard", "value": "E A D G B E", "index": 1},
+        }},
+    })
+    assert _song_from_html(html) == {
+        "artist_name": "Frank Turner", "artist_id": 1509,
+        "song_name": "Scavenger Type", "song_id": 3276446,
+        "album_id": 2992, "tonality": "D", "tuning": "E A D G B E",
+    }
+
+
+def test_song_from_html_missing_store_returns_none():
+    assert _song_from_html("<html><body>just a moment…</body></html>") is None
+    assert _song_from_html("") is None
+
+
+def test_song_from_html_requires_artist_and_song():
+    # Store present but incomplete — degrades to None, not a partial block.
+    html = _tab_html({"tab": {"artist_name": "Frank Turner"}})
+    assert _song_from_html(html) is None
+
+
 class _FakePage:
     def __init__(self, result=None, raises=False):
         self._result = result
         self._raises = raises
+        self.evaluated = False
 
     async def evaluate(self, script):
+        self.evaluated = True
         if self._raises:
             raise RuntimeError("evaluate boom")
         return self._result
@@ -131,6 +174,28 @@ async def test_extract_song_meta_swallows_eval_errors():
 
 async def test_extract_song_meta_none_when_no_ugapp():
     assert await extract_song_meta(_FakePage(result=None)) is None
+
+
+async def test_extract_song_meta_prefers_nav_html_without_in_page_read():
+    # When the navigation body carries the store, no in-page reader runs (the
+    # duplicate fetch this optimization removes).
+    page = _FakePage(result={"artist_name": "x", "song_name": "y"})
+    nav_html = _tab_html({
+        "tab": {"artist_name": "Frank Turner", "song_name": "Scavenger Type"},
+    })
+    assert await extract_song_meta(page, nav_html) == {
+        "artist_name": "Frank Turner", "song_name": "Scavenger Type",
+    }
+    assert page.evaluated is False
+
+
+async def test_extract_song_meta_falls_back_when_nav_html_lacks_store():
+    # A Cloudflare-challenge body has no .js-store, so the in-page reader runs.
+    page = _FakePage(result={"artist_name": "Eagles", "song_name": "Hotel California"})
+    assert await extract_song_meta(page, "<html>just a moment</html>") == {
+        "artist_name": "Eagles", "song_name": "Hotel California",
+    }
+    assert page.evaluated is True
 
 
 class _FakeResp:

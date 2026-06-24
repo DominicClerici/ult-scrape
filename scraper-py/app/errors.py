@@ -19,5 +19,11 @@ class SessionExpiredError(ScrapeError):
     """Logged-out state detected; re-login and resume without consuming a retry."""
 
 
+class DiscoveryFetchError(Exception):
+    """Raised when an explore page can't be fetched as usable HTML — e.g. the
+    in-page XHR is blocked by Cloudflare and a real navigation still can't clear
+    the challenge."""
+
+
 class DiscoveryParseError(Exception):
     """Raised when the explore page's embedded js-store cannot be located or parsed."""

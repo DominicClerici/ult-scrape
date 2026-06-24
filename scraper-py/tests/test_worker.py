@@ -343,6 +343,81 @@ async def test_normal_delay_uses_inter_job_range(monkeypatch, repo, tmp_path):
     assert slept == [7]
 
 
+async def test_rate_limit_cooloff_escalates_and_caps(monkeypatch, repo, tmp_path):
+    s = Settings(
+        output_dir=tmp_path / "out", inter_job_delay_min=0, inter_job_delay_max=0,
+        rate_limit_delay_seconds=100, rate_limit_escalation_factor=2.0,
+        rate_limit_max_delay_seconds=350, rate_limit_max_level=5,
+    )
+    w = Worker(repo, FakeBrowser(), s, now_fn=lambda: 1000.0)
+    slept = []
+
+    async def fake_sleep(d):
+        slept.append(d)
+
+    monkeypatch.setattr("app.worker.asyncio.sleep", fake_sleep)
+    for _ in range(3):
+        w._record_pacing_outcome(Outcome.RATE_LIMITED)
+        await w._delay_between_jobs(Outcome.RATE_LIMITED)
+    # 100*2^0, 100*2^1, 100*2^2=400 -> capped at 350
+    assert slept == [100, 200, 350]
+
+
+async def test_rate_limit_widens_inter_job_gap(monkeypatch, repo, tmp_path):
+    s = Settings(
+        output_dir=tmp_path / "out", inter_job_delay_min=10, inter_job_delay_max=10,
+        rate_limit_escalation_factor=2.0, rate_limit_recovery_successes=99,
+    )
+    w = Worker(repo, FakeBrowser(), s, now_fn=lambda: 1000.0)
+    slept = []
+
+    async def fake_sleep(d):
+        slept.append(d)
+
+    monkeypatch.setattr("app.worker.asyncio.sleep", fake_sleep)
+    w._record_pacing_outcome(Outcome.RATE_LIMITED)  # level 1
+    w._record_pacing_outcome(Outcome.SUCCESS)       # streak 1, no reset (needs 99)
+    await w._delay_between_jobs(Outcome.SUCCESS)     # 10 * 2^1
+    assert slept == [20]
+
+
+async def test_clean_streak_resets_escalation(monkeypatch, repo, tmp_path):
+    s = Settings(
+        output_dir=tmp_path / "out", inter_job_delay_min=10, inter_job_delay_max=10,
+        rate_limit_escalation_factor=2.0, rate_limit_recovery_successes=2,
+    )
+    w = Worker(repo, FakeBrowser(), s, now_fn=lambda: 1000.0)
+    slept = []
+
+    async def fake_sleep(d):
+        slept.append(d)
+
+    monkeypatch.setattr("app.worker.asyncio.sleep", fake_sleep)
+    w._record_pacing_outcome(Outcome.RATE_LIMITED)  # level 1
+    w._record_pacing_outcome(Outcome.SUCCESS)       # streak 1
+    await w._delay_between_jobs(Outcome.SUCCESS)     # still level 1 -> 20
+    w._record_pacing_outcome(Outcome.SUCCESS)       # streak 2 -> reset level
+    await w._delay_between_jobs(Outcome.SUCCESS)     # level 0 -> 10
+    assert slept == [20, 10]
+    assert w._rate_limit_level == 0
+
+
+async def test_non_rate_limit_failure_holds_level_but_breaks_streak(repo, tmp_path):
+    s = Settings(
+        output_dir=tmp_path / "out", inter_job_delay_min=0, inter_job_delay_max=0,
+        rate_limit_recovery_successes=2,
+    )
+    w = Worker(repo, FakeBrowser(), s, now_fn=lambda: 1000.0)
+    w._record_pacing_outcome(Outcome.RATE_LIMITED)  # level 1
+    w._record_pacing_outcome(Outcome.SUCCESS)       # streak 1
+    w._record_pacing_outcome(Outcome.FAILURE)       # breaks streak, holds level
+    assert w._rate_limit_level == 1
+    w._record_pacing_outcome(Outcome.SUCCESS)       # streak 1 again
+    assert w._rate_limit_level == 1                  # not yet recovered
+    w._record_pacing_outcome(Outcome.SUCCESS)       # streak 2 -> reset
+    assert w._rate_limit_level == 0
+
+
 async def test_process_writes_song_block(repo, worker_factory, tmp_path):
     import json
     job = await repo.enqueue(tab_id="a/b-1", url="u", max_attempts=3)

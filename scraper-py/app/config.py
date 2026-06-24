@@ -29,8 +29,17 @@ class Settings(BaseSettings):
     poll_interval_seconds: float = 5.0
     # Auto-pause the worker after this many consecutive non-successful jobs.
     circuit_breaker_threshold: int = 5
-    # Cool-off applied after a 403/429 rate-limit before the next job.
+    # Base cool-off after a 403/429 rate-limit (escalation level 1).
     rate_limit_delay_seconds: float = 300.0
+    # Each consecutive 403/429 multiplies both the cool-off and the inter-job gap
+    # by this factor; a clean streak of successes resets the escalation.
+    rate_limit_escalation_factor: float = 2.0
+    # Escalation is capped at this many consecutive 403/429 strikes.
+    rate_limit_max_level: int = 4
+    # Ceiling on the escalating cool-off.
+    rate_limit_max_delay_seconds: float = 3600.0
+    # Consecutive successes (or dedups) needed to clear the escalation.
+    rate_limit_recovery_successes: int = 3
     # Delay before re-attempting a job whose session expired (no retry consumed).
     session_expiry_backoff_seconds: float = 60.0
 

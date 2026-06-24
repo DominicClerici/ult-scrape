@@ -147,7 +147,7 @@ Raised by the browser layer (`app/errors.py`), handled by the worker:
 | Class | Examples | Worker action |
 |---|---|---|
 | `TransientScrapeError` (and any unexpected `Exception`) | Cloudflare/navigation timeout, no `.xtz` captured | `record_transient_failure` → retry with backoff, then dead-letter |
-| `RateLimitScrapeError` (subclass of `TransientScrapeError`) | HTTP `403`/`429` on the tab navigation (UG/Cloudflare block) | logs `[RATE LIMIT]`, `record_transient_failure` (retryable), then a **larger** `RATE_LIMIT_DELAY_SECONDS` cool-off before the next job |
+| `RateLimitScrapeError` (subclass of `TransientScrapeError`) | HTTP `403`/`429` on the tab navigation (UG/Cloudflare block) | logs `[RATE LIMIT]`, `record_transient_failure` (retryable), then an **escalating** cool-off before the next job (see [escalating rate-limit pacing](#escalating-rate-limit-pacing)) |
 | `PermanentScrapeError` | Tab 404 / invalid route | `mark_permanent_failure` → dead-letter immediately |
 | `SessionExpiredError` | Logged-out state detected mid-job | `requeue_unchanged(delay=SESSION_EXPIRY_BACKOFF_SECONDS)` (no attempt consumed) + re-login, then resume |
 
@@ -173,8 +173,40 @@ event). This is the safety net that stops the service from hammering UG when log
 is broken, the account is flagged, or Cloudflare is walling every request.
 
 Each job's processing returns a `worker.Outcome` (`SUCCESS` / `DEDUP` / `FAILURE`
-/ `RATE_LIMITED` / `SESSION_EXPIRED`) which `run()` feeds to both the circuit
-breaker (`_note_outcome`) and the inter-job delay (`_delay_between_jobs`).
+/ `RATE_LIMITED` / `SESSION_EXPIRED`) which `run()` feeds to the circuit breaker
+(`_note_outcome`), the rate-limit pacing (`_record_pacing_outcome`), and the
+inter-job delay (`_delay_between_jobs`).
+
+### Escalating rate-limit pacing
+
+A single `403`/`429` cool-off is a blunt instrument: a flat delay re-hits the same
+block at the same cadence. Instead the worker tracks an in-memory **escalation
+level** (`_record_pacing_outcome`) that ratchets up as blocks repeat and relaxes
+once the site is clearly happy again:
+
+- Every `RATE_LIMITED` outcome **increments** the level (capped at
+  `RATE_LIMIT_MAX_LEVEL`) and breaks the recovery streak.
+- A run of `RATE_LIMIT_RECOVERY_SUCCESSES` consecutive `SUCCESS`/`DEDUP` outcomes
+  **resets** the level to 0 (baseline).
+- Any other failure (`FAILURE`/`SESSION_EXPIRED`) **holds** the level but breaks
+  the streak, so stray non-rate-limit progress can't prematurely clear it.
+
+The level then drives two delays in `_delay_between_jobs`, both via
+`RATE_LIMIT_ESCALATION_FACTOR`:
+
+- **Global cool-off** after a rate-limited job:
+  `RATE_LIMIT_DELAY_SECONDS × factor^(level-1)`, capped at
+  `RATE_LIMIT_MAX_DELAY_SECONDS`. So level 1 = the base cool-off, then ×factor per
+  consecutive strike.
+- **Widened inter-job gap** for ordinary jobs while the level is non-zero:
+  the normal `random.uniform(INTER_JOB_DELAY_MIN, MAX)` is multiplied by
+  `factor^level`, so even successful scrapes are spaced further apart until the
+  escalation clears. At level 0 the gap is unchanged.
+
+The level is **in-memory only** (like the circuit breaker's failure counter) and
+resets on restart; the persisted `paused` flag remains the durable safety net.
+The circuit breaker still counts each rate-limited job, so a sustained block trips
+the pause (`CIRCUIT_BREAKER_THRESHOLD`) regardless of escalation.
 
 ## The worker loop
 
@@ -194,9 +226,12 @@ up and login confirmed. Each iteration:
    - Map exceptions via the taxonomy above; empty artifacts → transient failure.
    - On success → `write_job_output(...)` ([output contract](../output-contract.md))
      then `mark_succeeded`. A write failure is treated as transient.
-5. Register the job's `Outcome` with the circuit breaker (`_note_outcome`), then
-   apply the inter-job delay: a `RATE_LIMIT_DELAY_SECONDS` cool-off if the job was
-   rate-limited, otherwise the human-like `random.uniform(INTER_JOB_DELAY_MIN, MAX)`.
+5. Register the job's `Outcome` with the circuit breaker (`_note_outcome`) and the
+   rate-limit pacing (`_record_pacing_outcome`), then apply the inter-job delay
+   (`_delay_between_jobs`): an escalating cool-off if the job was rate-limited,
+   otherwise the human-like `random.uniform(INTER_JOB_DELAY_MIN, MAX)` — itself
+   widened while a rate-limit escalation is active. See
+   [escalating rate-limit pacing](#escalating-rate-limit-pacing).
 
 `ServiceState` (`starting | logging_in | idle | running | paused | discovering | error`) is
 surfaced by `GET /status`. Control primitives: `notify_enqueued()` (wakeup),

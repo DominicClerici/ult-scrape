@@ -30,7 +30,11 @@ variables and a `.env` file (`extra="ignore"`). `get_settings()` returns a fresh
 | `CAPTURE_WINDOW_MS` | `30000` | Max time to wait for the download after navigation; the scrape returns as soon as the file lands, so this is a ceiling for slow players, not a fixed wait. |
 | `POLL_INTERVAL_SECONDS` | `5` | Idle worker re-check interval when the queue is empty. |
 | `CIRCUIT_BREAKER_THRESHOLD` | `5` | Auto-pause the worker after this many **consecutive non-successful** jobs (safety against hammering UG when something is broken). See [queue & worker](./queue-and-worker.md#circuit-breaker). |
-| `RATE_LIMIT_DELAY_SECONDS` | `300` | Cool-off applied after a `403`/`429` rate-limit before the next job (on top of the normal retry backoff). |
+| `RATE_LIMIT_DELAY_SECONDS` | `300` | **Base** cool-off after a `403`/`429` rate-limit (escalation level 1), applied before the next job on top of the normal retry backoff. See the [escalating rate-limit pacing](./queue-and-worker.md#escalating-rate-limit-pacing). |
+| `RATE_LIMIT_ESCALATION_FACTOR` | `2.0` | Each consecutive `403`/`429` multiplies **both** the cool-off and the normal inter-job gap by this factor; a clean streak of successes resets it. |
+| `RATE_LIMIT_MAX_LEVEL` | `4` | Escalation is capped at this many consecutive `403`/`429` strikes (bounds both the cool-off exponent and the gap widening). |
+| `RATE_LIMIT_MAX_DELAY_SECONDS` | `3600` | Ceiling on the escalating cool-off. |
+| `RATE_LIMIT_RECOVERY_SUCCESSES` | `3` | Consecutive successes (or dedups) needed to clear the escalation back to baseline. |
 | `SESSION_EXPIRY_BACKOFF_SECONDS` | `60` | Delay before a session-expired job becomes eligible again. No retry is consumed; this just prevents a tight re-login loop. |
 | `API_HOST` | `127.0.0.1` | Bind address (localhost-only). |
 | `API_PORT` | `8000` | API port. |
