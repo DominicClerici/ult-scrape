@@ -39,6 +39,11 @@ async def run(browser, repo, run, settings, *, sleep=asyncio.sleep) -> None:
     seen: set[str] = set()
     slices_done = 0
 
+    if cfg["target_cap"]:
+        log.info("[JOB] started discovering up to %d tracks", cfg["target_cap"])
+    else:
+        log.info("[JOB] started discovering tracks (no cap)")
+
     async def delay():
         hi = settings.discovery_page_delay_max
         if hi > 0:
@@ -92,6 +97,7 @@ async def run(browser, repo, run, settings, *, sleep=asyncio.sleep) -> None:
 
         while worklist:
             if await repo.is_discovery_cancel_requested(run.id):
+                log.info("[COMPLETE] Discovery canceled after %d tabs", len(seen))
                 await repo.finish_discovery(run.id, "canceled")
                 return
             if cfg["max_slices"] and slices_done >= cfg["max_slices"]:
@@ -119,8 +125,10 @@ async def run(browser, repo, run, settings, *, sleep=asyncio.sleep) -> None:
             )
             await delay()
 
+        log.info("[COMPLETE] Finished discovering %d tabs", len(seen))
         await repo.finish_discovery(run.id, "done")
     except Exception as e:
+        log.error("[ERROR] Discovery failed: %r", e)
         log.exception("discovery run %s failed", run.id)
         await repo.finish_discovery(run.id, "failed", repr(e))
         raise

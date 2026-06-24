@@ -177,6 +177,24 @@ up and login confirmed. Each iteration:
 surfaced by `GET /status`. Control primitives: `notify_enqueued()` (wakeup),
 `request_resume()` (resume), `stop()` (shutdown; set in the lifespan `finally`).
 
+### Operator logging
+
+The worker emits prefixed `INFO`/`ERROR` lines to the service's stderr (visible in
+the `start-scraper.sh` terminal; the `app` logger is configured at `INFO` in the
+lifespan via `main._configure_logging()`):
+
+- `[JOB] Scraping <tab_id>` when a real scrape starts (the dedup short-circuit
+  reuses an existing output and logs nothing).
+- `[ERROR] Failed to scrape <tab_id>: <reason>` on every failure path
+  (permanent, transient, empty artifacts, output-write failure). Session-expiry
+  re-queues are not failures and emit no `[ERROR]`.
+- `[COMPLETE] Finished scraping N tab(s)` when `claim_next()` returns `None` and
+  the queue drains. `N` is `Worker._scraped_count` — successful scrapes since the
+  last drain — which is then reset.
+
+Discovery has its own matching `[JOB]`/`[COMPLETE]` lines (see
+[discovery](./discovery.md)).
+
 ## Testing this layer
 
 Covered by `tests/test_repo_basic.py`, `test_repo_transitions.py`, `test_worker.py`,

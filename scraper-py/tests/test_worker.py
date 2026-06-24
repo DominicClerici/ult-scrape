@@ -1,3 +1,5 @@
+import logging
+
 import pytest_asyncio
 
 from app.browser.base import CapturedArtifact
@@ -159,6 +161,53 @@ async def test_process_relogin_failure_does_not_escape(repo, worker_factory):
     assert got.attempts == 0               # session expiry consumes no retry
     assert w.state is ServiceState.ERROR
     assert browser.login_calls == 1
+
+
+async def test_process_logs_job_and_counts_success(repo, worker_factory, tmp_path, caplog):
+    job = await repo.enqueue(tab_id="a/b-1", url="u", max_attempts=3)
+    await repo.claim_next()
+    w = worker_factory(FakeBrowser(artifacts=[_artifact()]))
+    with caplog.at_level(logging.INFO, logger="app.worker"):
+        await w._process(job)
+    assert "[JOB] Scraping a/b-1" in caplog.text
+    assert w._scraped_count == 1
+
+
+async def test_process_failure_logs_error(repo, worker_factory, caplog):
+    job = await repo.enqueue(tab_id="a/b-1", url="u", max_attempts=3)
+    await repo.claim_next()
+    w = worker_factory(FakeBrowser(error=PermanentScrapeError("404")))
+    with caplog.at_level(logging.ERROR, logger="app.worker"):
+        await w._process(job)
+    assert "[ERROR] Failed to scrape a/b-1: 404" in caplog.text
+
+
+async def test_dedup_short_circuit_does_not_count_or_log_job(repo, worker_factory, caplog):
+    first = await repo.enqueue(tab_id="a/b-1", url="u", max_attempts=3)
+    await repo.mark_succeeded(first.id, "/out/a/b-1")
+    second = await repo.enqueue(tab_id="a/b-1", url="u", max_attempts=3, force=True)
+    await repo.conn.execute("UPDATE jobs SET force=0 WHERE id=?", (second.id,))
+    await repo.conn.commit()
+    claimed = await repo.claim_next()
+    w = worker_factory(FakeBrowser(artifacts=[_artifact()]))
+    with caplog.at_level(logging.INFO, logger="app.worker"):
+        await w._process(claimed)
+    assert "[JOB] Scraping" not in caplog.text
+    assert w._scraped_count == 0
+
+
+def test_log_batch_complete_logs_and_resets(repo, tmp_path, caplog):
+    w = Worker(repo, FakeBrowser(), _settings(tmp_path), now_fn=lambda: 1000.0)
+    w._scraped_count = 3
+    with caplog.at_level(logging.INFO, logger="app.worker"):
+        w._log_batch_complete()
+    assert "[COMPLETE] Finished scraping 3 tab(s)" in caplog.text
+    assert w._scraped_count == 0
+    caplog.clear()
+    # No tabs scraped -> nothing logged, no spurious [COMPLETE] on every idle tick.
+    with caplog.at_level(logging.INFO, logger="app.worker"):
+        w._log_batch_complete()
+    assert "[COMPLETE]" not in caplog.text
 
 
 async def test_process_writes_song_block(repo, worker_factory, tmp_path):

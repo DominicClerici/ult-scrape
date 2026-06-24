@@ -126,6 +126,12 @@ top-level coroutine called by the worker. It:
 5. Reports progress to `repo.update_discovery_progress()` after each slice.
 6. Calls `repo.finish_discovery(run_id, "done"|"canceled"|"failed")` on exit.
 
+It also logs prefixed operator lines to the service's stderr (visible in the
+`start-scraper.sh` terminal): `[JOB] started discovering up to X tracks` at the
+start (or `… (no cap)` when `target_cap` is 0), `[COMPLETE] Finished discovering Y
+tabs` on success (and a matching `[COMPLETE] Discovery canceled after Y tabs` /
+`[ERROR] Discovery failed: …` on the cancel and failure paths).
+
 ### `browser/discover.py`
 
 The thin seam between the runner and the browser. `fetch_explore_html(page,

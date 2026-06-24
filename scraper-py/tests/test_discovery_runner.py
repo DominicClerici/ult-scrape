@@ -157,6 +157,23 @@ async def test_runner_warns_on_saturated_sort_window(repo, caplog):
     assert any("order=" in r.message for r in saturated_warnings)
 
 
+async def test_runner_logs_job_start_and_completion(repo, caplog):
+    catalog_filters = [
+        {"param_name": "genres", "values": [{"name": "Rock", "url_name": 4, "count": 80}]},
+    ]
+    bootstrap = _html([], filters=catalog_filters)
+    genre_page = _html([_tab(1), _tab(2)], pages=1, total=2, filters=catalog_filters)
+    browser = FakeBrowser(responses=[("genres", genre_page)], default_html=bootstrap)
+
+    run = await repo.request_discovery({"target_cap": 50})
+    run = await repo.claim_discovery()
+    with caplog.at_level(logging.INFO, logger="app.discovery.runner"):
+        await runner.run(browser, repo, run, _settings(), sleep=_noop_sleep)
+
+    assert "[JOB] started discovering up to 50 tracks" in caplog.text
+    assert "[COMPLETE] Finished discovering 2 tabs" in caplog.text
+
+
 async def test_runner_honors_cancel(repo):
     catalog_filters = [
         {"param_name": "genres", "values": [

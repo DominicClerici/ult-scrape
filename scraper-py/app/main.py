@@ -14,6 +14,22 @@ from app.worker import Worker
 log = logging.getLogger(__name__)
 
 
+def _configure_logging() -> None:
+    # uvicorn configures only its own loggers, so app `INFO` logs would otherwise
+    # never reach a handler. Give the `app` namespace its own stderr handler at
+    # INFO and stop it propagating, so our [JOB]/[COMPLETE]/[ERROR] lines show
+    # exactly once when run via scripts/start-scraper.sh.
+    app_log = logging.getLogger("app")
+    if not app_log.handlers:
+        handler = logging.StreamHandler()
+        handler.setFormatter(
+            logging.Formatter("%(asctime)s %(levelname)-7s %(message)s", "%H:%M:%S")
+        )
+        app_log.addHandler(handler)
+    app_log.setLevel(logging.INFO)
+    app_log.propagate = False
+
+
 def create_app(repo=None, worker=None, settings=None) -> FastAPI:
     app = FastAPI(title="ult-scraper")
     app.include_router(router)
@@ -28,6 +44,7 @@ def create_app(repo=None, worker=None, settings=None) -> FastAPI:
     async def lifespan(_app: FastAPI):
         from app.browser.session import CamoufoxBrowserSession
 
+        _configure_logging()
         s = get_settings()
         conn = await db.connect(s.db_path)
         await db.init_schema(conn)

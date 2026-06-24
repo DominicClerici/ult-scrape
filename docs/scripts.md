@@ -40,6 +40,21 @@ SCRAPER_URL=http://otherhost:9000 ./status.sh
 API_KEY=… ./enqueue.sh my-tabs.csv
 ```
 
+## Logging
+
+The worker logs its progress to the `start-scraper.sh` terminal (stderr). The
+service configures the `app` logger at `INFO` on startup, so these lines surface
+without any extra flags. The high-signal lines, all under fixed prefixes:
+
+- `[JOB] Scraping <tab_id>` — a scrape job started.
+- `[ERROR] Failed to scrape <tab_id>: <reason>` — a job failed (any failure path:
+  permanent, transient/timeout, no artifacts captured, or output-write failure).
+  A session-expiry re-queue is **not** a failure and logs no `[ERROR]`.
+- `[COMPLETE] Finished scraping N tab(s)` — emitted once the queue drains, where
+  `N` is the tabs successfully scraped since it last drained.
+- `[JOB] started discovering up to X tracks` / `[COMPLETE] Finished discovering Y
+  tabs` — a [discovery run](./scraper-py/discovery.md) starting and finishing.
+
 On a connection failure or any HTTP status ≥ 400 the scripts print a one-line
 error (plus the response body) to stderr and exit non-zero.
 

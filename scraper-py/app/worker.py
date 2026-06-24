@@ -33,6 +33,7 @@ class Worker:
         self._now = now_fn
         self.state = ServiceState.STARTING
         self.current_job_id: str | None = None
+        self._scraped_count = 0  # tabs scraped since the queue last drained
         self._wakeup = asyncio.Event()
         self._resume = asyncio.Event()
         self._stop = False
@@ -68,6 +69,7 @@ class Worker:
 
             job = await self.repo.claim_next()
             if job is None:
+                self._log_batch_complete()
                 self.state = ServiceState.IDLE
                 self._wakeup.clear()
                 try:
@@ -95,6 +97,11 @@ class Worker:
                 self.current_job_id = None
             await self._delay_between_jobs()
 
+    def _log_batch_complete(self) -> None:
+        if self._scraped_count > 0:
+            log.info("[COMPLETE] Finished scraping %d tab(s)", self._scraped_count)
+            self._scraped_count = 0
+
     async def _process(self, job) -> None:
         if not job.force:
             existing = await self.repo.succeeded_output_for(job.tab_id, job.id)
@@ -102,6 +109,7 @@ class Worker:
                 await self.repo.mark_succeeded(job.id, existing)
                 return
 
+        log.info("[JOB] Scraping %s", job.tab_id)
         try:
             artifacts, song = await self.browser.scrape(job.url)
         except SessionExpiredError:
@@ -114,20 +122,24 @@ class Worker:
                 self.state = ServiceState.ERROR
             return
         except PermanentScrapeError as e:
+            log.error("[ERROR] Failed to scrape %s: %s", job.tab_id, e)
             await self.repo.mark_permanent_failure(job.id, str(e))
             return
         except ScrapeError as e:
+            log.error("[ERROR] Failed to scrape %s: %s", job.tab_id, e)
             await self.repo.record_transient_failure(
                 job.id, str(e), self.settings.backoff_base_seconds
             )
             return
         except Exception as e:  # unexpected -> transient
+            log.error("[ERROR] Failed to scrape %s: %r", job.tab_id, e)
             await self.repo.record_transient_failure(
                 job.id, repr(e), self.settings.backoff_base_seconds
             )
             return
 
         if not artifacts:
+            log.error("[ERROR] Failed to scrape %s: no artifacts captured", job.tab_id)
             await self.repo.record_transient_failure(
                 job.id, "no artifacts captured", self.settings.backoff_base_seconds
             )
@@ -146,12 +158,13 @@ class Worker:
                 song=song,
             )
         except Exception as e:
-            log.warning("write_job_output failed for %s: %r", job.id, e)
+            log.error("[ERROR] Failed to scrape %s: output write failed: %r", job.tab_id, e)
             await self.repo.record_transient_failure(
                 job.id, f"output write failed: {e!r}", self.settings.backoff_base_seconds
             )
             return
         await self.repo.mark_succeeded(job.id, str(final))
+        self._scraped_count += 1
 
     async def _delay_between_jobs(self) -> None:
         hi = self.settings.inter_job_delay_max
