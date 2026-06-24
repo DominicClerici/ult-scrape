@@ -122,17 +122,25 @@ The core capture routine:
 2. Navigates to the tab URL (`domcontentloaded`), waits for load, clears
    Cloudflare.
 3. Classifies the page state and raises a typed error if needed (in this order):
-   - HTTP `403`/`429` → `RateLimitScrapeError` (checked **first**, before the
-     login check, so a block page isn't mistaken for a logged-out session)
+   - **main-page** HTTP `403`/`429` → `RateLimitScrapeError` (checked **first**,
+     before the login check, so a block page isn't mistaken for a logged-out
+     session)
    - not logged in → `SessionExpiredError`
    - HTTP 404 → `PermanentScrapeError`
 4. Reads the tab's **song metadata** off the hydrated page store
    (`extract_song_meta` → `_song_block`), best-effort — see below.
-5. Waits `CAPTURE_WINDOW_MS` for the download response(s) to arrive.
+5. Waits for the download to arrive, polling the buffered responses and
+   returning as soon as a non-3xx capture lands (the actual file) — so fast tabs
+   don't pay the full window — capped at `CAPTURE_WINDOW_MS` for slow players
+   that issue the signed `/tab/download/file` request late. The `/download/public/`
+   request is a 302 redirect to that file, so it never satisfies the wait.
 6. For each captured response: skips 3xx, reads the body, **keeps only bytes
    starting with the `XTZ\0` magic**, and builds a `CapturedArtifact` (with a safe
    filename derived from `Content-Disposition` or the URL's `ssid`).
-7. If nothing matched → `TransientScrapeError` (retryable).
+7. If nothing matched: a `403`/`429` on the **download endpoint itself** (UG often
+   serves a 200 tab page but blocks `/download/public/` with a 403 block page) →
+   `RateLimitScrapeError` so the worker backs off; otherwise →
+   `TransientScrapeError` (both retryable).
 
 `scrape_tab` returns a `(artifacts, song)` tuple. The raw artifact bytes are
 returned untouched — **no decryption** — for

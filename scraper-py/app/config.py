@@ -25,7 +25,7 @@ class Settings(BaseSettings):
     inter_job_delay_min: float = 5.0
     inter_job_delay_max: float = 20.0
     cloudflare_timeout_ms: int = 120_000
-    capture_window_ms: int = 10_000
+    capture_window_ms: int = 30_000
     poll_interval_seconds: float = 5.0
     # Auto-pause the worker after this many consecutive non-successful jobs.
     circuit_breaker_threshold: int = 5

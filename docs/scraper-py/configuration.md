@@ -27,7 +27,7 @@ variables and a `.env` file (`extra="ignore"`). `get_settings()` returns a fresh
 | `INTER_JOB_DELAY_MIN` | `5` | Min seconds of human-like delay between jobs. |
 | `INTER_JOB_DELAY_MAX` | `20` | Max seconds between jobs (set max to 0 to disable the delay). |
 | `CLOUDFLARE_TIMEOUT_MS` | `120000` | Max wait for a Cloudflare challenge to clear. |
-| `CAPTURE_WINDOW_MS` | `10000` | Window to collect download responses after navigation. |
+| `CAPTURE_WINDOW_MS` | `30000` | Max time to wait for the download after navigation; the scrape returns as soon as the file lands, so this is a ceiling for slow players, not a fixed wait. |
 | `POLL_INTERVAL_SECONDS` | `5` | Idle worker re-check interval when the queue is empty. |
 | `CIRCUIT_BREAKER_THRESHOLD` | `5` | Auto-pause the worker after this many **consecutive non-successful** jobs (safety against hammering UG when something is broken). See [queue & worker](./queue-and-worker.md#circuit-breaker). |
 | `RATE_LIMIT_DELAY_SECONDS` | `300` | Cool-off applied after a `403`/`429` rate-limit before the next job (on top of the normal retry backoff). |

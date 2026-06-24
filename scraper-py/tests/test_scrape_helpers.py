@@ -1,11 +1,13 @@
 import pytest
 
 from app.browser.scrape import (
+    _captured_rate_limit_status,
     _filename,
     _raise_for_rate_limit,
     _selected_headers,
     _should_capture,
     _song_block,
+    _wait_for_download,
     extract_song_meta,
 )
 from app.errors import RateLimitScrapeError, TransientScrapeError
@@ -129,3 +131,63 @@ async def test_extract_song_meta_swallows_eval_errors():
 
 async def test_extract_song_meta_none_when_no_ugapp():
     assert await extract_song_meta(_FakePage(result=None)) is None
+
+
+class _FakeResp:
+    def __init__(self, status):
+        self.status = status
+
+
+class _PollPage:
+    """Fake page whose wait_for_timeout advances a virtual clock and can inject
+    a captured response after a set number of polls (a late download arrival)."""
+
+    def __init__(self, captured, inject=None, inject_after_ms=0):
+        self.captured = captured
+        self._inject = inject
+        self._inject_after_ms = inject_after_ms
+        self.waited = 0
+
+    async def wait_for_timeout(self, ms):
+        self.waited += ms
+        if self._inject is not None and self.waited >= self._inject_after_ms:
+            self.captured.append(self._inject)
+            self._inject = None
+
+
+async def test_wait_for_download_returns_immediately_when_file_present():
+    captured = [_FakeResp(302), _FakeResp(200)]
+    page = _PollPage(captured)
+    assert await _wait_for_download(page, captured, 30_000) == 0
+    assert page.waited == 0
+
+
+async def test_wait_for_download_ignores_3xx_and_caps_at_window():
+    captured = [_FakeResp(302)]  # only a redirect ever arrives
+    page = _PollPage(captured)
+    waited = await _wait_for_download(page, captured, 1_000)
+    assert waited == 1_000
+
+
+async def test_wait_for_download_breaks_when_late_file_arrives():
+    captured = [_FakeResp(302)]
+    page = _PollPage(captured, inject=_FakeResp(200), inject_after_ms=500)
+    waited = await _wait_for_download(page, captured, 30_000)
+    assert waited == 500
+    assert any(r.status == 200 for r in captured)
+
+
+@pytest.mark.parametrize("status", [403, 429])
+def test_captured_rate_limit_status_flags_blocked_download(status):
+    # 302 redirect to a blocked download endpoint that answers 403/429.
+    assert _captured_rate_limit_status([_FakeResp(302), _FakeResp(status)]) == status
+
+
+def test_captured_rate_limit_status_ignores_3xx_redirects():
+    # A 3xx download status is part of the normal flow, never a rate limit.
+    assert _captured_rate_limit_status([_FakeResp(302)]) is None
+
+
+def test_captured_rate_limit_status_none_when_clean():
+    assert _captured_rate_limit_status([_FakeResp(302), _FakeResp(200)]) is None
+    assert _captured_rate_limit_status([]) is None

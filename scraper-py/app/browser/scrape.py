@@ -1,5 +1,6 @@
 from __future__ import annotations
 
+import logging
 import re
 from pathlib import Path
 from urllib.parse import parse_qs, unquote, urlparse
@@ -25,10 +26,28 @@ CAPTURE_HEADER_NAMES = (
 )
 XTZ_MAGIC = b"XTZ\x00"
 
+log = logging.getLogger(__name__)
+
 
 def _raise_for_rate_limit(status: int | None, tab_url: str) -> None:
     if status in RATE_LIMIT_STATUSES:
         raise RateLimitScrapeError(f"rate limited (HTTP {status}) on {tab_url}")
+
+
+def _captured_rate_limit_status(captured) -> int | None:
+    """Return a 403/429 status among the captured download responses, if any.
+
+    The tab page itself can return 200 (logged in, not blocked) while UG blocks
+    the `/download/public/` endpoint with a 403/429 block page. The main-page
+    `_raise_for_rate_limit` never sees that, so the download responses are checked
+    separately. 3xx redirects are part of the normal flow and ignored.
+    """
+    for r in captured:
+        if 300 <= r.status < 400:
+            continue
+        if r.status in RATE_LIMIT_STATUSES:
+            return r.status
+    return None
 
 
 def _should_capture(url: str) -> bool:
@@ -154,6 +173,26 @@ async def extract_song_meta(page) -> dict | None:
     return _song_block(raw)
 
 
+_CAPTURE_POLL_MS = 250
+
+
+async def _wait_for_download(page, captured: list, capture_window_ms: int) -> int:
+    """Wait until the actual download (a non-3xx capture) lands, up to the window.
+
+    Returns the moment a usable response appears so fast tabs don't pay the full
+    window; caps at `capture_window_ms` for slow players that issue the signed
+    `/tab/download/file` request late. The 302 `/download/public/` redirect is a
+    3xx, so it never satisfies the wait. Returns the elapsed wait in ms.
+    """
+    waited = 0
+    while waited < capture_window_ms:
+        if any(not (300 <= r.status < 400) for r in captured):
+            break
+        await page.wait_for_timeout(_CAPTURE_POLL_MS)
+        waited += _CAPTURE_POLL_MS
+    return waited
+
+
 async def scrape_tab(
     page, tab_url: str, capture_window_ms: int, cf_timeout_ms: int
 ) -> tuple[list[CapturedArtifact], dict | None]:
@@ -179,17 +218,36 @@ async def scrape_tab(
 
         song = await extract_song_meta(page)
 
-        await page.wait_for_timeout(capture_window_ms)
+        waited_ms = await _wait_for_download(page, captured, capture_window_ms)
 
+        log.info(
+            "[CAPTURE] %s: %d matching response(s) after %dms (window %dms)",
+            tab_url, len(captured), waited_ms, capture_window_ms,
+        )
         artifacts: list[CapturedArtifact] = []
         for r in captured:
+            headers = r.headers
+            ctype = headers.get("content-type", "")
             if 300 <= r.status < 400:
+                log.info(
+                    "[CAPTURE] skip 3xx (HTTP %d) %s -> location=%s",
+                    r.status, r.url, headers.get("location", ""),
+                )
                 continue
             try:
                 body = await r.body()
-            except Exception:
+            except Exception as e:
+                log.warning(
+                    "[CAPTURE] body read failed (HTTP %d, ct=%s) %s: %r",
+                    r.status, ctype, r.url, e,
+                )
                 continue
-            if not body.startswith(XTZ_MAGIC):
+            magic_ok = body.startswith(XTZ_MAGIC)
+            log.info(
+                "[CAPTURE] response HTTP %d ct=%s bytes=%d magic_ok=%s %s",
+                r.status, ctype, len(body), magic_ok, r.url,
+            )
+            if not magic_ok:
                 continue
             artifacts.append(CapturedArtifact(
                 filename=_filename(r.url, r.headers, body),
@@ -200,6 +258,11 @@ async def scrape_tab(
             ))
 
         if not artifacts:
+            blocked = _captured_rate_limit_status(captured)
+            if blocked is not None:
+                raise RateLimitScrapeError(
+                    f"rate limited (HTTP {blocked}) on download for {tab_url}"
+                )
             raise TransientScrapeError(f"no XTZ download captured for {tab_url}")
         return artifacts, song
     finally:
