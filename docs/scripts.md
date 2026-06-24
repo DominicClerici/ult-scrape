@@ -18,7 +18,7 @@ keeping the [two-project split](./architecture.md) intact.
 | `enqueue.sh [CSV]` | Reads a CSV of tabs and enqueues them in one `POST /jobs/bulk` call. Defaults to `scripts/tabs.csv`. |
 | `discover.sh [--max N] [--list] [--enqueue]` | Starts an official-tab [discovery run](./scraper-py/discovery.md) (`POST /discover`). `--max N` caps the run at `N` distinct tabs (sets `target_cap`); `--list` shows recent runs and progress (`GET /discover`); `--enqueue` turns discovered-but-unscraped tabs into scrape jobs (`POST /discover/enqueue`). |
 | `status.sh` | Pretty-prints `GET /status` (state, current job, queue depth, counts, paused, login health). |
-| `clear.sh` | `DELETE /jobs` — cancels every **queued** job and prints the count. The in-flight job finishes first; pair with `pause.sh` to also stop new work. |
+| `clear.sh` | `DELETE /jobs` — cancels every **queued** job and prints the count. The in-flight job finishes first; pair with `pause.sh` to also stop new work. With `--hard-reset` it instead factory-wipes all tracked data (see below). |
 | `pause.sh` | `POST /pause` — stop the worker after the current job finishes. |
 | `resume.sh` | `POST /resume`. |
 | `_common.sh` | Shared helper, **sourced** by the others (not run directly). Loads `.env`, derives `BASE_URL`, and provides an auth-aware curl wrapper. |
@@ -42,6 +42,29 @@ API_KEY=… ./enqueue.sh my-tabs.csv
 
 On a connection failure or any HTTP status ≥ 400 the scripts print a one-line
 error (plus the response body) to stderr and exit non-zero.
+
+## Hard reset (`clear.sh --hard-reset`)
+
+Unlike every other script, `--hard-reset` does **not** go over HTTP — it is an
+operator-level wipe that no single endpoint can cover (the scraper has no
+business touching the enricher's DB). It permanently deletes **all tracked data
+across the services**:
+
+- the shared `output/` tree (resolved from `OUTPUT_DIR`, default repo-root
+  `output/`) — then recreates it empty;
+- the scraper queue DB (`DB_PATH`, default `scraper-py/scraper.db`);
+- the enricher DB (`ENRICHER_DB`, default `enricher-py/enricher.db`);
+- and each DB's SQLite `-wal`/`-shm`/`-journal` sidecars.
+
+The browser login session (`scraper-py/camoufox-profile/`) is **kept**, so you
+don't have to re-login through Cloudflare.
+
+Safeguards: the command **refuses to run while the scraper is reachable** (probes
+`GET /status`) — deleting the DB out from under a live worker lets the WAL
+resurrect rows, so stop `start-scraper.sh` first (and don't run it during an
+`enricher run`, which holds the enricher DB open). It then prints what will be
+deleted and **prompts for confirmation**: you must type `yes` to proceed. The
+wipe is irreversible.
 
 ## The enqueue CSV
 
