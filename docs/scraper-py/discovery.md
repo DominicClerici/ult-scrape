@@ -1,4 +1,4 @@
-# scraper-py — Pro Tab Discovery
+# scraper-py — Official Tab Discovery
 
 > Part of the [documentation map](../../OVERVIEW.md) ·
 > [scraper overview](./overview.md) · [API](./api.md) ·
@@ -6,16 +6,34 @@
 > Sources: `app/discovery/`, `app/browser/discover.py`, `app/repo.py`,
 > `app/api/routes.py`, `app/worker.py`.
 
-Discovery enumerates Pro tabs from Ultimate Guitar's explore listing and persists
-their metadata to SQLite. The goal is a complete catalogue of known Pro tab IDs
-that can later be turned into scrape jobs — it does **not** enqueue or download
-anything automatically.
+Discovery enumerates **official** tabs from Ultimate Guitar's explore listing and
+persists their metadata to SQLite. The goal is a complete catalogue of known
+official tab IDs that can later be turned into scrape jobs — it does **not**
+enqueue or download anything automatically.
+
+## Why official tabs only
+
+UG's explore `type` facet exposes two kinds of downloadable Guitar Pro content:
+
+- `type=Official` (`type_name` "Official") — UG's licensed official tabs. Their
+  page embeds the interactive Guitar Pro player, which **auto-fires** the `.xtz`
+  download on load, so the scraper's passive capture
+  ([`scrape_tab`](./browser.md#scrapepy--scrape_tab)) catches it.
+- `type=Pro` (`type_name` "Guitar Pro") — user-submitted Guitar Pro tabs. Their
+  page gates the file behind a manual **"Download (gp5)"** button and fires no
+  download on load, so the scraper captures nothing and the job fails every
+  attempt with `no XTZ download captured`.
+
+Discovery therefore filters to `type=Official` only — pinned in the
+`TAB_TYPE = "Official"` constant in `facets.py` and used by every slice the
+planner and runner build. User-submitted Pro tabs are unreachable by this
+scraper and are intentionally excluded.
 
 ## Purpose
 
 The scraper normally receives exact tab URLs via `POST /jobs`. Discovery
-provides a separate path: crawl the UG explore listing, collect every Pro tab
-the site advertises, and store the raw UG metadata in `tab_metadata`. A human
+provides a separate path: crawl the UG explore listing, collect every official
+tab the site advertises, and store the raw UG metadata in `tab_metadata`. A human
 operator then decides which discovered tabs to scrape by calling
 `POST /discover/enqueue`.
 
@@ -57,10 +75,18 @@ a `<div class="js-store" data-content="...">` attribute. The parser locates this
 attribute with a regex, HTML-unescapes the value, and JSON-decodes the payload to
 produce an `ExploreStore` (tabs, pagination, available filters, sort orders).
 
+The tab rows live at `store.page.data.data.tabs` — a list of tab dicts, sitting
+alongside a parallel `hits` list under `data.data`. `pagination`,
+`totalResults`, `order`, and `filters` are read one level up, off
+`store.page.data`. The parser also accepts `data.data` being a bare list (an
+older/simplified shape) so a partial change degrades to empty rather than a
+crash.
+
 **Brittle point:** if UG changes the `js-store data-content` shape — the
-attribute name, the nesting under `store.page.data`, or the `totalResults`/
-`pagination` keys — this step raises `DiscoveryParseError`. When a discovery
-run mysteriously fails with a parse error, start here.
+attribute name, the nesting under `store.page.data` (e.g. moving or renaming the
+`data.tabs` list), or the `totalResults`/`pagination` keys — this step raises
+`DiscoveryParseError` or yields an empty tab list. When a discovery run
+mysteriously fails or finds nothing, start here.
 
 ### `facets.py`
 
@@ -93,7 +119,7 @@ top-level coroutine called by the worker. It:
 
 1. Resolves effective settings by merging `run.params` overrides over the
    `DISCOVERY_*` config defaults.
-2. Fetches page 1 of the bare Pro listing (no genre filter) to bootstrap the
+2. Fetches page 1 of the bare official listing (no genre filter) to bootstrap the
    `FacetCatalog`.
 3. Builds the initial genre worklist via `planner.initial_slices()`.
 4. Runs the adaptive crawl loop (see strategy below).

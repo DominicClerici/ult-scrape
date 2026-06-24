@@ -43,7 +43,7 @@ variables and a `.env` file (`extra="ignore"`). `get_settings()` returns a fresh
 
 Notes:
 
-- `DISCOVERY_*` keys control the [Pro tab discovery](./discovery.md) component
+- `DISCOVERY_*` keys control the [official tab discovery](./discovery.md) component
   only. They have no effect on the scrape job queue. Every key can be overridden
   **per run** via the `DiscoveryStartRequest` body on `POST /discover`; the
   runner merges request-level overrides on top of these defaults.

@@ -49,7 +49,7 @@ All three communicate **only** through the filesystem — see the output contrac
 | ⚙️ [Queue & worker](./docs/scraper-py/queue-and-worker.md) | SQLite schema, job state machine, the worker loop, error taxonomy, retry/backoff. |
 | 🕸️ [Browser automation](./docs/scraper-py/browser.md) | Camoufox session, login, scrape capture, human-like behavior, Cloudflare. |
 | 🔧 [Configuration](./docs/scraper-py/configuration.md) | Every setting/env var, and the atomic output writer. |
-| 🔍 [Discovery](./docs/scraper-py/discovery.md) | Pro tab enumeration: adaptive crawl strategy, modules, DB tables, config. |
+| 🔍 [Discovery](./docs/scraper-py/discovery.md) | Official tab enumeration: adaptive crawl strategy, modules, DB tables, config. |
 
 ### decoder-rs (Rust · CLI)
 

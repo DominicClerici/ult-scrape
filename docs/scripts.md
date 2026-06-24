@@ -16,7 +16,9 @@ keeping the [two-project split](./architecture.md) intact.
 |---|---|
 | `start-scraper.sh` | Activates `scraper-py/.venv` (if present) and runs `uvicorn app.main:app`, bound to the `API_HOST`/`API_PORT` from `scraper-py/.env`. Extra args pass through to uvicorn (e.g. `--reload`). |
 | `enqueue.sh [CSV]` | Reads a CSV of tabs and enqueues them in one `POST /jobs/bulk` call. Defaults to `scripts/tabs.csv`. |
+| `discover.sh [--max N] [--list] [--enqueue]` | Starts an official-tab [discovery run](./scraper-py/discovery.md) (`POST /discover`). `--max N` caps the run at `N` distinct tabs (sets `target_cap`); `--list` shows recent runs and progress (`GET /discover`); `--enqueue` turns discovered-but-unscraped tabs into scrape jobs (`POST /discover/enqueue`). |
 | `status.sh` | Pretty-prints `GET /status` (state, current job, queue depth, counts, paused, login health). |
+| `clear.sh` | `DELETE /jobs` — cancels every **queued** job and prints the count. The in-flight job finishes first; pair with `pause.sh` to also stop new work. |
 | `pause.sh` | `POST /pause` — stop the worker after the current job finishes. |
 | `resume.sh` | `POST /resume`. |
 | `_common.sh` | Shared helper, **sourced** by the others (not run directly). Loads `.env`, derives `BASE_URL`, and provides an auth-aware curl wrapper. |
@@ -79,3 +81,16 @@ submitted — that's expected.
 
 Then run the [decoder](./decoder-rs/overview.md) over the same `OUTPUT_DIR` to
 turn the captured `.xtz` files into `.gp`.
+
+## Discovery loop
+
+Instead of supplying tabs by hand, you can let the scraper crawl UG's explore
+listing for official tabs (see [discovery](./scraper-py/discovery.md)). Discovery
+only starts when the scrape queue is empty:
+
+```bash
+./discover.sh --max 50    # crawl until 50 distinct tabs are found
+./discover.sh --list      # watch run state / progress
+./discover.sh --enqueue   # turn the discovered tabs into scrape jobs
+./status.sh               # watch the worker scrape them
+```

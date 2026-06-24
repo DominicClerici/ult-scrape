@@ -18,6 +18,7 @@ see [configuration](./configuration.md)).
 | `GET /jobs/{id}` | Job detail. 404 if unknown. |
 | `POST /jobs` | Enqueue one job. |
 | `POST /jobs/bulk` | Enqueue many jobs in one call. |
+| `DELETE /jobs` | Clear the queue: cancel **all queued** jobs → `canceled`. Returns `{"canceled": N}`. The running job (if any) is left to finish. |
 | `DELETE /jobs/{id}` | Cancel a **queued** job → `canceled`. 404 if unknown, 409 if not queued (e.g. running). |
 | `POST /jobs/{id}/retry` | Re-queue a **failed** job. 404 if unknown, 409 if not failed. |
 | `POST /pause` | Pause the worker after the current job finishes (persists `paused=true`). |

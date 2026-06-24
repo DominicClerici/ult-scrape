@@ -17,7 +17,7 @@ that is [`decoder-rs`](../decoder-rs/overview.md)'s job.
 | [Queue & worker](./queue-and-worker.md) | SQLite schema, `repo.py` state machine, the worker loop, error taxonomy, retry/backoff/dead-letter. |
 | [Browser automation](./browser.md) | Camoufox/Playwright session, login, scrape capture, human-like behavior, Cloudflare handling. |
 | [Configuration](./configuration.md) | All settings/env vars and the output writer. |
-| [Discovery](./discovery.md) | Pro tab enumeration: adaptive crawl strategy, `app/discovery/` modules, tables, config. |
+| [Discovery](./discovery.md) | Official tab enumeration: adaptive crawl strategy, `app/discovery/` modules, tables, config. |
 
 ## Architecture in one breath
 
@@ -110,7 +110,7 @@ python -m pytest -m integration   # live browser test; needs UG creds + network
 - **No decryption** (that is `decoder-rs`).
 - **No LLM / dynamic agent** — the worker is a deterministic loop.
 - **No search by artist/title in the job queue** — jobs are exact tab URLs/routes.
-  (The [discovery](./discovery.md) component enumerates Pro tabs via the explore
-  listing; enqueuing them remains a separate explicit step.)
+  (The [discovery](./discovery.md) component enumerates official tabs via the
+  explore listing; enqueuing them remains a separate explicit step.)
 - **No concurrency** — a single sequential browser session, one job at a time.
 - **No remote deployment** — localhost-only API, optional local API key.

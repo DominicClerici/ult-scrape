@@ -94,6 +94,23 @@ async def test_cancel_only_queued(repo):
     assert await repo.cancel(job2.id) is False
 
 
+async def test_cancel_all_queued_leaves_running(repo):
+    a = await repo.enqueue(tab_id="a/b-1", url="u", max_attempts=3)
+    b = await repo.enqueue(tab_id="a/b-2", url="u", max_attempts=3)
+    c = await repo.enqueue(tab_id="a/b-3", url="u", max_attempts=3)
+    running = await repo.claim_next()  # oldest queued -> a
+    assert running.id == a.id
+
+    canceled = await repo.cancel_all_queued()
+    assert canceled == 2  # b and c; the running job is untouched
+
+    assert (await repo.get(running.id)).status is JobStatus.RUNNING
+    assert (await repo.get(b.id)).status is JobStatus.CANCELED
+    assert (await repo.get(c.id)).status is JobStatus.CANCELED
+    # Idempotent: nothing left queued.
+    assert await repo.cancel_all_queued() == 0
+
+
 async def test_retry_only_failed_resets_attempts(repo):
     job = await repo.enqueue(tab_id="a/b-1", url="u", max_attempts=1)
     await repo.claim_next()

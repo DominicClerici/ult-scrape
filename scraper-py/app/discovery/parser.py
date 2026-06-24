@@ -21,6 +21,17 @@ class ExploreStore:
     order: dict
 
 
+def _tab_list(raw) -> list[dict]:
+    # UG nests the tab rows under data.data.tabs (alongside a parallel `hits`
+    # list). Older/simplified payloads put the rows directly in data.data as a
+    # bare list — accept both so a shape change degrades gracefully.
+    if isinstance(raw, dict):
+        raw = raw.get("tabs")
+    if not isinstance(raw, list):
+        return []
+    return [row for row in raw if isinstance(row, dict)]
+
+
 def parse_explore_html(page_html: str) -> ExploreStore:
     m = _STORE_RE.search(page_html)
     if not m:
@@ -33,7 +44,7 @@ def parse_explore_html(page_html: str) -> ExploreStore:
 
     pagination = data.get("pagination") or {}
     return ExploreStore(
-        tabs=list(data.get("data") or []),
+        tabs=_tab_list(data.get("data")),
         pages=int(pagination.get("pages", 0)),
         per_page=int(pagination.get("per_page", 0)),
         current_page=int(pagination.get("current", 0)),

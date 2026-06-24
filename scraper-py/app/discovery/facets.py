@@ -5,6 +5,14 @@ from urllib.parse import urlencode
 
 from app.discovery.parser import ExploreStore
 
+# UG's explore `type` facet separates official tabs (`Official`, type_name
+# "Official") from user-submitted Guitar Pro tabs (`Pro`, type_name "Guitar
+# Pro"). Only official tabs embed the interactive player that auto-fires the
+# `.xtz` download the scraper captures passively; user "Pro" tab pages gate the
+# file behind a manual "Download" button the scraper never clicks, so they can
+# never be captured. Discover official tabs only.
+TAB_TYPE = "Official"
+
 
 @dataclass(frozen=True)
 class FacetValue:
@@ -32,7 +40,7 @@ class SliceSpec:
         parts = [f"{k}={v}" for k, v in sorted(self.filters.items()) if k != "type"]
         if self.order:
             parts.append(f"order={self.order}")
-        return "&".join(parts) or "type=Pro"
+        return "&".join(parts) or f"type={TAB_TYPE}"
 
 
 def catalog_from_store(store: ExploreStore) -> FacetCatalog:

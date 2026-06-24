@@ -198,6 +198,16 @@ class JobRepo:
         await self.conn.commit()
         return cur.rowcount > 0
 
+    async def cancel_all_queued(self) -> int:
+        now = self._now()
+        cur = await self.conn.execute(
+            "UPDATE jobs SET status='canceled', finished_at=?, updated_at=? "
+            "WHERE status='queued'",
+            (now, now),
+        )
+        await self.conn.commit()
+        return cur.rowcount
+
     async def retry(self, job_id: str) -> bool:
         now = self._now()
         cur = await self.conn.execute(

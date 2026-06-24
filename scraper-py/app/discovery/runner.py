@@ -4,7 +4,7 @@ import asyncio
 import logging
 import random
 
-from app.discovery.facets import SliceSpec, build_query, catalog_from_store
+from app.discovery.facets import TAB_TYPE, SliceSpec, build_query, catalog_from_store
 from app.discovery.parser import parse_explore_html
 from app.discovery.planner import initial_slices, sort_windows, subdivide
 
@@ -79,7 +79,7 @@ async def run(browser, repo, run, settings, *, sleep=asyncio.sleep) -> None:
             await absorb(await fetch(spec, page))
 
     try:
-        bootstrap = await fetch(SliceSpec(filters={"type": "Pro"}), 1)
+        bootstrap = await fetch(SliceSpec(filters={"type": TAB_TYPE}), 1)
         catalog = catalog_from_store(bootstrap)
         catalog.sorts = cfg["sorts"] or catalog.sorts
 

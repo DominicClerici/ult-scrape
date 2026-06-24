@@ -40,7 +40,7 @@ A tiny key/value store for state that must survive restart. Currently just
 
 ### `tab_metadata` table
 
-Persists raw UG explore metadata for every discovered Pro tab (upsert on
+Persists raw UG explore metadata for every discovered official tab (upsert on
 `tab_id`). Written only by discovery — never by the scrape path.
 
 | Column | Notes |
@@ -130,6 +130,7 @@ Each transition is a single committed SQL statement in `repo.py`:
 | `mark_permanent_failure()` | `attempts++` then straight to `failed`. No retries. |
 | `requeue_unchanged()` | `running → queued`, **no attempt consumed** (used for session expiry). |
 | `cancel()` | `queued → canceled`, only while queued (returns false otherwise → API 409). |
+| `cancel_all_queued()` | Bulk clear: every `queued → canceled` in one statement; returns the count. Leaves `running` untouched (backs `DELETE /jobs`). |
 | `retry()` | `failed → queued`, resets `attempts=0`, clears `error`/timestamps. |
 | `reset_running_to_queued()` | Startup recovery: any `running` job left over from a crash → `queued`. Called in the lifespan. |
 | `fail_interrupted_discovery()` | Startup recovery: any `running` discovery run left over from a crash → `failed` with error `"interrupted by restart"`. Called in the lifespan alongside `reset_running_to_queued()`. |

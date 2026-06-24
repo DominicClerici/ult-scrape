@@ -81,6 +81,17 @@ async def test_delete_queued_then_running(client):
     assert (await client.delete(f"/jobs/{jid}")).status_code == 409
 
 
+async def test_clear_queue(client):
+    await client.post("/jobs", json={"url_or_route": "a/b-1"})
+    await client.post("/jobs", json={"url_or_route": "a/b-2"})
+    r = await client.delete("/jobs")
+    assert r.status_code == 200
+    assert r.json()["canceled"] == 2
+    assert (await client.get("/status")).json()["queue_depth"] == 0
+    # Idempotent: clearing an empty queue cancels nothing.
+    assert (await client.delete("/jobs")).json()["canceled"] == 0
+
+
 async def test_pause_resume(client):
     assert (await client.post("/pause")).json()["paused"] is True
     r = await client.get("/status")

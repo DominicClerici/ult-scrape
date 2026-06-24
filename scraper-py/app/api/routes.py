@@ -103,6 +103,12 @@ async def enqueue_bulk(
     return out
 
 
+@router.delete("/jobs")
+async def clear_queue(request: Request, _=Depends(require_api_key)):
+    count = await _repo(request).cancel_all_queued()
+    return {"canceled": count}
+
+
 @router.delete("/jobs/{job_id}")
 async def dequeue(job_id: str, request: Request, _=Depends(require_api_key)):
     repo = _repo(request)

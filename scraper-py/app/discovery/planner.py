@@ -1,6 +1,6 @@
 from __future__ import annotations
 
-from app.discovery.facets import FacetCatalog, SliceSpec
+from app.discovery.facets import TAB_TYPE, FacetCatalog, SliceSpec
 
 
 def initial_slices(
@@ -15,9 +15,9 @@ def initial_slices(
     for fv in catalog.values("genres"):
         if allowed is not None and fv.url_name not in allowed:
             continue
-        slices.append(SliceSpec(filters={"type": "Pro", "genres": fv.url_name}, depth=0))
+        slices.append(SliceSpec(filters={"type": TAB_TYPE, "genres": fv.url_name}, depth=0))
     if untagged_sweep:
-        slices.append(SliceSpec(filters={"type": "Pro"}, depth=0))
+        slices.append(SliceSpec(filters={"type": TAB_TYPE}, depth=0))
     return slices
 
 
