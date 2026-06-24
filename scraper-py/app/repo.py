@@ -180,11 +180,12 @@ class JobRepo:
         await self.conn.commit()
         return result
 
-    async def requeue_unchanged(self, job_id: str) -> None:
+    async def requeue_unchanged(self, job_id: str, delay: float = 0.0) -> None:
         now = self._now()
         await self.conn.execute(
-            "UPDATE jobs SET status='queued', started_at=NULL, updated_at=? WHERE id=?",
-            (now, job_id),
+            "UPDATE jobs SET status='queued', started_at=NULL, "
+            "next_attempt_at=?, updated_at=? WHERE id=?",
+            (now + delay, now, job_id),
         )
         await self.conn.commit()
 

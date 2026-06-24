@@ -128,7 +128,7 @@ Each transition is a single committed SQL statement in `repo.py`:
 | `mark_succeeded()` | `running → succeeded`, records `output_dir`, clears `error`. Terminal. |
 | `record_transient_failure()` | `attempts++`; if `>= max_attempts` → `failed` (dead-letter), else `queued` with `next_attempt_at = now + backoff(attempts)`. |
 | `mark_permanent_failure()` | `attempts++` then straight to `failed`. No retries. |
-| `requeue_unchanged()` | `running → queued`, **no attempt consumed** (used for session expiry). |
+| `requeue_unchanged(delay=0.0)` | `running → queued`, **no attempt consumed**; sets `next_attempt_at = now + delay` (used for session expiry, with `SESSION_EXPIRY_BACKOFF_SECONDS`). |
 | `cancel()` | `queued → canceled`, only while queued (returns false otherwise → API 409). |
 | `cancel_all_queued()` | Bulk clear: every `queued → canceled` in one statement; returns the count. Leaves `running` untouched (backs `DELETE /jobs`). |
 | `retry()` | `failed → queued`, resets `attempts=0`, clears `error`/timestamps. |
@@ -147,11 +147,34 @@ Raised by the browser layer (`app/errors.py`), handled by the worker:
 | Class | Examples | Worker action |
 |---|---|---|
 | `TransientScrapeError` (and any unexpected `Exception`) | Cloudflare/navigation timeout, no `.xtz` captured | `record_transient_failure` → retry with backoff, then dead-letter |
+| `RateLimitScrapeError` (subclass of `TransientScrapeError`) | HTTP `403`/`429` on the tab navigation (UG/Cloudflare block) | logs `[RATE LIMIT]`, `record_transient_failure` (retryable), then a **larger** `RATE_LIMIT_DELAY_SECONDS` cool-off before the next job |
 | `PermanentScrapeError` | Tab 404 / invalid route | `mark_permanent_failure` → dead-letter immediately |
-| `SessionExpiredError` | Logged-out state detected mid-job | `requeue_unchanged` (no attempt consumed) + re-login, then resume |
+| `SessionExpiredError` | Logged-out state detected mid-job | `requeue_unchanged(delay=SESSION_EXPIRY_BACKOFF_SECONDS)` (no attempt consumed) + re-login, then resume |
+
+`RateLimitScrapeError` is raised in `scrape.py` **before** the logged-in check, so a
+block page (which has no profile link) is reported as a rate-limit rather than
+mis-classified as session expiry.
 
 **Session expiry is not a job failure.** It re-queues the job unchanged and drives
-re-login, so a dropped session never burns a job's retry budget.
+re-login, so a dropped session never burns a job's retry budget. The requeue now
+sets `next_attempt_at = now + SESSION_EXPIRY_BACKOFF_SECONDS` so a persistently
+logged-out / unrecoverable state can't spin into a tight re-login loop.
+
+### Circuit breaker
+
+The worker tracks **consecutive non-successful jobs** (`_consecutive_failures`).
+Any `SUCCESS` or dedup short-circuit resets the counter; every other outcome
+(transient/permanent failure, rate-limit, session-expiry, unexpected error)
+increments it. When it reaches `CIRCUIT_BREAKER_THRESHOLD` the worker logs
+`[CIRCUIT BREAKER]`, calls `set_paused(True)`, and sets state `PAUSED`. The pause
+is **persisted in `app_state`**, so it survives a restart — an operator must
+investigate and `POST /resume` (which clears the pause and signals the resume
+event). This is the safety net that stops the service from hammering UG when login
+is broken, the account is flagged, or Cloudflare is walling every request.
+
+Each job's processing returns a `worker.Outcome` (`SUCCESS` / `DEDUP` / `FAILURE`
+/ `RATE_LIMITED` / `SESSION_EXPIRED`) which `run()` feeds to both the circuit
+breaker (`_note_outcome`) and the inter-job delay (`_delay_between_jobs`).
 
 ## The worker loop
 
@@ -171,7 +194,9 @@ up and login confirmed. Each iteration:
    - Map exceptions via the taxonomy above; empty artifacts → transient failure.
    - On success → `write_job_output(...)` ([output contract](../output-contract.md))
      then `mark_succeeded`. A write failure is treated as transient.
-5. Human-like inter-job delay (`random.uniform(INTER_JOB_DELAY_MIN, MAX)`).
+5. Register the job's `Outcome` with the circuit breaker (`_note_outcome`), then
+   apply the inter-job delay: a `RATE_LIMIT_DELAY_SECONDS` cool-off if the job was
+   rate-limited, otherwise the human-like `random.uniform(INTER_JOB_DELAY_MIN, MAX)`.
 
 `ServiceState` (`starting | logging_in | idle | running | paused | discovering | error`) is
 surfaced by `GET /status`. Control primitives: `notify_enqueued()` (wakeup),

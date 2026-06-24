@@ -1,10 +1,29 @@
+import pytest
+
 from app.browser.scrape import (
     _filename,
+    _raise_for_rate_limit,
     _selected_headers,
     _should_capture,
     _song_block,
     extract_song_meta,
 )
+from app.errors import RateLimitScrapeError, TransientScrapeError
+
+
+def test_rate_limit_error_is_transient_subclass():
+    assert issubclass(RateLimitScrapeError, TransientScrapeError)
+
+
+@pytest.mark.parametrize("status", [403, 429])
+def test_raise_for_rate_limit_raises_on_block_statuses(status):
+    with pytest.raises(RateLimitScrapeError):
+        _raise_for_rate_limit(status, "https://tabs.ultimate-guitar.com/tab/a/b-1")
+
+
+@pytest.mark.parametrize("status", [None, 200, 404, 500])
+def test_raise_for_rate_limit_passes_other_statuses(status):
+    _raise_for_rate_limit(status, "u")  # must not raise
 
 
 def test_should_capture_matches_download_endpoints():

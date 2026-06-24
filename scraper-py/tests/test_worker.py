@@ -6,11 +6,12 @@ from app.browser.base import CapturedArtifact
 from app.config import Settings
 from app.errors import (
     PermanentScrapeError,
+    RateLimitScrapeError,
     SessionExpiredError,
     TransientScrapeError,
 )
-from app.models import JobStatus
-from app.worker import Worker
+from app.models import JobStatus, ServiceState
+from app.worker import Outcome, Worker
 
 
 class FakeBrowser:
@@ -208,6 +209,138 @@ def test_log_batch_complete_logs_and_resets(repo, tmp_path, caplog):
     with caplog.at_level(logging.INFO, logger="app.worker"):
         w._log_batch_complete()
     assert "[COMPLETE]" not in caplog.text
+
+
+async def test_process_returns_success_outcome(repo, worker_factory):
+    job = await repo.enqueue(tab_id="a/b-1", url="u", max_attempts=3)
+    await repo.claim_next()
+    w = worker_factory(FakeBrowser(artifacts=[_artifact()]))
+    assert await w._process(job) is Outcome.SUCCESS
+
+
+async def test_process_returns_dedup_outcome(repo, worker_factory):
+    first = await repo.enqueue(tab_id="a/b-1", url="u", max_attempts=3)
+    await repo.mark_succeeded(first.id, "/out/a/b-1")
+    second = await repo.enqueue(tab_id="a/b-1", url="u", max_attempts=3, force=True)
+    await repo.conn.execute("UPDATE jobs SET force=0 WHERE id=?", (second.id,))
+    await repo.conn.commit()
+    claimed = await repo.claim_next()
+    w = worker_factory(FakeBrowser(artifacts=[_artifact()]))
+    assert await w._process(claimed) is Outcome.DEDUP
+
+
+async def test_process_returns_failure_outcome_on_permanent(repo, worker_factory):
+    job = await repo.enqueue(tab_id="a/b-1", url="u", max_attempts=3)
+    await repo.claim_next()
+    w = worker_factory(FakeBrowser(error=PermanentScrapeError("404")))
+    assert await w._process(job) is Outcome.FAILURE
+
+
+async def test_process_returns_session_expired_outcome(repo, worker_factory):
+    job = await repo.enqueue(tab_id="a/b-1", url="u", max_attempts=3)
+    await repo.claim_next()
+    w = worker_factory(FakeBrowser(error=SessionExpiredError("logged out")))
+    assert await w._process(job) is Outcome.SESSION_EXPIRED
+
+
+async def test_process_session_expiry_applies_backoff_delay(repo, tmp_path):
+    job = await repo.enqueue(tab_id="a/b-1", url="u", max_attempts=3)
+    await repo.claim_next()
+    s = Settings(
+        output_dir=tmp_path / "out", inter_job_delay_min=0, inter_job_delay_max=0,
+        session_expiry_backoff_seconds=45,
+    )
+    w = Worker(repo, FakeBrowser(error=SessionExpiredError("logged out")), s,
+               now_fn=lambda: 1000.0)
+    await w._process(job)
+    got = await repo.get(job.id)
+    assert got.status is JobStatus.QUEUED
+    assert got.attempts == 0
+    assert got.next_attempt_at == 1000.0 + 45
+
+
+async def test_process_rate_limit_is_transient_and_logged(repo, worker_factory, caplog):
+    job = await repo.enqueue(tab_id="a/b-1", url="u", max_attempts=3)
+    await repo.claim_next()
+    w = worker_factory(FakeBrowser(error=RateLimitScrapeError("blocked")))
+    with caplog.at_level(logging.WARNING, logger="app.worker"):
+        outcome = await w._process(job)
+    assert outcome is Outcome.RATE_LIMITED
+    got = await repo.get(job.id)
+    assert got.status is JobStatus.QUEUED  # retryable
+    assert got.attempts == 1               # consumes a retry, unlike session expiry
+    assert "[RATE LIMIT]" in caplog.text
+
+
+async def test_circuit_breaker_pauses_after_threshold(repo, tmp_path):
+    s = Settings(
+        output_dir=tmp_path / "out", inter_job_delay_min=0, inter_job_delay_max=0,
+        circuit_breaker_threshold=3,
+    )
+    w = Worker(repo, FakeBrowser(), s, now_fn=lambda: 1000.0)
+    await w._note_outcome(Outcome.FAILURE)
+    await w._note_outcome(Outcome.FAILURE)
+    assert not await repo.is_paused()
+    await w._note_outcome(Outcome.FAILURE)
+    assert await repo.is_paused()
+    assert w.state is ServiceState.PAUSED
+
+
+async def test_circuit_breaker_resets_on_success(repo, tmp_path):
+    s = Settings(
+        output_dir=tmp_path / "out", inter_job_delay_min=0, inter_job_delay_max=0,
+        circuit_breaker_threshold=3,
+    )
+    w = Worker(repo, FakeBrowser(), s, now_fn=lambda: 1000.0)
+    await w._note_outcome(Outcome.FAILURE)
+    await w._note_outcome(Outcome.FAILURE)
+    await w._note_outcome(Outcome.SUCCESS)
+    await w._note_outcome(Outcome.FAILURE)
+    await w._note_outcome(Outcome.FAILURE)
+    assert not await repo.is_paused()  # counter was reset by the success
+
+
+async def test_circuit_breaker_counts_session_expiry_and_rate_limit(repo, tmp_path):
+    s = Settings(
+        output_dir=tmp_path / "out", inter_job_delay_min=0, inter_job_delay_max=0,
+        circuit_breaker_threshold=2,
+    )
+    w = Worker(repo, FakeBrowser(), s, now_fn=lambda: 1000.0)
+    await w._note_outcome(Outcome.SESSION_EXPIRED)
+    await w._note_outcome(Outcome.RATE_LIMITED)
+    assert await repo.is_paused()
+
+
+async def test_rate_limited_delay_uses_rate_limit_seconds(monkeypatch, repo, tmp_path):
+    s = Settings(
+        output_dir=tmp_path / "out", inter_job_delay_min=0, inter_job_delay_max=0,
+        rate_limit_delay_seconds=123,
+    )
+    w = Worker(repo, FakeBrowser(), s, now_fn=lambda: 1000.0)
+    slept = []
+
+    async def fake_sleep(d):
+        slept.append(d)
+
+    monkeypatch.setattr("app.worker.asyncio.sleep", fake_sleep)
+    await w._delay_between_jobs(Outcome.RATE_LIMITED)
+    assert slept == [123]
+
+
+async def test_normal_delay_uses_inter_job_range(monkeypatch, repo, tmp_path):
+    s = Settings(
+        output_dir=tmp_path / "out", inter_job_delay_min=7, inter_job_delay_max=7,
+        rate_limit_delay_seconds=123,
+    )
+    w = Worker(repo, FakeBrowser(), s, now_fn=lambda: 1000.0)
+    slept = []
+
+    async def fake_sleep(d):
+        slept.append(d)
+
+    monkeypatch.setattr("app.worker.asyncio.sleep", fake_sleep)
+    await w._delay_between_jobs(Outcome.SUCCESS)
+    assert slept == [7]
 
 
 async def test_process_writes_song_block(repo, worker_factory, tmp_path):

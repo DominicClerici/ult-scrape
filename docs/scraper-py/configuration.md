@@ -29,6 +29,9 @@ variables and a `.env` file (`extra="ignore"`). `get_settings()` returns a fresh
 | `CLOUDFLARE_TIMEOUT_MS` | `120000` | Max wait for a Cloudflare challenge to clear. |
 | `CAPTURE_WINDOW_MS` | `10000` | Window to collect download responses after navigation. |
 | `POLL_INTERVAL_SECONDS` | `5` | Idle worker re-check interval when the queue is empty. |
+| `CIRCUIT_BREAKER_THRESHOLD` | `5` | Auto-pause the worker after this many **consecutive non-successful** jobs (safety against hammering UG when something is broken). See [queue & worker](./queue-and-worker.md#circuit-breaker). |
+| `RATE_LIMIT_DELAY_SECONDS` | `300` | Cool-off applied after a `403`/`429` rate-limit before the next job (on top of the normal retry backoff). |
+| `SESSION_EXPIRY_BACKOFF_SECONDS` | `60` | Delay before a session-expired job becomes eligible again. No retry is consumed; this just prevents a tight re-login loop. |
 | `API_HOST` | `127.0.0.1` | Bind address (localhost-only). |
 | `API_PORT` | `8000` | API port. |
 | `API_KEY` | `""` | Optional `X-API-Key` auth; empty disables the check. |

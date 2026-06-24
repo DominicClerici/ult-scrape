@@ -9,11 +9,13 @@ from app.browser.humanize import wait_for_cloudflare_wall, wait_for_load_or_paus
 from app.browser.login import is_logged_in
 from app.errors import (
     PermanentScrapeError,
+    RateLimitScrapeError,
     SessionExpiredError,
     TransientScrapeError,
 )
 
 CAPTURE_URL_PARTS = ("/download/public/", "/tab/download/file")
+RATE_LIMIT_STATUSES = (403, 429)
 CAPTURE_HEADER_NAMES = (
     "content-disposition",
     "content-encoding",
@@ -22,6 +24,11 @@ CAPTURE_HEADER_NAMES = (
     "location",
 )
 XTZ_MAGIC = b"XTZ\x00"
+
+
+def _raise_for_rate_limit(status: int | None, tab_url: str) -> None:
+    if status in RATE_LIMIT_STATUSES:
+        raise RateLimitScrapeError(f"rate limited (HTTP {status}) on {tab_url}")
 
 
 def _should_capture(url: str) -> bool:
@@ -164,6 +171,7 @@ async def scrape_tab(
         await wait_for_load_or_pause(page)
         await wait_for_cloudflare_wall(page, cf_timeout_ms)
 
+        _raise_for_rate_limit(resp.status if resp is not None else None, tab_url)
         if not await is_logged_in(page):
             raise SessionExpiredError(f"not logged in on {tab_url}")
         if resp is not None and resp.status == 404:

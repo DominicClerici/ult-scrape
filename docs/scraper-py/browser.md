@@ -121,7 +121,9 @@ The core capture routine:
    `CAPTURE_URL_PARTS` (`/download/public/`, `/tab/download/file`).
 2. Navigates to the tab URL (`domcontentloaded`), waits for load, clears
    Cloudflare.
-3. Classifies the page state and raises a typed error if needed:
+3. Classifies the page state and raises a typed error if needed (in this order):
+   - HTTP `403`/`429` → `RateLimitScrapeError` (checked **first**, before the
+     login check, so a block page isn't mistaken for a logged-out session)
    - not logged in → `SessionExpiredError`
    - HTTP 404 → `PermanentScrapeError`
 4. Reads the tab's **song metadata** off the hydrated page store

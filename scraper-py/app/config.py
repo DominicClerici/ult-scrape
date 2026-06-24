@@ -27,6 +27,12 @@ class Settings(BaseSettings):
     cloudflare_timeout_ms: int = 120_000
     capture_window_ms: int = 10_000
     poll_interval_seconds: float = 5.0
+    # Auto-pause the worker after this many consecutive non-successful jobs.
+    circuit_breaker_threshold: int = 5
+    # Cool-off applied after a 403/429 rate-limit before the next job.
+    rate_limit_delay_seconds: float = 300.0
+    # Delay before re-attempting a job whose session expired (no retry consumed).
+    session_expiry_backoff_seconds: float = 60.0
 
     discovery_sort_orders: str = "date_desc,artistname_asc,artistname_desc,songname_asc"
     discovery_facet_ladder: str = "genres,decade,tonality"

@@ -5,6 +5,7 @@ import logging
 import random
 import time
 from datetime import datetime
+from enum import Enum
 
 log = logging.getLogger(__name__)
 
@@ -14,12 +15,24 @@ from app.config import Settings
 from app.discovery import runner as discovery_runner
 from app.errors import (
     PermanentScrapeError,
+    RateLimitScrapeError,
     ScrapeError,
     SessionExpiredError,
 )
 from app.models import ServiceState
 from app.output import write_job_output
 from app.repo import JobRepo
+
+
+class Outcome(Enum):
+    """Result of processing one job, used to drive the circuit breaker and the
+    inter-job delay. SUCCESS/DEDUP reset the breaker; everything else trips it."""
+
+    SUCCESS = "success"
+    DEDUP = "dedup"
+    FAILURE = "failure"
+    RATE_LIMITED = "rate_limited"
+    SESSION_EXPIRED = "session_expired"
 
 
 class Worker:
@@ -34,6 +47,7 @@ class Worker:
         self.state = ServiceState.STARTING
         self.current_job_id: str | None = None
         self._scraped_count = 0  # tabs scraped since the queue last drained
+        self._consecutive_failures = 0  # for the circuit breaker
         self._wakeup = asyncio.Event()
         self._resume = asyncio.Event()
         self._stop = False
@@ -84,9 +98,10 @@ class Worker:
             self.state = ServiceState.RUNNING
             self.current_job_id = job.id
             try:
-                await self._process(job)
+                outcome = await self._process(job)
             except Exception as e:
                 log.exception("unexpected error processing job %s", job.id)
+                outcome = Outcome.FAILURE
                 try:
                     await self.repo.record_transient_failure(
                         job.id, f"worker error: {e!r}", self.settings.backoff_base_seconds
@@ -95,55 +110,64 @@ class Worker:
                     pass
             finally:
                 self.current_job_id = None
-            await self._delay_between_jobs()
+            await self._note_outcome(outcome)
+            await self._delay_between_jobs(outcome)
 
     def _log_batch_complete(self) -> None:
         if self._scraped_count > 0:
             log.info("[COMPLETE] Finished scraping %d tab(s)", self._scraped_count)
             self._scraped_count = 0
 
-    async def _process(self, job) -> None:
+    async def _process(self, job) -> Outcome:
         if not job.force:
             existing = await self.repo.succeeded_output_for(job.tab_id, job.id)
             if existing:
                 await self.repo.mark_succeeded(job.id, existing)
-                return
+                return Outcome.DEDUP
 
         log.info("[JOB] Scraping %s", job.tab_id)
         try:
             artifacts, song = await self.browser.scrape(job.url)
         except SessionExpiredError:
-            await self.repo.requeue_unchanged(job.id)
+            await self.repo.requeue_unchanged(
+                job.id, delay=self.settings.session_expiry_backoff_seconds
+            )
             self.state = ServiceState.LOGGING_IN
             try:
                 await self.browser.ensure_logged_in()
             except Exception as e:
                 log.warning("re-login after session expiry failed: %r", e)
                 self.state = ServiceState.ERROR
-            return
+            return Outcome.SESSION_EXPIRED
+        except RateLimitScrapeError as e:
+            log.warning("[RATE LIMIT] %s: %s; backing off", job.tab_id, e)
+            await self.repo.record_transient_failure(
+                job.id, str(e), self.settings.backoff_base_seconds
+            )
+            return Outcome.RATE_LIMITED
         except PermanentScrapeError as e:
             log.error("[ERROR] Failed to scrape %s: %s", job.tab_id, e)
             await self.repo.mark_permanent_failure(job.id, str(e))
-            return
+            return Outcome.FAILURE
         except ScrapeError as e:
             log.error("[ERROR] Failed to scrape %s: %s", job.tab_id, e)
             await self.repo.record_transient_failure(
                 job.id, str(e), self.settings.backoff_base_seconds
             )
-            return
+            return Outcome.FAILURE
         except Exception as e:  # unexpected -> transient
             log.error("[ERROR] Failed to scrape %s: %r", job.tab_id, e)
             await self.repo.record_transient_failure(
                 job.id, repr(e), self.settings.backoff_base_seconds
             )
-            return
+            return Outcome.FAILURE
 
         if not artifacts:
             log.error("[ERROR] Failed to scrape %s: no artifacts captured", job.tab_id)
             await self.repo.record_transient_failure(
                 job.id, "no artifacts captured", self.settings.backoff_base_seconds
             )
-            return
+            return Outcome.FAILURE
 
         try:
             final = write_job_output(
@@ -162,11 +186,35 @@ class Worker:
             await self.repo.record_transient_failure(
                 job.id, f"output write failed: {e!r}", self.settings.backoff_base_seconds
             )
-            return
+            return Outcome.FAILURE
         await self.repo.mark_succeeded(job.id, str(final))
         self._scraped_count += 1
+        return Outcome.SUCCESS
 
-    async def _delay_between_jobs(self) -> None:
+    async def _note_outcome(self, outcome: Outcome) -> None:
+        """Drive the circuit breaker: reset on real progress, otherwise count up
+        and auto-pause the worker once too many jobs fail in a row. A persisted
+        pause survives restart, so an operator must investigate and POST /resume."""
+        if outcome in (Outcome.SUCCESS, Outcome.DEDUP):
+            self._consecutive_failures = 0
+            return
+        self._consecutive_failures += 1
+        if self._consecutive_failures >= self.settings.circuit_breaker_threshold:
+            log.error(
+                "[CIRCUIT BREAKER] %d consecutive failures; pausing worker. "
+                "Investigate, then POST /resume.",
+                self._consecutive_failures,
+            )
+            await self.repo.set_paused(True)
+            self.state = ServiceState.PAUSED
+            self._consecutive_failures = 0
+
+    async def _delay_between_jobs(self, outcome: Outcome | None = None) -> None:
+        if outcome is Outcome.RATE_LIMITED:
+            delay = self.settings.rate_limit_delay_seconds
+            if delay > 0:
+                await asyncio.sleep(delay)
+            return
         hi = self.settings.inter_job_delay_max
         if hi > 0:
             lo = self.settings.inter_job_delay_min

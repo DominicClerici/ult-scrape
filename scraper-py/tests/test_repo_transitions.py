@@ -84,6 +84,16 @@ async def test_requeue_unchanged_keeps_attempts(repo):
     assert got.attempts == 0
 
 
+async def test_requeue_unchanged_applies_backoff_delay(repo):
+    job = await repo.enqueue(tab_id="a/b-1", url="u", max_attempts=3)
+    await repo.claim_next()
+    await repo.requeue_unchanged(job.id, delay=60.0)
+    got = await repo.get(job.id)
+    assert got.status is JobStatus.QUEUED
+    assert got.attempts == 0  # session expiry consumes no retry
+    assert got.next_attempt_at == 1000.0 + 60.0
+
+
 async def test_cancel_only_queued(repo):
     job = await repo.enqueue(tab_id="a/b-1", url="u", max_attempts=3)
     assert await repo.cancel(job.id) is True
