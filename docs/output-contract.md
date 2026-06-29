@@ -185,14 +185,14 @@ For each tab directory that has `metadata.json`, at least one decoded `.gp`, and
 `audio.*` file, `aligner-py` writes one file:
 
 - `align.json` — written **last** (via temp + `os.replace`) as the aligner's commit
-  marker. Its presence is the done gate — `align run` skips this tab on subsequent
-  invocations.
+  marker. Its presence is the done gate for consumers — `align run` re-aligns and
+  overwrites it unconditionally each time you name the tab.
 
 **`status` values:** `ok` (aligned; confidence within thresholds), `rejected`
 (aligned but below threshold), `no_gp` (no decoded `.gp` found), `no_audio` (no
 `audio.*` found). For `no_gp` and `no_audio`, `align.json` is still written (so
-the tab is not retried automatically), but `confidence`, `offset_s`, and `warp` are
-absent / empty.
+the tab is not retried automatically), but `confidence` is `null`, `offset_s` is
+`null`, and `warp` is `[]`.
 
 **Commit ordering:** `align.json` is the sole output file and is renamed in last.
 The temp + `os.replace` write guarantees the file is never observed partially

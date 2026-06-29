@@ -45,7 +45,8 @@ The same renderer built here is the reference front-end for that synthetic branc
 - `align run` additionally requires an `audio.*` file (the enricher's commit marker);
   if none is found the tab gets `status: "no_audio"`.
 - **`align.json` is the aligner's commit marker.** A tab is considered done when
-  `align.json` exists; `align run` skips it unless re-invoked explicitly.
+  `align.json` exists; `align run` re-aligns and overwrites it unconditionally for
+  every tab you name — there is no automatic skip.
 - A re-scrape `rmtree` wipes `align.json` along with all other artifacts — the tab
   will be re-aligned on the next `align run`. See
   [output contract — re-scrape](../output-contract.md#re-scrape--idempotency).
