@@ -5,6 +5,26 @@ use anyhow::{anyhow, bail, Result};
 
 const GPIF_ENTRY: &str = "Content/score.gpif";
 
+/// A decoded Guitar Pro container: the on-disk extension to store the container
+/// bytes under (`gp` for GP7, `gpx` for GP6) and its extracted `score.gpif`.
+pub struct Decoded {
+    pub extension: &'static str,
+    pub gpif: Vec<u8>,
+}
+
+/// Identify a decrypted Guitar Pro container by magic and extract its
+/// `score.gpif`. GP7 payloads are ZIPs (`PK\x03\x04`); GP6 payloads are `BCFZ`
+/// blobs handled by [`crate::gpx`].
+pub fn decode_container(container: &[u8]) -> Result<Decoded> {
+    if container.starts_with(b"PK\x03\x04") {
+        Ok(Decoded { extension: "gp", gpif: extract_score_gpif(container)? })
+    } else if container.starts_with(b"BCFZ") {
+        Ok(Decoded { extension: "gpx", gpif: crate::gpx::extract_gpif(container)? })
+    } else {
+        bail!("decrypted output is not a recognized Guitar Pro file (no PK or BCFZ magic)");
+    }
+}
+
 /// Validate `gp` is a real Guitar Pro ZIP and return its `Content/score.gpif` bytes.
 pub fn extract_score_gpif(gp: &[u8]) -> Result<Vec<u8>> {
     if gp.len() < 4 || &gp[0..4] != b"PK\x03\x04" {
@@ -33,13 +53,20 @@ fn atomic_write(path: &Path, bytes: &[u8]) -> Result<()> {
     Ok(())
 }
 
-/// Write `<stem>.gp` and `<stem>.gpif` beside the given `.xtz`, atomically.
-pub fn write_outputs(xtz_path: &Path, gp: &[u8], gpif: &[u8]) -> Result<()> {
-    // Write the convenience .gpif BEFORE the .gp: the .gp is discovery's
-    // idempotency marker, so this ordering ensures that whenever the marker
-    // exists the .gpif does too (a crash between writes just re-decodes next run).
+/// Write `<stem>.<extension>` (the container, `gp` or `gpx`) and `<stem>.gpif`
+/// beside the given `.xtz`, atomically.
+pub fn write_outputs(
+    xtz_path: &Path,
+    extension: &str,
+    container: &[u8],
+    gpif: &[u8],
+) -> Result<()> {
+    // Write the convenience .gpif BEFORE the container: the container file is
+    // discovery's idempotency marker, so this ordering ensures that whenever the
+    // marker exists the .gpif does too (a crash between writes just re-decodes
+    // next run).
     atomic_write(&xtz_path.with_extension("gpif"), gpif)?;
-    atomic_write(&xtz_path.with_extension("gp"), gp)?;
+    atomic_write(&xtz_path.with_extension(extension), container)?;
     Ok(())
 }
 
@@ -65,13 +92,39 @@ mod tests {
     }
 
     #[test]
+    fn decode_container_classifies_gp7_zip() {
+        let decoded = decode_container(&fixture_gp()).unwrap();
+        assert_eq!(decoded.extension, "gp");
+        assert!(decoded.gpif.starts_with(b"<?xml"));
+    }
+
+    #[test]
+    fn decode_container_classifies_gp6_bcfz() {
+        let xtz =
+            std::fs::read(concat!(env!("CARGO_MANIFEST_DIR"), "/tests/fixtures/sample_gp6.xtz"))
+                .unwrap();
+        let container = crate::cipher::decrypt_xtz(&xtz).unwrap();
+        let decoded = decode_container(&container).unwrap();
+        assert_eq!(decoded.extension, "gpx");
+        let expected =
+            std::fs::read(concat!(env!("CARGO_MANIFEST_DIR"), "/tests/fixtures/sample_gp6.gpif"))
+                .unwrap();
+        assert_eq!(decoded.gpif, expected);
+    }
+
+    #[test]
+    fn decode_container_rejects_unknown_magic() {
+        assert!(decode_container(b"\x00\x01\x02\x03 neither pk nor bcfz").is_err());
+    }
+
+    #[test]
     fn write_outputs_creates_gp_and_gpif() {
         let dir = std::env::temp_dir().join(format!("decoder-out-{}", std::process::id()));
         std::fs::create_dir_all(&dir).unwrap();
         let xtz = dir.join("tab.xtz");
         std::fs::write(&xtz, b"XTZ\x00").unwrap();
 
-        write_outputs(&xtz, b"PK\x03\x04gpbytes", b"<?xml gpif").unwrap();
+        write_outputs(&xtz, "gp", b"PK\x03\x04gpbytes", b"<?xml gpif").unwrap();
 
         assert_eq!(std::fs::read(dir.join("tab.gp")).unwrap(), b"PK\x03\x04gpbytes");
         assert_eq!(std::fs::read(dir.join("tab.gpif")).unwrap(), b"<?xml gpif");
@@ -82,5 +135,19 @@ mod tests {
             .filter(|e| e.file_name().to_string_lossy().ends_with(".tmp"))
             .collect();
         assert!(leftovers.is_empty());
+    }
+
+    #[test]
+    fn write_outputs_uses_gpx_extension_for_gp6() {
+        let dir = std::env::temp_dir().join(format!("decoder-out-gpx-{}", std::process::id()));
+        std::fs::create_dir_all(&dir).unwrap();
+        let xtz = dir.join("tab.xtz");
+        std::fs::write(&xtz, b"XTZ\x00").unwrap();
+
+        write_outputs(&xtz, "gpx", b"BCFZcontainer", b"<?xml gpif").unwrap();
+
+        assert_eq!(std::fs::read(dir.join("tab.gpx")).unwrap(), b"BCFZcontainer");
+        assert_eq!(std::fs::read(dir.join("tab.gpif")).unwrap(), b"<?xml gpif");
+        assert!(!dir.join("tab.gp").exists());
     }
 }

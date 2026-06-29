@@ -22,8 +22,9 @@ in **three decoupled stages** that share no code — only a filesystem directory
   SQLite queue of scrape jobs with one async browser worker, and writes **raw
   encrypted `.xtz`** files. It does **no** decryption.
 - **[`decoder-rs/`](./decoder-rs/)** — a one-shot Rust CLI that walks the scraper's
-  output and decrypts each `.xtz` into a Guitar Pro `.gp` (+ extracted `.gpif`). It
-  does **no** scraping.
+  output and decrypts each `.xtz` into its native Guitar Pro container — `.gp`
+  (GP7/8 ZIP) or `.gpx` (GP6 BCFZ) — plus an extracted `.gpif`. It does **no**
+  scraping.
 - **[`enricher-py/`](./enricher-py/)** — an async Python CLI that walks the shared
   `output/` tree and downloads the best-available full audio (YouTube, Topic-first
   via `yt-dlp`) into each tab directory.
@@ -57,7 +58,8 @@ All three communicate **only** through the filesystem — see the output contrac
 |---|---|
 | 📦 [Overview](./docs/decoder-rs/overview.md) | Crate layout, build/run, dependencies, tests. **Entry point for the decoder.** |
 | 🔐 [XTZ format & cipher](./docs/decoder-rs/xtz-format-and-cipher.md) | The `.xtz` binary format, dual-LFSR key schedule, and hand-rolled ChaCha8. |
-| 🏭 [Pipeline](./docs/decoder-rs/pipeline.md) | discover → decode → validate → write, CLI flags, idempotency, parallelism, errors. |
+| 🎸 [GPX/BCFZ format](./docs/decoder-rs/gpx-bcfz-format.md) | The GP6 `.gpx` container: BCFZ decompression + BCFS filesystem walk to extract `score.gpif`. |
+| 🏭 [Pipeline](./docs/decoder-rs/pipeline.md) | discover → decode → classify → write, CLI flags, idempotency, parallelism, errors. |
 
 ### enricher-py (Python · async CLI)
 

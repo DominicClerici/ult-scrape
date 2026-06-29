@@ -12,8 +12,8 @@ point is:
 pub fn decrypt_xtz(data: &[u8]) -> anyhow::Result<Vec<u8>>
 ```
 
-It returns the decrypted Guitar Pro `.gp` (a ZIP) bytes, or errors on bad magic /
-short input.
+It returns the decrypted Guitar Pro container bytes (a GP7/8 `.gp` ZIP or a GP6
+`.gpx`/BCFZ blob — classified downstream), or errors on bad magic / short input.
 
 ## The `.xtz` container (v1)
 
@@ -83,7 +83,12 @@ against the committed fixture (and that the result starts with the ZIP magic
 - `second16(c=3051246439, z=3274506942)` → `7d40b4c30beb58c68a976f0a4b25b706`
 
 **Any change to this file must keep all cipher tests green.** Treat the algorithm
-as frozen to the WASM build it mirrors. A different container version (different
-magic, or different taps from a new WASM build) decrypts to non-ZIP and is
-correctly rejected downstream (see [pipeline](./pipeline.md#error-handling)) —
-never crashing or emitting corrupt output.
+as frozen to the WASM build it mirrors.
+
+`decrypt_xtz` returns the raw Guitar Pro container; the **version is decided
+downstream** by `output::decode_container`, which switches on the decrypted
+payload's magic: `PK\x03\x04` (GP7/8 ZIP → `.gp`) or `BCFZ` (GP6 → `.gpx`, see
+[GPX/BCFZ format](./gpx-bcfz-format.md)). A payload with neither magic — a wrong
+key, a future container version, or an unsupported GP3/4/5 file — is correctly
+rejected downstream (see [pipeline](./pipeline.md#error-handling)), never crashing
+or emitting corrupt output.

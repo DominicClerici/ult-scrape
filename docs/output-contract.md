@@ -20,8 +20,8 @@ Each successfully scraped tab is committed as one directory under `OUTPUT_DIR`:
 OUTPUT_DIR/<tab_id>/                # <tab_id> contains a slash, e.g. eagles/hotel-california-official-1910943
   <name>.xtz                        # one or more raw encrypted blobs (magic "XTZ\0")
   metadata.json                     # written LAST — its presence marks the dir complete
-  <name>.gp                         # (added later by decoder-rs) decrypted Guitar Pro ZIP
-  <name>.gpif                       # (added later by decoder-rs) extracted Content/score.gpif XML
+  <name>.gp | <name>.gpx            # (added later by decoder-rs) decrypted Guitar Pro container: .gp (GP7/8 ZIP) or .gpx (GP6 BCFZ)
+  <name>.gpif                       # (added later by decoder-rs) extracted score.gpif XML
   audio.<ext>                       # (added later by enricher-py) best-available source audio
   audio.json                        # (added later by enricher-py) provenance + status sidecar
 ```
@@ -29,7 +29,8 @@ OUTPUT_DIR/<tab_id>/                # <tab_id> contains a slash, e.g. eagles/hot
 - `<tab_id>` is the canonical route, e.g. `eagles/hotel-california-official-1910943`.
   Because it contains a `/`, each tab directory is nested one level under
   `OUTPUT_DIR` (`OUTPUT_DIR/eagles/hotel-california-official-1910943/`).
-- A tab may yield **more than one** `.xtz` artifact; each gets its own `.gp`/`.gpif`.
+- A tab may yield **more than one** `.xtz` artifact; each gets its own
+  container (`.gp` or `.gpx`) plus `.gpif`.
 
 ## The commit marker: `metadata.json`
 
@@ -130,14 +131,23 @@ self-healing with no extra state. See
 
 ## Output files written by the decoder
 
-For each pending `<stem>.xtz`, the decoder writes (atomically, temp + rename):
+For each pending `<stem>.xtz`, the decoder writes (atomically, temp + rename) the
+decrypted container plus its extracted `score.gpif`. The container's extension
+depends on the Guitar Pro version (switched on the decrypted payload's magic):
 
-- `<stem>.gp` — the decrypted Guitar Pro ZIP (byte-for-byte the decrypted payload).
-- `<stem>.gpif` — `Content/score.gpif` extracted from that ZIP, for convenience.
+- `<stem>.gp` — **GP7/8**: the decrypted payload is a ZIP (`PK\x03\x04`);
+  `score.gpif` comes from its `Content/score.gpif` entry.
+- `<stem>.gpx` — **GP6**: the decrypted payload is a `BCFZ` blob; `score.gpif`
+  comes from the BCFS filesystem inside it (see
+  [GPX/BCFZ format](./decoder-rs/gpx-bcfz-format.md)).
+- `<stem>.gpif` — the extracted `score.gpif` XML, for convenience (uniform across
+  both versions).
 
-The `.gpif` is written **before** the `.gp`, because the `.gp`'s existence is the
-decoder's idempotency marker; this ordering guarantees that whenever the marker
-exists, the `.gpif` does too.
+Either container file is byte-for-byte the decrypted payload and is directly
+openable in Guitar Pro. The `.gpif` is written **before** the container, because
+the container's existence (`.gp` **or** `.gpx`) is the decoder's idempotency
+marker; this ordering guarantees that whenever the marker exists, the `.gpif`
+does too.
 
 ## Output files written by the enricher
 
@@ -165,4 +175,4 @@ re-committing, which wipes any `audio.*` files too. The tab will be re-enriched
 on the next `enricher run`. No extra state is required.
 
 **Decoder interaction:** the decoder ignores `audio.*` files entirely — they play
-no role in the `<stem>.xtz` → `<stem>.gp` pipeline.
+no role in the `<stem>.xtz` → `<stem>.gp`/`.gpx` pipeline.

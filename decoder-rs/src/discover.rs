@@ -38,7 +38,11 @@ pub fn discover(root: &Path, force: bool) -> Discovery {
         if !eligible.contains(parent) {
             continue;
         }
-        if !force && path.with_extension("gp").exists() {
+        // A tab is "done" once its decoded container exists: `.gp` for GP7 or
+        // `.gpx` for GP6. Both are written last (after the `.gpif`), so either
+        // one is a sound idempotency marker.
+        let decoded = path.with_extension("gp").exists() || path.with_extension("gpx").exists();
+        if !force && decoded {
             already_decoded += 1;
         } else {
             pending.push(path);
@@ -97,6 +101,20 @@ mod tests {
         let f = discover(&tmp, true);
         assert_eq!(names(&f.pending), HashSet::from(["tab.xtz".to_string()]));
         assert_eq!(f.already_decoded, 0);
+    }
+
+    #[test]
+    fn gpx_sibling_counts_as_decoded() {
+        // GP6 tabs are written as <stem>.gpx, not <stem>.gp — they must also
+        // satisfy the idempotency marker so they are not re-decoded every run.
+        let tmp = tempdir();
+        touch(&tmp.join("a/s/tab.xtz"), b"XTZ\x00...");
+        touch(&tmp.join("a/s/tab.gpx"), b"BCFZ...");
+        touch(&tmp.join("a/s/metadata.json"), b"{}");
+
+        let d = discover(&tmp, false);
+        assert!(d.pending.is_empty());
+        assert_eq!(d.already_decoded, 1);
     }
 
     // Minimal temp-dir helper (no external dev-dep).

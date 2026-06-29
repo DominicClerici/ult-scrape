@@ -2,6 +2,7 @@
 
 pub mod cipher;
 pub mod discover;
+pub mod gpx;
 pub mod output;
 
 use std::path::PathBuf;
@@ -25,9 +26,9 @@ pub struct Summary {
 /// Decode one pending `.xtz`. Returns Ok(()) on success; Err carries a log message.
 fn decode_one(xtz_path: &std::path::Path) -> anyhow::Result<()> {
     let data = std::fs::read(xtz_path)?;
-    let gp = cipher::decrypt_xtz(&data)?;
-    let gpif = output::extract_score_gpif(&gp)?;
-    output::write_outputs(xtz_path, &gp, &gpif)?;
+    let container = cipher::decrypt_xtz(&data)?;
+    let decoded = output::decode_container(&container)?;
+    output::write_outputs(xtz_path, decoded.extension, &container, &decoded.gpif)?;
     Ok(())
 }
 

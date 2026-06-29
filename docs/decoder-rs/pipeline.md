@@ -2,7 +2,7 @@
 
 > Part of the [documentation map](../../OVERVIEW.md) ·
 > [decoder overview](./overview.md). Sources: `src/discover.rs`, `src/output.rs`,
-> `src/lib.rs`, `src/main.rs`.
+> `src/gpx.rs`, `src/lib.rs`, `src/main.rs`.
 
 The decoder is a one-shot batch: find pending `.xtz` files, decrypt each in
 parallel, validate, and write outputs — with every file fully isolated so one bad
@@ -11,10 +11,10 @@ file never aborts the run.
 ```
 discover(root, force) -> [pending .xtz paths]
   for each (rayon parallel):
-    bytes = read(path)                   # ENOENT (dir vanished mid-run) -> skip silently
-    gp    = decrypt_xtz(bytes)           # bad magic/short -> count failed
-    gpif  = extract_score_gpif(gp)       # non-ZIP / no score.gpif -> count failed
-    write_outputs(path, gp, gpif)        # atomic: .gpif then .gp
+    bytes      = read(path)                   # ENOENT (dir vanished mid-run) -> skip silently
+    container  = decrypt_xtz(bytes)           # bad magic/short -> count failed
+    decoded    = decode_container(container)  # classify PK→.gp / BCFZ→.gpx, extract score.gpif; unknown -> failed
+    write_outputs(path, ext, container, gpif) # atomic: .gpif then .gp/.gpx
   print: decoded N | skipped N | failed N
 ```
 
@@ -30,8 +30,8 @@ A single `walkdir` pass collects:
 
 Then, for each `.xtz` whose parent is eligible:
 
-- if not `--force` and a sibling `<stem>.gp` exists → counted as `already_decoded`
-  (skipped);
+- if not `--force` and a sibling container exists — `<stem>.gp` **or**
+  `<stem>.gpx` — → counted as `already_decoded` (skipped);
 - otherwise → added to `pending`.
 
 `.xtz` files in directories **without** `metadata.json` are ignored entirely
@@ -44,16 +44,24 @@ decryption, no writes.
 
 1. `std::fs::read(path)` — raw `.xtz` bytes.
 2. `cipher::decrypt_xtz(&data)` — see [cipher](./xtz-format-and-cipher.md).
-3. `output::extract_score_gpif(&gp)` — **validation happens here**: rejects output
-   that isn't a ZIP (`PK\x03\x04`) or lacks the `Content/score.gpif` entry, and
-   returns the extracted `score.gpif` bytes.
-4. `output::write_outputs(path, &gp, &gpif)` — writes both files **atomically**
-   (temp file `.<name>.tmp` in the same dir, then rename).
+3. `output::decode_container(&container)` — **classification + validation happens
+   here**: switches on the decrypted payload's magic —
+   - `PK\x03\x04` → GP7/8: extension `gp`, `score.gpif` from the ZIP's
+     `Content/score.gpif` entry;
+   - `BCFZ` → GP6: extension `gpx`, `score.gpif` from the BCFS filesystem (see
+     [GPX/BCFZ format](./gpx-bcfz-format.md));
+   - anything else → error.
 
-**Write ordering matters:** `.gpif` is written **before** `.gp`. Because `.gp`'s
-existence is the idempotency marker, this guarantees that whenever the marker
-exists the `.gpif` does too; a crash between the two writes just causes a
-re-decode next run. Nothing is written unless validation passes.
+   Returns `Decoded { extension, gpif }`.
+4. `output::write_outputs(path, ext, &container, &gpif)` — writes both files
+   **atomically** (temp file `.<name>.tmp` in the same dir, then rename): the
+   container as `<stem>.<ext>` and the `<stem>.gpif`.
+
+**Write ordering matters:** `.gpif` is written **before** the container
+(`.gp`/`.gpx`). Because the container's existence is the idempotency marker, this
+guarantees that whenever the marker exists the `.gpif` does too; a crash between
+the two writes just causes a re-decode next run. Nothing is written unless
+classification + validation pass.
 
 ## Orchestration & parallelism (`src/lib.rs`)
 
@@ -81,7 +89,8 @@ decoder-rs [OUTPUT_DIR] [--force] [--jobs N] [--quiet]
 
 ## Idempotency
 
-A `<stem>.xtz` is **done** iff its sibling `<stem>.gp` exists. So:
+A `<stem>.xtz` is **done** iff a sibling container exists — `<stem>.gp` (GP7/8)
+**or** `<stem>.gpx` (GP6). So:
 
 - Re-runs skip done files (counted as `skipped`); `--force` re-decodes regardless.
 - A scraper **re-scrape wipes the whole tab dir** (including the `.gp`/`.gpif` the
@@ -96,7 +105,8 @@ Per-file `Result`, fully isolated — one bad file never aborts the batch:
 | Condition | Behavior |
 |---|---|
 | Bad magic / input < 21 bytes | warn (`FAILED ...`), count `failed`, continue |
-| Decrypts to non-ZIP / no `Content/score.gpif` | warn, count `failed`, continue (covers wrong version / edge-case key) |
+| Decrypts to neither `PK` nor `BCFZ` magic | warn, count `failed`, continue (covers wrong/edge-case key, or an unsupported GP3/4/5 payload) |
+| GP7 ZIP without `Content/score.gpif`, or GP6 BCFZ that is truncated / has no `score.gpif` | warn, count `failed`, continue |
 | File/dir vanished mid-run (`ENOENT`) | skip **silently** (scraper re-scrape race) — detected via `is_missing()` |
 | Write error (disk full, perms) | warn, count `failed`, continue |
 

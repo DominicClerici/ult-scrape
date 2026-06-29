@@ -38,6 +38,7 @@ and update `docs/output-contract.md`.
 | Scraper settings / output writer | [docs/scraper-py/configuration.md](./docs/scraper-py/configuration.md) |
 | Decoder (any part) | [docs/decoder-rs/overview.md](./docs/decoder-rs/overview.md) |
 | The XTZ format / cipher | [docs/decoder-rs/xtz-format-and-cipher.md](./docs/decoder-rs/xtz-format-and-cipher.md) |
+| The GP6 `.gpx` / BCFZ format | [docs/decoder-rs/gpx-bcfz-format.md](./docs/decoder-rs/gpx-bcfz-format.md) |
 | Decoder discovery/decode/write flow | [docs/decoder-rs/pipeline.md](./docs/decoder-rs/pipeline.md) |
 | Enricher (any part) | [docs/enricher-py/overview.md](./docs/enricher-py/overview.md) |
 | Running/driving the scraper from the CLI | [docs/scripts.md](./docs/scripts.md) |
@@ -126,6 +127,7 @@ update that page. Use this map of code → doc:
 | `scraper-py/app/browser/discover.py`, `app/discovery/*` | `docs/scraper-py/discovery.md` |
 | `scraper-py/app/config.py`, `.env.example`, `app/output.py` | `docs/scraper-py/configuration.md` |
 | `decoder-rs/src/cipher.rs` or the XTZ format | `docs/decoder-rs/xtz-format-and-cipher.md` |
+| `decoder-rs/src/gpx.rs` or the GP6 `.gpx`/BCFZ format | `docs/decoder-rs/gpx-bcfz-format.md` |
 | `decoder-rs/src/discover.rs`, `output.rs`, `lib.rs`, `main.rs` (flow/CLI) | `docs/decoder-rs/pipeline.md` |
 | `enricher-py/app/` (any module), CLI flags, config keys | `docs/enricher-py/overview.md` (+ this file's commands) |
 | Crate/module layout, deps, build/test commands (any project) | the relevant `overview.md` (+ this file's commands) |
