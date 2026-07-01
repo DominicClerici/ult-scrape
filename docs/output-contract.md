@@ -191,8 +191,16 @@ For each tab directory that has `metadata.json`, at least one decoded `.gp`, and
 **`status` values:** `ok` (aligned; confidence within thresholds), `rejected`
 (aligned but below threshold), `no_gp` (no decoded `.gp` found), `no_audio` (no
 `audio.*` found). For `no_gp` and `no_audio`, `align.json` is still written (so
-the tab is not retried automatically), but `confidence` is `null`, `offset_s` is
-`null`, and `warp` is `[]`.
+the tab is not retried automatically), but `confidence`, `offset_s`, `tempo_ratio`,
+and `mode` are `null`, and `warp` is `[]`.
+
+**Tempo fields:** alignment is two-pass — a global tempo correction is estimated and
+re-rendered before the final alignment (see
+[aligner overview](./aligner-py/overview.md#two-pass-tempo-alignment)). `tempo_ratio`
+is the applied real/symbolic tempo ratio (`1.0` = none); `mode` is `"global"` (one
+constant tempo explained the song — `warp` is a 2-point line) or `"local"` (a
+residual elastic warp was kept — `warp` has ~`step_s`-spaced anchors). Consumers
+still interpolate `warp` either way; the tempo fields are informational.
 
 **Commit ordering:** `align.json` is the sole output file and is renamed in last.
 The temp + `os.replace` write guarantees the file is never observed partially

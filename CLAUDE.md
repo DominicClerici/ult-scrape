@@ -87,7 +87,7 @@ python3 -m pytest -m integration # live yt-dlp + ffprobe tests
 cd aligner-py
 pip install -e ".[dev]"          # installs the align CLI
 align run <tab_id> [<tab_id> …]  # render → align → write align.json
-align inspect <tab_id>           # build align_overlay.wav + align_plot.png
+align inspect <tab_id> [--music] # build align_overlay.wav + align_plot.png
 align status [<tab_id> …]        # counts by align.json status
 python3 -m pytest                # unit tests (tool-free by default)
 python3 -m pytest -m integration # end-to-end; needs mscore + fluidsynth + a fixture
