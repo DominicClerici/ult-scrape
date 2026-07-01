@@ -52,12 +52,16 @@ trusts the notated tempo as the primary source rather than deriving it:
    (`tempo_source: "dtw_fallback"`). The reference is **re-rendered only if the
    chosen factor ≠ 1** (pitch-exact tempo scaling, not a resample); at factor 1
    the coarse-pass DTW is reused instead of re-rendering and re-aligning.
-5. **Gap-aware compose + gaps + coverage.** Build the final anchor warp so that,
-   in a real-audio dead region, the warp holds symbolic time and advances real
-   time (a steep segment) instead of following a meaningless chroma match on
-   silence. Emit the detected dead regions as `gaps` on the **original,
-   untrimmed** real timeline, and compute `coverage` — the fraction of the
-   symbolic timeline that maps to real content outside every gap. `mode` is
+5. **Gap-aware compose + gaps + coverage.** Build the final anchor warp
+   (`compose_anchors`) so that no anchor's real value ever lands inside an
+   internal real-audio dead region: any anchor whose raw interpolated real
+   time falls inside the gap is clamped to the nearer edge, holding that real
+   time flat while symbolic time keeps advancing, then jumping to the far edge
+   once the raw mapping crosses the gap's midpoint — a steep "skip real"
+   segment — instead of following a meaningless chroma match on silence. Emit
+   the detected dead regions as `gaps` on the **original, untrimmed** real
+   timeline, and compute `coverage` — the fraction of the symbolic timeline
+   that maps to real content outside every gap. `mode` is
    `"global"` (warp is a 2-point line) only when there are **no internal gaps**
    and the residual `path_deviation` is ≤ `TEMPO_RESIDUAL_THRESHOLD`; an internal
    gap always forces `"local"` mode (elastic warp with a gap-holding segment)
@@ -86,7 +90,7 @@ alignment" section per the follow-up
 | `app/discover.py` | Walk `output/`; per-tab readiness + filesystem state (`find_tab`, `iter_ready_tabs`, `find_gp`, `find_audio_file`, `read_align_status`). |
 | `app/render.py` | `.gp` → MIDI (MuseScore CLI) → reference WAV (FluidSynth). Injectable `Renderer` with configurable binaries and soundfont. `render_corrected` re-renders at a globally scaled tempo via `scale_midi_tempo` (mido rewrites every `set_tempo` event; pitch-exact), reusing `ref.mid` so MuseScore runs once. The MuseScore step tolerates a nonzero exit when a non-empty MIDI was produced: MuseScore 4 on macOS exports correctly but can SIGABRT during teardown ("mutex lock failed") *after* the file is flushed, so output-presence (not exit code) is the success signal there; FluidSynth is still gated strictly on exit code. |
 | `app/features.py` | Chroma-CENS extraction and audio loading (`chroma_cens`, `load_audio`, `hop_seconds`, `energy_envelope`, `detect_dead_regions`). `load_audio` decodes to mono float32 via libsndfile (soundfile) first — tool-free, covers WAV/FLAC/OGG/Opus — and falls back to an `ffmpeg` subprocess for containers libsndfile can't open (e.g. WebM), sidestepping librosa's deprecated audioread path. `energy_envelope` computes a tempo-free per-frame RMS-in-dB envelope; `detect_dead_regions` thresholds it into `(start_s, end_s, kind)` dead regions (`lead`/`trailing`/`internal`). No filesystem writes. |
-| `app/align.py` | Pure DTW building blocks: `dtw_path`, `estimate_tempo` (naive path-slope tempo, used as the safety-net fallback), `robust_tempo` (masked/MAD-filtered path-slope tempo excluding dead-region frames), `snap_tempo_factor` (snap a ratio to a clean half/double/triple-time factor or fall back to the raw ratio), `path_to_anchors`, `path_deviation`, `compose_anchors` (gap-aware: folds tempo ratio + silence leads + final-pass residual into symbolic→real anchors, holding symbolic time across real dead regions), `coverage` (fraction of the symbolic timeline mapped outside every gap), and `align_features` (single-pass primitive, still used as the simple/fallback path). `AlignResult` = anchors, `fit_cost`, `path_deviation`, `offset_s`, `tempo_ratio`, `mode`, `gaps`, `coverage`, `tempo_source`. |
+| `app/align.py` | Pure DTW building blocks: `dtw_path`, `estimate_tempo` (naive path-slope tempo, used as the safety-net fallback), `robust_tempo` (masked/MAD-filtered path-slope tempo excluding dead-region frames), `snap_tempo_factor` (snap a ratio to a clean half/double/triple-time factor or fall back to the raw ratio), `path_deviation` / `masked_path_deviation` (RMS diagonal-residual deviation; the masked variant excludes dead-region path steps from the residual average), `path_fit_cost` (mean cosine distance along the DTW path, same dead-region exclusion), `compose_anchors` (gap-aware: folds tempo ratio + silence leads + final-pass residual into symbolic→real anchors, clamping any anchor that would land inside an internal gap to the nearer gap edge — holding symbolic time across real dead regions), and `coverage` (fraction of the symbolic timeline mapped outside every gap). `AlignResult` = anchors, `fit_cost`, `path_deviation`, `offset_s`, `tempo_ratio`, `mode`, `gaps`, `coverage`, `tempo_source`. |
 | `app/pipeline.py` | Gap-aware orchestration (`align_gap_aware`, `align_tab`): detect real-audio dead regions (tempo-free) → coarse DTW at notated tempo → robust tempo on active regions → snap to a clean factor / DTW-fallback → re-render only if the factor ≠ 1 → final DTW → gap-aware compose + `gaps` + `coverage` → write `align.json`. `align_tab` folds `coverage` (alongside `fit_cost`/`path_deviation`) into the `ok`/`rejected` decision. The only module that drives rendering during alignment. |
 | `app/output.py` | Atomic commit of `align.json` via temp + `os.replace`. |
 | `app/inspect.py` | Build the listen overlay (`align_overlay.wav`) and look plot (`align_plot.png`). Developer-facing; not part of the consumed contract. |
@@ -133,8 +137,8 @@ alignment" section per the follow-up
 |---|---|
 | `status` | `ok` — `fit_cost`, `path_deviation`, **and** `coverage` all within threshold. `rejected` — aligned but one of those missed. `no_gp` — no decoded `.gp` found. `no_audio` — no `audio.*` found. |
 | `source.gp` / `source.audio` | Filenames of the inputs used (null when not applicable). |
-| `confidence.fit_cost` | Mean cosine distance along the final DTW path (lower = better). Computed after trimming LEADING/TRAILING silence, but INTERNAL dead regions remain in the path and cost; only the tempo fit (`robust_tempo`) excludes internal-gap frames. |
-| `confidence.path_deviation` | Residual deviation of the tempo-corrected path from a straight diagonal (also part of the global-vs-local decision). Computed after trimming LEADING/TRAILING silence; INTERNAL gaps are not excluded from this metric. |
+| `confidence.fit_cost` | Mean cosine distance along the final DTW path (lower = better), via `path_fit_cost`. Computed after trimming LEADING/TRAILING silence; INTERNAL dead-region path steps are excluded from the average the same way `robust_tempo` excludes them from the tempo fit (falls back to the full path if masking would leave nothing). |
+| `confidence.path_deviation` | Residual deviation of the tempo-corrected path from a straight diagonal (also part of the global-vs-local decision), via `masked_path_deviation`. Computed after trimming LEADING/TRAILING silence; INTERNAL dead-region path steps are excluded from the residual average (normalizers still use the full path extent). |
 | `offset_s` | Estimated time offset (seconds) of the real recording relative to the symbolic score (= `warp[0]` real time; approximately the end of a leading gap when one exists, including a small residual from the tempo-corrected warp). |
 | `tempo_ratio` | Tempo correction applied on top of the notated tempo (real seconds per symbolic second). `1.0` means the notated tempo already matched; the reference is only re-rendered when this is not `1.0`. |
 | `tempo_source` | Where `tempo_ratio` came from: `"notated"` (no correction), `"notated_x2"` / `"notated_x0.5"` / `"notated_x1.5"` / `"notated_x3"` (snapped to a clean half/double/triple-time factor within `TEMPO_SNAP_TOL`), or `"dtw_fallback"` (no clean factor fit; raw DTW-derived ratio used, clamped to `[TEMPO_MIN, TEMPO_MAX]`). |
