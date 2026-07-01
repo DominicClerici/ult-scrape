@@ -1,0 +1,30 @@
+{
+  "files": [
+    {
+      "byte_size": 46331,
+      "content_headers": {
+        "content-encoding": "gzip",
+        "content-type": "application/octet-stream"
+      },
+      "filename": "tab-download-ssid-3910562.xtz",
+      "sha256": "ffb5d1a74a845df5b306c95bad57dc71a7525bbff15f16d192e99c1e64492d9d",
+      "source_url": "https://tabs.ultimate-guitar.com/tab/download/file?ssid=3910562&m=1&s=e9f2cdbfff87e09dfcae013740523b69730bd2cc",
+      "xtz_magic_ok": true
+    }
+  ],
+  "http_status": 200,
+  "route": "imagine-dragons/no-time-for-toxic-people-official-3910562",
+  "scraped_at": "2026-06-24T06:16:54",
+  "scraper_version": "0.1.0",
+  "song": {
+    "album_id": 1085819,
+    "artist_id": 36784,
+    "artist_name": "Imagine Dragons",
+    "song_id": 8149655,
+    "song_name": "No Time For Toxic People",
+    "tonality": "C",
+    "tuning": "E A D G B E"
+  },
+  "tab_id": "imagine-dragons/no-time-for-toxic-people-official-3910562",
+  "url": "https://tabs.ultimate-guitar.com/tab/imagine-dragons/no-time-for-toxic-people-official-3910562"
+}

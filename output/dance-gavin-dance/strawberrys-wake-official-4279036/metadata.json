@@ -1,0 +1,30 @@
+{
+  "files": [
+    {
+      "byte_size": 52593,
+      "content_headers": {
+        "content-encoding": "gzip",
+        "content-type": "application/octet-stream"
+      },
+      "filename": "tab-download-ssid-4279036.xtz",
+      "sha256": "5ca088f780492ab60bf21f4d7e5e6489fc3d65f341920fb0eaae511e085a95ae",
+      "source_url": "https://tabs.ultimate-guitar.com/tab/download/file?ssid=4279036&m=1&s=9d24c15e206fbefa2f814bd8c11d70c388d96489",
+      "xtz_magic_ok": true
+    }
+  ],
+  "http_status": 200,
+  "route": "dance-gavin-dance/strawberrys-wake-official-4279036",
+  "scraped_at": "2026-06-24T05:33:21",
+  "scraper_version": "0.1.0",
+  "song": {
+    "album_id": 1075004,
+    "artist_id": 16507,
+    "artist_name": "Dance Gavin Dance",
+    "song_id": 3851956,
+    "song_name": "Strawberrys Wake",
+    "tonality": "C",
+    "tuning": "E A D G B E"
+  },
+  "tab_id": "dance-gavin-dance/strawberrys-wake-official-4279036",
+  "url": "https://tabs.ultimate-guitar.com/tab/dance-gavin-dance/strawberrys-wake-official-4279036"
+}

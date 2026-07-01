@@ -1,0 +1,30 @@
+{
+  "files": [
+    {
+      "byte_size": 38825,
+      "content_headers": {
+        "content-encoding": "gzip",
+        "content-type": "application/octet-stream"
+      },
+      "filename": "tab-download-ssid-4831850.xtz",
+      "sha256": "c010a51613d38726d49d634612fc9b53979c050dc3d3445a3066e96364357b2c",
+      "source_url": "https://tabs.ultimate-guitar.com/tab/download/file?ssid=4831850&m=1&s=fd6a7172daf3717d72c4dfdb3142966f2ee9ccb6",
+      "xtz_magic_ok": true
+    }
+  ],
+  "http_status": 200,
+  "route": "gracie-abrams/mess-it-up-official-4831850",
+  "scraped_at": "2026-06-24T05:11:26",
+  "scraper_version": "0.1.0",
+  "song": {
+    "album_id": 3044392,
+    "artist_id": 74189,
+    "artist_name": "Gracie Abrams",
+    "song_id": 6586616,
+    "song_name": "Mess It Up",
+    "tonality": "C",
+    "tuning": "E A D G B E"
+  },
+  "tab_id": "gracie-abrams/mess-it-up-official-4831850",
+  "url": "https://tabs.ultimate-guitar.com/tab/gracie-abrams/mess-it-up-official-4831850"
+}

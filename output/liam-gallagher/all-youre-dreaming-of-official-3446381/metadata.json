@@ -1,0 +1,30 @@
+{
+  "files": [
+    {
+      "byte_size": 204361,
+      "content_headers": {
+        "content-encoding": "gzip",
+        "content-type": "application/octet-stream"
+      },
+      "filename": "tab-download-ssid-3446381.xtz",
+      "sha256": "2686dc848d414fff0b84ce0b7dd8dd00e5ab0c3570e624e90f02aaad15381dd4",
+      "source_url": "https://tabs.ultimate-guitar.com/tab/download/file?ssid=3446381&m=1&s=3774246179740109d9e8cada875e57896206c659",
+      "xtz_magic_ok": true
+    }
+  ],
+  "http_status": 200,
+  "route": "liam-gallagher/all-youre-dreaming-of-official-3446381",
+  "scraped_at": "2026-06-24T06:00:00",
+  "scraper_version": "0.1.0",
+  "song": {
+    "album_id": 1933804,
+    "artist_id": 26664,
+    "artist_name": "Liam Gallagher",
+    "song_id": 5600660,
+    "song_name": "All Youre Dreaming Of",
+    "tonality": "C",
+    "tuning": "E A D G B E"
+  },
+  "tab_id": "liam-gallagher/all-youre-dreaming-of-official-3446381",
+  "url": "https://tabs.ultimate-guitar.com/tab/liam-gallagher/all-youre-dreaming-of-official-3446381"
+}

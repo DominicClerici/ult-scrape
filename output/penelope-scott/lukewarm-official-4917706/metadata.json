@@ -1,0 +1,30 @@
+{
+  "files": [
+    {
+      "byte_size": 22799,
+      "content_headers": {
+        "content-encoding": "gzip",
+        "content-type": "application/octet-stream"
+      },
+      "filename": "tab-download-ssid-4917706.xtz",
+      "sha256": "78bf388fcb89a542b36167cbd21ca0ae425d9cd6bcb07a9bf5a9a50b84b743c2",
+      "source_url": "https://tabs.ultimate-guitar.com/tab/download/file?ssid=4917706&m=1&s=feeb20341909ee3b797015ac63d61c0cc0e70c7c",
+      "xtz_magic_ok": true
+    }
+  ],
+  "http_status": 200,
+  "route": "penelope-scott/lukewarm-official-4917706",
+  "scraped_at": "2026-06-24T13:59:05",
+  "scraper_version": "0.1.0",
+  "song": {
+    "album_id": 791576,
+    "artist_id": 576194,
+    "artist_name": "Penelope Scott",
+    "song_id": 3928829,
+    "song_name": "Lukewarm",
+    "tonality": "G",
+    "tuning": "E A D G B E"
+  },
+  "tab_id": "penelope-scott/lukewarm-official-4917706",
+  "url": "https://tabs.ultimate-guitar.com/tab/penelope-scott/lukewarm-official-4917706"
+}

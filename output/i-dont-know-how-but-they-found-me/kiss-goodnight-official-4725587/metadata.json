@@ -1,0 +1,30 @@
+{
+  "files": [
+    {
+      "byte_size": 62866,
+      "content_headers": {
+        "content-encoding": "gzip",
+        "content-type": "application/octet-stream"
+      },
+      "filename": "tab-download-ssid-4725587.xtz",
+      "sha256": "be17047ea37c2b86dab14d49a618c93b41b38407ab56fa1ea6dc9a8fb360578f",
+      "source_url": "https://tabs.ultimate-guitar.com/tab/download/file?ssid=4725587&m=1&s=689dc59c3e9d7e4bc2570be81c4d3ccf69e8329b",
+      "xtz_magic_ok": true
+    }
+  ],
+  "http_status": 200,
+  "route": "i-dont-know-how-but-they-found-me/kiss-goodnight-official-4725587",
+  "scraped_at": "2026-06-23T21:15:04",
+  "scraper_version": "0.1.0",
+  "song": {
+    "album_id": 1046156,
+    "artist_id": 101875,
+    "artist_name": "I DONT KNOW HOW BUT THEY FOUND ME",
+    "song_id": 4084403,
+    "song_name": "Kiss Goodnight",
+    "tonality": "D",
+    "tuning": "E A D G B E"
+  },
+  "tab_id": "i-dont-know-how-but-they-found-me/kiss-goodnight-official-4725587",
+  "url": "https://tabs.ultimate-guitar.com/tab/i-dont-know-how-but-they-found-me/kiss-goodnight-official-4725587"
+}

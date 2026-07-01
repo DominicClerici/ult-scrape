@@ -1,0 +1,30 @@
+{
+  "files": [
+    {
+      "byte_size": 63138,
+      "content_headers": {
+        "content-encoding": "gzip",
+        "content-type": "application/octet-stream"
+      },
+      "filename": "tab-download-ssid-4734866.xtz",
+      "sha256": "74a5cd07a411d1bcc3839037e17dcaf89d9da4f00581159993c51d4fe9f58a87",
+      "source_url": "https://tabs.ultimate-guitar.com/tab/download/file?ssid=4734866&m=1&s=c551784963fc8526d079e328eefd5ff1e79b9b03",
+      "xtz_magic_ok": true
+    }
+  ],
+  "http_status": 200,
+  "route": "boygenius/satanist-official-4734866",
+  "scraped_at": "2026-06-24T04:44:13",
+  "scraper_version": "0.1.0",
+  "song": {
+    "album_id": 2428433,
+    "artist_id": 161678,
+    "artist_name": "boygenius",
+    "song_id": 15293915,
+    "song_name": "Satanist",
+    "tonality": "D",
+    "tuning": "D A D G B E"
+  },
+  "tab_id": "boygenius/satanist-official-4734866",
+  "url": "https://tabs.ultimate-guitar.com/tab/boygenius/satanist-official-4734866"
+}

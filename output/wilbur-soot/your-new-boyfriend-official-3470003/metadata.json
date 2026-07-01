@@ -1,0 +1,30 @@
+{
+  "files": [
+    {
+      "byte_size": 54325,
+      "content_headers": {
+        "content-encoding": "gzip",
+        "content-type": "application/octet-stream"
+      },
+      "filename": "tab-download-ssid-3470003.xtz",
+      "sha256": "6d84d27aad9975b9f35d0589977cd8b1444b5df5aae764f6dbee0b4d043243b5",
+      "source_url": "https://tabs.ultimate-guitar.com/tab/download/file?ssid=3470003&m=1&s=4cec0c477567c93e98a58be6c89e38c33cff5da3",
+      "xtz_magic_ok": true
+    }
+  ],
+  "http_status": 200,
+  "route": "wilbur-soot/your-new-boyfriend-official-3470003",
+  "scraped_at": "2026-06-25T17:00:18",
+  "scraper_version": "0.1.0",
+  "song": {
+    "album_id": 704687,
+    "artist_id": 189477,
+    "artist_name": "Wilbur Soot",
+    "song_id": 4024001,
+    "song_name": "Your New Boyfriend",
+    "tonality": "G",
+    "tuning": "E A D G B E"
+  },
+  "tab_id": "wilbur-soot/your-new-boyfriend-official-3470003",
+  "url": "https://tabs.ultimate-guitar.com/tab/wilbur-soot/your-new-boyfriend-official-3470003"
+}

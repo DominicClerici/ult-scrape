@@ -1,0 +1,30 @@
+{
+  "files": [
+    {
+      "byte_size": 30101,
+      "content_headers": {
+        "content-encoding": "gzip",
+        "content-type": "application/octet-stream"
+      },
+      "filename": "tab-download-ssid-5111026.xtz",
+      "sha256": "0c849ea2cadf7bb318e2fca049bd40f5e55d0bfcfb0576bbe7fdc8c369b733c5",
+      "source_url": "https://tabs.ultimate-guitar.com/tab/download/file?ssid=5111026&m=1&s=733fb2c10aab32f37b8991eee336c74c3307f23b",
+      "xtz_magic_ok": true
+    }
+  ],
+  "http_status": 200,
+  "route": "stephen-sanchez/please-dont-go-home-yet-official-5111026",
+  "scraped_at": "2026-06-24T06:59:31",
+  "scraper_version": "0.1.0",
+  "song": {
+    "album_id": 2521027,
+    "artist_id": 597908,
+    "artist_name": "Stephen Sanchez",
+    "song_id": 13359671,
+    "song_name": "Please Dont Go Home Yet",
+    "tonality": "C",
+    "tuning": "E A D G B E"
+  },
+  "tab_id": "stephen-sanchez/please-dont-go-home-yet-official-5111026",
+  "url": "https://tabs.ultimate-guitar.com/tab/stephen-sanchez/please-dont-go-home-yet-official-5111026"
+}

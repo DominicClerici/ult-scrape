@@ -1,0 +1,30 @@
+{
+  "files": [
+    {
+      "byte_size": 62189,
+      "content_headers": {
+        "content-encoding": "gzip",
+        "content-type": "application/octet-stream"
+      },
+      "filename": "tab-download-ssid-4954801.xtz",
+      "sha256": "d70ef23e305682d33af42084a9944d1623a44022bc0fe851982f51c9f7302323",
+      "source_url": "https://tabs.ultimate-guitar.com/tab/download/file?ssid=4954801&m=1&s=52fc298784513648b0580310e3a656288ed08a98",
+      "xtz_magic_ok": true
+    }
+  ],
+  "http_status": 200,
+  "route": "jimmy-buffett/bubbles-up-official-4954801",
+  "scraped_at": "2026-06-23T21:08:39",
+  "scraper_version": "0.1.0",
+  "song": {
+    "album_id": 3132403,
+    "artist_id": 9902,
+    "artist_name": "Jimmy Buffett",
+    "song_id": 16056292,
+    "song_name": "Bubbles Up",
+    "tonality": "D",
+    "tuning": "D A D G B E"
+  },
+  "tab_id": "jimmy-buffett/bubbles-up-official-4954801",
+  "url": "https://tabs.ultimate-guitar.com/tab/jimmy-buffett/bubbles-up-official-4954801"
+}

@@ -13,5 +13,13 @@ camoufox-profile/
 PY/camoufox-profile/
 # PY/captures/
 DadaGP-v1.1/
-# Shared scraper→decoder output (committed .xtz/.gp/.gpif live here at runtime).
-/output/
+# Shared scraper→decoder output (populated here at runtime).
+# Only the raw scraper output (.xtz) and metadata.json are committed (via LFS);
+# decoded/enriched artifacts (.gp/.gpif/.gpx/audio.*) are regenerated locally.
+/output/*
+!/output/*/
+/output/*/*
+!/output/*/*/
+/output/*/*/*
+!/output/*/*/*.xtz
+!/output/*/*/metadata.json

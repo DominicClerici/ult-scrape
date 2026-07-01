@@ -1,0 +1,30 @@
+{
+  "files": [
+    {
+      "byte_size": 54048,
+      "content_headers": {
+        "content-encoding": "gzip",
+        "content-type": "application/octet-stream"
+      },
+      "filename": "tab-download-ssid-4119085.xtz",
+      "sha256": "7bcb73655e1f76f7c7bc80c73ebb878ff123583173db731a7fb1049a4d210661",
+      "source_url": "https://tabs.ultimate-guitar.com/tab/download/file?ssid=4119085&m=1&s=986d351f429230d044b587f79c8a37c57f371b18",
+      "xtz_magic_ok": true
+    }
+  ],
+  "http_status": 200,
+  "route": "marilyn-manson/we-are-chaos-official-4119085",
+  "scraped_at": "2026-06-24T05:47:41",
+  "scraper_version": "0.1.0",
+  "song": {
+    "album_id": 306380,
+    "artist_id": 875,
+    "artist_name": "Marilyn Manson",
+    "song_id": 4004999,
+    "song_name": "We Are Chaos",
+    "tonality": "C",
+    "tuning": "E A D G B E"
+  },
+  "tab_id": "marilyn-manson/we-are-chaos-official-4119085",
+  "url": "https://tabs.ultimate-guitar.com/tab/marilyn-manson/we-are-chaos-official-4119085"
+}

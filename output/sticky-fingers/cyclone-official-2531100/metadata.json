@@ -1,0 +1,30 @@
+{
+  "files": [
+    {
+      "byte_size": 136042,
+      "content_headers": {
+        "content-encoding": "gzip",
+        "content-type": "application/octet-stream"
+      },
+      "filename": "tab-download-ssid-2531100.xtz",
+      "sha256": "c988892ea3480eeb4099c2425f6f22eece18f16243b48d26c1ea244da558a84e",
+      "source_url": "https://tabs.ultimate-guitar.com/tab/download/file?ssid=2531100&m=1&s=23f4b8341f14b850e05e45593d513743236325c7",
+      "xtz_magic_ok": true
+    }
+  ],
+  "http_status": 200,
+  "route": "sticky-fingers/cyclone-official-2531100",
+  "scraped_at": "2026-06-28T09:35:48",
+  "scraper_version": "0.1.0",
+  "song": {
+    "album_id": 736313,
+    "artist_id": 40287,
+    "artist_name": "Sticky Fingers",
+    "song_id": 1444034,
+    "song_name": "Cyclone",
+    "tonality": "E",
+    "tuning": "E A D G B E"
+  },
+  "tab_id": "sticky-fingers/cyclone-official-2531100",
+  "url": "https://tabs.ultimate-guitar.com/tab/sticky-fingers/cyclone-official-2531100"
+}

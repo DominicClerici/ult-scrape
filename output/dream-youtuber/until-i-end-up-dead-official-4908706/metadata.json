@@ -1,0 +1,30 @@
+{
+  "files": [
+    {
+      "byte_size": 54295,
+      "content_headers": {
+        "content-encoding": "gzip",
+        "content-type": "application/octet-stream"
+      },
+      "filename": "tab-download-ssid-4908706.xtz",
+      "sha256": "969897a818bfe630a5894ef9ba990dbe50830659ab49ef3dcb7eca3cbbfa2ba3",
+      "source_url": "https://tabs.ultimate-guitar.com/tab/download/file?ssid=4908706&m=1&s=1e34e60e981ead11092e9c5bd3f640fe072025cc",
+      "xtz_magic_ok": true
+    }
+  ],
+  "http_status": 200,
+  "route": "dream-youtuber/until-i-end-up-dead-official-4908706",
+  "scraped_at": "2026-06-29T13:09:20",
+  "scraper_version": "0.1.0",
+  "song": {
+    "album_id": 2532331,
+    "artist_id": 61802,
+    "artist_name": "Dream (YouTuber)",
+    "song_id": 15885413,
+    "song_name": "Until I End Up Dead",
+    "tonality": "A",
+    "tuning": "E A D G B E"
+  },
+  "tab_id": "dream-youtuber/until-i-end-up-dead-official-4908706",
+  "url": "https://tabs.ultimate-guitar.com/tab/dream-youtuber/until-i-end-up-dead-official-4908706"
+}

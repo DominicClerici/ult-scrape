@@ -1,0 +1,30 @@
+{
+  "files": [
+    {
+      "byte_size": 36681,
+      "content_headers": {
+        "content-encoding": "gzip",
+        "content-type": "application/octet-stream"
+      },
+      "filename": "tab-download-ssid-4989244.xtz",
+      "sha256": "ce81b59fe00febb27176316cdcd715939d6ebf5785d5df3cba1d552cbc08978f",
+      "source_url": "https://tabs.ultimate-guitar.com/tab/download/file?ssid=4989244&m=1&s=623fa8a7eb57ac7ebe370381329ac26b52c0028c",
+      "xtz_magic_ok": true
+    }
+  ],
+  "http_status": 200,
+  "route": "boygenius/powers-official-4989244",
+  "scraped_at": "2026-06-25T17:58:06",
+  "scraper_version": "0.1.0",
+  "song": {
+    "album_id": 2705497,
+    "artist_id": 161678,
+    "artist_name": "boygenius",
+    "song_id": 16093627,
+    "song_name": "Powers",
+    "tonality": "G",
+    "tuning": "E A D G B E"
+  },
+  "tab_id": "boygenius/powers-official-4989244",
+  "url": "https://tabs.ultimate-guitar.com/tab/boygenius/powers-official-4989244"
+}

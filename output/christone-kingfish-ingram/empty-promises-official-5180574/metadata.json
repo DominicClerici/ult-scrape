@@ -1,0 +1,30 @@
+{
+  "files": [
+    {
+      "byte_size": 71480,
+      "content_headers": {
+        "content-encoding": "gzip",
+        "content-type": "application/octet-stream"
+      },
+      "filename": "tab-download-ssid-5180574.xtz",
+      "sha256": "ac5377141540a63b109e49fff3bf0b0f0142503254b9da9c2bc22279230fd5f0",
+      "source_url": "https://tabs.ultimate-guitar.com/tab/download/file?ssid=5180574&m=1&s=08441280fe9a8586d94c652f6097d570e1b2d25f",
+      "xtz_magic_ok": true
+    }
+  ],
+  "http_status": 200,
+  "route": "christone-kingfish-ingram/empty-promises-official-5180574",
+  "scraped_at": "2026-06-24T05:05:10",
+  "scraper_version": "0.1.0",
+  "song": {
+    "album_id": 2641903,
+    "artist_id": 608150,
+    "artist_name": "Christone \"Kingfish\" Ingram",
+    "song_id": 4009565,
+    "song_name": "Empty Promises",
+    "tonality": "C",
+    "tuning": "E A D G B E"
+  },
+  "tab_id": "christone-kingfish-ingram/empty-promises-official-5180574",
+  "url": "https://tabs.ultimate-guitar.com/tab/christone-kingfish-ingram/empty-promises-official-5180574"
+}

@@ -1,0 +1,30 @@
+{
+  "files": [
+    {
+      "byte_size": 28965,
+      "content_headers": {
+        "content-encoding": "gzip",
+        "content-type": "application/octet-stream"
+      },
+      "filename": "tab-download-ssid-4938298.xtz",
+      "sha256": "fe87ef183feffad9f350dfc0560fe9eb3d6d4af72a54b13011420ebb9a4d99c2",
+      "source_url": "https://tabs.ultimate-guitar.com/tab/download/file?ssid=4938298&m=1&s=dc109e948abb94633cca49bb018c40da0e6e41f1",
+      "xtz_magic_ok": true
+    }
+  ],
+  "http_status": 200,
+  "route": "annenmaykantereit/orangenlied-official-4938298",
+  "scraped_at": "2026-06-24T05:59:29",
+  "scraper_version": "0.1.0",
+  "song": {
+    "album_id": 2394797,
+    "artist_id": 48045,
+    "artist_name": "AnnenMayKantereit",
+    "song_id": 5569895,
+    "song_name": "Orangenlied",
+    "tonality": "C",
+    "tuning": "E A D G B E"
+  },
+  "tab_id": "annenmaykantereit/orangenlied-official-4938298",
+  "url": "https://tabs.ultimate-guitar.com/tab/annenmaykantereit/orangenlied-official-4938298"
+}

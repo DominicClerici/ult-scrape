@@ -1,0 +1,30 @@
+{
+  "files": [
+    {
+      "byte_size": 63268,
+      "content_headers": {
+        "content-encoding": "gzip",
+        "content-type": "application/octet-stream"
+      },
+      "filename": "tab-download-ssid-5465721.xtz",
+      "sha256": "8c16d3eae55b27562c2428cd4bedc3161d9fe20611b6d636366f9fad543dbaa1",
+      "source_url": "https://tabs.ultimate-guitar.com/tab/download/file?ssid=5465721&m=1&s=931b56ac5c7e76efde251e749d853d7597b7c6d9",
+      "xtz_magic_ok": true
+    }
+  ],
+  "http_status": 200,
+  "route": "lime-cordiale/inappropriate-behaviour-official-5465721",
+  "scraped_at": "2026-06-24T05:30:48",
+  "scraper_version": "0.1.0",
+  "song": {
+    "album_id": 1164335,
+    "artist_id": 61646,
+    "artist_name": "Lime Cordiale",
+    "song_id": 3602359,
+    "song_name": "Inappropriate Behaviour",
+    "tonality": "C",
+    "tuning": "E A D G B E"
+  },
+  "tab_id": "lime-cordiale/inappropriate-behaviour-official-5465721",
+  "url": "https://tabs.ultimate-guitar.com/tab/lime-cordiale/inappropriate-behaviour-official-5465721"
+}

@@ -1,0 +1,30 @@
+{
+  "files": [
+    {
+      "byte_size": 57585,
+      "content_headers": {
+        "content-encoding": "gzip",
+        "content-type": "application/octet-stream"
+      },
+      "filename": "tab-download-ssid-4819943.xtz",
+      "sha256": "74e29ce7c9593fa231f0e2779f4243bcd94f7be3c5e314a4ee7fab218ce5cf7a",
+      "source_url": "https://tabs.ultimate-guitar.com/tab/download/file?ssid=4819943&m=1&s=617b5f3f96132b72656f7b81878f429aeed3ad57",
+      "xtz_magic_ok": true
+    }
+  ],
+  "http_status": 200,
+  "route": "imagine-dragons/waves-official-4819943",
+  "scraped_at": "2026-06-29T12:41:35",
+  "scraper_version": "0.1.0",
+  "song": {
+    "album_id": 1125710,
+    "artist_id": 36784,
+    "artist_name": "Imagine Dragons",
+    "song_id": 12828904,
+    "song_name": "Waves",
+    "tonality": "A",
+    "tuning": "E A D G B E"
+  },
+  "tab_id": "imagine-dragons/waves-official-4819943",
+  "url": "https://tabs.ultimate-guitar.com/tab/imagine-dragons/waves-official-4819943"
+}

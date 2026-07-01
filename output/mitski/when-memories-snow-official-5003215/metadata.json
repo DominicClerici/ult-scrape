@@ -1,0 +1,30 @@
+{
+  "files": [
+    {
+      "byte_size": 30559,
+      "content_headers": {
+        "content-encoding": "gzip",
+        "content-type": "application/octet-stream"
+      },
+      "filename": "tab-download-ssid-5003215.xtz",
+      "sha256": "db8f9fc225528e6db488b3548fb0ff45e44e5d4bb4e070d57360a8acbeb824f7",
+      "source_url": "https://tabs.ultimate-guitar.com/tab/download/file?ssid=5003215&m=1&s=8d59d3d353d06264e1f36bc563a87296d63d9c07",
+      "xtz_magic_ok": true
+    }
+  ],
+  "http_status": 200,
+  "route": "mitski/when-memories-snow-official-5003215",
+  "scraped_at": "2026-06-24T07:41:14",
+  "scraper_version": "0.1.0",
+  "song": {
+    "album_id": 3759856,
+    "artist_id": 59648,
+    "artist_name": "Mitski",
+    "song_id": 16065073,
+    "song_name": "When Memories Snow",
+    "tonality": "C",
+    "tuning": "E A D G B E"
+  },
+  "tab_id": "mitski/when-memories-snow-official-5003215",
+  "url": "https://tabs.ultimate-guitar.com/tab/mitski/when-memories-snow-official-5003215"
+}

@@ -1,0 +1,30 @@
+{
+  "files": [
+    {
+      "byte_size": 38900,
+      "content_headers": {
+        "content-encoding": "gzip",
+        "content-type": "application/octet-stream"
+      },
+      "filename": "tab-download-ssid-4745678.xtz",
+      "sha256": "92c712afd6a787624fa83f15abe3549da4a586ce8ee5d23fd1ad51f96bcb16ca",
+      "source_url": "https://tabs.ultimate-guitar.com/tab/download/file?ssid=4745678&m=1&s=4782b2b344bf6675dc8e64c091216a6f72444d88",
+      "xtz_magic_ok": true
+    }
+  ],
+  "http_status": 200,
+  "route": "cigarettes-after-sex/pistol-official-4745678",
+  "scraped_at": "2026-06-25T17:47:22",
+  "scraper_version": "0.1.0",
+  "song": {
+    "album_id": 2230619,
+    "artist_id": 63094,
+    "artist_name": "Cigarettes After Sex",
+    "song_id": 14099297,
+    "song_name": "Pistol",
+    "tonality": "G",
+    "tuning": "E A D G B E"
+  },
+  "tab_id": "cigarettes-after-sex/pistol-official-4745678",
+  "url": "https://tabs.ultimate-guitar.com/tab/cigarettes-after-sex/pistol-official-4745678"
+}

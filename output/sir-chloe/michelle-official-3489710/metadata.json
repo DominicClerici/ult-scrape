@@ -1,0 +1,30 @@
+{
+  "files": [
+    {
+      "byte_size": 34884,
+      "content_headers": {
+        "content-encoding": "gzip",
+        "content-type": "application/octet-stream"
+      },
+      "filename": "tab-download-ssid-3489710.xtz",
+      "sha256": "456ca9af610f0c67740be238c1750bf6798bec42f5825ed773e13680b49ed678",
+      "source_url": "https://tabs.ultimate-guitar.com/tab/download/file?ssid=3489710&m=1&s=2cab2c97ad84e6cb921abda122dd09bb148424ac",
+      "xtz_magic_ok": true
+    }
+  ],
+  "http_status": 200,
+  "route": "sir-chloe/michelle-official-3489710",
+  "scraped_at": "2026-06-28T11:27:11",
+  "scraper_version": "0.1.0",
+  "song": {
+    "album_id": 994961,
+    "artist_id": 226014,
+    "artist_name": "Sir Chloe",
+    "song_id": 3583462,
+    "song_name": "Michelle",
+    "tonality": "E",
+    "tuning": "E A D G B E"
+  },
+  "tab_id": "sir-chloe/michelle-official-3489710",
+  "url": "https://tabs.ultimate-guitar.com/tab/sir-chloe/michelle-official-3489710"
+}

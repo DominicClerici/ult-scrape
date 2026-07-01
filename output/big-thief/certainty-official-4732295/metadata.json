@@ -1,0 +1,30 @@
+{
+  "files": [
+    {
+      "byte_size": 47430,
+      "content_headers": {
+        "content-encoding": "gzip",
+        "content-type": "application/octet-stream"
+      },
+      "filename": "tab-download-ssid-4732295.xtz",
+      "sha256": "bdc47c386580bbebb71054e90238dbd56fe4b5b6d0a09b5fb1b50e0352295e4d",
+      "source_url": "https://tabs.ultimate-guitar.com/tab/download/file?ssid=4732295&m=1&s=da1b8e4400e1aa1937338dad58d2ec2f7b4a1172",
+      "xtz_magic_ok": true
+    }
+  ],
+  "http_status": 200,
+  "route": "big-thief/certainty-official-4732295",
+  "scraped_at": "2026-06-28T21:40:12",
+  "scraper_version": "0.1.0",
+  "song": {
+    "album_id": 1658434,
+    "artist_id": 68015,
+    "artist_name": "Big Thief",
+    "song_id": 8238341,
+    "song_name": "Certainty",
+    "tonality": "A",
+    "tuning": "E A D G B E"
+  },
+  "tab_id": "big-thief/certainty-official-4732295",
+  "url": "https://tabs.ultimate-guitar.com/tab/big-thief/certainty-official-4732295"
+}

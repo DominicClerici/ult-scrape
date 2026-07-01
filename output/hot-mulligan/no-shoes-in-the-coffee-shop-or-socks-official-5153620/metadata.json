@@ -1,0 +1,30 @@
+{
+  "files": [
+    {
+      "byte_size": 62453,
+      "content_headers": {
+        "content-encoding": "gzip",
+        "content-type": "application/octet-stream"
+      },
+      "filename": "tab-download-ssid-5153620.xtz",
+      "sha256": "2ea302843f1436a718f40d5042aa7792b67e08cb1774447b908592457ea4c675",
+      "source_url": "https://tabs.ultimate-guitar.com/tab/download/file?ssid=5153620&m=1&s=ee908bf038ce978fca356e238de1c2ce6875d50b",
+      "xtz_magic_ok": true
+    }
+  ],
+  "http_status": 200,
+  "route": "hot-mulligan/no-shoes-in-the-coffee-shop-or-socks-official-5153620",
+  "scraped_at": "2026-06-28T19:13:04",
+  "scraper_version": "0.1.0",
+  "song": {
+    "album_id": 2477207,
+    "artist_id": 73071,
+    "artist_name": "Hot Mulligan",
+    "song_id": 15629105,
+    "song_name": "No Shoes In The Coffee Shop Or Socks",
+    "tonality": "E",
+    "tuning": "E A D G B E"
+  },
+  "tab_id": "hot-mulligan/no-shoes-in-the-coffee-shop-or-socks-official-5153620",
+  "url": "https://tabs.ultimate-guitar.com/tab/hot-mulligan/no-shoes-in-the-coffee-shop-or-socks-official-5153620"
+}

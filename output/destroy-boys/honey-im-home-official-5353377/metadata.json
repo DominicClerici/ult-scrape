@@ -1,0 +1,30 @@
+{
+  "files": [
+    {
+      "byte_size": 39567,
+      "content_headers": {
+        "content-encoding": "gzip",
+        "content-type": "application/octet-stream"
+      },
+      "filename": "tab-download-ssid-5353377.xtz",
+      "sha256": "3e2c8a114c20301da9e48318fddc5afbc4c77363a2e0f15d25cc6131e69da382",
+      "source_url": "https://tabs.ultimate-guitar.com/tab/download/file?ssid=5353377&m=1&s=afe92ceaacb52b2f9dbf7a7494a70816e3b3d83c",
+      "xtz_magic_ok": true
+    }
+  ],
+  "http_status": 200,
+  "route": "destroy-boys/honey-im-home-official-5353377",
+  "scraped_at": "2026-06-29T00:22:01",
+  "scraper_version": "0.1.0",
+  "song": {
+    "album_id": 838646,
+    "artist_id": 70401,
+    "artist_name": "Destroy Boys",
+    "song_id": 3888854,
+    "song_name": "Honey Im Home",
+    "tonality": "A",
+    "tuning": "E A D G B E"
+  },
+  "tab_id": "destroy-boys/honey-im-home-official-5353377",
+  "url": "https://tabs.ultimate-guitar.com/tab/destroy-boys/honey-im-home-official-5353377"
+}

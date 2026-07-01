@@ -1,0 +1,30 @@
+{
+  "files": [
+    {
+      "byte_size": 56586,
+      "content_headers": {
+        "content-encoding": "gzip",
+        "content-type": "application/octet-stream"
+      },
+      "filename": "tab-download-ssid-4391747.xtz",
+      "sha256": "7494e866b752736d74ec0ab553a9dca08eaef07378f7b93878e7c1e93f885e7a",
+      "source_url": "https://tabs.ultimate-guitar.com/tab/download/file?ssid=4391747&m=1&s=bf6feac45ceccef3c6016bd634c1054966a61aa1",
+      "xtz_magic_ok": true
+    }
+  ],
+  "http_status": 200,
+  "route": "arctic-monkeys/i-aint-quite-where-i-think-i-am-official-4391747",
+  "scraped_at": "2026-06-24T07:00:14",
+  "scraper_version": "0.1.0",
+  "song": {
+    "album_id": 2191073,
+    "artist_id": 8976,
+    "artist_name": "Arctic Monkeys",
+    "song_id": 13395782,
+    "song_name": "I Aint Quite Where I Think I Am",
+    "tonality": "C",
+    "tuning": "E A D G B E"
+  },
+  "tab_id": "arctic-monkeys/i-aint-quite-where-i-think-i-am-official-4391747",
+  "url": "https://tabs.ultimate-guitar.com/tab/arctic-monkeys/i-aint-quite-where-i-think-i-am-official-4391747"
+}

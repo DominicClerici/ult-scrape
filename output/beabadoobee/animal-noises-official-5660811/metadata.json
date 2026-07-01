@@ -1,0 +1,30 @@
+{
+  "files": [
+    {
+      "byte_size": 57332,
+      "content_headers": {
+        "content-encoding": "gzip",
+        "content-type": "application/octet-stream"
+      },
+      "filename": "tab-download-ssid-5660811.xtz",
+      "sha256": "d5eda042938df2358c6c1da1454dade2b22900cc5cbd0ebc75be605a77cc3da2",
+      "source_url": "https://tabs.ultimate-guitar.com/tab/download/file?ssid=5660811&m=1&s=3d2a4da70b4a7031590ded33fee7436ec406c8cb",
+      "xtz_magic_ok": true
+    }
+  ],
+  "http_status": 200,
+  "route": "beabadoobee/animal-noises-official-5660811",
+  "scraped_at": "2026-06-23T21:18:22",
+  "scraper_version": "0.1.0",
+  "song": {
+    "album_id": 846269,
+    "artist_id": 117331,
+    "artist_name": "beabadoobee",
+    "song_id": 6658373,
+    "song_name": "Animal Noises",
+    "tonality": "D",
+    "tuning": "D A D F# A D"
+  },
+  "tab_id": "beabadoobee/animal-noises-official-5660811",
+  "url": "https://tabs.ultimate-guitar.com/tab/beabadoobee/animal-noises-official-5660811"
+}

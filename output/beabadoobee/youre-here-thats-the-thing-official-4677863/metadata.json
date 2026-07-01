@@ -1,0 +1,30 @@
+{
+  "files": [
+    {
+      "byte_size": 69032,
+      "content_headers": {
+        "content-encoding": "gzip",
+        "content-type": "application/octet-stream"
+      },
+      "filename": "tab-download-ssid-4677863.xtz",
+      "sha256": "a9ae1a90c2e0936cd17283bf2e06724f30276f2160d1946bf10e26fd9544d6d8",
+      "source_url": "https://tabs.ultimate-guitar.com/tab/download/file?ssid=4677863&m=1&s=bbb176fba158d64399875ab07fabc46be2d21a7e",
+      "xtz_magic_ok": true
+    }
+  ],
+  "http_status": 200,
+  "route": "beabadoobee/youre-here-thats-the-thing-official-4677863",
+  "scraped_at": "2026-06-24T05:12:35",
+  "scraper_version": "0.1.0",
+  "song": {
+    "album_id": 2024422,
+    "artist_id": 117331,
+    "artist_name": "beabadoobee",
+    "song_id": 12976129,
+    "song_name": "Youre Here Thats The Thing",
+    "tonality": "C",
+    "tuning": "E A D G B E"
+  },
+  "tab_id": "beabadoobee/youre-here-thats-the-thing-official-4677863",
+  "url": "https://tabs.ultimate-guitar.com/tab/beabadoobee/youre-here-thats-the-thing-official-4677863"
+}

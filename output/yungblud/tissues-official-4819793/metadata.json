@@ -1,0 +1,30 @@
+{
+  "files": [
+    {
+      "byte_size": 69998,
+      "content_headers": {
+        "content-encoding": "gzip",
+        "content-type": "application/octet-stream"
+      },
+      "filename": "tab-download-ssid-4819793.xtz",
+      "sha256": "4c36ade5b0123811e9ff0a9a741fd8acf0bc26652e42ddcbea3a8c96607fb441",
+      "source_url": "https://tabs.ultimate-guitar.com/tab/download/file?ssid=4819793&m=1&s=0980dc9ccab86dd2548440324e89c624b9dd7810",
+      "xtz_magic_ok": true
+    }
+  ],
+  "http_status": 200,
+  "route": "yungblud/tissues-official-4819793",
+  "scraped_at": "2026-06-28T18:03:39",
+  "scraper_version": "0.1.0",
+  "song": {
+    "album_id": 2148278,
+    "artist_id": 117537,
+    "artist_name": "YUNGBLUD",
+    "song_id": 13483136,
+    "song_name": "Tissues",
+    "tonality": "E",
+    "tuning": "E A D G B E"
+  },
+  "tab_id": "yungblud/tissues-official-4819793",
+  "url": "https://tabs.ultimate-guitar.com/tab/yungblud/tissues-official-4819793"
+}

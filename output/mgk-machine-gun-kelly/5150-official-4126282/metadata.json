@@ -1,0 +1,30 @@
+{
+  "files": [
+    {
+      "byte_size": 42701,
+      "content_headers": {
+        "content-encoding": "gzip",
+        "content-type": "application/octet-stream"
+      },
+      "filename": "tab-download-ssid-4126282.xtz",
+      "sha256": "022566698d5b5a0eff8ae82d1634705c7659d5ab1066d6873226073553ad88d1",
+      "source_url": "https://tabs.ultimate-guitar.com/tab/download/file?ssid=4126282&m=1&s=83e2ccfdb603f4d53560acd2d4155f9a051a0fd7",
+      "xtz_magic_ok": true
+    }
+  ],
+  "http_status": 200,
+  "route": "mgk-machine-gun-kelly/5150-official-4126282",
+  "scraped_at": "2026-06-28T16:59:32",
+  "scraper_version": "0.1.0",
+  "song": {
+    "album_id": 1791691,
+    "artist_id": 36541,
+    "artist_name": "mgk (Machine Gun Kelly)",
+    "song_id": 11724706,
+    "song_name": "5150",
+    "tonality": "E",
+    "tuning": "E A D G B E"
+  },
+  "tab_id": "mgk-machine-gun-kelly/5150-official-4126282",
+  "url": "https://tabs.ultimate-guitar.com/tab/mgk-machine-gun-kelly/5150-official-4126282"
+}

@@ -1,0 +1,30 @@
+{
+  "files": [
+    {
+      "byte_size": 53714,
+      "content_headers": {
+        "content-encoding": "gzip",
+        "content-type": "application/octet-stream"
+      },
+      "filename": "tab-download-ssid-3844877.xtz",
+      "sha256": "8e92a3aa872c5f8eb8f452be5b3d702fd977ec7f8bc252bcb6f20f7f1f415258",
+      "source_url": "https://tabs.ultimate-guitar.com/tab/download/file?ssid=3844877&m=1&s=16a470ceb0d75119aa86b1d2aa720a91ecef337f",
+      "xtz_magic_ok": true
+    }
+  ],
+  "http_status": 200,
+  "route": "lorde/california-official-3844877",
+  "scraped_at": "2026-06-29T11:09:03",
+  "scraper_version": "0.1.0",
+  "song": {
+    "album_id": 921725,
+    "artist_id": 40477,
+    "artist_name": "Lorde",
+    "song_id": 6702167,
+    "song_name": "California",
+    "tonality": "A",
+    "tuning": "E A D G B E"
+  },
+  "tab_id": "lorde/california-official-3844877",
+  "url": "https://tabs.ultimate-guitar.com/tab/lorde/california-official-3844877"
+}

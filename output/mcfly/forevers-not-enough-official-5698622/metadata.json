@@ -1,0 +1,30 @@
+{
+  "files": [
+    {
+      "byte_size": 47632,
+      "content_headers": {
+        "content-encoding": "gzip",
+        "content-type": "application/octet-stream"
+      },
+      "filename": "tab-download-ssid-5698622.xtz",
+      "sha256": "a9b4e2d931a33ef201ef60a9a1a2e397e5fc84322ccea2896a46f387ba93fb1e",
+      "source_url": "https://tabs.ultimate-guitar.com/tab/download/file?ssid=5698622&m=1&s=dbc164c007e3b2b0bcfcae0c9bc22016b5a079d6",
+      "xtz_magic_ok": true
+    }
+  ],
+  "http_status": 200,
+  "route": "mcfly/forevers-not-enough-official-5698622",
+  "scraped_at": "2026-06-28T19:25:11",
+  "scraper_version": "0.1.0",
+  "song": {
+    "album_id": 2509895,
+    "artist_id": 8032,
+    "artist_name": "McFly",
+    "song_id": 15837071,
+    "song_name": "Forevers Not Enough",
+    "tonality": "E",
+    "tuning": "E A D G B E"
+  },
+  "tab_id": "mcfly/forevers-not-enough-official-5698622",
+  "url": "https://tabs.ultimate-guitar.com/tab/mcfly/forevers-not-enough-official-5698622"
+}

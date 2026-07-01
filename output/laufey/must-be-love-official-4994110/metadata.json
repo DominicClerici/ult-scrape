@@ -1,0 +1,30 @@
+{
+  "files": [
+    {
+      "byte_size": 25236,
+      "content_headers": {
+        "content-encoding": "gzip",
+        "content-type": "application/octet-stream"
+      },
+      "filename": "tab-download-ssid-4994110.xtz",
+      "sha256": "cfac0f0320c3c1f8e9e17ad1ca68d308057a7a7be1ea057aae87a985940a32b0",
+      "source_url": "https://tabs.ultimate-guitar.com/tab/download/file?ssid=4994110&m=1&s=0aeb18f5118b3a0d3f57f32f8f6bbc6cc1a2159f",
+      "xtz_magic_ok": true
+    }
+  ],
+  "http_status": 200,
+  "route": "laufey/must-be-love-official-4994110",
+  "scraped_at": "2026-06-24T07:40:21",
+  "scraper_version": "0.1.0",
+  "song": {
+    "album_id": 2639092,
+    "artist_id": 580664,
+    "artist_name": "Laufey",
+    "song_id": 16060543,
+    "song_name": "Must Be Love",
+    "tonality": "C",
+    "tuning": "E A D G B E"
+  },
+  "tab_id": "laufey/must-be-love-official-4994110",
+  "url": "https://tabs.ultimate-guitar.com/tab/laufey/must-be-love-official-4994110"
+}

@@ -1,0 +1,30 @@
+{
+  "files": [
+    {
+      "byte_size": 46038,
+      "content_headers": {
+        "content-encoding": "gzip",
+        "content-type": "application/octet-stream"
+      },
+      "filename": "tab-download-ssid-4706864.xtz",
+      "sha256": "91bce8fb1c1e376d64cd7715a4022fe52c455addc2ccc7c929cc9e9d27eb65d3",
+      "source_url": "https://tabs.ultimate-guitar.com/tab/download/file?ssid=4706864&m=1&s=093f227d9d87197c1b34071b105f547d3b63afea",
+      "xtz_magic_ok": true
+    }
+  ],
+  "http_status": 200,
+  "route": "ray-lamontagne/i-was-born-to-love-you-official-4706864",
+  "scraped_at": "2026-06-28T22:11:05",
+  "scraper_version": "0.1.0",
+  "song": {
+    "album_id": 835916,
+    "artist_id": 9256,
+    "artist_name": "Ray LaMontagne",
+    "song_id": 3973409,
+    "song_name": "I Was Born To Love You",
+    "tonality": "A",
+    "tuning": "E A D G B E"
+  },
+  "tab_id": "ray-lamontagne/i-was-born-to-love-you-official-4706864",
+  "url": "https://tabs.ultimate-guitar.com/tab/ray-lamontagne/i-was-born-to-love-you-official-4706864"
+}

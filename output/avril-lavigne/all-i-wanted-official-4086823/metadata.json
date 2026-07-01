@@ -1,0 +1,30 @@
+{
+  "files": [
+    {
+      "byte_size": 50444,
+      "content_headers": {
+        "content-encoding": "gzip",
+        "content-type": "application/octet-stream"
+      },
+      "filename": "tab-download-ssid-4086823.xtz",
+      "sha256": "d5c72d04a4c7e87302a25df3a5eccfc8fb2537253cddcbd3bc824089e262dc43",
+      "source_url": "https://tabs.ultimate-guitar.com/tab/download/file?ssid=4086823&m=1&s=2330cd7862f6f8879195950bf0c3cf357bd906e2",
+      "xtz_magic_ok": true
+    }
+  ],
+  "http_status": 200,
+  "route": "avril-lavigne/all-i-wanted-official-4086823",
+  "scraped_at": "2026-06-28T16:39:22",
+  "scraper_version": "0.1.0",
+  "song": {
+    "album_id": 1723210,
+    "artist_id": 2725,
+    "artist_name": "Avril Lavigne",
+    "song_id": 11376508,
+    "song_name": "All I Wanted",
+    "tonality": "E",
+    "tuning": "E A D G B E"
+  },
+  "tab_id": "avril-lavigne/all-i-wanted-official-4086823",
+  "url": "https://tabs.ultimate-guitar.com/tab/avril-lavigne/all-i-wanted-official-4086823"
+}

@@ -1,0 +1,30 @@
+{
+  "files": [
+    {
+      "byte_size": 60776,
+      "content_headers": {
+        "content-encoding": "gzip",
+        "content-type": "application/octet-stream"
+      },
+      "filename": "tab-download-ssid-4969105.xtz",
+      "sha256": "5b0257a9a2080e3b991f9b3150e0102f6e0b74186a94b6e9985c63ae9687ad4f",
+      "source_url": "https://tabs.ultimate-guitar.com/tab/download/file?ssid=4969105&m=1&s=903f7e458b6ef4841e498ce5c4fe1b6d0c6f1abe",
+      "xtz_magic_ok": true
+    }
+  ],
+  "http_status": 200,
+  "route": "mcfly/honey-im-home-official-4969105",
+  "scraped_at": "2026-06-24T07:27:01",
+  "scraper_version": "0.1.0",
+  "song": {
+    "album_id": 2509895,
+    "artist_id": 8032,
+    "artist_name": "McFly",
+    "song_id": 15841394,
+    "song_name": "Honey Im Home",
+    "tonality": "C",
+    "tuning": "E A D G B E"
+  },
+  "tab_id": "mcfly/honey-im-home-official-4969105",
+  "url": "https://tabs.ultimate-guitar.com/tab/mcfly/honey-im-home-official-4969105"
+}

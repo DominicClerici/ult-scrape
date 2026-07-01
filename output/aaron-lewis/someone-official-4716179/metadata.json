@@ -1,0 +1,30 @@
+{
+  "files": [
+    {
+      "byte_size": 35979,
+      "content_headers": {
+        "content-encoding": "gzip",
+        "content-type": "application/octet-stream"
+      },
+      "filename": "tab-download-ssid-4716179.xtz",
+      "sha256": "6ca2222d9660867cc7030d7de2d14e143888e09a13c2396a638e6514a9ba8a31",
+      "source_url": "https://tabs.ultimate-guitar.com/tab/download/file?ssid=4716179&m=1&s=9c8ad304385fa68586550b30e29985708c700324",
+      "xtz_magic_ok": true
+    }
+  ],
+  "http_status": 200,
+  "route": "aaron-lewis/someone-official-4716179",
+  "scraped_at": "2026-06-29T11:01:36",
+  "scraper_version": "0.1.0",
+  "song": {
+    "album_id": 1666519,
+    "artist_id": 10762,
+    "artist_name": "Aaron Lewis",
+    "song_id": 6698249,
+    "song_name": "Someone",
+    "tonality": "A",
+    "tuning": "E A D G B E"
+  },
+  "tab_id": "aaron-lewis/someone-official-4716179",
+  "url": "https://tabs.ultimate-guitar.com/tab/aaron-lewis/someone-official-4716179"
+}

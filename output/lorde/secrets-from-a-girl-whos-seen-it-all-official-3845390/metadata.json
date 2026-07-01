@@ -1,0 +1,30 @@
+{
+  "files": [
+    {
+      "byte_size": 238248,
+      "content_headers": {
+        "content-encoding": "gzip",
+        "content-type": "application/octet-stream"
+      },
+      "filename": "tab-download-ssid-3845390.xtz",
+      "sha256": "5219548b53bdabe6b1bacbc056f698ee39b2c93405f3bc19854bbc0dd6267cab",
+      "source_url": "https://tabs.ultimate-guitar.com/tab/download/file?ssid=3845390&m=1&s=f1dc3b9673652e68d1a44344dfd4d3be75485046",
+      "xtz_magic_ok": true
+    }
+  ],
+  "http_status": 200,
+  "route": "lorde/secrets-from-a-girl-whos-seen-it-all-official-3845390",
+  "scraped_at": "2026-06-28T15:48:26",
+  "scraper_version": "0.1.0",
+  "song": {
+    "album_id": 921725,
+    "artist_id": 40477,
+    "artist_name": "Lorde",
+    "song_id": 7429676,
+    "song_name": "Secrets From A Girl Whos Seen It All",
+    "tonality": "E",
+    "tuning": "E A D G B E"
+  },
+  "tab_id": "lorde/secrets-from-a-girl-whos-seen-it-all-official-3845390",
+  "url": "https://tabs.ultimate-guitar.com/tab/lorde/secrets-from-a-girl-whos-seen-it-all-official-3845390"
+}

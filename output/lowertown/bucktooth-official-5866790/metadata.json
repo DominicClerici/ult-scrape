@@ -1,0 +1,30 @@
+{
+  "files": [
+    {
+      "byte_size": 38926,
+      "content_headers": {
+        "content-encoding": "gzip",
+        "content-type": "application/octet-stream"
+      },
+      "filename": "tab-download-ssid-5866790.xtz",
+      "sha256": "a43729a451fd0d963cb8cb2ae6bd8bf8193ea9402173ab096843eb89f60e3bdd",
+      "source_url": "https://tabs.ultimate-guitar.com/tab/download/file?ssid=5866790&m=1&s=8264b193f12dd42b1644b41c6d69cea5b39bdc7b",
+      "xtz_magic_ok": true
+    }
+  ],
+  "http_status": 200,
+  "route": "lowertown/bucktooth-official-5866790",
+  "scraped_at": "2026-06-23T21:51:23",
+  "scraper_version": "0.1.0",
+  "song": {
+    "album_id": 2230481,
+    "artist_id": 372810,
+    "artist_name": "Lowertown",
+    "song_id": 13973060,
+    "song_name": "Bucktooth",
+    "tonality": "D",
+    "tuning": "E A D G B E"
+  },
+  "tab_id": "lowertown/bucktooth-official-5866790",
+  "url": "https://tabs.ultimate-guitar.com/tab/lowertown/bucktooth-official-5866790"
+}

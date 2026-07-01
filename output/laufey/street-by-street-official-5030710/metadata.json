@@ -1,0 +1,30 @@
+{
+  "files": [
+    {
+      "byte_size": 76717,
+      "content_headers": {
+        "content-encoding": "gzip",
+        "content-type": "application/octet-stream"
+      },
+      "filename": "tab-download-ssid-5030710.xtz",
+      "sha256": "f208b4699c50fe5708ede973f0e94632c3560a8ac9036e4c06f13b3b723618de",
+      "source_url": "https://tabs.ultimate-guitar.com/tab/download/file?ssid=5030710&m=1&s=0bc1bcd927e87a886937e88b43dd9a020afc2157",
+      "xtz_magic_ok": true
+    }
+  ],
+  "http_status": 200,
+  "route": "laufey/street-by-street-official-5030710",
+  "scraped_at": "2026-06-24T05:46:24",
+  "scraper_version": "0.1.0",
+  "song": {
+    "album_id": 1245425,
+    "artist_id": 580664,
+    "artist_name": "Laufey",
+    "song_id": 3935642,
+    "song_name": "Street By Street",
+    "tonality": "C",
+    "tuning": "E A D G B E"
+  },
+  "tab_id": "laufey/street-by-street-official-5030710",
+  "url": "https://tabs.ultimate-guitar.com/tab/laufey/street-by-street-official-5030710"
+}

@@ -1,0 +1,30 @@
+{
+  "files": [
+    {
+      "byte_size": 46965,
+      "content_headers": {
+        "content-encoding": "gzip",
+        "content-type": "application/octet-stream"
+      },
+      "filename": "tab-download-ssid-4608206.xtz",
+      "sha256": "cc26bb59d601843d34bb14e59c6ff18ceb995b9bbcc349a932e09b2968f8e9d4",
+      "source_url": "https://tabs.ultimate-guitar.com/tab/download/file?ssid=4608206&m=1&s=6da75874589a5705399af14e6d65803f80690c7e",
+      "xtz_magic_ok": true
+    }
+  ],
+  "http_status": 200,
+  "route": "james-marriott/car-lights-official-4608206",
+  "scraped_at": "2026-06-28T17:38:02",
+  "scraper_version": "0.1.0",
+  "song": {
+    "album_id": 2521078,
+    "artist_id": 510467,
+    "artist_name": "James Marriott",
+    "song_id": 12762943,
+    "song_name": "Car Lights",
+    "tonality": "E",
+    "tuning": "E A D G B E"
+  },
+  "tab_id": "james-marriott/car-lights-official-4608206",
+  "url": "https://tabs.ultimate-guitar.com/tab/james-marriott/car-lights-official-4608206"
+}

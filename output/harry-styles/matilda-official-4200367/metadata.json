@@ -1,0 +1,30 @@
+{
+  "files": [
+    {
+      "byte_size": 52397,
+      "content_headers": {
+        "content-encoding": "gzip",
+        "content-type": "application/octet-stream"
+      },
+      "filename": "tab-download-ssid-4200367.xtz",
+      "sha256": "f28bc9156f51aef191f212e864b8203404c31621cbbb89d71f97a94ada039c70",
+      "source_url": "https://tabs.ultimate-guitar.com/tab/download/file?ssid=4200367&m=1&s=9213e8ecc13455c8fe1055fd813109ad86745adf",
+      "xtz_magic_ok": true
+    }
+  ],
+  "http_status": 200,
+  "route": "harry-styles/matilda-official-4200367",
+  "scraped_at": "2026-06-23T21:03:46",
+  "scraper_version": "0.1.0",
+  "song": {
+    "album_id": 1912624,
+    "artist_id": 41228,
+    "artist_name": "Harry Styles",
+    "song_id": 12180457,
+    "song_name": "Matilda",
+    "tonality": "D",
+    "tuning": "E A D G B E"
+  },
+  "tab_id": "harry-styles/matilda-official-4200367",
+  "url": "https://tabs.ultimate-guitar.com/tab/harry-styles/matilda-official-4200367"
+}

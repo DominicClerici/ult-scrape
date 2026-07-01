@@ -1,0 +1,30 @@
+{
+  "files": [
+    {
+      "byte_size": 48409,
+      "content_headers": {
+        "content-encoding": "gzip",
+        "content-type": "application/octet-stream"
+      },
+      "filename": "tab-download-ssid-4796867.xtz",
+      "sha256": "911755257036b9ea5064561d8c3b95949ffc88b9027e18816f8b4bac7d6760ed",
+      "source_url": "https://tabs.ultimate-guitar.com/tab/download/file?ssid=4796867&m=1&s=bf9b6a246f8155ff41f38a43b32362fa90272aac",
+      "xtz_magic_ok": true
+    }
+  ],
+  "http_status": 200,
+  "route": "stephen-sanchez/see-the-light-official-4796867",
+  "scraped_at": "2026-06-28T10:57:34",
+  "scraper_version": "0.1.0",
+  "song": {
+    "album_id": 2521027,
+    "artist_id": 597908,
+    "artist_name": "Stephen Sanchez",
+    "song_id": 13359743,
+    "song_name": "See The Light",
+    "tonality": "E",
+    "tuning": "E A D G B E"
+  },
+  "tab_id": "stephen-sanchez/see-the-light-official-4796867",
+  "url": "https://tabs.ultimate-guitar.com/tab/stephen-sanchez/see-the-light-official-4796867"
+}

@@ -1,0 +1,30 @@
+{
+  "files": [
+    {
+      "byte_size": 24882,
+      "content_headers": {
+        "content-encoding": "gzip",
+        "content-type": "application/octet-stream"
+      },
+      "filename": "tab-download-ssid-5513304.xtz",
+      "sha256": "5e667a707e97af1bf68499fd81c66a36f4c02b375490ef79bf1af88af6c5fac7",
+      "source_url": "https://tabs.ultimate-guitar.com/tab/download/file?ssid=5513304&m=1&s=82f9451f0f2764567507625e187245252190ceee",
+      "xtz_magic_ok": true
+    }
+  ],
+  "http_status": 200,
+  "route": "i-dont-know-how-but-they-found-me/door-official-5513304",
+  "scraped_at": "2026-06-28T23:26:45",
+  "scraper_version": "0.1.0",
+  "song": {
+    "album_id": 1046156,
+    "artist_id": 101875,
+    "artist_name": "I DONT KNOW HOW BUT THEY FOUND ME",
+    "song_id": 2629989,
+    "song_name": "Door",
+    "tonality": "A",
+    "tuning": "E A D G B E"
+  },
+  "tab_id": "i-dont-know-how-but-they-found-me/door-official-5513304",
+  "url": "https://tabs.ultimate-guitar.com/tab/i-dont-know-how-but-they-found-me/door-official-5513304"
+}

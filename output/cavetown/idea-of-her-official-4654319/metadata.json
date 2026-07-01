@@ -1,0 +1,30 @@
+{
+  "files": [
+    {
+      "byte_size": 38407,
+      "content_headers": {
+        "content-encoding": "gzip",
+        "content-type": "application/octet-stream"
+      },
+      "filename": "tab-download-ssid-4654319.xtz",
+      "sha256": "b6927ba229a9b3a6a67d3ce66520499468f5efd8bcb6a4a1066d088c2871aa9c",
+      "source_url": "https://tabs.ultimate-guitar.com/tab/download/file?ssid=4654319&m=1&s=59b5b2ab246f31563b75371f6d2b08ed027b3aa6",
+      "xtz_magic_ok": true
+    }
+  ],
+  "http_status": 200,
+  "route": "cavetown/idea-of-her-official-4654319",
+  "scraped_at": "2026-06-29T10:42:06",
+  "scraper_version": "0.1.0",
+  "song": {
+    "album_id": 1473898,
+    "artist_id": 64551,
+    "artist_name": "cavetown",
+    "song_id": 6637388,
+    "song_name": "Idea Of Her",
+    "tonality": "A",
+    "tuning": "E A D G B E"
+  },
+  "tab_id": "cavetown/idea-of-her-official-4654319",
+  "url": "https://tabs.ultimate-guitar.com/tab/cavetown/idea-of-her-official-4654319"
+}

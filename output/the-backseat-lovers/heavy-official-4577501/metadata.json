@@ -1,0 +1,30 @@
+{
+  "files": [
+    {
+      "byte_size": 79650,
+      "content_headers": {
+        "content-encoding": "gzip",
+        "content-type": "application/octet-stream"
+      },
+      "filename": "tab-download-ssid-4577501.xtz",
+      "sha256": "cae8f05c8454bf2f5b8b27972676ff54add2302bddcded838c417f5fd98165e3",
+      "source_url": "https://tabs.ultimate-guitar.com/tab/download/file?ssid=4577501&m=1&s=88d09201d32dcef10944d726cf6622f5db67d71b",
+      "xtz_magic_ok": true
+    }
+  ],
+  "http_status": 200,
+  "route": "the-backseat-lovers/heavy-official-4577501",
+  "scraped_at": "2026-06-23T21:16:27",
+  "scraper_version": "0.1.0",
+  "song": {
+    "album_id": 2372396,
+    "artist_id": 181323,
+    "artist_name": "The Backseat Lovers",
+    "song_id": 5636591,
+    "song_name": "Heavy",
+    "tonality": "D",
+    "tuning": "E A D G B E"
+  },
+  "tab_id": "the-backseat-lovers/heavy-official-4577501",
+  "url": "https://tabs.ultimate-guitar.com/tab/the-backseat-lovers/heavy-official-4577501"
+}

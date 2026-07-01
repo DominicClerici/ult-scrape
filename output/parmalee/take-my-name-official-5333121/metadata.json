@@ -1,0 +1,30 @@
+{
+  "files": [
+    {
+      "byte_size": 63231,
+      "content_headers": {
+        "content-encoding": "gzip",
+        "content-type": "application/octet-stream"
+      },
+      "filename": "tab-download-ssid-5333121.xtz",
+      "sha256": "dd2c311f6e51e07a9a8bf7ec4727d66c8bd564167df5e7f855f32fd18e178e39",
+      "source_url": "https://tabs.ultimate-guitar.com/tab/download/file?ssid=5333121&m=1&s=5feba83bc95fc829566b929b9b859c1bd0e10f45",
+      "xtz_magic_ok": true
+    }
+  ],
+  "http_status": 200,
+  "route": "parmalee/take-my-name-official-5333121",
+  "scraped_at": "2026-06-25T17:14:05",
+  "scraper_version": "0.1.0",
+  "song": {
+    "album_id": 1646461,
+    "artist_id": 38481,
+    "artist_name": "Parmalee",
+    "song_id": 6686018,
+    "song_name": "Take My Name",
+    "tonality": "G",
+    "tuning": "E A D G B E"
+  },
+  "tab_id": "parmalee/take-my-name-official-5333121",
+  "url": "https://tabs.ultimate-guitar.com/tab/parmalee/take-my-name-official-5333121"
+}

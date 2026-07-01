@@ -1,0 +1,30 @@
+{
+  "files": [
+    {
+      "byte_size": 39604,
+      "content_headers": {
+        "content-encoding": "gzip",
+        "content-type": "application/octet-stream"
+      },
+      "filename": "tab-download-ssid-4830659.xtz",
+      "sha256": "a2028926d7ae1f92060c563f67c420023e0f642addbd5c3fda6ae1887171a6fb",
+      "source_url": "https://tabs.ultimate-guitar.com/tab/download/file?ssid=4830659&m=1&s=8a5c4768b437a5e96d67ae3764a458991355de1c",
+      "xtz_magic_ok": true
+    }
+  ],
+  "http_status": 200,
+  "route": "manchester-orchestra/telepath-official-4830659",
+  "scraped_at": "2026-06-28T14:48:10",
+  "scraper_version": "0.1.0",
+  "song": {
+    "album_id": 781097,
+    "artist_id": 17352,
+    "artist_name": "Manchester Orchestra",
+    "song_id": 6555590,
+    "song_name": "Telepath",
+    "tonality": "E",
+    "tuning": "E A D G B E"
+  },
+  "tab_id": "manchester-orchestra/telepath-official-4830659",
+  "url": "https://tabs.ultimate-guitar.com/tab/manchester-orchestra/telepath-official-4830659"
+}

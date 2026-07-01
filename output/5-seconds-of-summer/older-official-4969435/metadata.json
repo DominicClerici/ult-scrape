@@ -1,0 +1,30 @@
+{
+  "files": [
+    {
+      "byte_size": 42610,
+      "content_headers": {
+        "content-encoding": "gzip",
+        "content-type": "application/octet-stream"
+      },
+      "filename": "tab-download-ssid-4969435.xtz",
+      "sha256": "9ac6122698ac54e247b8918ea5790dea40f2de37a5bf42f6448d57af4f5891e8",
+      "source_url": "https://tabs.ultimate-guitar.com/tab/download/file?ssid=4969435&m=1&s=8cc4412e5138c276582e3e8e2610ace4a9b1e28a",
+      "xtz_magic_ok": true
+    }
+  ],
+  "http_status": 200,
+  "route": "5-seconds-of-summer/older-official-4969435",
+  "scraped_at": "2026-06-25T17:36:50",
+  "scraper_version": "0.1.0",
+  "song": {
+    "album_id": 2155001,
+    "artist_id": 39564,
+    "artist_name": "5 Seconds of Summer",
+    "song_id": 13543943,
+    "song_name": "Older",
+    "tonality": "G",
+    "tuning": "E A D G B E"
+  },
+  "tab_id": "5-seconds-of-summer/older-official-4969435",
+  "url": "https://tabs.ultimate-guitar.com/tab/5-seconds-of-summer/older-official-4969435"
+}

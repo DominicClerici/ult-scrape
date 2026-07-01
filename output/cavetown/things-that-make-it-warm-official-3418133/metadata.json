@@ -1,0 +1,30 @@
+{
+  "files": [
+    {
+      "byte_size": 43531,
+      "content_headers": {
+        "content-encoding": "gzip",
+        "content-type": "application/octet-stream"
+      },
+      "filename": "tab-download-ssid-3418133.xtz",
+      "sha256": "3f34043429065208863a22d746b1b3402fce8369f658a50638903f0e3f293a41",
+      "source_url": "https://tabs.ultimate-guitar.com/tab/download/file?ssid=3418133&m=1&s=2bff7002f37a846e56bf26318db3d91b030b2d42",
+      "xtz_magic_ok": true
+    }
+  ],
+  "http_status": 200,
+  "route": "cavetown/things-that-make-it-warm-official-3418133",
+  "scraped_at": "2026-06-23T21:09:47",
+  "scraper_version": "0.1.0",
+  "song": {
+    "album_id": 424535,
+    "artist_id": 64551,
+    "artist_name": "cavetown",
+    "song_id": 3706721,
+    "song_name": "Things That Make It Warm",
+    "tonality": "D",
+    "tuning": "D A D G B E"
+  },
+  "tab_id": "cavetown/things-that-make-it-warm-official-3418133",
+  "url": "https://tabs.ultimate-guitar.com/tab/cavetown/things-that-make-it-warm-official-3418133"
+}

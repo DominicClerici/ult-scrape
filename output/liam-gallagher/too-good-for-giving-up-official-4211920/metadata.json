@@ -1,0 +1,30 @@
+{
+  "files": [
+    {
+      "byte_size": 64631,
+      "content_headers": {
+        "content-encoding": "gzip",
+        "content-type": "application/octet-stream"
+      },
+      "filename": "tab-download-ssid-4211920.xtz",
+      "sha256": "00f0daef3ab4c83d2b5716e1fa83699db66a62b4420aea37e2b7aa9806bccc0f",
+      "source_url": "https://tabs.ultimate-guitar.com/tab/download/file?ssid=4211920&m=1&s=572ab950bf63e6c5f5a4dbb795d489f09281adc3",
+      "xtz_magic_ok": true
+    }
+  ],
+  "http_status": 200,
+  "route": "liam-gallagher/too-good-for-giving-up-official-4211920",
+  "scraped_at": "2026-06-24T06:57:09",
+  "scraper_version": "0.1.0",
+  "song": {
+    "album_id": 1933801,
+    "artist_id": 26664,
+    "artist_name": "Liam Gallagher",
+    "song_id": 12437218,
+    "song_name": "Too Good For Giving Up",
+    "tonality": "C",
+    "tuning": "E A D G B E"
+  },
+  "tab_id": "liam-gallagher/too-good-for-giving-up-official-4211920",
+  "url": "https://tabs.ultimate-guitar.com/tab/liam-gallagher/too-good-for-giving-up-official-4211920"
+}

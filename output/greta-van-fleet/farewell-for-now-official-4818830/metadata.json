@@ -1,0 +1,30 @@
+{
+  "files": [
+    {
+      "byte_size": 58261,
+      "content_headers": {
+        "content-encoding": "gzip",
+        "content-type": "application/octet-stream"
+      },
+      "filename": "tab-download-ssid-4818830.xtz",
+      "sha256": "fbebc642aa61ea94856fc479b21edd569eb6ce88f21828525c4c9376113e5fb9",
+      "source_url": "https://tabs.ultimate-guitar.com/tab/download/file?ssid=4818830&m=1&s=5e03bfa0117489d14183471498b1e81a134c492c",
+      "xtz_magic_ok": true
+    }
+  ],
+  "http_status": 200,
+  "route": "greta-van-fleet/farewell-for-now-official-4818830",
+  "scraped_at": "2026-06-24T04:46:56",
+  "scraper_version": "0.1.0",
+  "song": {
+    "album_id": 2829262,
+    "artist_id": 79625,
+    "artist_name": "Greta Van Fleet",
+    "song_id": 15844001,
+    "song_name": "Farewell For Now",
+    "tonality": "D",
+    "tuning": "E A D G B E"
+  },
+  "tab_id": "greta-van-fleet/farewell-for-now-official-4818830",
+  "url": "https://tabs.ultimate-guitar.com/tab/greta-van-fleet/farewell-for-now-official-4818830"
+}

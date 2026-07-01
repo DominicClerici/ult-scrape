@@ -1,0 +1,30 @@
+{
+  "files": [
+    {
+      "byte_size": 119470,
+      "content_headers": {
+        "content-encoding": "gzip",
+        "content-type": "application/octet-stream"
+      },
+      "filename": "tab-download-ssid-3451214.xtz",
+      "sha256": "e1678e4775cd65d824896cf289c5e203bd9fd8a9541848959fd3a05a4fe9f66e",
+      "source_url": "https://tabs.ultimate-guitar.com/tab/download/file?ssid=3451214&m=1&s=1271f9350eb76def2ff2690d8119e98c0511e439",
+      "xtz_magic_ok": true
+    }
+  ],
+  "http_status": 200,
+  "route": "frances-forever/space-girl-official-3451214",
+  "scraped_at": "2026-06-29T00:27:13",
+  "scraper_version": "0.1.0",
+  "song": {
+    "album_id": 1112351,
+    "artist_id": 192678,
+    "artist_name": "Frances Forever",
+    "song_id": 3907217,
+    "song_name": "Space Girl",
+    "tonality": "A",
+    "tuning": "E A D G B E"
+  },
+  "tab_id": "frances-forever/space-girl-official-3451214",
+  "url": "https://tabs.ultimate-guitar.com/tab/frances-forever/space-girl-official-3451214"
+}

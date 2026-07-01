@@ -1,0 +1,30 @@
+{
+  "files": [
+    {
+      "byte_size": 43678,
+      "content_headers": {
+        "content-encoding": "gzip",
+        "content-type": "application/octet-stream"
+      },
+      "filename": "tab-download-ssid-4775288.xtz",
+      "sha256": "bb8088e7c52409a56273f21f02941552c90509757bf010327a8c3fe1120dad85",
+      "source_url": "https://tabs.ultimate-guitar.com/tab/download/file?ssid=4775288&m=1&s=be0311fddf93277e66469e6c92fbce52c8a7d189",
+      "xtz_magic_ok": true
+    }
+  ],
+  "http_status": 200,
+  "route": "cavetown/frog-official-4775288",
+  "scraped_at": "2026-06-24T06:45:47",
+  "scraper_version": "0.1.0",
+  "song": {
+    "album_id": 2215406,
+    "artist_id": 64551,
+    "artist_name": "cavetown",
+    "song_id": 12255334,
+    "song_name": "Frog",
+    "tonality": "C",
+    "tuning": "E A D G B E"
+  },
+  "tab_id": "cavetown/frog-official-4775288",
+  "url": "https://tabs.ultimate-guitar.com/tab/cavetown/frog-official-4775288"
+}

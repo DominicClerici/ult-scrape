@@ -1,0 +1,30 @@
+{
+  "files": [
+    {
+      "byte_size": 42038,
+      "content_headers": {
+        "content-encoding": "gzip",
+        "content-type": "application/octet-stream"
+      },
+      "filename": "tab-download-ssid-4911526.xtz",
+      "sha256": "9e8ed1dd6dc127985ac2be5ab60ecb602090b5bf43d3a2a67b8f345de99bbd9e",
+      "source_url": "https://tabs.ultimate-guitar.com/tab/download/file?ssid=4911526&m=1&s=4668c7381c060077b621b0406316b4511151535b",
+      "xtz_magic_ok": true
+    }
+  ],
+  "http_status": 200,
+  "route": "boywithuke/trauma-official-4911526",
+  "scraped_at": "2026-06-29T13:11:05",
+  "scraper_version": "0.1.0",
+  "song": {
+    "album_id": 2667637,
+    "artist_id": 941489,
+    "artist_name": "BoyWithUke",
+    "song_id": 15995962,
+    "song_name": "Trauma",
+    "tonality": "A",
+    "tuning": "E A D G B E"
+  },
+  "tab_id": "boywithuke/trauma-official-4911526",
+  "url": "https://tabs.ultimate-guitar.com/tab/boywithuke/trauma-official-4911526"
+}

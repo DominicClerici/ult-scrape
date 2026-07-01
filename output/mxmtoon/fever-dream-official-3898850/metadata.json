@@ -1,0 +1,30 @@
+{
+  "files": [
+    {
+      "byte_size": 27639,
+      "content_headers": {
+        "content-encoding": "gzip",
+        "content-type": "application/octet-stream"
+      },
+      "filename": "tab-download-ssid-3898850.xtz",
+      "sha256": "c79661646c96a00dcb95052bdd25d997c11598586d2ba27080191bfb9538fb51",
+      "source_url": "https://tabs.ultimate-guitar.com/tab/download/file?ssid=3898850&m=1&s=e5bb893c355bf9535aad480680f4a1d7ebb4b98d",
+      "xtz_magic_ok": true
+    }
+  ],
+  "http_status": 200,
+  "route": "mxmtoon/fever-dream-official-3898850",
+  "scraped_at": "2026-06-28T11:56:51",
+  "scraper_version": "0.1.0",
+  "song": {
+    "album_id": 2522812,
+    "artist_id": 81101,
+    "artist_name": "mxmtoon",
+    "song_id": 3782279,
+    "song_name": "Fever Dream",
+    "tonality": "E",
+    "tuning": "E A D G B E"
+  },
+  "tab_id": "mxmtoon/fever-dream-official-3898850",
+  "url": "https://tabs.ultimate-guitar.com/tab/mxmtoon/fever-dream-official-3898850"
+}

@@ -1,0 +1,30 @@
+{
+  "files": [
+    {
+      "byte_size": 43998,
+      "content_headers": {
+        "content-encoding": "gzip",
+        "content-type": "application/octet-stream"
+      },
+      "filename": "tab-download-ssid-5125945.xtz",
+      "sha256": "176200f4e86efe378742025c6bae9d566b0bce8d9b9ed1fdfb702f83bc7a6931",
+      "source_url": "https://tabs.ultimate-guitar.com/tab/download/file?ssid=5125945&m=1&s=663b844d2310c9756b1ae805f882e1b7a4d324f7",
+      "xtz_magic_ok": true
+    }
+  ],
+  "http_status": 200,
+  "route": "laufey/serendipity-official-5125945",
+  "scraped_at": "2026-06-24T07:40:49",
+  "scraper_version": "0.1.0",
+  "song": {
+    "album_id": 2639092,
+    "artist_id": 580664,
+    "artist_name": "Laufey",
+    "song_id": 16029175,
+    "song_name": "Serendipity",
+    "tonality": "C",
+    "tuning": "E A D G B E"
+  },
+  "tab_id": "laufey/serendipity-official-5125945",
+  "url": "https://tabs.ultimate-guitar.com/tab/laufey/serendipity-official-5125945"
+}

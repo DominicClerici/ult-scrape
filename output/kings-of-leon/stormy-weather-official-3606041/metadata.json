@@ -1,0 +1,30 @@
+{
+  "files": [
+    {
+      "byte_size": 58484,
+      "content_headers": {
+        "content-encoding": "gzip",
+        "content-type": "application/octet-stream"
+      },
+      "filename": "tab-download-ssid-3606041.xtz",
+      "sha256": "e60a5ecfa6357b5f649029e58ce772da445d94642a2fd1321917236370d222fe",
+      "source_url": "https://tabs.ultimate-guitar.com/tab/download/file?ssid=3606041&m=1&s=7408c3effd9ce4adeccc31428bdd7b3aecb2082a",
+      "xtz_magic_ok": true
+    }
+  ],
+  "http_status": 200,
+  "route": "kings-of-leon/stormy-weather-official-3606041",
+  "scraped_at": "2026-06-23T21:17:32",
+  "scraper_version": "0.1.0",
+  "song": {
+    "album_id": 825584,
+    "artist_id": 3751,
+    "artist_name": "Kings of Leon",
+    "song_id": 6325952,
+    "song_name": "Stormy Weather",
+    "tonality": "D",
+    "tuning": "E A D G B E"
+  },
+  "tab_id": "kings-of-leon/stormy-weather-official-3606041",
+  "url": "https://tabs.ultimate-guitar.com/tab/kings-of-leon/stormy-weather-official-3606041"
+}

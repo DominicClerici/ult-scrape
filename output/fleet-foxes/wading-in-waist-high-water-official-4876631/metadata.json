@@ -1,0 +1,30 @@
+{
+  "files": [
+    {
+      "byte_size": 35331,
+      "content_headers": {
+        "content-encoding": "gzip",
+        "content-type": "application/octet-stream"
+      },
+      "filename": "tab-download-ssid-4876631.xtz",
+      "sha256": "689994887b984d37976470193806d3542037a7baf4810c8679338345011749de",
+      "source_url": "https://tabs.ultimate-guitar.com/tab/download/file?ssid=4876631&m=1&s=10cfe567bb3a18056ffeb0887914dc0042e53224",
+      "xtz_magic_ok": true
+    }
+  ],
+  "http_status": 200,
+  "route": "fleet-foxes/wading-in-waist-high-water-official-4876631",
+  "scraped_at": "2026-06-25T17:03:04",
+  "scraper_version": "0.1.0",
+  "song": {
+    "album_id": 586475,
+    "artist_id": 21776,
+    "artist_name": "Fleet Foxes",
+    "song_id": 4065725,
+    "song_name": "Wading In Waist-High Water",
+    "tonality": "G",
+    "tuning": "C G C F A D"
+  },
+  "tab_id": "fleet-foxes/wading-in-waist-high-water-official-4876631",
+  "url": "https://tabs.ultimate-guitar.com/tab/fleet-foxes/wading-in-waist-high-water-official-4876631"
+}

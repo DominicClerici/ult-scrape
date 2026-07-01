@@ -1,0 +1,30 @@
+{
+  "files": [
+    {
+      "byte_size": 59860,
+      "content_headers": {
+        "content-encoding": "gzip",
+        "content-type": "application/octet-stream"
+      },
+      "filename": "tab-download-ssid-4993399.xtz",
+      "sha256": "69aa4c68dfaef44a0b850c71d8218d33bf6a592bea3b6cb0a1d6938beae12029",
+      "source_url": "https://tabs.ultimate-guitar.com/tab/download/file?ssid=4993399&m=1&s=4f0be34a3075f1182fd5a5ff8bdded8f79ccd89b",
+      "xtz_magic_ok": true
+    }
+  ],
+  "http_status": 200,
+  "route": "pierce-the-veil/resilience-official-4993399",
+  "scraped_at": "2026-06-24T07:12:50",
+  "scraper_version": "0.1.0",
+  "song": {
+    "album_id": 2373158,
+    "artist_id": 18113,
+    "artist_name": "Pierce the Veil",
+    "song_id": 14925731,
+    "song_name": "Resilience",
+    "tonality": "C",
+    "tuning": "C G C F A D"
+  },
+  "tab_id": "pierce-the-veil/resilience-official-4993399",
+  "url": "https://tabs.ultimate-guitar.com/tab/pierce-the-veil/resilience-official-4993399"
+}

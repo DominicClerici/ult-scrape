@@ -1,0 +1,30 @@
+{
+  "files": [
+    {
+      "byte_size": 43500,
+      "content_headers": {
+        "content-encoding": "gzip",
+        "content-type": "application/octet-stream"
+      },
+      "filename": "tab-download-ssid-4996504.xtz",
+      "sha256": "1fdeeeaa0c585a66314367f803ad6c2e5d9ec24e06953a2871cdbbbab8bd9f66",
+      "source_url": "https://tabs.ultimate-guitar.com/tab/download/file?ssid=4996504&m=1&s=268f1f819ea5ac4186f4033d9cd294630d27c3dc",
+      "xtz_magic_ok": true
+    }
+  ],
+  "http_status": 200,
+  "route": "blink-182/terrified-official-4996504",
+  "scraped_at": "2026-06-28T20:46:08",
+  "scraper_version": "0.1.0",
+  "song": {
+    "album_id": 3062899,
+    "artist_id": 1930,
+    "artist_name": "Blink-182",
+    "song_id": 16100266,
+    "song_name": "Terrified",
+    "tonality": "E",
+    "tuning": "E A D G B E"
+  },
+  "tab_id": "blink-182/terrified-official-4996504",
+  "url": "https://tabs.ultimate-guitar.com/tab/blink-182/terrified-official-4996504"
+}

@@ -1,0 +1,30 @@
+{
+  "files": [
+    {
+      "byte_size": 42781,
+      "content_headers": {
+        "content-encoding": "gzip",
+        "content-type": "application/octet-stream"
+      },
+      "filename": "tab-download-ssid-3115877.xtz",
+      "sha256": "f5eccce347409b569d3903820032e2ac390b3b997acd395acbfb579bc2a54254",
+      "source_url": "https://tabs.ultimate-guitar.com/tab/download/file?ssid=3115877&m=1&s=485b898d15801115afec8036384f13aedf03347b",
+      "xtz_magic_ok": true
+    }
+  ],
+  "http_status": 200,
+  "route": "the-strokes/selfless-official-3115877",
+  "scraped_at": "2026-06-28T09:34:11",
+  "scraper_version": "0.1.0",
+  "song": {
+    "album_id": 305033,
+    "artist_id": 2240,
+    "artist_name": "The Strokes",
+    "song_id": 3865424,
+    "song_name": "Selfless",
+    "tonality": "E",
+    "tuning": "E A D G B E"
+  },
+  "tab_id": "the-strokes/selfless-official-3115877",
+  "url": "https://tabs.ultimate-guitar.com/tab/the-strokes/selfless-official-3115877"
+}

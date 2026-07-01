@@ -1,0 +1,30 @@
+{
+  "files": [
+    {
+      "byte_size": 72216,
+      "content_headers": {
+        "content-encoding": "gzip",
+        "content-type": "application/octet-stream"
+      },
+      "filename": "tab-download-ssid-4565336.xtz",
+      "sha256": "f7283757fdeac3871ac52f1b5a55cd44a28ca21621c1d195baf7345a72f026f9",
+      "source_url": "https://tabs.ultimate-guitar.com/tab/download/file?ssid=4565336&m=1&s=be570ecab2b1186754de496af5312ec63e29f46e",
+      "xtz_magic_ok": true
+    }
+  ],
+  "http_status": 200,
+  "route": "sam-fender/getting-started-official-4565336",
+  "scraped_at": "2026-06-28T16:09:03",
+  "scraper_version": "0.1.0",
+  "song": {
+    "album_id": 1243703,
+    "artist_id": 132321,
+    "artist_name": "Sam Fender",
+    "song_id": 8922149,
+    "song_name": "Getting Started",
+    "tonality": "E",
+    "tuning": "E A D G B E"
+  },
+  "tab_id": "sam-fender/getting-started-official-4565336",
+  "url": "https://tabs.ultimate-guitar.com/tab/sam-fender/getting-started-official-4565336"
+}

@@ -1,0 +1,30 @@
+{
+  "files": [
+    {
+      "byte_size": 49862,
+      "content_headers": {
+        "content-encoding": "gzip",
+        "content-type": "application/octet-stream"
+      },
+      "filename": "tab-download-ssid-4967950.xtz",
+      "sha256": "46032a5ac4c65097afc4d74c6959aaefc36d9a0bbd404f38b67e1dcb53f2eb29",
+      "source_url": "https://tabs.ultimate-guitar.com/tab/download/file?ssid=4967950&m=1&s=f7cd86740a2f9528817796fbf4df259df2039183",
+      "xtz_magic_ok": true
+    }
+  ],
+  "http_status": 200,
+  "route": "laufey/dreamer-official-4967950",
+  "scraped_at": "2026-06-24T04:50:06",
+  "scraper_version": "0.1.0",
+  "song": {
+    "album_id": 2639092,
+    "artist_id": 580664,
+    "artist_name": "Laufey",
+    "song_id": 16060918,
+    "song_name": "Dreamer",
+    "tonality": "D",
+    "tuning": "E A D G B E"
+  },
+  "tab_id": "laufey/dreamer-official-4967950",
+  "url": "https://tabs.ultimate-guitar.com/tab/laufey/dreamer-official-4967950"
+}

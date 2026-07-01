@@ -1,0 +1,30 @@
+{
+  "files": [
+    {
+      "byte_size": 62066,
+      "content_headers": {
+        "content-encoding": "gzip",
+        "content-type": "application/octet-stream"
+      },
+      "filename": "tab-download-ssid-3679544.xtz",
+      "sha256": "86af8766896ba5dccab1baa863f3b3f34892ab5fa389cbfbbc20f24e3345baa7",
+      "source_url": "https://tabs.ultimate-guitar.com/tab/download/file?ssid=3679544&m=1&s=f514662645eba4ae96defcc9776d52f5a400fa17",
+      "xtz_magic_ok": true
+    }
+  ],
+  "http_status": 200,
+  "route": "eric-church/where-i-wanna-be-official-3679544",
+  "scraped_at": "2026-06-28T14:42:55",
+  "scraper_version": "0.1.0",
+  "song": {
+    "album_id": 853832,
+    "artist_id": 15850,
+    "artist_name": "Eric Church",
+    "song_id": 6544907,
+    "song_name": "Where I Wanna Be",
+    "tonality": "E",
+    "tuning": "E A D G B E"
+  },
+  "tab_id": "eric-church/where-i-wanna-be-official-3679544",
+  "url": "https://tabs.ultimate-guitar.com/tab/eric-church/where-i-wanna-be-official-3679544"
+}

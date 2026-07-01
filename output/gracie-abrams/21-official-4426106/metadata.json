@@ -1,0 +1,30 @@
+{
+  "files": [
+    {
+      "byte_size": 38811,
+      "content_headers": {
+        "content-encoding": "gzip",
+        "content-type": "application/octet-stream"
+      },
+      "filename": "tab-download-ssid-4426106.xtz",
+      "sha256": "6c77878eed9aa742fa8599a9353def6ca8677bfae21372bb735e88b49a13bb9a",
+      "source_url": "https://tabs.ultimate-guitar.com/tab/download/file?ssid=4426106&m=1&s=ceb51be6cfe51d70f63654d3d44ad6ff5aa46ca9",
+      "xtz_magic_ok": true
+    }
+  ],
+  "http_status": 200,
+  "route": "gracie-abrams/21-official-4426106",
+  "scraped_at": "2026-06-24T13:57:17",
+  "scraper_version": "0.1.0",
+  "song": {
+    "album_id": 3044365,
+    "artist_id": 74189,
+    "artist_name": "Gracie Abrams",
+    "song_id": 3807989,
+    "song_name": "21",
+    "tonality": "G",
+    "tuning": "E A D G B E"
+  },
+  "tab_id": "gracie-abrams/21-official-4426106",
+  "url": "https://tabs.ultimate-guitar.com/tab/gracie-abrams/21-official-4426106"
+}

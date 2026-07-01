@@ -1,0 +1,30 @@
+{
+  "files": [
+    {
+      "byte_size": 32680,
+      "content_headers": {
+        "content-encoding": "gzip",
+        "content-type": "application/octet-stream"
+      },
+      "filename": "tab-download-ssid-5029699.xtz",
+      "sha256": "8ac433a98115069b6dd8c62684a542f92ba9fdc6682bee24de66ca548c8ef742",
+      "source_url": "https://tabs.ultimate-guitar.com/tab/download/file?ssid=5029699&m=1&s=6fa5d84ed23106002eabdf359dfd0a1ffd758c22",
+      "xtz_magic_ok": true
+    }
+  ],
+  "http_status": 200,
+  "route": "noahfinnce/stupid-official-5029699",
+  "scraped_at": "2026-06-28T22:56:03",
+  "scraper_version": "0.1.0",
+  "song": {
+    "album_id": 2685187,
+    "artist_id": 2020594,
+    "artist_name": "NOAHFINNCE",
+    "song_id": 16112062,
+    "song_name": "Stupid",
+    "tonality": "A",
+    "tuning": "D A D G B E"
+  },
+  "tab_id": "noahfinnce/stupid-official-5029699",
+  "url": "https://tabs.ultimate-guitar.com/tab/noahfinnce/stupid-official-5029699"
+}

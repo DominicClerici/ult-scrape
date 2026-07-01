@@ -1,0 +1,30 @@
+{
+  "files": [
+    {
+      "byte_size": 26342,
+      "content_headers": {
+        "content-encoding": "gzip",
+        "content-type": "application/octet-stream"
+      },
+      "filename": "tab-download-ssid-5102773.xtz",
+      "sha256": "6c9b0bc2a3cd2a6fcf59f72642f32da1891c396d092bb0a08dc59beca01ba9e1",
+      "source_url": "https://tabs.ultimate-guitar.com/tab/download/file?ssid=5102773&m=1&s=e63ec8ac8c8e44482287379aa2955a5c9666b1d2",
+      "xtz_magic_ok": true
+    }
+  ],
+  "http_status": 200,
+  "route": "lucy-dacus/christine-official-5102773",
+  "scraped_at": "2026-06-24T06:15:04",
+  "scraper_version": "0.1.0",
+  "song": {
+    "album_id": 772736,
+    "artist_id": 66619,
+    "artist_name": "Lucy Dacus",
+    "song_id": 6661571,
+    "song_name": "Christine",
+    "tonality": "C",
+    "tuning": "E A D G B E"
+  },
+  "tab_id": "lucy-dacus/christine-official-5102773",
+  "url": "https://tabs.ultimate-guitar.com/tab/lucy-dacus/christine-official-5102773"
+}

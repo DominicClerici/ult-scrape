@@ -1,0 +1,30 @@
+{
+  "files": [
+    {
+      "byte_size": 45401,
+      "content_headers": {
+        "content-encoding": "gzip",
+        "content-type": "application/octet-stream"
+      },
+      "filename": "tab-download-ssid-4272436.xtz",
+      "sha256": "1b72ba390000539dd9f2070802dea856526db7b072af6688b353e4892c9317b4",
+      "source_url": "https://tabs.ultimate-guitar.com/tab/download/file?ssid=4272436&m=1&s=7149bbebcf84b4021086aefa29ec972d331c3b01",
+      "xtz_magic_ok": true
+    }
+  ],
+  "http_status": 200,
+  "route": "beach-bunny/april-official-4272436",
+  "scraped_at": "2026-06-28T23:50:04",
+  "scraper_version": "0.1.0",
+  "song": {
+    "album_id": 310532,
+    "artist_id": 141393,
+    "artist_name": "Beach Bunny",
+    "song_id": 3804215,
+    "song_name": "April",
+    "tonality": "A",
+    "tuning": "E A D G B E"
+  },
+  "tab_id": "beach-bunny/april-official-4272436",
+  "url": "https://tabs.ultimate-guitar.com/tab/beach-bunny/april-official-4272436"
+}

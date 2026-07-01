@@ -1,0 +1,30 @@
+{
+  "files": [
+    {
+      "byte_size": 44903,
+      "content_headers": {
+        "content-encoding": "gzip",
+        "content-type": "application/octet-stream"
+      },
+      "filename": "tab-download-ssid-4704362.xtz",
+      "sha256": "99d67bce249af1aaf2e5b673a5a63a733bbac33b983cd62ed9bd793887298b82",
+      "source_url": "https://tabs.ultimate-guitar.com/tab/download/file?ssid=4704362&m=1&s=b42a405c8fe0e184d34842c79038e0b1032508e9",
+      "xtz_magic_ok": true
+    }
+  ],
+  "http_status": 200,
+  "route": "noel-gallaghers-high-flying-birds/dead-to-the-world-official-4704362",
+  "scraped_at": "2026-06-23T21:07:13",
+  "scraper_version": "0.1.0",
+  "song": {
+    "album_id": 2500853,
+    "artist_id": 33705,
+    "artist_name": "Noel Gallagher's High Flying Birds",
+    "song_id": 15259394,
+    "song_name": "Dead To The World",
+    "tonality": "D",
+    "tuning": "E A D G B E"
+  },
+  "tab_id": "noel-gallaghers-high-flying-birds/dead-to-the-world-official-4704362",
+  "url": "https://tabs.ultimate-guitar.com/tab/noel-gallaghers-high-flying-birds/dead-to-the-world-official-4704362"
+}

@@ -1,0 +1,30 @@
+{
+  "files": [
+    {
+      "byte_size": 37529,
+      "content_headers": {
+        "content-encoding": "gzip",
+        "content-type": "application/octet-stream"
+      },
+      "filename": "tab-download-ssid-4712420.xtz",
+      "sha256": "b4a16db8b71900d8c2b3d4e02252c77384fcd5c3fb0f945f0467eaf586239336",
+      "source_url": "https://tabs.ultimate-guitar.com/tab/download/file?ssid=4712420&m=1&s=6451dd6e6a716b2ce9b6728c1507ac8a4f2aa1c3",
+      "xtz_magic_ok": true
+    }
+  ],
+  "http_status": 200,
+  "route": "the-backseat-lovers/morning-in-the-aves-official-4712420",
+  "scraped_at": "2026-06-24T06:02:48",
+  "scraper_version": "0.1.0",
+  "song": {
+    "album_id": 2204720,
+    "artist_id": 181323,
+    "artist_name": "The Backseat Lovers",
+    "song_id": 6555128,
+    "song_name": "Morning In The Aves",
+    "tonality": "C",
+    "tuning": "E A D G B E"
+  },
+  "tab_id": "the-backseat-lovers/morning-in-the-aves-official-4712420",
+  "url": "https://tabs.ultimate-guitar.com/tab/the-backseat-lovers/morning-in-the-aves-official-4712420"
+}

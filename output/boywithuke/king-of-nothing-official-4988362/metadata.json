@@ -1,0 +1,30 @@
+{
+  "files": [
+    {
+      "byte_size": 49022,
+      "content_headers": {
+        "content-encoding": "gzip",
+        "content-type": "application/octet-stream"
+      },
+      "filename": "tab-download-ssid-4988362.xtz",
+      "sha256": "e6bea9e683192efd1b487a325565766f240ca2a8531c370f22f4516cc88ea0b4",
+      "source_url": "https://tabs.ultimate-guitar.com/tab/download/file?ssid=4988362&m=1&s=3bfaae93962bd7fc47d105cc526a3b17d0680249",
+      "xtz_magic_ok": true
+    }
+  ],
+  "http_status": 200,
+  "route": "boywithuke/king-of-nothing-official-4988362",
+  "scraped_at": "2026-06-24T11:34:20",
+  "scraper_version": "0.1.0",
+  "song": {
+    "album_id": 2667637,
+    "artist_id": 941489,
+    "artist_name": "BoyWithUke",
+    "song_id": 15648161,
+    "song_name": "King Of Nothing",
+    "tonality": "G",
+    "tuning": "E A D G B E"
+  },
+  "tab_id": "boywithuke/king-of-nothing-official-4988362",
+  "url": "https://tabs.ultimate-guitar.com/tab/boywithuke/king-of-nothing-official-4988362"
+}

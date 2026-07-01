@@ -1,0 +1,30 @@
+{
+  "files": [
+    {
+      "byte_size": 109269,
+      "content_headers": {
+        "content-encoding": "gzip",
+        "content-type": "application/octet-stream"
+      },
+      "filename": "tab-download-ssid-4125751.xtz",
+      "sha256": "576814e9f1159ab21078d9e92f0ea11d358e930ef79112edc91c8f99dbac22f0",
+      "source_url": "https://tabs.ultimate-guitar.com/tab/download/file?ssid=4125751&m=1&s=093cce48feafb0e7b4335f24c505a3fdaec20138",
+      "xtz_magic_ok": true
+    }
+  ],
+  "http_status": 200,
+  "route": "beabadoobee/talk-official-4125751",
+  "scraped_at": "2026-06-25T17:27:32",
+  "scraper_version": "0.1.0",
+  "song": {
+    "album_id": 2024422,
+    "artist_id": 117331,
+    "artist_name": "beabadoobee",
+    "song_id": 11708407,
+    "song_name": "Talk",
+    "tonality": "G",
+    "tuning": "E A D G B E"
+  },
+  "tab_id": "beabadoobee/talk-official-4125751",
+  "url": "https://tabs.ultimate-guitar.com/tab/beabadoobee/talk-official-4125751"
+}

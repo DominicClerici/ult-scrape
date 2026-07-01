@@ -1,0 +1,29 @@
+{
+  "files": [
+    {
+      "byte_size": 160309,
+      "content_headers": {
+        "content-encoding": "gzip",
+        "content-type": "application/octet-stream"
+      },
+      "filename": "tab-download-ssid-3064833.xtz",
+      "sha256": "2d551b7ced99a03a3a8b3a672d684323f972c411873725de4082d8c40376e3cb",
+      "source_url": "https://tabs.ultimate-guitar.com/tab/download/file?ssid=3064833&m=1&s=f80091418caf364e7cc9c57e09bd763f79a82adc",
+      "xtz_magic_ok": true
+    }
+  ],
+  "http_status": 200,
+  "route": "the-1975/me-and-you-together-song-official-3064833",
+  "scraped_at": "2026-06-28T21:27:07",
+  "scraper_version": "0.1.0",
+  "song": {
+    "album_id": 571337,
+    "artist_id": 39990,
+    "artist_name": "The 1975",
+    "song_id": 3774194,
+    "song_name": "Me And You Together Song",
+    "tonality": "A"
+  },
+  "tab_id": "the-1975/me-and-you-together-song-official-3064833",
+  "url": "https://tabs.ultimate-guitar.com/tab/the-1975/me-and-you-together-song-official-3064833"
+}

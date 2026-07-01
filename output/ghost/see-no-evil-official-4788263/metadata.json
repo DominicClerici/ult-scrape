@@ -1,0 +1,30 @@
+{
+  "files": [
+    {
+      "byte_size": 48463,
+      "content_headers": {
+        "content-encoding": "gzip",
+        "content-type": "application/octet-stream"
+      },
+      "filename": "tab-download-ssid-4788263.xtz",
+      "sha256": "466b25613b9ab60abcd6cc8737f5bebf5bc6d99329898982c4960c0fbf103618",
+      "source_url": "https://tabs.ultimate-guitar.com/tab/download/file?ssid=4788263&m=1&s=915e481ecd9d40762b9afeaf73dfd771038e26ae",
+      "xtz_magic_ok": true
+    }
+  ],
+  "http_status": 200,
+  "route": "ghost/see-no-evil-official-4788263",
+  "scraped_at": "2026-06-25T17:51:44",
+  "scraper_version": "0.1.0",
+  "song": {
+    "album_id": 2484059,
+    "artist_id": 31704,
+    "artist_name": "Ghost",
+    "song_id": 15674828,
+    "song_name": "See No Evil",
+    "tonality": "G",
+    "tuning": "D G C F A D"
+  },
+  "tab_id": "ghost/see-no-evil-official-4788263",
+  "url": "https://tabs.ultimate-guitar.com/tab/ghost/see-no-evil-official-4788263"
+}

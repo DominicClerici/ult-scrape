@@ -1,0 +1,30 @@
+{
+  "files": [
+    {
+      "byte_size": 26599,
+      "content_headers": {
+        "content-encoding": "gzip",
+        "content-type": "application/octet-stream"
+      },
+      "filename": "tab-download-ssid-3841286.xtz",
+      "sha256": "626dd2b59ba99c30f080202ff0d170ace7566a6c86aed121161ed1680ca1049d",
+      "source_url": "https://tabs.ultimate-guitar.com/tab/download/file?ssid=3841286&m=1&s=44771e9b36867da28d8a13b64107e303cfe0993c",
+      "xtz_magic_ok": true
+    }
+  ],
+  "http_status": 200,
+  "route": "lorde/leader-of-a-new-regime-official-3841286",
+  "scraped_at": "2026-06-23T21:19:02",
+  "scraper_version": "0.1.0",
+  "song": {
+    "album_id": 921725,
+    "artist_id": 40477,
+    "artist_name": "Lorde",
+    "song_id": 7429688,
+    "song_name": "Leader Of A New Regime",
+    "tonality": "D",
+    "tuning": "E A D G B E"
+  },
+  "tab_id": "lorde/leader-of-a-new-regime-official-3841286",
+  "url": "https://tabs.ultimate-guitar.com/tab/lorde/leader-of-a-new-regime-official-3841286"
+}

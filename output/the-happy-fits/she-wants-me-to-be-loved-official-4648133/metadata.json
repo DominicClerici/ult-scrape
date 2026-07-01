@@ -1,0 +1,30 @@
+{
+  "files": [
+    {
+      "byte_size": 70519,
+      "content_headers": {
+        "content-encoding": "gzip",
+        "content-type": "application/octet-stream"
+      },
+      "filename": "tab-download-ssid-4648133.xtz",
+      "sha256": "d8d570acd4d130a03abfcacaf81feea313502b5ff27ae08b571f595cbc63268d",
+      "source_url": "https://tabs.ultimate-guitar.com/tab/download/file?ssid=4648133&m=1&s=a65979c84d9ebcf07012b774e2ec8f116c53b0b3",
+      "xtz_magic_ok": true
+    }
+  ],
+  "http_status": 200,
+  "route": "the-happy-fits/she-wants-me-to-be-loved-official-4648133",
+  "scraped_at": "2026-06-29T01:22:43",
+  "scraper_version": "0.1.0",
+  "song": {
+    "album_id": 431363,
+    "artist_id": 71805,
+    "artist_name": "The Happy Fits",
+    "song_id": 4034957,
+    "song_name": "She Wants Me To Be Loved",
+    "tonality": "A",
+    "tuning": "E A D G B E"
+  },
+  "tab_id": "the-happy-fits/she-wants-me-to-be-loved-official-4648133",
+  "url": "https://tabs.ultimate-guitar.com/tab/the-happy-fits/she-wants-me-to-be-loved-official-4648133"
+}

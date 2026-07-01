@@ -1,0 +1,30 @@
+{
+  "files": [
+    {
+      "byte_size": 145727,
+      "content_headers": {
+        "content-encoding": "gzip",
+        "content-type": "application/octet-stream"
+      },
+      "filename": "tab-download-ssid-3208454.xtz",
+      "sha256": "64ef9322d93f716c04bd1133fd437510232d0a97490999a85bd7ba90053c323a",
+      "source_url": "https://tabs.ultimate-guitar.com/tab/download/file?ssid=3208454&m=1&s=de71b8af4edb98b5d4a8b503d811c8f03298200a",
+      "xtz_magic_ok": true
+    }
+  ],
+  "http_status": 200,
+  "route": "wilbur-soot/im-in-love-with-an-e-girl-official-3208454",
+  "scraped_at": "2026-06-24T13:56:13",
+  "scraper_version": "0.1.0",
+  "song": {
+    "album_id": 704693,
+    "artist_id": 189477,
+    "artist_name": "Wilbur Soot",
+    "song_id": 3783878,
+    "song_name": "Im In Love With An E-Girl",
+    "tonality": "G",
+    "tuning": "E A D G B E"
+  },
+  "tab_id": "wilbur-soot/im-in-love-with-an-e-girl-official-3208454",
+  "url": "https://tabs.ultimate-guitar.com/tab/wilbur-soot/im-in-love-with-an-e-girl-official-3208454"
+}

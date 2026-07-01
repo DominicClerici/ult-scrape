@@ -1,0 +1,30 @@
+{
+  "files": [
+    {
+      "byte_size": 34560,
+      "content_headers": {
+        "content-encoding": "gzip",
+        "content-type": "application/octet-stream"
+      },
+      "filename": "tab-download-ssid-4946761.xtz",
+      "sha256": "3ad1479fd5b89aa42847e984927c475e019fac0315953381c794c3947cfc3ee7",
+      "source_url": "https://tabs.ultimate-guitar.com/tab/download/file?ssid=4946761&m=1&s=a8438b5ca295479afc121c58a3296b3ec9ce2239",
+      "xtz_magic_ok": true
+    }
+  ],
+  "http_status": 200,
+  "route": "gracie-abrams/friend-official-4946761",
+  "scraped_at": "2026-06-28T12:56:08",
+  "scraper_version": "0.1.0",
+  "song": {
+    "album_id": 424982,
+    "artist_id": 74189,
+    "artist_name": "Gracie Abrams",
+    "song_id": 3987680,
+    "song_name": "Friend",
+    "tonality": "E",
+    "tuning": "E A D G B E"
+  },
+  "tab_id": "gracie-abrams/friend-official-4946761",
+  "url": "https://tabs.ultimate-guitar.com/tab/gracie-abrams/friend-official-4946761"
+}

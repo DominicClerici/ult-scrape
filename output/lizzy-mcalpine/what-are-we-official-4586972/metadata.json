@@ -1,0 +1,30 @@
+{
+  "files": [
+    {
+      "byte_size": 26318,
+      "content_headers": {
+        "content-encoding": "gzip",
+        "content-type": "application/octet-stream"
+      },
+      "filename": "tab-download-ssid-4586972.xtz",
+      "sha256": "900a2eea30dff88963c6e1876b62dc6b28f0722ef4e4911842f28ef962035079",
+      "source_url": "https://tabs.ultimate-guitar.com/tab/download/file?ssid=4586972&m=1&s=dc6e62c0b48e5d4983e99945b9c895dd77d9d2f2",
+      "xtz_magic_ok": true
+    }
+  ],
+  "http_status": 200,
+  "route": "lizzy-mcalpine/what-are-we-official-4586972",
+  "scraped_at": "2026-06-28T12:49:18",
+  "scraper_version": "0.1.0",
+  "song": {
+    "album_id": 2807251,
+    "artist_id": 495308,
+    "artist_name": "Lizzy McAlpine",
+    "song_id": 3943769,
+    "song_name": "What Are We",
+    "tonality": "E",
+    "tuning": "E A D G B E"
+  },
+  "tab_id": "lizzy-mcalpine/what-are-we-official-4586972",
+  "url": "https://tabs.ultimate-guitar.com/tab/lizzy-mcalpine/what-are-we-official-4586972"
+}

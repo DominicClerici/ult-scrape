@@ -1,0 +1,30 @@
+{
+  "files": [
+    {
+      "byte_size": 44423,
+      "content_headers": {
+        "content-encoding": "gzip",
+        "content-type": "application/octet-stream"
+      },
+      "filename": "tab-download-ssid-3905531.xtz",
+      "sha256": "6f2c5b452171955b787df0874c867a9a43352d9e3f4ca0d066651046d157e760",
+      "source_url": "https://tabs.ultimate-guitar.com/tab/download/file?ssid=3905531&m=1&s=b4bb40b6c669a5f8a6303686fbbfb3967d2a8082",
+      "xtz_magic_ok": true
+    }
+  ],
+  "http_status": 200,
+  "route": "louis-tomlinson/too-young-official-3905531",
+  "scraped_at": "2026-06-28T23:39:26",
+  "scraper_version": "0.1.0",
+  "song": {
+    "album_id": 1045841,
+    "artist_id": 71488,
+    "artist_name": "Louis Tomlinson",
+    "song_id": 3676577,
+    "song_name": "Too Young",
+    "tonality": "A",
+    "tuning": "E A D G B E"
+  },
+  "tab_id": "louis-tomlinson/too-young-official-3905531",
+  "url": "https://tabs.ultimate-guitar.com/tab/louis-tomlinson/too-young-official-3905531"
+}

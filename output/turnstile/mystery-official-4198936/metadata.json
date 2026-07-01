@@ -1,0 +1,30 @@
+{
+  "files": [
+    {
+      "byte_size": 59317,
+      "content_headers": {
+        "content-encoding": "gzip",
+        "content-type": "application/octet-stream"
+      },
+      "filename": "tab-download-ssid-4198936.xtz",
+      "sha256": "576f6274187a67fb5250058e86cf490fbcc975a14214d3d35a5f2450ead371b1",
+      "source_url": "https://tabs.ultimate-guitar.com/tab/download/file?ssid=4198936&m=1&s=153cace37850cc5784d2b0f0a30ab4728e7e689a",
+      "xtz_magic_ok": true
+    }
+  ],
+  "http_status": 200,
+  "route": "turnstile/mystery-official-4198936",
+  "scraped_at": "2026-06-25T17:12:59",
+  "scraper_version": "0.1.0",
+  "song": {
+    "album_id": 1083446,
+    "artist_id": 59104,
+    "artist_name": "Turnstile",
+    "song_id": 6657896,
+    "song_name": "Mystery",
+    "tonality": "G",
+    "tuning": "D G C F A D"
+  },
+  "tab_id": "turnstile/mystery-official-4198936",
+  "url": "https://tabs.ultimate-guitar.com/tab/turnstile/mystery-official-4198936"
+}

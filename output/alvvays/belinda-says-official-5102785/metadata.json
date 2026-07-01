@@ -1,0 +1,30 @@
+{
+  "files": [
+    {
+      "byte_size": 65696,
+      "content_headers": {
+        "content-encoding": "gzip",
+        "content-type": "application/octet-stream"
+      },
+      "filename": "tab-download-ssid-5102785.xtz",
+      "sha256": "7c5eeebb175431f31e224b6ce71dc70e6fb09fc6307bc5262dc6cb37f6634dea",
+      "source_url": "https://tabs.ultimate-guitar.com/tab/download/file?ssid=5102785&m=1&s=c94a758c40e5475aa4638d3d285bfe1729d27c81",
+      "xtz_magic_ok": true
+    }
+  ],
+  "http_status": 200,
+  "route": "alvvays/belinda-says-official-5102785",
+  "scraped_at": "2026-06-28T18:21:52",
+  "scraper_version": "0.1.0",
+  "song": {
+    "album_id": 2172743,
+    "artist_id": 47321,
+    "artist_name": "Alvvays",
+    "song_id": 13675196,
+    "song_name": "Belinda Says",
+    "tonality": "E",
+    "tuning": "E A D G B E"
+  },
+  "tab_id": "alvvays/belinda-says-official-5102785",
+  "url": "https://tabs.ultimate-guitar.com/tab/alvvays/belinda-says-official-5102785"
+}

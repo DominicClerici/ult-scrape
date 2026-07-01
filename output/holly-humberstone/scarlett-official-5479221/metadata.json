@@ -1,0 +1,30 @@
+{
+  "files": [
+    {
+      "byte_size": 54548,
+      "content_headers": {
+        "content-encoding": "gzip",
+        "content-type": "application/octet-stream"
+      },
+      "filename": "tab-download-ssid-5479221.xtz",
+      "sha256": "8f7a32ce8b6301ea420ba4e3b8127957a2a40f134ad06c2e473dcb83f9c483e0",
+      "source_url": "https://tabs.ultimate-guitar.com/tab/download/file?ssid=5479221&m=1&s=119d88ecdd9ff06f7dbc01d0f0608748dd0f9e89",
+      "xtz_magic_ok": true
+    }
+  ],
+  "http_status": 200,
+  "route": "holly-humberstone/scarlett-official-5479221",
+  "scraped_at": "2026-06-23T21:19:33",
+  "scraper_version": "0.1.0",
+  "song": {
+    "album_id": 1395194,
+    "artist_id": 531152,
+    "artist_name": "Holly Humberstone",
+    "song_id": 8042918,
+    "song_name": "Scarlett",
+    "tonality": "D",
+    "tuning": "E A D G B E"
+  },
+  "tab_id": "holly-humberstone/scarlett-official-5479221",
+  "url": "https://tabs.ultimate-guitar.com/tab/holly-humberstone/scarlett-official-5479221"
+}

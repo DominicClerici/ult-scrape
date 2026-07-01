@@ -1,0 +1,29 @@
+{
+  "files": [
+    {
+      "byte_size": 151352,
+      "content_headers": {
+        "content-encoding": "gzip",
+        "content-type": "application/octet-stream"
+      },
+      "filename": "tab-download-ssid-3133466.xtz",
+      "sha256": "91b7e51ef6ab663f793fb4cf1b73fd69dcdc347b0cacdbe932d81f1292e9afa0",
+      "source_url": "https://tabs.ultimate-guitar.com/tab/download/file?ssid=3133466&m=1&s=a46bff771775df055ca5663258d903949ba2af00",
+      "xtz_magic_ok": true
+    }
+  ],
+  "http_status": 200,
+  "route": "the-strokes/why-are-sundays-so-depressing-official-3133466",
+  "scraped_at": "2026-06-24T05:05:36",
+  "scraper_version": "0.1.0",
+  "song": {
+    "album_id": 305033,
+    "artist_id": 2240,
+    "artist_name": "The Strokes",
+    "song_id": 3865523,
+    "song_name": "Why Are Sundays So Depressing",
+    "tonality": "C"
+  },
+  "tab_id": "the-strokes/why-are-sundays-so-depressing-official-3133466",
+  "url": "https://tabs.ultimate-guitar.com/tab/the-strokes/why-are-sundays-so-depressing-official-3133466"
+}

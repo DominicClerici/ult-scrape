@@ -1,0 +1,30 @@
+{
+  "files": [
+    {
+      "byte_size": 106821,
+      "content_headers": {
+        "content-encoding": "gzip",
+        "content-type": "application/octet-stream"
+      },
+      "filename": "tab-download-ssid-3361088.xtz",
+      "sha256": "d9451e0bd7b17fbffedd5bd2fdc6f081afee92e2aa2ac658eb2d27a0a93af532",
+      "source_url": "https://tabs.ultimate-guitar.com/tab/download/file?ssid=3361088&m=1&s=071ae603a0cd9e605d04d6b5bab61e241f2501de",
+      "xtz_magic_ok": true
+    }
+  ],
+  "http_status": 200,
+  "route": "mgk-machine-gun-kelly/jawbreaker-official-3361088",
+  "scraped_at": "2026-06-23T21:14:01",
+  "scraper_version": "0.1.0",
+  "song": {
+    "album_id": 574013,
+    "artist_id": 36541,
+    "artist_name": "mgk (Machine Gun Kelly)",
+    "song_id": 4066145,
+    "song_name": "Jawbreaker",
+    "tonality": "D",
+    "tuning": "E A D G B E"
+  },
+  "tab_id": "mgk-machine-gun-kelly/jawbreaker-official-3361088",
+  "url": "https://tabs.ultimate-guitar.com/tab/mgk-machine-gun-kelly/jawbreaker-official-3361088"
+}

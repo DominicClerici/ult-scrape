@@ -1,0 +1,30 @@
+{
+  "files": [
+    {
+      "byte_size": 34527,
+      "content_headers": {
+        "content-encoding": "gzip",
+        "content-type": "application/octet-stream"
+      },
+      "filename": "tab-download-ssid-3430649.xtz",
+      "sha256": "971cc30c68f7068ab35700f0c603ad62e78c8d37782087a89f65ec753614a527",
+      "source_url": "https://tabs.ultimate-guitar.com/tab/download/file?ssid=3430649&m=1&s=2388c9ba64977ecd54f9a44a3dd33f184ccf6c1a",
+      "xtz_magic_ok": true
+    }
+  ],
+  "http_status": 200,
+  "route": "acdc/kick-you-when-youre-down-official-3430649",
+  "scraped_at": "2026-06-24T09:37:44",
+  "scraper_version": "0.1.0",
+  "song": {
+    "album_id": 564188,
+    "artist_id": 2025,
+    "artist_name": "AC/DC",
+    "song_id": 5495090,
+    "song_name": "Kick You When Youre Down",
+    "tonality": "G",
+    "tuning": "E A D G B E"
+  },
+  "tab_id": "acdc/kick-you-when-youre-down-official-3430649",
+  "url": "https://tabs.ultimate-guitar.com/tab/acdc/kick-you-when-youre-down-official-3430649"
+}

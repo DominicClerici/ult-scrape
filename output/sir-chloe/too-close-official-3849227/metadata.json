@@ -1,0 +1,30 @@
+{
+  "files": [
+    {
+      "byte_size": 169124,
+      "content_headers": {
+        "content-encoding": "gzip",
+        "content-type": "application/octet-stream"
+      },
+      "filename": "tab-download-ssid-3849227.xtz",
+      "sha256": "49fc01f32e277fdc9cecd61ca404041cc9e7b73e9048eafd84723d0e20ec84ae",
+      "source_url": "https://tabs.ultimate-guitar.com/tab/download/file?ssid=3849227&m=1&s=33a7bb0ad7367fac49ca9911d4b318786414bcaf",
+      "xtz_magic_ok": true
+    }
+  ],
+  "http_status": 200,
+  "route": "sir-chloe/too-close-official-3849227",
+  "scraped_at": "2026-06-28T10:02:37",
+  "scraper_version": "0.1.0",
+  "song": {
+    "album_id": 994961,
+    "artist_id": 226014,
+    "artist_name": "Sir Chloe",
+    "song_id": 3608098,
+    "song_name": "Too Close",
+    "tonality": "E",
+    "tuning": "E A D G B E"
+  },
+  "tab_id": "sir-chloe/too-close-official-3849227",
+  "url": "https://tabs.ultimate-guitar.com/tab/sir-chloe/too-close-official-3849227"
+}

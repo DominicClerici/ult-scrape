@@ -1,0 +1,30 @@
+{
+  "files": [
+    {
+      "byte_size": 170793,
+      "content_headers": {
+        "content-encoding": "gzip",
+        "content-type": "application/octet-stream"
+      },
+      "filename": "tab-download-ssid-3525911.xtz",
+      "sha256": "38e78bccae3ff5a67e4733a03b57d989e2d1c70fad691e739499165b42c27fd8",
+      "source_url": "https://tabs.ultimate-guitar.com/tab/download/file?ssid=3525911&m=1&s=0479ce66c19a5fd39dcf2de689ebbe1c98d11910",
+      "xtz_magic_ok": true
+    }
+  ],
+  "http_status": 200,
+  "route": "foo-fighters/waiting-on-a-war-official-3525911",
+  "scraped_at": "2026-06-23T21:05:19",
+  "scraper_version": "0.1.0",
+  "song": {
+    "album_id": 764861,
+    "artist_id": 1453,
+    "artist_name": "Foo Fighters",
+    "song_id": 6193754,
+    "song_name": "Waiting On A War",
+    "tonality": "D",
+    "tuning": "E A D G B E"
+  },
+  "tab_id": "foo-fighters/waiting-on-a-war-official-3525911",
+  "url": "https://tabs.ultimate-guitar.com/tab/foo-fighters/waiting-on-a-war-official-3525911"
+}

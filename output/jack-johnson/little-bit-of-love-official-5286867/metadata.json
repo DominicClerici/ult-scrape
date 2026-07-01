@@ -1,0 +1,30 @@
+{
+  "files": [
+    {
+      "byte_size": 32961,
+      "content_headers": {
+        "content-encoding": "gzip",
+        "content-type": "application/octet-stream"
+      },
+      "filename": "tab-download-ssid-5286867.xtz",
+      "sha256": "71bb567e63f21ff75dd3dd2edd6e1c0d9fcea84765364135b478f9733940c5a3",
+      "source_url": "https://tabs.ultimate-guitar.com/tab/download/file?ssid=5286867&m=1&s=338efb85df079403179579b16cb937eb87ccacda",
+      "xtz_magic_ok": true
+    }
+  ],
+  "http_status": 200,
+  "route": "jack-johnson/little-bit-of-love-official-5286867",
+  "scraped_at": "2026-06-28T23:15:05",
+  "scraper_version": "0.1.0",
+  "song": {
+    "album_id": 3143119,
+    "artist_id": 10609,
+    "artist_name": "Jack Johnson",
+    "song_id": 346865,
+    "song_name": "Little Bit Of Love",
+    "tonality": "A",
+    "tuning": "E A D G B E"
+  },
+  "tab_id": "jack-johnson/little-bit-of-love-official-5286867",
+  "url": "https://tabs.ultimate-guitar.com/tab/jack-johnson/little-bit-of-love-official-5286867"
+}

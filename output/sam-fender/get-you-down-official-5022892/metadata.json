@@ -1,0 +1,30 @@
+{
+  "files": [
+    {
+      "byte_size": 69627,
+      "content_headers": {
+        "content-encoding": "gzip",
+        "content-type": "application/octet-stream"
+      },
+      "filename": "tab-download-ssid-5022892.xtz",
+      "sha256": "d02f69d9109aa9d8983795d51cc80c685d1f2cf8d6f75eff08bf6b900292480b",
+      "source_url": "https://tabs.ultimate-guitar.com/tab/download/file?ssid=5022892&m=1&s=f08e06ad6a2259853a9f650fc2a1341f74392a1f",
+      "xtz_magic_ok": true
+    }
+  ],
+  "http_status": 200,
+  "route": "sam-fender/get-you-down-official-5022892",
+  "scraped_at": "2026-06-23T21:03:25",
+  "scraper_version": "0.1.0",
+  "song": {
+    "album_id": 1243703,
+    "artist_id": 132321,
+    "artist_name": "Sam Fender",
+    "song_id": 8358449,
+    "song_name": "Get You Down",
+    "tonality": "D",
+    "tuning": "E A D G B E"
+  },
+  "tab_id": "sam-fender/get-you-down-official-5022892",
+  "url": "https://tabs.ultimate-guitar.com/tab/sam-fender/get-you-down-official-5022892"
+}

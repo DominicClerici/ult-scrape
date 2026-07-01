@@ -1,0 +1,30 @@
+{
+  "files": [
+    {
+      "byte_size": 111695,
+      "content_headers": {
+        "content-encoding": "gzip",
+        "content-type": "application/octet-stream"
+      },
+      "filename": "tab-download-ssid-3276446.xtz",
+      "sha256": "63b4ed4148cc6098f62bfd14c327fcc4f4a367507d34627dedf3b4b323324062",
+      "source_url": "https://tabs.ultimate-guitar.com/tab/download/file?ssid=3276446&m=1&s=31e249c8ba934bcbf43278758bb26c4551deb3cc",
+      "xtz_magic_ok": true
+    }
+  ],
+  "http_status": 200,
+  "route": "frank-turner/scavenger-type-official-3276446",
+  "scraped_at": "2026-06-23T21:13:08",
+  "scraper_version": "0.1.0",
+  "song": {
+    "album_id": 696725,
+    "artist_id": 17185,
+    "artist_name": "Frank Turner",
+    "song_id": 4024430,
+    "song_name": "Scavenger Type",
+    "tonality": "D",
+    "tuning": "E A D G B E"
+  },
+  "tab_id": "frank-turner/scavenger-type-official-3276446",
+  "url": "https://tabs.ultimate-guitar.com/tab/frank-turner/scavenger-type-official-3276446"
+}

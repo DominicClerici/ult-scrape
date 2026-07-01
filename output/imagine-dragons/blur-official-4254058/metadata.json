@@ -1,0 +1,30 @@
+{
+  "files": [
+    {
+      "byte_size": 41215,
+      "content_headers": {
+        "content-encoding": "gzip",
+        "content-type": "application/octet-stream"
+      },
+      "filename": "tab-download-ssid-4254058.xtz",
+      "sha256": "d02cf8074534b0164281212f8580acff50f1d773fb37d61c2ba2bb87a2f10b8d",
+      "source_url": "https://tabs.ultimate-guitar.com/tab/download/file?ssid=4254058&m=1&s=71e8b38e2e124b56fc62accae3f22463dd49983d",
+      "xtz_magic_ok": true
+    }
+  ],
+  "http_status": 200,
+  "route": "imagine-dragons/blur-official-4254058",
+  "scraped_at": "2026-06-23T21:50:00",
+  "scraper_version": "0.1.0",
+  "song": {
+    "album_id": 1125710,
+    "artist_id": 36784,
+    "artist_name": "Imagine Dragons",
+    "song_id": 12827788,
+    "song_name": "Blur",
+    "tonality": "D",
+    "tuning": "D G C F A D"
+  },
+  "tab_id": "imagine-dragons/blur-official-4254058",
+  "url": "https://tabs.ultimate-guitar.com/tab/imagine-dragons/blur-official-4254058"
+}

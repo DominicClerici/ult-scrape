@@ -1,0 +1,30 @@
+{
+  "files": [
+    {
+      "byte_size": 46901,
+      "content_headers": {
+        "content-encoding": "gzip",
+        "content-type": "application/octet-stream"
+      },
+      "filename": "tab-download-ssid-4937851.xtz",
+      "sha256": "a74356425f88f2a343ed831f4269e10cf52d71aa4164c7bfc4370f0262d14c86",
+      "source_url": "https://tabs.ultimate-guitar.com/tab/download/file?ssid=4937851&m=1&s=98e595c7e9e3fa8e11b4dc248252e0cc7d93e331",
+      "xtz_magic_ok": true
+    }
+  ],
+  "http_status": 200,
+  "route": "the-hives/countdown-to-shutdown-official-4937851",
+  "scraped_at": "2026-06-24T05:16:30",
+  "scraper_version": "0.1.0",
+  "song": {
+    "album_id": 2523022,
+    "artist_id": 2226,
+    "artist_name": "The Hives",
+    "song_id": 15863798,
+    "song_name": "Countdown To Shutdown",
+    "tonality": "C",
+    "tuning": "E A D G B E"
+  },
+  "tab_id": "the-hives/countdown-to-shutdown-official-4937851",
+  "url": "https://tabs.ultimate-guitar.com/tab/the-hives/countdown-to-shutdown-official-4937851"
+}

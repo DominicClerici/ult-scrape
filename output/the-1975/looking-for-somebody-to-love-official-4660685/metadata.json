@@ -1,0 +1,30 @@
+{
+  "files": [
+    {
+      "byte_size": 94014,
+      "content_headers": {
+        "content-encoding": "gzip",
+        "content-type": "application/octet-stream"
+      },
+      "filename": "tab-download-ssid-4660685.xtz",
+      "sha256": "d182bb4c2b86361c3676b8e6eae892d1a281cd17283326cb2974f60df63a7935",
+      "source_url": "https://tabs.ultimate-guitar.com/tab/download/file?ssid=4660685&m=1&s=23e5f1e4d306c70bb94881c83b4c7d03df4abfa3",
+      "xtz_magic_ok": true
+    }
+  ],
+  "http_status": 200,
+  "route": "the-1975/looking-for-somebody-to-love-official-4660685",
+  "scraped_at": "2026-06-29T13:06:10",
+  "scraper_version": "0.1.0",
+  "song": {
+    "album_id": 2183597,
+    "artist_id": 39990,
+    "artist_name": "The 1975",
+    "song_id": 13848152,
+    "song_name": "Looking For Somebody To Love",
+    "tonality": "A",
+    "tuning": "E A D G B E"
+  },
+  "tab_id": "the-1975/looking-for-somebody-to-love-official-4660685",
+  "url": "https://tabs.ultimate-guitar.com/tab/the-1975/looking-for-somebody-to-love-official-4660685"
+}

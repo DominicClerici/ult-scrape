@@ -1,0 +1,30 @@
+{
+  "files": [
+    {
+      "byte_size": 43029,
+      "content_headers": {
+        "content-encoding": "gzip",
+        "content-type": "application/octet-stream"
+      },
+      "filename": "tab-download-ssid-5102791.xtz",
+      "sha256": "2caa65d2436111add63c2dfd8df89ac84aae55781270cfa24e0b211e9f45469f",
+      "source_url": "https://tabs.ultimate-guitar.com/tab/download/file?ssid=5102791&m=1&s=c4535b047892cef748660b36ca0cad554ee889f2",
+      "xtz_magic_ok": true
+    }
+  ],
+  "http_status": 200,
+  "route": "alkaline-trio/bad-time-official-5102791",
+  "scraped_at": "2026-06-28T09:31:21",
+  "scraper_version": "0.1.0",
+  "song": {
+    "album_id": 3063079,
+    "artist_id": 1942,
+    "artist_name": "Alkaline Trio",
+    "song_id": 16150894,
+    "song_name": "Bad Time",
+    "tonality": "G",
+    "tuning": "E A D G B E"
+  },
+  "tab_id": "alkaline-trio/bad-time-official-5102791",
+  "url": "https://tabs.ultimate-guitar.com/tab/alkaline-trio/bad-time-official-5102791"
+}

@@ -1,0 +1,30 @@
+{
+  "files": [
+    {
+      "byte_size": 69195,
+      "content_headers": {
+        "content-encoding": "gzip",
+        "content-type": "application/octet-stream"
+      },
+      "filename": "tab-download-ssid-6195242.xtz",
+      "sha256": "42620ab53b180c6f7541e0244dd5cbd625a39313b3a9c2b29d075791744b7594",
+      "source_url": "https://tabs.ultimate-guitar.com/tab/download/file?ssid=6195242&m=1&s=74fed0f6b607776d1edff12f5c8678664736ef69",
+      "xtz_magic_ok": true
+    }
+  ],
+  "http_status": 200,
+  "route": "the-nude-party/sold-out-of-love-official-6195242",
+  "scraped_at": "2026-06-28T18:47:15",
+  "scraper_version": "0.1.0",
+  "song": {
+    "album_id": 2395880,
+    "artist_id": 161013,
+    "artist_name": "The Nude Party",
+    "song_id": 15080534,
+    "song_name": "Sold Out Of Love",
+    "tonality": "E",
+    "tuning": "E A D G B E"
+  },
+  "tab_id": "the-nude-party/sold-out-of-love-official-6195242",
+  "url": "https://tabs.ultimate-guitar.com/tab/the-nude-party/sold-out-of-love-official-6195242"
+}

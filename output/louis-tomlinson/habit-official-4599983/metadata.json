@@ -1,0 +1,30 @@
+{
+  "files": [
+    {
+      "byte_size": 46869,
+      "content_headers": {
+        "content-encoding": "gzip",
+        "content-type": "application/octet-stream"
+      },
+      "filename": "tab-download-ssid-4599983.xtz",
+      "sha256": "04003a2076fe9d6756d479340dfc1c29c79ed65031e206d465906863d2bede27",
+      "source_url": "https://tabs.ultimate-guitar.com/tab/download/file?ssid=4599983&m=1&s=134d4bba285f44d9d41c918736d4c1bf50e08365",
+      "xtz_magic_ok": true
+    }
+  ],
+  "http_status": 200,
+  "route": "louis-tomlinson/habit-official-4599983",
+  "scraped_at": "2026-06-25T17:09:17",
+  "scraper_version": "0.1.0",
+  "song": {
+    "album_id": 1045841,
+    "artist_id": 71488,
+    "artist_name": "Louis Tomlinson",
+    "song_id": 3677059,
+    "song_name": "Habit",
+    "tonality": "G",
+    "tuning": "E A D G B E"
+  },
+  "tab_id": "louis-tomlinson/habit-official-4599983",
+  "url": "https://tabs.ultimate-guitar.com/tab/louis-tomlinson/habit-official-4599983"
+}

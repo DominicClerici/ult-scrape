@@ -1,0 +1,30 @@
+{
+  "files": [
+    {
+      "byte_size": 63428,
+      "content_headers": {
+        "content-encoding": "gzip",
+        "content-type": "application/octet-stream"
+      },
+      "filename": "tab-download-ssid-4721648.xtz",
+      "sha256": "b8341b7ad42c039f3307176bbe40340a9bb36e685610dbee7159baa4de971d49",
+      "source_url": "https://tabs.ultimate-guitar.com/tab/download/file?ssid=4721648&m=1&s=0592e6379dbecd97ae0e0a7f8802ee4d9bda3f2c",
+      "xtz_magic_ok": true
+    }
+  ],
+  "http_status": 200,
+  "route": "stone-temple-pilots/fare-thee-well-official-4721648",
+  "scraped_at": "2026-06-24T13:54:30",
+  "scraper_version": "0.1.0",
+  "song": {
+    "album_id": 305018,
+    "artist_id": 508,
+    "artist_name": "Stone Temple Pilots",
+    "song_id": 3744626,
+    "song_name": "Fare Thee Well",
+    "tonality": "G",
+    "tuning": "E A D G B E"
+  },
+  "tab_id": "stone-temple-pilots/fare-thee-well-official-4721648",
+  "url": "https://tabs.ultimate-guitar.com/tab/stone-temple-pilots/fare-thee-well-official-4721648"
+}

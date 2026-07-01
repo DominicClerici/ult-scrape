@@ -1,0 +1,30 @@
+{
+  "files": [
+    {
+      "byte_size": 26111,
+      "content_headers": {
+        "content-encoding": "gzip",
+        "content-type": "application/octet-stream"
+      },
+      "filename": "tab-download-ssid-3092168.xtz",
+      "sha256": "da659af48cc33b136be3d4a36cf99d63911a385ba67ae2bcc88aeeedb0d19540",
+      "source_url": "https://tabs.ultimate-guitar.com/tab/download/file?ssid=3092168&m=1&s=4b4af48bd223c53355158533bb7f02948c96dc28",
+      "xtz_magic_ok": true
+    }
+  ],
+  "http_status": 200,
+  "route": "5-seconds-of-summer/high-official-3092168",
+  "scraped_at": "2026-06-23T21:04:38",
+  "scraper_version": "0.1.0",
+  "song": {
+    "album_id": 570125,
+    "artist_id": 39564,
+    "artist_name": "5 Seconds of Summer",
+    "song_id": 3845560,
+    "song_name": "High",
+    "tonality": "D",
+    "tuning": "E A D G B E"
+  },
+  "tab_id": "5-seconds-of-summer/high-official-3092168",
+  "url": "https://tabs.ultimate-guitar.com/tab/5-seconds-of-summer/high-official-3092168"
+}

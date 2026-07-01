@@ -1,0 +1,30 @@
+{
+  "files": [
+    {
+      "byte_size": 42734,
+      "content_headers": {
+        "content-encoding": "gzip",
+        "content-type": "application/octet-stream"
+      },
+      "filename": "tab-download-ssid-5120032.xtz",
+      "sha256": "b24dd4c880303d4e3cad30c679f190913cd1b86baecb0415ded0c1c459757c6f",
+      "source_url": "https://tabs.ultimate-guitar.com/tab/download/file?ssid=5120032&m=1&s=0ca50c0cc94c2e26ba994a3b9e8b53bf16fe1a7c",
+      "xtz_magic_ok": true
+    }
+  ],
+  "http_status": 200,
+  "route": "needtobreathe/banks-official-5120032",
+  "scraped_at": "2026-06-24T08:55:58",
+  "scraper_version": "0.1.0",
+  "song": {
+    "album_id": 613349,
+    "artist_id": 16587,
+    "artist_name": "NEEDTOBREATHE",
+    "song_id": 4011650,
+    "song_name": "Banks",
+    "tonality": "G",
+    "tuning": "E A D G B E"
+  },
+  "tab_id": "needtobreathe/banks-official-5120032",
+  "url": "https://tabs.ultimate-guitar.com/tab/needtobreathe/banks-official-5120032"
+}

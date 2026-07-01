@@ -1,0 +1,30 @@
+{
+  "files": [
+    {
+      "byte_size": 50401,
+      "content_headers": {
+        "content-encoding": "gzip",
+        "content-type": "application/octet-stream"
+      },
+      "filename": "tab-download-ssid-5359056.xtz",
+      "sha256": "e3973fdf4b0f994ea49ce3f12ae003a019339f480de8de25d905261bc14b8ec4",
+      "source_url": "https://tabs.ultimate-guitar.com/tab/download/file?ssid=5359056&m=1&s=441c54b1589f088000f498f851ba40a75b278374",
+      "xtz_magic_ok": true
+    }
+  ],
+  "http_status": 200,
+  "route": "beabadoobee/dont-get-the-deal-official-5359056",
+  "scraped_at": "2026-06-23T21:06:27",
+  "scraper_version": "0.1.0",
+  "song": {
+    "album_id": 2024422,
+    "artist_id": 117331,
+    "artist_name": "beabadoobee",
+    "song_id": 12976123,
+    "song_name": "Dont Get The Deal",
+    "tonality": "D",
+    "tuning": "D A D G A D"
+  },
+  "tab_id": "beabadoobee/dont-get-the-deal-official-5359056",
+  "url": "https://tabs.ultimate-guitar.com/tab/beabadoobee/dont-get-the-deal-official-5359056"
+}

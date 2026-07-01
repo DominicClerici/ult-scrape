@@ -1,0 +1,30 @@
+{
+  "files": [
+    {
+      "byte_size": 32431,
+      "content_headers": {
+        "content-encoding": "gzip",
+        "content-type": "application/octet-stream"
+      },
+      "filename": "tab-download-ssid-6150980.xtz",
+      "sha256": "78c1042fd0182bded5d656466cd91aa59fbc0590afdfc7bff699310f27e52f78",
+      "source_url": "https://tabs.ultimate-guitar.com/tab/download/file?ssid=6150980&m=1&s=d46f54bc450c2ac439047cf008f815695b5e0cfe",
+      "xtz_magic_ok": true
+    }
+  ],
+  "http_status": 200,
+  "route": "kacy-clayton/devils-daughter-official-6150980",
+  "scraped_at": "2026-06-23T21:06:03",
+  "scraper_version": "0.1.0",
+  "song": {
+    "album_id": 925850,
+    "artist_id": 122475,
+    "artist_name": "Kacy & Clayton",
+    "song_id": 7447145,
+    "song_name": "Devils Daughter",
+    "tonality": "D",
+    "tuning": "C G C F A D"
+  },
+  "tab_id": "kacy-clayton/devils-daughter-official-6150980",
+  "url": "https://tabs.ultimate-guitar.com/tab/kacy-clayton/devils-daughter-official-6150980"
+}

@@ -1,0 +1,30 @@
+{
+  "files": [
+    {
+      "byte_size": 120405,
+      "content_headers": {
+        "content-encoding": "gzip",
+        "content-type": "application/octet-stream"
+      },
+      "filename": "tab-download-ssid-3455705.xtz",
+      "sha256": "631a3b0994f31d918c786486baff33d326570ba570a089915965e2d4e76e1af1",
+      "source_url": "https://tabs.ultimate-guitar.com/tab/download/file?ssid=3455705&m=1&s=f49c92d8cf883ed4289d5db49a87d94521d844d9",
+      "xtz_magic_ok": true
+    }
+  ],
+  "http_status": 200,
+  "route": "miley-cyrus/bad-karma-official-3455705",
+  "scraped_at": "2026-06-28T13:47:48",
+  "scraper_version": "0.1.0",
+  "song": {
+    "album_id": 603794,
+    "artist_id": 15733,
+    "artist_name": "Miley Cyrus",
+    "song_id": 5605979,
+    "song_name": "Bad Karma",
+    "tonality": "E",
+    "tuning": "E A D G B E"
+  },
+  "tab_id": "miley-cyrus/bad-karma-official-3455705",
+  "url": "https://tabs.ultimate-guitar.com/tab/miley-cyrus/bad-karma-official-3455705"
+}

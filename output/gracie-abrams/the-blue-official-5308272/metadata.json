@@ -1,0 +1,30 @@
+{
+  "files": [
+    {
+      "byte_size": 67348,
+      "content_headers": {
+        "content-encoding": "gzip",
+        "content-type": "application/octet-stream"
+      },
+      "filename": "tab-download-ssid-5308272.xtz",
+      "sha256": "49a32338545dc89de3ee9d38a0f068745f5049360924c0594b5517b21c8e8e02",
+      "source_url": "https://tabs.ultimate-guitar.com/tab/download/file?ssid=5308272&m=1&s=ec8013a492d3a2d3111877fa26851384ce07bcab",
+      "xtz_magic_ok": true
+    }
+  ],
+  "http_status": 200,
+  "route": "gracie-abrams/the-blue-official-5308272",
+  "scraped_at": "2026-06-24T07:13:42",
+  "scraper_version": "0.1.0",
+  "song": {
+    "album_id": 2388755,
+    "artist_id": 74189,
+    "artist_name": "Gracie Abrams",
+    "song_id": 15039902,
+    "song_name": "The Blue",
+    "tonality": "C",
+    "tuning": "E A D G B E"
+  },
+  "tab_id": "gracie-abrams/the-blue-official-5308272",
+  "url": "https://tabs.ultimate-guitar.com/tab/gracie-abrams/the-blue-official-5308272"
+}

@@ -1,0 +1,30 @@
+{
+  "files": [
+    {
+      "byte_size": 37027,
+      "content_headers": {
+        "content-encoding": "gzip",
+        "content-type": "application/octet-stream"
+      },
+      "filename": "tab-download-ssid-4433576.xtz",
+      "sha256": "274d2a895c6a7001bd3623c93b566e8243457519ace5048192385fa4583da149",
+      "source_url": "https://tabs.ultimate-guitar.com/tab/download/file?ssid=4433576&m=1&s=ef686e43fe8c493dec0df68defed47af903e86fe",
+      "xtz_magic_ok": true
+    }
+  ],
+  "http_status": 200,
+  "route": "eden-the-eden-project/isohel-official-4433576",
+  "scraped_at": "2026-06-28T14:05:14",
+  "scraper_version": "0.1.0",
+  "song": {
+    "album_id": 695057,
+    "artist_id": 56963,
+    "artist_name": "EDEN (The Eden Project)",
+    "song_id": 6210794,
+    "song_name": "Isohel",
+    "tonality": "E",
+    "tuning": "E A D G B E"
+  },
+  "tab_id": "eden-the-eden-project/isohel-official-4433576",
+  "url": "https://tabs.ultimate-guitar.com/tab/eden-the-eden-project/isohel-official-4433576"
+}

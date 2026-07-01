@@ -1,0 +1,30 @@
+{
+  "files": [
+    {
+      "byte_size": 34135,
+      "content_headers": {
+        "content-encoding": "gzip",
+        "content-type": "application/octet-stream"
+      },
+      "filename": "tab-download-ssid-4315385.xtz",
+      "sha256": "e5d4b5cd6d6fa9b71cabac2869af84e35f76016bd107016597ae1e23845613ce",
+      "source_url": "https://tabs.ultimate-guitar.com/tab/download/file?ssid=4315385&m=1&s=1134c7ccc25adf9f358905b410416871489b249e",
+      "xtz_magic_ok": true
+    }
+  ],
+  "http_status": 200,
+  "route": "ghost/imperium-official-4315385",
+  "scraped_at": "2026-06-28T16:52:46",
+  "scraper_version": "0.1.0",
+  "song": {
+    "album_id": 1759339,
+    "artist_id": 31704,
+    "artist_name": "Ghost",
+    "song_id": 10986280,
+    "song_name": "Imperium",
+    "tonality": "E",
+    "tuning": "D G C F A D"
+  },
+  "tab_id": "ghost/imperium-official-4315385",
+  "url": "https://tabs.ultimate-guitar.com/tab/ghost/imperium-official-4315385"
+}

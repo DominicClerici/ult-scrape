@@ -1,0 +1,30 @@
+{
+  "files": [
+    {
+      "byte_size": 45929,
+      "content_headers": {
+        "content-encoding": "gzip",
+        "content-type": "application/octet-stream"
+      },
+      "filename": "tab-download-ssid-5331720.xtz",
+      "sha256": "dffc36a473e957e0209269fadc1474f0bdac537af4689bb24eeda0d1781f8b33",
+      "source_url": "https://tabs.ultimate-guitar.com/tab/download/file?ssid=5331720&m=1&s=e84ca05288775f5a3b75be7a0d0065d71c6bd4ab",
+      "xtz_magic_ok": true
+    }
+  ],
+  "http_status": 200,
+  "route": "laufey/someone-new-official-5331720",
+  "scraped_at": "2026-06-24T05:46:45",
+  "scraper_version": "0.1.0",
+  "song": {
+    "album_id": 1245425,
+    "artist_id": 580664,
+    "artist_name": "Laufey",
+    "song_id": 3956690,
+    "song_name": "Someone New",
+    "tonality": "C",
+    "tuning": "E A D G B E"
+  },
+  "tab_id": "laufey/someone-new-official-5331720",
+  "url": "https://tabs.ultimate-guitar.com/tab/laufey/someone-new-official-5331720"
+}

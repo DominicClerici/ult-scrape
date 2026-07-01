@@ -1,0 +1,30 @@
+{
+  "files": [
+    {
+      "byte_size": 60728,
+      "content_headers": {
+        "content-encoding": "gzip",
+        "content-type": "application/octet-stream"
+      },
+      "filename": "tab-download-ssid-4831841.xtz",
+      "sha256": "30b2872f548d51734a44439845d1893649208945261ba5dc653b030bc540f798",
+      "source_url": "https://tabs.ultimate-guitar.com/tab/download/file?ssid=4831841&m=1&s=b1d11abfa2bb0263e0765326befc5c41c976f267",
+      "xtz_magic_ok": true
+    }
+  ],
+  "http_status": 200,
+  "route": "blur/the-narcissist-official-4831841",
+  "scraped_at": "2026-06-28T19:18:07",
+  "scraper_version": "0.1.0",
+  "song": {
+    "album_id": 3063109,
+    "artist_id": 1929,
+    "artist_name": "Blur",
+    "song_id": 15649553,
+    "song_name": "The Narcissist",
+    "tonality": "E",
+    "tuning": "E A D G B E"
+  },
+  "tab_id": "blur/the-narcissist-official-4831841",
+  "url": "https://tabs.ultimate-guitar.com/tab/blur/the-narcissist-official-4831841"
+}

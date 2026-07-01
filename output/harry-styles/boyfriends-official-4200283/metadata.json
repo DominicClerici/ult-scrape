@@ -1,0 +1,30 @@
+{
+  "files": [
+    {
+      "byte_size": 167206,
+      "content_headers": {
+        "content-encoding": "gzip",
+        "content-type": "application/octet-stream"
+      },
+      "filename": "tab-download-ssid-4200283.xtz",
+      "sha256": "6ddd195547ccae03060c0087d66adc1ade88c91d714920a9c9895617f8597f07",
+      "source_url": "https://tabs.ultimate-guitar.com/tab/download/file?ssid=4200283&m=1&s=5a292bbad60d1cccdf0f51e880ee8dfc599fa130",
+      "xtz_magic_ok": true
+    }
+  ],
+  "http_status": 200,
+  "route": "harry-styles/boyfriends-official-4200283",
+  "scraped_at": "2026-06-24T06:44:18",
+  "scraper_version": "0.1.0",
+  "song": {
+    "album_id": 1912624,
+    "artist_id": 41228,
+    "artist_name": "Harry Styles",
+    "song_id": 12000628,
+    "song_name": "Boyfriends",
+    "tonality": "C",
+    "tuning": "E A D G B E"
+  },
+  "tab_id": "harry-styles/boyfriends-official-4200283",
+  "url": "https://tabs.ultimate-guitar.com/tab/harry-styles/boyfriends-official-4200283"
+}

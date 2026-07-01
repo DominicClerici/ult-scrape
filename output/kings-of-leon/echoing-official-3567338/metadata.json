@@ -1,0 +1,30 @@
+{
+  "files": [
+    {
+      "byte_size": 138397,
+      "content_headers": {
+        "content-encoding": "gzip",
+        "content-type": "application/octet-stream"
+      },
+      "filename": "tab-download-ssid-3567338.xtz",
+      "sha256": "8893d62983ee87277a0e922d6c59875f6980209426da67fddcd791c268405579",
+      "source_url": "https://tabs.ultimate-guitar.com/tab/download/file?ssid=3567338&m=1&s=89c639ed76c13988d00738f708b1425416ed49fc",
+      "xtz_magic_ok": true
+    }
+  ],
+  "http_status": 200,
+  "route": "kings-of-leon/echoing-official-3567338",
+  "scraped_at": "2026-06-24T06:01:20",
+  "scraper_version": "0.1.0",
+  "song": {
+    "album_id": 825584,
+    "artist_id": 3751,
+    "artist_name": "Kings of Leon",
+    "song_id": 6280457,
+    "song_name": "Echoing",
+    "tonality": "C",
+    "tuning": "E A D G B E"
+  },
+  "tab_id": "kings-of-leon/echoing-official-3567338",
+  "url": "https://tabs.ultimate-guitar.com/tab/kings-of-leon/echoing-official-3567338"
+}

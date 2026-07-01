@@ -1,0 +1,30 @@
+{
+  "files": [
+    {
+      "byte_size": 37532,
+      "content_headers": {
+        "content-encoding": "gzip",
+        "content-type": "application/octet-stream"
+      },
+      "filename": "tab-download-ssid-5393346.xtz",
+      "sha256": "fed89b5a187fdac846421a62d8672f5d37fd2afcf4a90e8ae3882aac08c825d0",
+      "source_url": "https://tabs.ultimate-guitar.com/tab/download/file?ssid=5393346&m=1&s=742d578ea32a306005d615ac22cb1c5afca23ac4",
+      "xtz_magic_ok": true
+    }
+  ],
+  "http_status": 200,
+  "route": "pinegrove/the-alarmist-official-5393346",
+  "scraped_at": "2026-06-24T12:05:56",
+  "scraper_version": "0.1.0",
+  "song": {
+    "album_id": 748382,
+    "artist_id": 61610,
+    "artist_name": "Pinegrove",
+    "song_id": 3618958,
+    "song_name": "The Alarmist",
+    "tonality": "G",
+    "tuning": "D A D G B E"
+  },
+  "tab_id": "pinegrove/the-alarmist-official-5393346",
+  "url": "https://tabs.ultimate-guitar.com/tab/pinegrove/the-alarmist-official-5393346"
+}

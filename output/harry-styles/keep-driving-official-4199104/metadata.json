@@ -1,0 +1,30 @@
+{
+  "files": [
+    {
+      "byte_size": 40714,
+      "content_headers": {
+        "content-encoding": "gzip",
+        "content-type": "application/octet-stream"
+      },
+      "filename": "tab-download-ssid-4199104.xtz",
+      "sha256": "16302e97e92f119bce778f8471f5acb8d0fbb3c5c95497615cdb2aea83f52617",
+      "source_url": "https://tabs.ultimate-guitar.com/tab/download/file?ssid=4199104&m=1&s=b90072597201a84ecd2862efae657ae33f00b9b9",
+      "xtz_magic_ok": true
+    }
+  ],
+  "http_status": 200,
+  "route": "harry-styles/keep-driving-official-4199104",
+  "scraped_at": "2026-06-29T12:29:44",
+  "scraper_version": "0.1.0",
+  "song": {
+    "album_id": 1912624,
+    "artist_id": 41228,
+    "artist_name": "Harry Styles",
+    "song_id": 12178072,
+    "song_name": "Keep Driving",
+    "tonality": "A",
+    "tuning": "E A D G B E"
+  },
+  "tab_id": "harry-styles/keep-driving-official-4199104",
+  "url": "https://tabs.ultimate-guitar.com/tab/harry-styles/keep-driving-official-4199104"
+}

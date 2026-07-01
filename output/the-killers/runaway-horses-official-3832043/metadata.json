@@ -1,0 +1,30 @@
+{
+  "files": [
+    {
+      "byte_size": 34155,
+      "content_headers": {
+        "content-encoding": "gzip",
+        "content-type": "application/octet-stream"
+      },
+      "filename": "tab-download-ssid-3832043.xtz",
+      "sha256": "6ded3caaddc7fa5f3a3f122a4483f53ff941fabbd2dadc669806c2bd13502fff",
+      "source_url": "https://tabs.ultimate-guitar.com/tab/download/file?ssid=3832043&m=1&s=45b65bcdaf67dfab63e7f932ac1ac162f0cbcdb9",
+      "xtz_magic_ok": true
+    }
+  ],
+  "http_status": 200,
+  "route": "the-killers/runaway-horses-official-3832043",
+  "scraped_at": "2026-06-25T17:15:14",
+  "scraper_version": "0.1.0",
+  "song": {
+    "album_id": 762872,
+    "artist_id": 8183,
+    "artist_name": "The Killers",
+    "song_id": 6781841,
+    "song_name": "Runaway Horses",
+    "tonality": "G",
+    "tuning": "E A D G B E"
+  },
+  "tab_id": "the-killers/runaway-horses-official-3832043",
+  "url": "https://tabs.ultimate-guitar.com/tab/the-killers/runaway-horses-official-3832043"
+}

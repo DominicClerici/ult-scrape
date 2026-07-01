@@ -1,0 +1,30 @@
+{
+  "files": [
+    {
+      "byte_size": 27817,
+      "content_headers": {
+        "content-encoding": "gzip",
+        "content-type": "application/octet-stream"
+      },
+      "filename": "tab-download-ssid-4869317.xtz",
+      "sha256": "6517bdcf20c0d79eaea4d151d53c91a3e3c402d1631e4d465849be0ad7644af8",
+      "source_url": "https://tabs.ultimate-guitar.com/tab/download/file?ssid=4869317&m=1&s=893fb573ca323dfca8b04eafe2002c72735e8d76",
+      "xtz_magic_ok": true
+    }
+  ],
+  "http_status": 200,
+  "route": "jack-white/love-is-selfish-official-4869317",
+  "scraped_at": "2026-06-25T17:22:49",
+  "scraper_version": "0.1.0",
+  "song": {
+    "album_id": 1964578,
+    "artist_id": 19356,
+    "artist_name": "Jack White",
+    "song_id": 10731157,
+    "song_name": "Love Is Selfish",
+    "tonality": "G",
+    "tuning": "E A D G B E"
+  },
+  "tab_id": "jack-white/love-is-selfish-official-4869317",
+  "url": "https://tabs.ultimate-guitar.com/tab/jack-white/love-is-selfish-official-4869317"
+}

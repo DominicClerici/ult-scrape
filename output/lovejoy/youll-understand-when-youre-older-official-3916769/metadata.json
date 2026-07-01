@@ -1,0 +1,30 @@
+{
+  "files": [
+    {
+      "byte_size": 53698,
+      "content_headers": {
+        "content-encoding": "gzip",
+        "content-type": "application/octet-stream"
+      },
+      "filename": "tab-download-ssid-3916769.xtz",
+      "sha256": "a471d024d39b943e800767bac41bf72774d8f7a1051f822e6af9fda07d42cb96",
+      "source_url": "https://tabs.ultimate-guitar.com/tab/download/file?ssid=3916769&m=1&s=72759569c2071b1562fca4859998877e7df19d56",
+      "xtz_magic_ok": true
+    }
+  ],
+  "http_status": 200,
+  "route": "lovejoy/youll-understand-when-youre-older-official-3916769",
+  "scraped_at": "2026-06-24T10:20:07",
+  "scraper_version": "0.1.0",
+  "song": {
+    "album_id": 1264034,
+    "artist_id": 578861,
+    "artist_name": "Lovejoy",
+    "song_id": 9006266,
+    "song_name": "Youll Understand When Youre Older",
+    "tonality": "G",
+    "tuning": "Eb Ab Db Gb Bb Eb"
+  },
+  "tab_id": "lovejoy/youll-understand-when-youre-older-official-3916769",
+  "url": "https://tabs.ultimate-guitar.com/tab/lovejoy/youll-understand-when-youre-older-official-3916769"
+}

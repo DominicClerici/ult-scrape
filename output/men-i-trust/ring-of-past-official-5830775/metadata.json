@@ -1,0 +1,30 @@
+{
+  "files": [
+    {
+      "byte_size": 119462,
+      "content_headers": {
+        "content-encoding": "gzip",
+        "content-type": "application/octet-stream"
+      },
+      "filename": "tab-download-ssid-5830775.xtz",
+      "sha256": "4c84db33171a0a05559e5fdd9146dd836d07eb756cfb54a38771b7a3d25536c9",
+      "source_url": "https://tabs.ultimate-guitar.com/tab/download/file?ssid=5830775&m=1&s=6fee14bc6d6fd20099c4fe508f178bda38da96f1",
+      "xtz_magic_ok": true
+    }
+  ],
+  "http_status": 200,
+  "route": "men-i-trust/ring-of-past-official-5830775",
+  "scraped_at": "2026-06-29T13:08:00",
+  "scraper_version": "0.1.0",
+  "song": {
+    "album_id": 2387009,
+    "artist_id": 69186,
+    "artist_name": "Men I Trust",
+    "song_id": 15024761,
+    "song_name": "Ring Of Past",
+    "tonality": "A",
+    "tuning": "E A D G B E"
+  },
+  "tab_id": "men-i-trust/ring-of-past-official-5830775",
+  "url": "https://tabs.ultimate-guitar.com/tab/men-i-trust/ring-of-past-official-5830775"
+}

@@ -1,0 +1,30 @@
+{
+  "files": [
+    {
+      "byte_size": 70030,
+      "content_headers": {
+        "content-encoding": "gzip",
+        "content-type": "application/octet-stream"
+      },
+      "filename": "tab-download-ssid-4966957.xtz",
+      "sha256": "a21e0afb6b0adaeac626521b73931fe724e80c5ff5433ed25d2061f877f60991",
+      "source_url": "https://tabs.ultimate-guitar.com/tab/download/file?ssid=4966957&m=1&s=2a63ab436a3e2eec43bbb7ae07ab24000c2e7d16",
+      "xtz_magic_ok": true
+    }
+  ],
+  "http_status": 200,
+  "route": "pierce-the-veil/12-fractures-official-4966957",
+  "scraped_at": "2026-06-24T11:23:47",
+  "scraper_version": "0.1.0",
+  "song": {
+    "album_id": 2373158,
+    "artist_id": 18113,
+    "artist_name": "Pierce the Veil",
+    "song_id": 14932760,
+    "song_name": "12 Fractures",
+    "tonality": "G",
+    "tuning": "E A D G B E"
+  },
+  "tab_id": "pierce-the-veil/12-fractures-official-4966957",
+  "url": "https://tabs.ultimate-guitar.com/tab/pierce-the-veil/12-fractures-official-4966957"
+}

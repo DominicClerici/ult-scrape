@@ -1,0 +1,30 @@
+{
+  "files": [
+    {
+      "byte_size": 68916,
+      "content_headers": {
+        "content-encoding": "gzip",
+        "content-type": "application/octet-stream"
+      },
+      "filename": "tab-download-ssid-4764242.xtz",
+      "sha256": "fb6b4ca671f23ef7297bed1aa1c93c5ccf4c876ac71e0b7ff46190794d4b83a8",
+      "source_url": "https://tabs.ultimate-guitar.com/tab/download/file?ssid=4764242&m=1&s=e4ce21c0b2cc357243c61d8e4be2520610ad966c",
+      "xtz_magic_ok": true
+    }
+  ],
+  "http_status": 200,
+  "route": "waterparks/funeral-grey-official-4764242",
+  "scraped_at": "2026-06-29T12:35:13",
+  "scraper_version": "0.1.0",
+  "song": {
+    "album_id": 2441582,
+    "artist_id": 36917,
+    "artist_name": "Waterparks",
+    "song_id": 12261223,
+    "song_name": "Funeral Grey",
+    "tonality": "A",
+    "tuning": "E A D G B E"
+  },
+  "tab_id": "waterparks/funeral-grey-official-4764242",
+  "url": "https://tabs.ultimate-guitar.com/tab/waterparks/funeral-grey-official-4764242"
+}

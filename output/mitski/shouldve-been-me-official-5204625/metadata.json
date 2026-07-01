@@ -1,0 +1,30 @@
+{
+  "files": [
+    {
+      "byte_size": 81090,
+      "content_headers": {
+        "content-encoding": "gzip",
+        "content-type": "application/octet-stream"
+      },
+      "filename": "tab-download-ssid-5204625.xtz",
+      "sha256": "3e254e2a91a60524b6ed94be14cce88cfeadfa05bf4deff2b3b3bae751e6e08a",
+      "source_url": "https://tabs.ultimate-guitar.com/tab/download/file?ssid=5204625&m=1&s=5e3d63985582c07c081b8e7ce595fed6c9f89d05",
+      "xtz_magic_ok": true
+    }
+  ],
+  "http_status": 200,
+  "route": "mitski/shouldve-been-me-official-5204625",
+  "scraped_at": "2026-06-24T06:31:43",
+  "scraper_version": "0.1.0",
+  "song": {
+    "album_id": 1666798,
+    "artist_id": 59648,
+    "artist_name": "Mitski",
+    "song_id": 11029408,
+    "song_name": "Shouldve Been Me",
+    "tonality": "C",
+    "tuning": "E A D G B E"
+  },
+  "tab_id": "mitski/shouldve-been-me-official-5204625",
+  "url": "https://tabs.ultimate-guitar.com/tab/mitski/shouldve-been-me-official-5204625"
+}

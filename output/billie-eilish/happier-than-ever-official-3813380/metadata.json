@@ -1,0 +1,30 @@
+{
+  "files": [
+    {
+      "byte_size": 45726,
+      "content_headers": {
+        "content-encoding": "gzip",
+        "content-type": "application/octet-stream"
+      },
+      "filename": "tab-download-ssid-3813380.xtz",
+      "sha256": "40d01ba3c1fdf3f04db6e0a9266c92dfc318cee3b96525337e257aa36667db3f",
+      "source_url": "https://tabs.ultimate-guitar.com/tab/download/file?ssid=3813380&m=1&s=0e4a72ac49c205f2bb80223ca680f09370035b0c",
+      "xtz_magic_ok": true
+    }
+  ],
+  "http_status": 200,
+  "route": "billie-eilish/happier-than-ever-official-3813380",
+  "scraped_at": "2026-06-24T05:11:07",
+  "scraper_version": "0.1.0",
+  "song": {
+    "album_id": 746858,
+    "artist_id": 66748,
+    "artist_name": "Billie Eilish",
+    "song_id": 6318848,
+    "song_name": "Happier Than Ever",
+    "tonality": "C",
+    "tuning": "E A D G B E"
+  },
+  "tab_id": "billie-eilish/happier-than-ever-official-3813380",
+  "url": "https://tabs.ultimate-guitar.com/tab/billie-eilish/happier-than-ever-official-3813380"
+}

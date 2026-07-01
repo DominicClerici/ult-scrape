@@ -1,0 +1,30 @@
+{
+  "files": [
+    {
+      "byte_size": 51536,
+      "content_headers": {
+        "content-encoding": "gzip",
+        "content-type": "application/octet-stream"
+      },
+      "filename": "tab-download-ssid-6055958.xtz",
+      "sha256": "2ffabdda76e06a41e04d154fc845550a38712494c2dbff91b790c6acd2dc6007",
+      "source_url": "https://tabs.ultimate-guitar.com/tab/download/file?ssid=6055958&m=1&s=5a7da2c7ea36e6895473459e4acceb5b981f649c",
+      "xtz_magic_ok": true
+    }
+  ],
+  "http_status": 200,
+  "route": "jonas-brothers/play-my-music-official-6055958",
+  "scraped_at": "2026-06-23T21:04:15",
+  "scraper_version": "0.1.0",
+  "song": {
+    "album_id": 613508,
+    "artist_id": 15811,
+    "artist_name": "Jonas Brothers",
+    "song_id": 184169,
+    "song_name": "Play My Music",
+    "tonality": "D",
+    "tuning": "E A D G B E"
+  },
+  "tab_id": "jonas-brothers/play-my-music-official-6055958",
+  "url": "https://tabs.ultimate-guitar.com/tab/jonas-brothers/play-my-music-official-6055958"
+}

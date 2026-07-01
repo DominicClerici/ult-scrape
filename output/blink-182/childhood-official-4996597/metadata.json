@@ -1,0 +1,30 @@
+{
+  "files": [
+    {
+      "byte_size": 47494,
+      "content_headers": {
+        "content-encoding": "gzip",
+        "content-type": "application/octet-stream"
+      },
+      "filename": "tab-download-ssid-4996597.xtz",
+      "sha256": "9472fdecbf45bc3c7db01029d59c07e6f4a614d90f97d55af3547978d658702f",
+      "source_url": "https://tabs.ultimate-guitar.com/tab/download/file?ssid=4996597&m=1&s=e4aaadf61af37d56377bfe09699d50c3656dcac2",
+      "xtz_magic_ok": true
+    }
+  ],
+  "http_status": 200,
+  "route": "blink-182/childhood-official-4996597",
+  "scraped_at": "2026-06-24T08:14:05",
+  "scraper_version": "0.1.0",
+  "song": {
+    "album_id": 3062899,
+    "artist_id": 1930,
+    "artist_name": "Blink-182",
+    "song_id": 16100872,
+    "song_name": "Childhood",
+    "tonality": "C",
+    "tuning": "E A D G B E"
+  },
+  "tab_id": "blink-182/childhood-official-4996597",
+  "url": "https://tabs.ultimate-guitar.com/tab/blink-182/childhood-official-4996597"
+}

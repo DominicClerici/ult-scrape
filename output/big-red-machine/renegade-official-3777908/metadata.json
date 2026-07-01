@@ -1,0 +1,30 @@
+{
+  "files": [
+    {
+      "byte_size": 43989,
+      "content_headers": {
+        "content-encoding": "gzip",
+        "content-type": "application/octet-stream"
+      },
+      "filename": "tab-download-ssid-3777908.xtz",
+      "sha256": "50b768bfa26269773eb8185db7be0c7ac615e42ca81b15af5da14bad6a594139",
+      "source_url": "https://tabs.ultimate-guitar.com/tab/download/file?ssid=3777908&m=1&s=3dfeb35d8a2326333a3ef04ff203cdea067ddefc",
+      "xtz_magic_ok": true
+    }
+  ],
+  "http_status": 200,
+  "route": "big-red-machine/renegade-official-3777908",
+  "scraped_at": "2026-06-24T06:15:31",
+  "scraper_version": "0.1.0",
+  "song": {
+    "album_id": 1054514,
+    "artist_id": 154989,
+    "artist_name": "Big Red Machine",
+    "song_id": 6669257,
+    "song_name": "Renegade",
+    "tonality": "C",
+    "tuning": "E A D G B E"
+  },
+  "tab_id": "big-red-machine/renegade-official-3777908",
+  "url": "https://tabs.ultimate-guitar.com/tab/big-red-machine/renegade-official-3777908"
+}

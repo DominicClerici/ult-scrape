@@ -1,0 +1,30 @@
+{
+  "files": [
+    {
+      "byte_size": 151273,
+      "content_headers": {
+        "content-encoding": "gzip",
+        "content-type": "application/octet-stream"
+      },
+      "filename": "tab-download-ssid-3669971.xtz",
+      "sha256": "c94b43133443aadf496e1933e9074163437148262b195d952cb8ab98b0eb85ca",
+      "source_url": "https://tabs.ultimate-guitar.com/tab/download/file?ssid=3669971&m=1&s=83e2b41bb5143bb9bded2016cb92ee4325ef71d1",
+      "xtz_magic_ok": true
+    }
+  ],
+  "http_status": 200,
+  "route": "niall-horan/black-and-white-official-3669971",
+  "scraped_at": "2026-06-23T21:10:39",
+  "scraper_version": "0.1.0",
+  "song": {
+    "album_id": 570626,
+    "artist_id": 70193,
+    "artist_name": "Niall Horan",
+    "song_id": 3828458,
+    "song_name": "Black And White",
+    "tonality": "D",
+    "tuning": "D A D G A D"
+  },
+  "tab_id": "niall-horan/black-and-white-official-3669971",
+  "url": "https://tabs.ultimate-guitar.com/tab/niall-horan/black-and-white-official-3669971"
+}

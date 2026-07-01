@@ -1,0 +1,30 @@
+{
+  "files": [
+    {
+      "byte_size": 86588,
+      "content_headers": {
+        "content-encoding": "gzip",
+        "content-type": "application/octet-stream"
+      },
+      "filename": "tab-download-ssid-3279224.xtz",
+      "sha256": "c3f8e6ceda6d0e1ed94c88efddedf10af4d21a2d979dc89dfc1da2fa5c7ef40c",
+      "source_url": "https://tabs.ultimate-guitar.com/tab/download/file?ssid=3279224&m=1&s=e97d77699372c39e339bfb3b7ae8cd5944ae3350",
+      "xtz_magic_ok": true
+    }
+  ],
+  "http_status": 200,
+  "route": "kansas/propulsion-1-official-3279224",
+  "scraped_at": "2026-06-23T21:12:23",
+  "scraper_version": "0.1.0",
+  "song": {
+    "album_id": 576146,
+    "artist_id": 1065,
+    "artist_name": "Kansas",
+    "song_id": 4010516,
+    "song_name": "Propulsion 1",
+    "tonality": "D",
+    "tuning": "E A D G B E"
+  },
+  "tab_id": "kansas/propulsion-1-official-3279224",
+  "url": "https://tabs.ultimate-guitar.com/tab/kansas/propulsion-1-official-3279224"
+}

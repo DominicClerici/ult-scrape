@@ -1,0 +1,30 @@
+{
+  "files": [
+    {
+      "byte_size": 40987,
+      "content_headers": {
+        "content-encoding": "gzip",
+        "content-type": "application/octet-stream"
+      },
+      "filename": "tab-download-ssid-4418249.xtz",
+      "sha256": "8c867765f14d32a2d74096289e7f5b5cd39ac565bbd1276edba6d8087239d225",
+      "source_url": "https://tabs.ultimate-guitar.com/tab/download/file?ssid=4418249&m=1&s=87b0b2a05b691d0069dcfb06c9cda91d7cd76d19",
+      "xtz_magic_ok": true
+    }
+  ],
+  "http_status": 200,
+  "route": "the-japanese-house/chewing-cotton-wool-official-4418249",
+  "scraped_at": "2026-06-28T23:20:33",
+  "scraper_version": "0.1.0",
+  "song": {
+    "album_id": 2223767,
+    "artist_id": 60680,
+    "artist_name": "The Japanese House",
+    "song_id": 3732413,
+    "song_name": "Chewing Cotton Wool",
+    "tonality": "A",
+    "tuning": "E A D G B E"
+  },
+  "tab_id": "the-japanese-house/chewing-cotton-wool-official-4418249",
+  "url": "https://tabs.ultimate-guitar.com/tab/the-japanese-house/chewing-cotton-wool-official-4418249"
+}

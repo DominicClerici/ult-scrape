@@ -1,0 +1,30 @@
+{
+  "files": [
+    {
+      "byte_size": 48818,
+      "content_headers": {
+        "content-encoding": "gzip",
+        "content-type": "application/octet-stream"
+      },
+      "filename": "tab-download-ssid-5097646.xtz",
+      "sha256": "17f9652c45f2ffdbd215ebdde3a0b758568d63c277d302f044a3cf76109c1bb2",
+      "source_url": "https://tabs.ultimate-guitar.com/tab/download/file?ssid=5097646&m=1&s=53832b2de1b812f11f825125858c8fdca059c604",
+      "xtz_magic_ok": true
+    }
+  ],
+  "http_status": 200,
+  "route": "idles/the-beachland-ballroom-official-5097646",
+  "scraped_at": "2026-06-23T21:20:23",
+  "scraper_version": "0.1.0",
+  "song": {
+    "album_id": 1431748,
+    "artist_id": 77891,
+    "artist_name": "IDLES",
+    "song_id": 8759459,
+    "song_name": "The Beachland Ballroom",
+    "tonality": "D",
+    "tuning": "E A D G B E"
+  },
+  "tab_id": "idles/the-beachland-ballroom-official-5097646",
+  "url": "https://tabs.ultimate-guitar.com/tab/idles/the-beachland-ballroom-official-5097646"
+}

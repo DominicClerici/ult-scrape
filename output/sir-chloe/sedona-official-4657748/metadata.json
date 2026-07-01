@@ -1,0 +1,30 @@
+{
+  "files": [
+    {
+      "byte_size": 38627,
+      "content_headers": {
+        "content-encoding": "gzip",
+        "content-type": "application/octet-stream"
+      },
+      "filename": "tab-download-ssid-4657748.xtz",
+      "sha256": "70ee5ec6ba7bb2c3459733f6ed008c8408c06842e6896ab4e92f1be259913564",
+      "source_url": "https://tabs.ultimate-guitar.com/tab/download/file?ssid=4657748&m=1&s=e0da16bd6d1a5c27145c1382cde8dfed2b7755ad",
+      "xtz_magic_ok": true
+    }
+  ],
+  "http_status": 200,
+  "route": "sir-chloe/sedona-official-4657748",
+  "scraped_at": "2026-06-28T13:30:16",
+  "scraper_version": "0.1.0",
+  "song": {
+    "album_id": 994961,
+    "artist_id": 226014,
+    "artist_name": "Sir Chloe",
+    "song_id": 4065488,
+    "song_name": "Sedona",
+    "tonality": "E",
+    "tuning": "E A D G B E"
+  },
+  "tab_id": "sir-chloe/sedona-official-4657748",
+  "url": "https://tabs.ultimate-guitar.com/tab/sir-chloe/sedona-official-4657748"
+}

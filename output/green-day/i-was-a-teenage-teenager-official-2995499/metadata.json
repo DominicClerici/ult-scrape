@@ -1,0 +1,30 @@
+{
+  "files": [
+    {
+      "byte_size": 115221,
+      "content_headers": {
+        "content-encoding": "gzip",
+        "content-type": "application/octet-stream"
+      },
+      "filename": "tab-download-ssid-2995499.xtz",
+      "sha256": "2ccaf48a196be3c0d60745bdbc7e152fea999422ff518115fd6d093fbb255b62",
+      "source_url": "https://tabs.ultimate-guitar.com/tab/download/file?ssid=2995499&m=1&s=b6866453d1cb41f2c0969354c5d380cd11d4cdea",
+      "xtz_magic_ok": true
+    }
+  ],
+  "http_status": 200,
+  "route": "green-day/i-was-a-teenage-teenager-official-2995499",
+  "scraped_at": "2026-06-28T23:44:50",
+  "scraper_version": "0.1.0",
+  "song": {
+    "album_id": 561029,
+    "artist_id": 1368,
+    "artist_name": "Green Day",
+    "song_id": 3790406,
+    "song_name": "I Was A Teenage Teenager",
+    "tonality": "A",
+    "tuning": "E A D G B E"
+  },
+  "tab_id": "green-day/i-was-a-teenage-teenager-official-2995499",
+  "url": "https://tabs.ultimate-guitar.com/tab/green-day/i-was-a-teenage-teenager-official-2995499"
+}

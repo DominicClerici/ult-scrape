@@ -1,0 +1,30 @@
+{
+  "files": [
+    {
+      "byte_size": 161455,
+      "content_headers": {
+        "content-encoding": "gzip",
+        "content-type": "application/octet-stream"
+      },
+      "filename": "tab-download-ssid-3846209.xtz",
+      "sha256": "7484b46065f1f58e2d250f188b8856228328a601a2e7013672eb9984cf886d92",
+      "source_url": "https://tabs.ultimate-guitar.com/tab/download/file?ssid=3846209&m=1&s=ff3c7c91845d5b4b6ecc12e4170cbe4e14790790",
+      "xtz_magic_ok": true
+    }
+  ],
+  "http_status": 200,
+  "route": "lorde/the-man-with-the-axe-official-3846209",
+  "scraped_at": "2026-06-28T15:54:55",
+  "scraper_version": "0.1.0",
+  "song": {
+    "album_id": 921725,
+    "artist_id": 40477,
+    "artist_name": "Lorde",
+    "song_id": 7429679,
+    "song_name": "The Man With The Axe",
+    "tonality": "E",
+    "tuning": "E A D G B E"
+  },
+  "tab_id": "lorde/the-man-with-the-axe-official-3846209",
+  "url": "https://tabs.ultimate-guitar.com/tab/lorde/the-man-with-the-axe-official-3846209"
+}

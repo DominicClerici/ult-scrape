@@ -1,0 +1,30 @@
+{
+  "files": [
+    {
+      "byte_size": 56855,
+      "content_headers": {
+        "content-encoding": "gzip",
+        "content-type": "application/octet-stream"
+      },
+      "filename": "tab-download-ssid-5119165.xtz",
+      "sha256": "3b34f27295be3ae570d03b86da62bd39c6725875c4ac12bf352768e4ff547e02",
+      "source_url": "https://tabs.ultimate-guitar.com/tab/download/file?ssid=5119165&m=1&s=b8621a8f61d52e70b85358c01cb97540905784c9",
+      "xtz_magic_ok": true
+    }
+  ],
+  "http_status": 200,
+  "route": "soccer-mommy/circle-the-drain-official-5119165",
+  "scraped_at": "2026-06-28T23:34:11",
+  "scraper_version": "0.1.0",
+  "song": {
+    "album_id": 812435,
+    "artist_id": 80293,
+    "artist_name": "Soccer Mommy",
+    "song_id": 3774521,
+    "song_name": "Circle The Drain",
+    "tonality": "A",
+    "tuning": "E A D G B E"
+  },
+  "tab_id": "soccer-mommy/circle-the-drain-official-5119165",
+  "url": "https://tabs.ultimate-guitar.com/tab/soccer-mommy/circle-the-drain-official-5119165"
+}

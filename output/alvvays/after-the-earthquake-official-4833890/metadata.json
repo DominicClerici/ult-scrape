@@ -1,0 +1,30 @@
+{
+  "files": [
+    {
+      "byte_size": 52450,
+      "content_headers": {
+        "content-encoding": "gzip",
+        "content-type": "application/octet-stream"
+      },
+      "filename": "tab-download-ssid-4833890.xtz",
+      "sha256": "0911a7946c9945cc432ede6d0d59da8f208ef00c0f590da5adabe05709842d64",
+      "source_url": "https://tabs.ultimate-guitar.com/tab/download/file?ssid=4833890&m=1&s=42c758473f6e43fe8aed222980aec10ac607cebc",
+      "xtz_magic_ok": true
+    }
+  ],
+  "http_status": 200,
+  "route": "alvvays/after-the-earthquake-official-4833890",
+  "scraped_at": "2026-06-28T16:15:02",
+  "scraper_version": "0.1.0",
+  "song": {
+    "album_id": 2172743,
+    "artist_id": 47321,
+    "artist_name": "Alvvays",
+    "song_id": 9557390,
+    "song_name": "After The Earthquake",
+    "tonality": "E",
+    "tuning": "E A D G B E"
+  },
+  "tab_id": "alvvays/after-the-earthquake-official-4833890",
+  "url": "https://tabs.ultimate-guitar.com/tab/alvvays/after-the-earthquake-official-4833890"
+}

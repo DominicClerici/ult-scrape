@@ -1,0 +1,30 @@
+{
+  "files": [
+    {
+      "byte_size": 42781,
+      "content_headers": {
+        "content-encoding": "gzip",
+        "content-type": "application/octet-stream"
+      },
+      "filename": "tab-download-ssid-4427960.xtz",
+      "sha256": "f60023d7e5a75e841f7fd7a1617054d22b0757a7c8f9f3f820a1fa1d6d04e861",
+      "source_url": "https://tabs.ultimate-guitar.com/tab/download/file?ssid=4427960&m=1&s=e984f88ff8a76ec0287d97de74cbbc3cf6980da6",
+      "xtz_magic_ok": true
+    }
+  ],
+  "http_status": 200,
+  "route": "dance-gavin-dance/pop-off-official-4427960",
+  "scraped_at": "2026-06-25T17:30:29",
+  "scraper_version": "0.1.0",
+  "song": {
+    "album_id": 2057906,
+    "artist_id": 16507,
+    "artist_name": "Dance Gavin Dance",
+    "song_id": 12179014,
+    "song_name": "Pop Off",
+    "tonality": "G",
+    "tuning": "D A D G B E"
+  },
+  "tab_id": "dance-gavin-dance/pop-off-official-4427960",
+  "url": "https://tabs.ultimate-guitar.com/tab/dance-gavin-dance/pop-off-official-4427960"
+}

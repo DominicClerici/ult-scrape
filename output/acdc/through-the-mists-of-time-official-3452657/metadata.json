@@ -1,0 +1,30 @@
+{
+  "files": [
+    {
+      "byte_size": 102038,
+      "content_headers": {
+        "content-encoding": "gzip",
+        "content-type": "application/octet-stream"
+      },
+      "filename": "tab-download-ssid-3452657.xtz",
+      "sha256": "b5d7dc57c0e5259e8d6be104b7b7e475b6d1e6b0e9e79d0357e2ba8d232aefd2",
+      "source_url": "https://tabs.ultimate-guitar.com/tab/download/file?ssid=3452657&m=1&s=7e9c8490cc637776c9d25c5d27b2726260f93535",
+      "xtz_magic_ok": true
+    }
+  ],
+  "http_status": 200,
+  "route": "acdc/through-the-mists-of-time-official-3452657",
+  "scraped_at": "2026-06-29T03:17:11",
+  "scraper_version": "0.1.0",
+  "song": {
+    "album_id": 564188,
+    "artist_id": 2025,
+    "artist_name": "AC/DC",
+    "song_id": 5495087,
+    "song_name": "Through The Mists Of Time",
+    "tonality": "A",
+    "tuning": "E A D G B E"
+  },
+  "tab_id": "acdc/through-the-mists-of-time-official-3452657",
+  "url": "https://tabs.ultimate-guitar.com/tab/acdc/through-the-mists-of-time-official-3452657"
+}

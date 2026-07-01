@@ -1,0 +1,30 @@
+{
+  "files": [
+    {
+      "byte_size": 52682,
+      "content_headers": {
+        "content-encoding": "gzip",
+        "content-type": "application/octet-stream"
+      },
+      "filename": "tab-download-ssid-4714721.xtz",
+      "sha256": "e4347e12321b337c21a119645181901b286108fd2c3d2719bf60fa452869929c",
+      "source_url": "https://tabs.ultimate-guitar.com/tab/download/file?ssid=4714721&m=1&s=8962b2db1338a888d9c38a9ec53bda9d6c974162",
+      "xtz_magic_ok": true
+    }
+  ],
+  "http_status": 200,
+  "route": "jeremy-zucker/emily-official-4714721",
+  "scraped_at": "2026-06-24T06:01:03",
+  "scraper_version": "0.1.0",
+  "song": {
+    "album_id": 751220,
+    "artist_id": 70159,
+    "artist_name": "Jeremy Zucker",
+    "song_id": 6258878,
+    "song_name": "Emily",
+    "tonality": "C",
+    "tuning": "E A D G B E"
+  },
+  "tab_id": "jeremy-zucker/emily-official-4714721",
+  "url": "https://tabs.ultimate-guitar.com/tab/jeremy-zucker/emily-official-4714721"
+}

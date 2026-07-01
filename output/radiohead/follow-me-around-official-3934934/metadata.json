@@ -1,0 +1,30 @@
+{
+  "files": [
+    {
+      "byte_size": 73491,
+      "content_headers": {
+        "content-encoding": "gzip",
+        "content-type": "application/octet-stream"
+      },
+      "filename": "tab-download-ssid-3934934.xtz",
+      "sha256": "c5a3ec5eb280e1e641ed97f7fed44df6dbcfdbb170fa683c4f822bdbf6fb3357",
+      "source_url": "https://tabs.ultimate-guitar.com/tab/download/file?ssid=3934934&m=1&s=cd6301ded84b5e5ef50dd944e27b4fc896e2efea",
+      "xtz_magic_ok": true
+    }
+  ],
+  "http_status": 200,
+  "route": "radiohead/follow-me-around-official-3934934",
+  "scraped_at": "2026-06-23T21:09:03",
+  "scraper_version": "0.1.0",
+  "song": {
+    "album_id": 1327547,
+    "artist_id": 578,
+    "artist_name": "Radiohead",
+    "song_id": 14288,
+    "song_name": "Follow Me Around",
+    "tonality": "D",
+    "tuning": "E A D G B E"
+  },
+  "tab_id": "radiohead/follow-me-around-official-3934934",
+  "url": "https://tabs.ultimate-guitar.com/tab/radiohead/follow-me-around-official-3934934"
+}

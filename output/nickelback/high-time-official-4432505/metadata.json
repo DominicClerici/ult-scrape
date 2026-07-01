@@ -1,0 +1,30 @@
+{
+  "files": [
+    {
+      "byte_size": 50452,
+      "content_headers": {
+        "content-encoding": "gzip",
+        "content-type": "application/octet-stream"
+      },
+      "filename": "tab-download-ssid-4432505.xtz",
+      "sha256": "f962e0c2ebfdcafa0359fe1f27676a42eb5be3e7ca99e8280c60eb687ced49f1",
+      "source_url": "https://tabs.ultimate-guitar.com/tab/download/file?ssid=4432505&m=1&s=2c44db923998343e080816e3af2fdfecf0adebcb",
+      "xtz_magic_ok": true
+    }
+  ],
+  "http_status": 200,
+  "route": "nickelback/high-time-official-4432505",
+  "scraped_at": "2026-06-29T13:07:27",
+  "scraper_version": "0.1.0",
+  "song": {
+    "album_id": 2234123,
+    "artist_id": 782,
+    "artist_name": "Nickelback",
+    "song_id": 14095826,
+    "song_name": "High Time",
+    "tonality": "A",
+    "tuning": "C G C F A D"
+  },
+  "tab_id": "nickelback/high-time-official-4432505",
+  "url": "https://tabs.ultimate-guitar.com/tab/nickelback/high-time-official-4432505"
+}

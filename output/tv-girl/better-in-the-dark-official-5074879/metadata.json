@@ -1,0 +1,30 @@
+{
+  "files": [
+    {
+      "byte_size": 41990,
+      "content_headers": {
+        "content-encoding": "gzip",
+        "content-type": "application/octet-stream"
+      },
+      "filename": "tab-download-ssid-5074879.xtz",
+      "sha256": "e15f34d5b50e410dff89c930ea3a5df09297c7a0231244fe0c531ca55535d2bc",
+      "source_url": "https://tabs.ultimate-guitar.com/tab/download/file?ssid=5074879&m=1&s=68a1178fe12dcd2684fce3891ce1590653783076",
+      "xtz_magic_ok": true
+    }
+  ],
+  "http_status": 200,
+  "route": "tv-girl/better-in-the-dark-official-5074879",
+  "scraped_at": "2026-06-28T22:37:01",
+  "scraper_version": "0.1.0",
+  "song": {
+    "album_id": 2035717,
+    "artist_id": 70356,
+    "artist_name": "TV Girl",
+    "song_id": 13039468,
+    "song_name": "Better In The Dark",
+    "tonality": "A",
+    "tuning": "E A D G B E"
+  },
+  "tab_id": "tv-girl/better-in-the-dark-official-5074879",
+  "url": "https://tabs.ultimate-guitar.com/tab/tv-girl/better-in-the-dark-official-5074879"
+}

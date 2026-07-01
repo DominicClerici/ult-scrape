@@ -1,0 +1,30 @@
+{
+  "files": [
+    {
+      "byte_size": 25051,
+      "content_headers": {
+        "content-encoding": "gzip",
+        "content-type": "application/octet-stream"
+      },
+      "filename": "tab-download-ssid-4834928.xtz",
+      "sha256": "5929335e10bea40ec519aa66b7c1437b533bc7bbde567e85788bfb0cff43fc4a",
+      "source_url": "https://tabs.ultimate-guitar.com/tab/download/file?ssid=4834928&m=1&s=44281c6eeaaa700acfc5104be1c789e8cb0c67da",
+      "xtz_magic_ok": true
+    }
+  ],
+  "http_status": 200,
+  "route": "lizzy-mcalpine/when-the-world-stopped-moving-official-4834928",
+  "scraped_at": "2026-06-28T12:30:48",
+  "scraper_version": "0.1.0",
+  "song": {
+    "album_id": 2807251,
+    "artist_id": 495308,
+    "artist_name": "Lizzy McAlpine",
+    "song_id": 3843790,
+    "song_name": "When The World Stopped Moving",
+    "tonality": "E",
+    "tuning": "E A D G B E"
+  },
+  "tab_id": "lizzy-mcalpine/when-the-world-stopped-moving-official-4834928",
+  "url": "https://tabs.ultimate-guitar.com/tab/lizzy-mcalpine/when-the-world-stopped-moving-official-4834928"
+}

@@ -1,0 +1,30 @@
+{
+  "files": [
+    {
+      "byte_size": 33836,
+      "content_headers": {
+        "content-encoding": "gzip",
+        "content-type": "application/octet-stream"
+      },
+      "filename": "tab-download-ssid-3557150.xtz",
+      "sha256": "77b0b518d9362e7de0eaa95f56fe2b24e46e1c9aab85e3faaa5da5cdc7720f9a",
+      "source_url": "https://tabs.ultimate-guitar.com/tab/download/file?ssid=3557150&m=1&s=7e2fa186fb70bd61d921f1973a5c808fee412ad0",
+      "xtz_magic_ok": true
+    }
+  ],
+  "http_status": 200,
+  "route": "jeremy-zucker/brooklyn-boy-official-3557150",
+  "scraped_at": "2026-06-28T14:31:52",
+  "scraper_version": "0.1.0",
+  "song": {
+    "album_id": 751220,
+    "artist_id": 70159,
+    "artist_name": "Jeremy Zucker",
+    "song_id": 6263393,
+    "song_name": "Brooklyn Boy",
+    "tonality": "E",
+    "tuning": "E A D G B E"
+  },
+  "tab_id": "jeremy-zucker/brooklyn-boy-official-3557150",
+  "url": "https://tabs.ultimate-guitar.com/tab/jeremy-zucker/brooklyn-boy-official-3557150"
+}

@@ -1,0 +1,30 @@
+{
+  "files": [
+    {
+      "byte_size": 47328,
+      "content_headers": {
+        "content-encoding": "gzip",
+        "content-type": "application/octet-stream"
+      },
+      "filename": "tab-download-ssid-3894962.xtz",
+      "sha256": "a86fef6c73c2189c3f99eb6a7ced8fcdf8a64bf02b743626b1cf02d2a5471000",
+      "source_url": "https://tabs.ultimate-guitar.com/tab/download/file?ssid=3894962&m=1&s=d45bd7a48aa1e4beaa21eee9e075cc0283c607f0",
+      "xtz_magic_ok": true
+    }
+  ],
+  "http_status": 200,
+  "route": "jeremy-zucker/deep-end-official-3894962",
+  "scraped_at": "2026-06-23T21:19:58",
+  "scraper_version": "0.1.0",
+  "song": {
+    "album_id": 1246736,
+    "artist_id": 70159,
+    "artist_name": "Jeremy Zucker",
+    "song_id": 8744888,
+    "song_name": "Deep End",
+    "tonality": "D",
+    "tuning": "E A D G B E"
+  },
+  "tab_id": "jeremy-zucker/deep-end-official-3894962",
+  "url": "https://tabs.ultimate-guitar.com/tab/jeremy-zucker/deep-end-official-3894962"
+}

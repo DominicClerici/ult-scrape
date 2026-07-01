@@ -1,0 +1,30 @@
+{
+  "files": [
+    {
+      "byte_size": 40586,
+      "content_headers": {
+        "content-encoding": "gzip",
+        "content-type": "application/octet-stream"
+      },
+      "filename": "tab-download-ssid-4121053.xtz",
+      "sha256": "90125d1a5fd70cb73c3076f9254447b14a2d61dfcba8f3676f0e39a6cc68aaf3",
+      "source_url": "https://tabs.ultimate-guitar.com/tab/download/file?ssid=4121053&m=1&s=eab3ce6f65e093fd4bd940213718f63d9f51b040",
+      "xtz_magic_ok": true
+    }
+  ],
+  "http_status": 200,
+  "route": "yungblud/the-funeral-official-4121053",
+  "scraped_at": "2026-06-23T21:46:34",
+  "scraper_version": "0.1.0",
+  "song": {
+    "album_id": 2148278,
+    "artist_id": 117537,
+    "artist_name": "YUNGBLUD",
+    "song_id": 11560039,
+    "song_name": "The Funeral",
+    "tonality": "D",
+    "tuning": "E A D G B E"
+  },
+  "tab_id": "yungblud/the-funeral-official-4121053",
+  "url": "https://tabs.ultimate-guitar.com/tab/yungblud/the-funeral-official-4121053"
+}

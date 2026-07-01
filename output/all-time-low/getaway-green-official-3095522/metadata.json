@@ -1,0 +1,30 @@
+{
+  "files": [
+    {
+      "byte_size": 45293,
+      "content_headers": {
+        "content-encoding": "gzip",
+        "content-type": "application/octet-stream"
+      },
+      "filename": "tab-download-ssid-3095522.xtz",
+      "sha256": "e11f3d81f9fba56cafeb195157bf9f4dfab1a6432fd57afd4aa14e4f6ec77cef",
+      "source_url": "https://tabs.ultimate-guitar.com/tab/download/file?ssid=3095522&m=1&s=12d48731bdcfc46891d416d16ee57a00ff602ddd",
+      "xtz_magic_ok": true
+    }
+  ],
+  "http_status": 200,
+  "route": "all-time-low/getaway-green-official-3095522",
+  "scraped_at": "2026-06-28T11:15:45",
+  "scraper_version": "0.1.0",
+  "song": {
+    "album_id": 583640,
+    "artist_id": 15557,
+    "artist_name": "All Time Low",
+    "song_id": 3505176,
+    "song_name": "Getaway Green",
+    "tonality": "E",
+    "tuning": "E A D G B E"
+  },
+  "tab_id": "all-time-low/getaway-green-official-3095522",
+  "url": "https://tabs.ultimate-guitar.com/tab/all-time-low/getaway-green-official-3095522"
+}

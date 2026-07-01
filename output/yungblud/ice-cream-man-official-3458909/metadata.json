@@ -1,0 +1,30 @@
+{
+  "files": [
+    {
+      "byte_size": 126787,
+      "content_headers": {
+        "content-encoding": "gzip",
+        "content-type": "application/octet-stream"
+      },
+      "filename": "tab-download-ssid-3458909.xtz",
+      "sha256": "400c3ab15f409cbeee5700fc94f17d6e5abba8ba02495215a9fa93d7ac8fa58a",
+      "source_url": "https://tabs.ultimate-guitar.com/tab/download/file?ssid=3458909&m=1&s=49b130aab759ae9766740ecd358cdcb1e3595ec7",
+      "xtz_magic_ok": true
+    }
+  ],
+  "http_status": 200,
+  "route": "yungblud/ice-cream-man-official-3458909",
+  "scraped_at": "2026-06-28T11:21:12",
+  "scraper_version": "0.1.0",
+  "song": {
+    "album_id": 307391,
+    "artist_id": 117537,
+    "artist_name": "YUNGBLUD",
+    "song_id": 3558684,
+    "song_name": "Ice Cream Man",
+    "tonality": "E",
+    "tuning": "E A D G B E"
+  },
+  "tab_id": "yungblud/ice-cream-man-official-3458909",
+  "url": "https://tabs.ultimate-guitar.com/tab/yungblud/ice-cream-man-official-3458909"
+}

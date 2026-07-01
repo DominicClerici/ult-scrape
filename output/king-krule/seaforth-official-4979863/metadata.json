@@ -1,0 +1,30 @@
+{
+  "files": [
+    {
+      "byte_size": 44724,
+      "content_headers": {
+        "content-encoding": "gzip",
+        "content-type": "application/octet-stream"
+      },
+      "filename": "tab-download-ssid-4979863.xtz",
+      "sha256": "c7c6286e55750a33d792c33193eae2fa5a57f00b4b28687d4774fe86a5257444",
+      "source_url": "https://tabs.ultimate-guitar.com/tab/download/file?ssid=4979863&m=1&s=d433f810b76c62d18f1b0958d8626f467e908255",
+      "xtz_magic_ok": true
+    }
+  ],
+  "http_status": 200,
+  "route": "king-krule/seaforth-official-4979863",
+  "scraped_at": "2026-06-25T17:50:06",
+  "scraper_version": "0.1.0",
+  "song": {
+    "album_id": 2509235,
+    "artist_id": 35813,
+    "artist_name": "King Krule",
+    "song_id": 15369245,
+    "song_name": "Seaforth",
+    "tonality": "G",
+    "tuning": "E A D G B E"
+  },
+  "tab_id": "king-krule/seaforth-official-4979863",
+  "url": "https://tabs.ultimate-guitar.com/tab/king-krule/seaforth-official-4979863"
+}

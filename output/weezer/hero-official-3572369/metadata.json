@@ -1,0 +1,30 @@
+{
+  "files": [
+    {
+      "byte_size": 156504,
+      "content_headers": {
+        "content-encoding": "gzip",
+        "content-type": "application/octet-stream"
+      },
+      "filename": "tab-download-ssid-3572369.xtz",
+      "sha256": "36ea7fb954b95055f23e026bee118d51d53bd22e2df324d5f665e8ef79c62110",
+      "source_url": "https://tabs.ultimate-guitar.com/tab/download/file?ssid=3572369&m=1&s=b4b95d39703b0deea8dbda0b3ae0cad22eee9869",
+      "xtz_magic_ok": true
+    }
+  ],
+  "http_status": 200,
+  "route": "weezer/hero-official-3572369",
+  "scraped_at": "2026-06-23T21:12:04",
+  "scraper_version": "0.1.0",
+  "song": {
+    "album_id": 737900,
+    "artist_id": 77,
+    "artist_name": "Weezer",
+    "song_id": 3905678,
+    "song_name": "Hero",
+    "tonality": "D",
+    "tuning": "E A D G B E"
+  },
+  "tab_id": "weezer/hero-official-3572369",
+  "url": "https://tabs.ultimate-guitar.com/tab/weezer/hero-official-3572369"
+}

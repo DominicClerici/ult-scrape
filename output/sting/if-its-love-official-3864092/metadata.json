@@ -1,0 +1,30 @@
+{
+  "files": [
+    {
+      "byte_size": 167732,
+      "content_headers": {
+        "content-encoding": "gzip",
+        "content-type": "application/octet-stream"
+      },
+      "filename": "tab-download-ssid-3864092.xtz",
+      "sha256": "ac9164595d44de13b4819302bd899755fb3e534a21e3cb2d988b9e761af627bd",
+      "source_url": "https://tabs.ultimate-guitar.com/tab/download/file?ssid=3864092&m=1&s=c75e53492a43154df25b4c1e42548c7c19b71096",
+      "xtz_magic_ok": true
+    }
+  ],
+  "http_status": 200,
+  "route": "sting/if-its-love-official-3864092",
+  "scraped_at": "2026-06-25T17:18:09",
+  "scraper_version": "0.1.0",
+  "song": {
+    "album_id": 1419442,
+    "artist_id": 449,
+    "artist_name": "Sting",
+    "song_id": 8103227,
+    "song_name": "If Its Love",
+    "tonality": "G",
+    "tuning": "E A D G B E"
+  },
+  "tab_id": "sting/if-its-love-official-3864092",
+  "url": "https://tabs.ultimate-guitar.com/tab/sting/if-its-love-official-3864092"
+}

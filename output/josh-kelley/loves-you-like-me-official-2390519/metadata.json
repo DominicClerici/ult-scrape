@@ -1,0 +1,30 @@
+{
+  "files": [
+    {
+      "byte_size": 140642,
+      "content_headers": {
+        "content-encoding": "gzip",
+        "content-type": "application/octet-stream"
+      },
+      "filename": "tab-download-ssid-2390519.xtz",
+      "sha256": "4decfe7742d8bcd8f92b84ad01515f355fc7ada6435aac594592a1a5f7d3d9e0",
+      "source_url": "https://tabs.ultimate-guitar.com/tab/download/file?ssid=2390519&m=1&s=07993c7977dc54bb6d92f72ec5241a4c8e87078f",
+      "xtz_magic_ok": true
+    }
+  ],
+  "http_status": 200,
+  "route": "josh-kelley/loves-you-like-me-official-2390519",
+  "scraped_at": "2026-06-24T05:18:48",
+  "scraper_version": "0.1.0",
+  "song": {
+    "album_id": 1372355,
+    "artist_id": 10661,
+    "artist_name": "Josh Kelley",
+    "song_id": 2743375,
+    "song_name": "Loves You Like Me",
+    "tonality": "C",
+    "tuning": "E A D G B E"
+  },
+  "tab_id": "josh-kelley/loves-you-like-me-official-2390519",
+  "url": "https://tabs.ultimate-guitar.com/tab/josh-kelley/loves-you-like-me-official-2390519"
+}

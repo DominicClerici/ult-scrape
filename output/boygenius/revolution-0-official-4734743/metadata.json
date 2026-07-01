@@ -1,0 +1,30 @@
+{
+  "files": [
+    {
+      "byte_size": 53508,
+      "content_headers": {
+        "content-encoding": "gzip",
+        "content-type": "application/octet-stream"
+      },
+      "filename": "tab-download-ssid-4734743.xtz",
+      "sha256": "926bb346dd0c94c8b5f0a1aa29f5d8a9f9e2050b1aafa6f5d0d068411cb485b9",
+      "source_url": "https://tabs.ultimate-guitar.com/tab/download/file?ssid=4734743&m=1&s=4cf6b64208dbe81cb5c0d46eba66874007203b2a",
+      "xtz_magic_ok": true
+    }
+  ],
+  "http_status": 200,
+  "route": "boygenius/revolution-0-official-4734743",
+  "scraped_at": "2026-06-24T07:25:26",
+  "scraper_version": "0.1.0",
+  "song": {
+    "album_id": 2428433,
+    "artist_id": 161678,
+    "artist_name": "boygenius",
+    "song_id": 15293894,
+    "song_name": "Revolution 0",
+    "tonality": "C",
+    "tuning": "E A D G B E"
+  },
+  "tab_id": "boygenius/revolution-0-official-4734743",
+  "url": "https://tabs.ultimate-guitar.com/tab/boygenius/revolution-0-official-4734743"
+}

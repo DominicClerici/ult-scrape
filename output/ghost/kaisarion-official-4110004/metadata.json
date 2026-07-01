@@ -1,0 +1,30 @@
+{
+  "files": [
+    {
+      "byte_size": 63274,
+      "content_headers": {
+        "content-encoding": "gzip",
+        "content-type": "application/octet-stream"
+      },
+      "filename": "tab-download-ssid-4110004.xtz",
+      "sha256": "8a95a727a4d24adfeb632d2c9232330b05881d23f2acbd608b9b76fa19a54ee2",
+      "source_url": "https://tabs.ultimate-guitar.com/tab/download/file?ssid=4110004&m=1&s=09bc4735214312f6c4acc7b491f5e6db0777defe",
+      "xtz_magic_ok": true
+    }
+  ],
+  "http_status": 200,
+  "route": "ghost/kaisarion-official-4110004",
+  "scraped_at": "2026-06-28T16:45:34",
+  "scraper_version": "0.1.0",
+  "song": {
+    "album_id": 1759339,
+    "artist_id": 31704,
+    "artist_name": "Ghost",
+    "song_id": 11399422,
+    "song_name": "Kaisarion",
+    "tonality": "E",
+    "tuning": "D G C F A D"
+  },
+  "tab_id": "ghost/kaisarion-official-4110004",
+  "url": "https://tabs.ultimate-guitar.com/tab/ghost/kaisarion-official-4110004"
+}

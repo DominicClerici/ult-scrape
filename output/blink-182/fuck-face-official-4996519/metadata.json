@@ -1,0 +1,30 @@
+{
+  "files": [
+    {
+      "byte_size": 24115,
+      "content_headers": {
+        "content-encoding": "gzip",
+        "content-type": "application/octet-stream"
+      },
+      "filename": "tab-download-ssid-4996519.xtz",
+      "sha256": "50bf8083de3030d09bc2e2d52548124ee00a41a12d68ef64f2106c6743f570bd",
+      "source_url": "https://tabs.ultimate-guitar.com/tab/download/file?ssid=4996519&m=1&s=a327985a50cf23895082835cbb6e0954dc3ddaef",
+      "xtz_magic_ok": true
+    }
+  ],
+  "http_status": 200,
+  "route": "blink-182/fuck-face-official-4996519",
+  "scraped_at": "2026-06-24T04:55:56",
+  "scraper_version": "0.1.0",
+  "song": {
+    "album_id": 3062899,
+    "artist_id": 1930,
+    "artist_name": "Blink-182",
+    "song_id": 16100827,
+    "song_name": "Fuck Face",
+    "tonality": "D",
+    "tuning": "E A D G B E"
+  },
+  "tab_id": "blink-182/fuck-face-official-4996519",
+  "url": "https://tabs.ultimate-guitar.com/tab/blink-182/fuck-face-official-4996519"
+}

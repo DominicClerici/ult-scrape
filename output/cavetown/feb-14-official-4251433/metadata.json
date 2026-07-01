@@ -1,0 +1,30 @@
+{
+  "files": [
+    {
+      "byte_size": 46347,
+      "content_headers": {
+        "content-encoding": "gzip",
+        "content-type": "application/octet-stream"
+      },
+      "filename": "tab-download-ssid-4251433.xtz",
+      "sha256": "a0e4f832699f714fca0ce1cb30a95e58771b178361f6fd9e300a369ddee90517",
+      "source_url": "https://tabs.ultimate-guitar.com/tab/download/file?ssid=4251433&m=1&s=658413a451e8e6deb19ef8bba84ec25c45979451",
+      "xtz_magic_ok": true
+    }
+  ],
+  "http_status": 200,
+  "route": "cavetown/feb-14-official-4251433",
+  "scraped_at": "2026-06-24T09:16:44",
+  "scraper_version": "0.1.0",
+  "song": {
+    "album_id": 424535,
+    "artist_id": 64551,
+    "artist_name": "cavetown",
+    "song_id": 3623209,
+    "song_name": "Feb 14",
+    "tonality": "G",
+    "tuning": "D A D G B E"
+  },
+  "tab_id": "cavetown/feb-14-official-4251433",
+  "url": "https://tabs.ultimate-guitar.com/tab/cavetown/feb-14-official-4251433"
+}

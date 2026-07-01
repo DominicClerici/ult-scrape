@@ -1,0 +1,30 @@
+{
+  "files": [
+    {
+      "byte_size": 125237,
+      "content_headers": {
+        "content-encoding": "gzip",
+        "content-type": "application/octet-stream"
+      },
+      "filename": "tab-download-ssid-3848660.xtz",
+      "sha256": "694366fdd103ba80536b4b3a176924095fe329aab888b593f64ac3ed444a7627",
+      "source_url": "https://tabs.ultimate-guitar.com/tab/download/file?ssid=3848660&m=1&s=ff11375e4aba2b33a4d4d39795fdd712f832c2c3",
+      "xtz_magic_ok": true
+    }
+  ],
+  "http_status": 200,
+  "route": "conan-gray/the-cut-that-always-bleeds-official-3848660",
+  "scraped_at": "2026-06-24T05:07:25",
+  "scraper_version": "0.1.0",
+  "song": {
+    "album_id": 422516,
+    "artist_id": 75477,
+    "artist_name": "Conan Gray",
+    "song_id": 3835815,
+    "song_name": "The Cut That Always Bleeds",
+    "tonality": "C",
+    "tuning": "E A D G B E"
+  },
+  "tab_id": "conan-gray/the-cut-that-always-bleeds-official-3848660",
+  "url": "https://tabs.ultimate-guitar.com/tab/conan-gray/the-cut-that-always-bleeds-official-3848660"
+}

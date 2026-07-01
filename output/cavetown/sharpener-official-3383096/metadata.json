@@ -1,0 +1,30 @@
+{
+  "files": [
+    {
+      "byte_size": 118976,
+      "content_headers": {
+        "content-encoding": "gzip",
+        "content-type": "application/octet-stream"
+      },
+      "filename": "tab-download-ssid-3383096.xtz",
+      "sha256": "eb0f2b7b14610bda20e567ac68542b2e284f96a557c4c598eb7e0b54024e1778",
+      "source_url": "https://tabs.ultimate-guitar.com/tab/download/file?ssid=3383096&m=1&s=f643e3d5e0d7bd5710985f5bbb06f21b34f68933",
+      "xtz_magic_ok": true
+    }
+  ],
+  "http_status": 200,
+  "route": "cavetown/sharpener-official-3383096",
+  "scraped_at": "2026-06-25T17:04:58",
+  "scraper_version": "0.1.0",
+  "song": {
+    "album_id": 1473898,
+    "artist_id": 64551,
+    "artist_name": "cavetown",
+    "song_id": 4086779,
+    "song_name": "Sharpener",
+    "tonality": "G",
+    "tuning": "E A D G B E"
+  },
+  "tab_id": "cavetown/sharpener-official-3383096",
+  "url": "https://tabs.ultimate-guitar.com/tab/cavetown/sharpener-official-3383096"
+}

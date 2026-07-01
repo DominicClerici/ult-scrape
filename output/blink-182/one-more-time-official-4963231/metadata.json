@@ -1,0 +1,30 @@
+{
+  "files": [
+    {
+      "byte_size": 39088,
+      "content_headers": {
+        "content-encoding": "gzip",
+        "content-type": "application/octet-stream"
+      },
+      "filename": "tab-download-ssid-4963231.xtz",
+      "sha256": "e3e9d2b8376d7c8a62a626097d4f66fc0fc4fab38b3b25f04456458b5d15a8cf",
+      "source_url": "https://tabs.ultimate-guitar.com/tab/download/file?ssid=4963231&m=1&s=82c79ecccab6c58777780ca1b1a1551a36b0913f",
+      "xtz_magic_ok": true
+    }
+  ],
+  "http_status": 200,
+  "route": "blink-182/one-more-time-official-4963231",
+  "scraped_at": "2026-06-24T04:51:50",
+  "scraper_version": "0.1.0",
+  "song": {
+    "album_id": 3062899,
+    "artist_id": 1930,
+    "artist_name": "Blink-182",
+    "song_id": 16069501,
+    "song_name": "One More Time",
+    "tonality": "D",
+    "tuning": "E A D G B E"
+  },
+  "tab_id": "blink-182/one-more-time-official-4963231",
+  "url": "https://tabs.ultimate-guitar.com/tab/blink-182/one-more-time-official-4963231"
+}

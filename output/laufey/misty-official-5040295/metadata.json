@@ -1,0 +1,30 @@
+{
+  "files": [
+    {
+      "byte_size": 39637,
+      "content_headers": {
+        "content-encoding": "gzip",
+        "content-type": "application/octet-stream"
+      },
+      "filename": "tab-download-ssid-5040295.xtz",
+      "sha256": "650a73f64b552e746b6ed30533b3b320c78d296a56de2c6855b9cbd4d6334e8e",
+      "source_url": "https://tabs.ultimate-guitar.com/tab/download/file?ssid=5040295&m=1&s=635fac757ed28c7c57ba4362d0c2468eaf8b6cda",
+      "xtz_magic_ok": true
+    }
+  ],
+  "http_status": 200,
+  "route": "laufey/misty-official-5040295",
+  "scraped_at": "2026-06-24T07:27:45",
+  "scraper_version": "0.1.0",
+  "song": {
+    "album_id": 2639092,
+    "artist_id": 580664,
+    "artist_name": "Laufey",
+    "song_id": 15901949,
+    "song_name": "Misty",
+    "tonality": "C",
+    "tuning": "E A D G B E"
+  },
+  "tab_id": "laufey/misty-official-5040295",
+  "url": "https://tabs.ultimate-guitar.com/tab/laufey/misty-official-5040295"
+}

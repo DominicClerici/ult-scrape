@@ -1,0 +1,30 @@
+{
+  "files": [
+    {
+      "byte_size": 56642,
+      "content_headers": {
+        "content-encoding": "gzip",
+        "content-type": "application/octet-stream"
+      },
+      "filename": "tab-download-ssid-3103466.xtz",
+      "sha256": "f062faab3fd7b97ef4d74b92efb807eb9f99155906a1f274b4ee909e75a82cf4",
+      "source_url": "https://tabs.ultimate-guitar.com/tab/download/file?ssid=3103466&m=1&s=3878202835ed39face9c382fd1e45c76f6a66bbd",
+      "xtz_magic_ok": true
+    }
+  ],
+  "http_status": 200,
+  "route": "twenty-one-pilots/level-of-concern-official-3103466",
+  "scraped_at": "2026-06-24T05:34:19",
+  "scraper_version": "0.1.0",
+  "song": {
+    "album_id": 566867,
+    "artist_id": 36284,
+    "artist_name": "twenty one pilots",
+    "song_id": 3864785,
+    "song_name": "Level Of Concern",
+    "tonality": "C",
+    "tuning": "E A D G B E"
+  },
+  "tab_id": "twenty-one-pilots/level-of-concern-official-3103466",
+  "url": "https://tabs.ultimate-guitar.com/tab/twenty-one-pilots/level-of-concern-official-3103466"
+}

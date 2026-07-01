@@ -1,0 +1,30 @@
+{
+  "files": [
+    {
+      "byte_size": 51102,
+      "content_headers": {
+        "content-encoding": "gzip",
+        "content-type": "application/octet-stream"
+      },
+      "filename": "tab-download-ssid-4303043.xtz",
+      "sha256": "837f477fd5ccf4999221264d51dda175efb30aec497303715ee79f2b33344b09",
+      "source_url": "https://tabs.ultimate-guitar.com/tab/download/file?ssid=4303043&m=1&s=c277e18f325f8fdd8f6b77f197a37803cd16dcec",
+      "xtz_magic_ok": true
+    }
+  ],
+  "http_status": 200,
+  "route": "lizzy-mcalpine/ceilings-official-4303043",
+  "scraped_at": "2026-06-28T21:15:42",
+  "scraper_version": "0.1.0",
+  "song": {
+    "album_id": 1844095,
+    "artist_id": 495308,
+    "artist_name": "Lizzy McAlpine",
+    "song_id": 6296114,
+    "song_name": "Ceilings",
+    "tonality": "A",
+    "tuning": "E A D G B E"
+  },
+  "tab_id": "lizzy-mcalpine/ceilings-official-4303043",
+  "url": "https://tabs.ultimate-guitar.com/tab/lizzy-mcalpine/ceilings-official-4303043"
+}

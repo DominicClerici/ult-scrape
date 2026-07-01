@@ -1,0 +1,30 @@
+{
+  "files": [
+    {
+      "byte_size": 46312,
+      "content_headers": {
+        "content-encoding": "gzip",
+        "content-type": "application/octet-stream"
+      },
+      "filename": "tab-download-ssid-4094491.xtz",
+      "sha256": "2041f419dba5d40a96149f9e310f4d65d5baafe4e16e4e2fff33e4f96ae15b9d",
+      "source_url": "https://tabs.ultimate-guitar.com/tab/download/file?ssid=4094491&m=1&s=4c21eedbfcf6086941925550f37d4aa0b7537f78",
+      "xtz_magic_ok": true
+    }
+  ],
+  "http_status": 200,
+  "route": "lizzy-mcalpine/reckless-driving-official-4094491",
+  "scraped_at": "2026-06-24T06:00:43",
+  "scraper_version": "0.1.0",
+  "song": {
+    "album_id": 1844095,
+    "artist_id": 495308,
+    "artist_name": "Lizzy McAlpine",
+    "song_id": 6209579,
+    "song_name": "Reckless Driving",
+    "tonality": "C",
+    "tuning": "E A D G B E"
+  },
+  "tab_id": "lizzy-mcalpine/reckless-driving-official-4094491",
+  "url": "https://tabs.ultimate-guitar.com/tab/lizzy-mcalpine/reckless-driving-official-4094491"
+}

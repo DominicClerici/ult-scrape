@@ -1,0 +1,30 @@
+{
+  "files": [
+    {
+      "byte_size": 39717,
+      "content_headers": {
+        "content-encoding": "gzip",
+        "content-type": "application/octet-stream"
+      },
+      "filename": "tab-download-ssid-4434752.xtz",
+      "sha256": "2ccba92d0329d9c1921f9821d63c36ae6c41c3b9d17dde613105bc4aa900f6d2",
+      "source_url": "https://tabs.ultimate-guitar.com/tab/download/file?ssid=4434752&m=1&s=673c19c35a3cb6ac1c24c213b8da91da97e8c998",
+      "xtz_magic_ok": true
+    }
+  ],
+  "http_status": 200,
+  "route": "nothingnowhere-/fake-friend-official-4434752",
+  "scraped_at": "2026-06-28T13:59:58",
+  "scraper_version": "0.1.0",
+  "song": {
+    "album_id": 762431,
+    "artist_id": 78535,
+    "artist_name": "nothing,nowhere.",
+    "song_id": 5656682,
+    "song_name": "Fake Friend",
+    "tonality": "E",
+    "tuning": "E A D G B E"
+  },
+  "tab_id": "nothingnowhere-/fake-friend-official-4434752",
+  "url": "https://tabs.ultimate-guitar.com/tab/nothingnowhere-/fake-friend-official-4434752"
+}

@@ -1,0 +1,30 @@
+{
+  "files": [
+    {
+      "byte_size": 112581,
+      "content_headers": {
+        "content-encoding": "gzip",
+        "content-type": "application/octet-stream"
+      },
+      "filename": "tab-download-ssid-3436712.xtz",
+      "sha256": "5ac37dd292155d76b9613241f02d6d34fc9483a525191677610ab0a2c025b3e0",
+      "source_url": "https://tabs.ultimate-guitar.com/tab/download/file?ssid=3436712&m=1&s=6ad0fe3bb7fceba19d88656edf532707f4a0fd00",
+      "xtz_magic_ok": true
+    }
+  ],
+  "http_status": 200,
+  "route": "acdc/realize-official-3436712",
+  "scraped_at": "2026-06-29T02:55:41",
+  "scraper_version": "0.1.0",
+  "song": {
+    "album_id": 564188,
+    "artist_id": 2025,
+    "artist_name": "AC/DC",
+    "song_id": 5486036,
+    "song_name": "Realize",
+    "tonality": "A",
+    "tuning": "E A D G B E"
+  },
+  "tab_id": "acdc/realize-official-3436712",
+  "url": "https://tabs.ultimate-guitar.com/tab/acdc/realize-official-3436712"
+}

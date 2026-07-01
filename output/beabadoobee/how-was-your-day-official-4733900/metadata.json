@@ -1,0 +1,30 @@
+{
+  "files": [
+    {
+      "byte_size": 28077,
+      "content_headers": {
+        "content-encoding": "gzip",
+        "content-type": "application/octet-stream"
+      },
+      "filename": "tab-download-ssid-4733900.xtz",
+      "sha256": "6aa693b756f7a9a08793752da242577d0a7da7ddd39b6abe9dfd3d7bb2c664e2",
+      "source_url": "https://tabs.ultimate-guitar.com/tab/download/file?ssid=4733900&m=1&s=629fcc69e7fc1c57552dd5b38902fb016907e937",
+      "xtz_magic_ok": true
+    }
+  ],
+  "http_status": 200,
+  "route": "beabadoobee/how-was-your-day-official-4733900",
+  "scraped_at": "2026-06-23T21:14:43",
+  "scraper_version": "0.1.0",
+  "song": {
+    "album_id": 422537,
+    "artist_id": 117331,
+    "artist_name": "beabadoobee",
+    "song_id": 4069772,
+    "song_name": "How Was Your Day",
+    "tonality": "D",
+    "tuning": "E A D G B E"
+  },
+  "tab_id": "beabadoobee/how-was-your-day-official-4733900",
+  "url": "https://tabs.ultimate-guitar.com/tab/beabadoobee/how-was-your-day-official-4733900"
+}

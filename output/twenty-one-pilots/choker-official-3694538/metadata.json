@@ -1,0 +1,30 @@
+{
+  "files": [
+    {
+      "byte_size": 150439,
+      "content_headers": {
+        "content-encoding": "gzip",
+        "content-type": "application/octet-stream"
+      },
+      "filename": "tab-download-ssid-3694538.xtz",
+      "sha256": "f4a88f8221c3d49a4d01e94987ba09b56c26294e6628c22b54fe4946d64b34f1",
+      "source_url": "https://tabs.ultimate-guitar.com/tab/download/file?ssid=3694538&m=1&s=75f717ea2154fa8fac19f4597352bcc45c2f8c32",
+      "xtz_magic_ok": true
+    }
+  ],
+  "http_status": 200,
+  "route": "twenty-one-pilots/choker-official-3694538",
+  "scraped_at": "2026-06-24T09:59:00",
+  "scraper_version": "0.1.0",
+  "song": {
+    "album_id": 741683,
+    "artist_id": 36284,
+    "artist_name": "twenty one pilots",
+    "song_id": 6569717,
+    "song_name": "Choker",
+    "tonality": "G",
+    "tuning": "E A D G B E"
+  },
+  "tab_id": "twenty-one-pilots/choker-official-3694538",
+  "url": "https://tabs.ultimate-guitar.com/tab/twenty-one-pilots/choker-official-3694538"
+}

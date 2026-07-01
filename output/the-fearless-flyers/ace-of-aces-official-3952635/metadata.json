@@ -1,0 +1,30 @@
+{
+  "files": [
+    {
+      "byte_size": 36880,
+      "content_headers": {
+        "content-encoding": "gzip",
+        "content-type": "application/octet-stream"
+      },
+      "filename": "tab-download-ssid-3952635.xtz",
+      "sha256": "4d352b844a54dfcd1a77f59ad53c1bbf4d601b1eee01eb73d3319e08c4a071b2",
+      "source_url": "https://tabs.ultimate-guitar.com/tab/download/file?ssid=3952635&m=1&s=726874159f96f4afa8e406f2602fc10fbede6cb1",
+      "xtz_magic_ok": true
+    }
+  ],
+  "http_status": 200,
+  "route": "the-fearless-flyers/ace-of-aces-official-3952635",
+  "scraped_at": "2026-06-28T09:56:26",
+  "scraper_version": "0.1.0",
+  "song": {
+    "album_id": 1863754,
+    "artist_id": 155267,
+    "artist_name": "The Fearless Flyers",
+    "song_id": 2771467,
+    "song_name": "Ace Of Aces",
+    "tonality": "E",
+    "tuning": "E A D G B E"
+  },
+  "tab_id": "the-fearless-flyers/ace-of-aces-official-3952635",
+  "url": "https://tabs.ultimate-guitar.com/tab/the-fearless-flyers/ace-of-aces-official-3952635"
+}

@@ -1,0 +1,30 @@
+{
+  "files": [
+    {
+      "byte_size": 36077,
+      "content_headers": {
+        "content-encoding": "gzip",
+        "content-type": "application/octet-stream"
+      },
+      "filename": "tab-download-ssid-3557459.xtz",
+      "sha256": "8fd4052d6e0883b2c52db93d0686f2e0ef0da100a244b56ee5910a338cedd1be",
+      "source_url": "https://tabs.ultimate-guitar.com/tab/download/file?ssid=3557459&m=1&s=2501bb5211b755aed6fb5c2782bfb2e7b3a9cf55",
+      "xtz_magic_ok": true
+    }
+  ],
+  "http_status": 200,
+  "route": "billie-joe-armstrong/i-think-were-alone-now-official-3557459",
+  "scraped_at": "2026-06-28T21:32:46",
+  "scraper_version": "0.1.0",
+  "song": {
+    "album_id": 2334020,
+    "artist_id": 33151,
+    "artist_name": "Billie Joe Armstrong",
+    "song_id": 3848968,
+    "song_name": "I Think Were Alone Now",
+    "tonality": "A",
+    "tuning": "E A D G B E"
+  },
+  "tab_id": "billie-joe-armstrong/i-think-were-alone-now-official-3557459",
+  "url": "https://tabs.ultimate-guitar.com/tab/billie-joe-armstrong/i-think-were-alone-now-official-3557459"
+}

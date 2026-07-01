@@ -1,0 +1,29 @@
+{
+  "files": [
+    {
+      "byte_size": 110708,
+      "content_headers": {
+        "content-encoding": "gzip",
+        "content-type": "application/octet-stream"
+      },
+      "filename": "tab-download-ssid-3151020.xtz",
+      "sha256": "9ee77f56375c013e2dff36f66cecb230a77ebff24cc1f97fa3bc3e74b7b8c0ef",
+      "source_url": "https://tabs.ultimate-guitar.com/tab/download/file?ssid=3151020&m=1&s=934cf94afa930531cbf38ff7b8f42480576d0965",
+      "xtz_magic_ok": true
+    }
+  ],
+  "http_status": 200,
+  "route": "all-time-low/basement-noise-official-3151020",
+  "scraped_at": "2026-06-28T12:37:55",
+  "scraper_version": "0.1.0",
+  "song": {
+    "album_id": 583640,
+    "artist_id": 15557,
+    "artist_name": "All Time Low",
+    "song_id": 3848497,
+    "song_name": "Basement Noise",
+    "tonality": "E"
+  },
+  "tab_id": "all-time-low/basement-noise-official-3151020",
+  "url": "https://tabs.ultimate-guitar.com/tab/all-time-low/basement-noise-official-3151020"
+}

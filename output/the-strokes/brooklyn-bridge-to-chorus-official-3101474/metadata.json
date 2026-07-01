@@ -1,0 +1,30 @@
+{
+  "files": [
+    {
+      "byte_size": 48556,
+      "content_headers": {
+        "content-encoding": "gzip",
+        "content-type": "application/octet-stream"
+      },
+      "filename": "tab-download-ssid-3101474.xtz",
+      "sha256": "a85e07937fa1490a04ae98defc48617fea93f10171110490d7c98f9fbb4ca220",
+      "source_url": "https://tabs.ultimate-guitar.com/tab/download/file?ssid=3101474&m=1&s=d401328b71913a7e4a8b1fd7c49ae31f0875826e",
+      "xtz_magic_ok": true
+    }
+  ],
+  "http_status": 200,
+  "route": "the-strokes/brooklyn-bridge-to-chorus-official-3101474",
+  "scraped_at": "2026-06-24T05:33:51",
+  "scraper_version": "0.1.0",
+  "song": {
+    "album_id": 305033,
+    "artist_id": 2240,
+    "artist_name": "The Strokes",
+    "song_id": 3860564,
+    "song_name": "Brooklyn Bridge To Chorus",
+    "tonality": "C",
+    "tuning": "E A D G B E"
+  },
+  "tab_id": "the-strokes/brooklyn-bridge-to-chorus-official-3101474",
+  "url": "https://tabs.ultimate-guitar.com/tab/the-strokes/brooklyn-bridge-to-chorus-official-3101474"
+}

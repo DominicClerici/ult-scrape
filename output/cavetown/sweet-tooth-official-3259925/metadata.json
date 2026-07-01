@@ -1,0 +1,30 @@
+{
+  "files": [
+    {
+      "byte_size": 137083,
+      "content_headers": {
+        "content-encoding": "gzip",
+        "content-type": "application/octet-stream"
+      },
+      "filename": "tab-download-ssid-3259925.xtz",
+      "sha256": "95dc46e8111003c0e56b74bac7cd1bbef95ca909c407bf23c14af26318eacfcf",
+      "source_url": "https://tabs.ultimate-guitar.com/tab/download/file?ssid=3259925&m=1&s=c0672f7c45b426e89a77bc14ca2d7dffc24c6b72",
+      "xtz_magic_ok": true
+    }
+  ],
+  "http_status": 200,
+  "route": "cavetown/sweet-tooth-official-3259925",
+  "scraped_at": "2026-06-24T05:06:50",
+  "scraper_version": "0.1.0",
+  "song": {
+    "album_id": 424535,
+    "artist_id": 64551,
+    "artist_name": "cavetown",
+    "song_id": 3801593,
+    "song_name": "Sweet Tooth",
+    "tonality": "C",
+    "tuning": "E A D G B E"
+  },
+  "tab_id": "cavetown/sweet-tooth-official-3259925",
+  "url": "https://tabs.ultimate-guitar.com/tab/cavetown/sweet-tooth-official-3259925"
+}

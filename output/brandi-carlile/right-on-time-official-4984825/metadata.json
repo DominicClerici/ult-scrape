@@ -1,0 +1,30 @@
+{
+  "files": [
+    {
+      "byte_size": 54006,
+      "content_headers": {
+        "content-encoding": "gzip",
+        "content-type": "application/octet-stream"
+      },
+      "filename": "tab-download-ssid-4984825.xtz",
+      "sha256": "70681ce402c9f8e51de1533ff5a2ca745d52c6122035282694ed201ac41cac80",
+      "source_url": "https://tabs.ultimate-guitar.com/tab/download/file?ssid=4984825&m=1&s=fbdd355760e700e610ad4444d7f1e72fd6554df0",
+      "xtz_magic_ok": true
+    }
+  ],
+  "http_status": 200,
+  "route": "brandi-carlile/right-on-time-official-4984825",
+  "scraped_at": "2026-06-24T10:09:36",
+  "scraper_version": "0.1.0",
+  "song": {
+    "album_id": 1211051,
+    "artist_id": 14439,
+    "artist_name": "Brandi Carlile",
+    "song_id": 6697619,
+    "song_name": "Right On Time",
+    "tonality": "G",
+    "tuning": "E A D G B E"
+  },
+  "tab_id": "brandi-carlile/right-on-time-official-4984825",
+  "url": "https://tabs.ultimate-guitar.com/tab/brandi-carlile/right-on-time-official-4984825"
+}

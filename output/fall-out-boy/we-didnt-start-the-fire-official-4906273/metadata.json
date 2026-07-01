@@ -1,0 +1,30 @@
+{
+  "files": [
+    {
+      "byte_size": 67157,
+      "content_headers": {
+        "content-encoding": "gzip",
+        "content-type": "application/octet-stream"
+      },
+      "filename": "tab-download-ssid-4906273.xtz",
+      "sha256": "6c7e7d1090e12ff7324b81efe0f076af53fd3f53ce6a8ecec186883d6773f6da",
+      "source_url": "https://tabs.ultimate-guitar.com/tab/download/file?ssid=4906273&m=1&s=4df4c1125d31d9b6780574e118e8db1c384363c2",
+      "xtz_magic_ok": true
+    }
+  ],
+  "http_status": 200,
+  "route": "fall-out-boy/we-didnt-start-the-fire-official-4906273",
+  "scraped_at": "2026-06-24T04:47:15",
+  "scraper_version": "0.1.0",
+  "song": {
+    "album_id": 2519426,
+    "artist_id": 7752,
+    "artist_name": "Fall Out Boy",
+    "song_id": 15896846,
+    "song_name": "We Didnt Start The Fire",
+    "tonality": "D",
+    "tuning": "D A D G B E"
+  },
+  "tab_id": "fall-out-boy/we-didnt-start-the-fire-official-4906273",
+  "url": "https://tabs.ultimate-guitar.com/tab/fall-out-boy/we-didnt-start-the-fire-official-4906273"
+}

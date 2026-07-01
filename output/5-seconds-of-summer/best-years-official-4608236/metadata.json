@@ -1,0 +1,30 @@
+{
+  "files": [
+    {
+      "byte_size": 38478,
+      "content_headers": {
+        "content-encoding": "gzip",
+        "content-type": "application/octet-stream"
+      },
+      "filename": "tab-download-ssid-4608236.xtz",
+      "sha256": "96b83bd2cb83953424f8f01b129fc4a4be36fb0a208357dfc1bcfc9dc97809ff",
+      "source_url": "https://tabs.ultimate-guitar.com/tab/download/file?ssid=4608236&m=1&s=6b8287158e87153d31dfa33d6986dbe340e639f5",
+      "xtz_magic_ok": true
+    }
+  ],
+  "http_status": 200,
+  "route": "5-seconds-of-summer/best-years-official-4608236",
+  "scraped_at": "2026-06-23T21:11:36",
+  "scraper_version": "0.1.0",
+  "song": {
+    "album_id": 570125,
+    "artist_id": 39564,
+    "artist_name": "5 Seconds of Summer",
+    "song_id": 3836808,
+    "song_name": "Best Years",
+    "tonality": "D",
+    "tuning": "E A D G B E"
+  },
+  "tab_id": "5-seconds-of-summer/best-years-official-4608236",
+  "url": "https://tabs.ultimate-guitar.com/tab/5-seconds-of-summer/best-years-official-4608236"
+}

@@ -1,0 +1,30 @@
+{
+  "files": [
+    {
+      "byte_size": 23758,
+      "content_headers": {
+        "content-encoding": "gzip",
+        "content-type": "application/octet-stream"
+      },
+      "filename": "tab-download-ssid-4916671.xtz",
+      "sha256": "969dae4b005c41fe5762376be82870d6def709840ab98862b366720d39dafacf",
+      "source_url": "https://tabs.ultimate-guitar.com/tab/download/file?ssid=4916671&m=1&s=0cbeb0172549db469dae3ef3cd9aabaeb47f26e1",
+      "xtz_magic_ok": true
+    }
+  ],
+  "http_status": 200,
+  "route": "dominic-fike/what-kinda-woman-official-4916671",
+  "scraped_at": "2026-06-23T21:08:19",
+  "scraper_version": "0.1.0",
+  "song": {
+    "album_id": 2518880,
+    "artist_id": 176892,
+    "artist_name": "Dominic Fike",
+    "song_id": 15944777,
+    "song_name": "What Kinda Woman",
+    "tonality": "D",
+    "tuning": "E A D G B E"
+  },
+  "tab_id": "dominic-fike/what-kinda-woman-official-4916671",
+  "url": "https://tabs.ultimate-guitar.com/tab/dominic-fike/what-kinda-woman-official-4916671"
+}

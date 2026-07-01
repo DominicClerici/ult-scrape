@@ -1,0 +1,30 @@
+{
+  "files": [
+    {
+      "byte_size": 36136,
+      "content_headers": {
+        "content-encoding": "gzip",
+        "content-type": "application/octet-stream"
+      },
+      "filename": "tab-download-ssid-4640411.xtz",
+      "sha256": "94d0d672ac15de6320d23d1bac0d6c8f675fd3d87548f7a6d6a09debde801dc6",
+      "source_url": "https://tabs.ultimate-guitar.com/tab/download/file?ssid=4640411&m=1&s=e5bfb4ecd7c09aa11882ca89cf368fa810e48da1",
+      "xtz_magic_ok": true
+    }
+  ],
+  "http_status": 200,
+  "route": "d4vd/placebo-effect-official-4640411",
+  "scraped_at": "2026-06-28T18:41:06",
+  "scraper_version": "0.1.0",
+  "song": {
+    "album_id": 2520875,
+    "artist_id": 1714169,
+    "artist_name": "d4vd",
+    "song_id": 14924954,
+    "song_name": "Placebo Effect",
+    "tonality": "E",
+    "tuning": "E A D G B E"
+  },
+  "tab_id": "d4vd/placebo-effect-official-4640411",
+  "url": "https://tabs.ultimate-guitar.com/tab/d4vd/placebo-effect-official-4640411"
+}

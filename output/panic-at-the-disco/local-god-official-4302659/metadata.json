@@ -1,0 +1,30 @@
+{
+  "files": [
+    {
+      "byte_size": 55209,
+      "content_headers": {
+        "content-encoding": "gzip",
+        "content-type": "application/octet-stream"
+      },
+      "filename": "tab-download-ssid-4302659.xtz",
+      "sha256": "36d15e6328dc1f6b5a9a7058c170359ad1e95c37e135472d7bc064a10e604946",
+      "source_url": "https://tabs.ultimate-guitar.com/tab/download/file?ssid=4302659&m=1&s=bb40d65eaa2f0be9ae22d7bc000c3b6f2fad4f45",
+      "xtz_magic_ok": true
+    }
+  ],
+  "http_status": 200,
+  "route": "panic-at-the-disco/local-god-official-4302659",
+  "scraped_at": "2026-06-28T17:44:05",
+  "scraper_version": "0.1.0",
+  "song": {
+    "album_id": 2088884,
+    "artist_id": 11756,
+    "artist_name": "Panic! At the Disco",
+    "song_id": 13216106,
+    "song_name": "Local God",
+    "tonality": "E",
+    "tuning": "E A D G B E"
+  },
+  "tab_id": "panic-at-the-disco/local-god-official-4302659",
+  "url": "https://tabs.ultimate-guitar.com/tab/panic-at-the-disco/local-god-official-4302659"
+}

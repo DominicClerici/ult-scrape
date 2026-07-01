@@ -1,0 +1,30 @@
+{
+  "files": [
+    {
+      "byte_size": 53808,
+      "content_headers": {
+        "content-encoding": "gzip",
+        "content-type": "application/octet-stream"
+      },
+      "filename": "tab-download-ssid-4203229.xtz",
+      "sha256": "6702afb6b19bcd3b26ca004580b04b44b78652f1eef0aa970acb1985de376d15",
+      "source_url": "https://tabs.ultimate-guitar.com/tab/download/file?ssid=4203229&m=1&s=04d8cb5d0da544050ba5e20e191246f8da86739f",
+      "xtz_magic_ok": true
+    }
+  ],
+  "http_status": 200,
+  "route": "lord-huron/i-lied-official-4203229",
+  "scraped_at": "2026-06-29T07:42:41",
+  "scraper_version": "0.1.0",
+  "song": {
+    "album_id": 840176,
+    "artist_id": 32668,
+    "artist_name": "Lord Huron",
+    "song_id": 6569735,
+    "song_name": "I Lied",
+    "tonality": "A",
+    "tuning": "E A D G B E"
+  },
+  "tab_id": "lord-huron/i-lied-official-4203229",
+  "url": "https://tabs.ultimate-guitar.com/tab/lord-huron/i-lied-official-4203229"
+}

@@ -1,0 +1,30 @@
+{
+  "files": [
+    {
+      "byte_size": 76086,
+      "content_headers": {
+        "content-encoding": "gzip",
+        "content-type": "application/octet-stream"
+      },
+      "filename": "tab-download-ssid-4968136.xtz",
+      "sha256": "9bde4f0e0819bbb786e6c3fcc63324074a34293d335fa589b1d1825b1a90018d",
+      "source_url": "https://tabs.ultimate-guitar.com/tab/download/file?ssid=4968136&m=1&s=38a2e6b1c2af82ed3afe739157ba7dc90ea1699a",
+      "xtz_magic_ok": true
+    }
+  ],
+  "http_status": 200,
+  "route": "pierce-the-veil/flawless-execution-official-4968136",
+  "scraped_at": "2026-06-28T09:37:11",
+  "scraper_version": "0.1.0",
+  "song": {
+    "album_id": 2373158,
+    "artist_id": 18113,
+    "artist_name": "Pierce the Veil",
+    "song_id": 14923718,
+    "song_name": "Flawless Execution",
+    "tonality": "E",
+    "tuning": "E A D G B E"
+  },
+  "tab_id": "pierce-the-veil/flawless-execution-official-4968136",
+  "url": "https://tabs.ultimate-guitar.com/tab/pierce-the-veil/flawless-execution-official-4968136"
+}

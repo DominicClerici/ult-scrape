@@ -1,0 +1,30 @@
+{
+  "files": [
+    {
+      "byte_size": 59913,
+      "content_headers": {
+        "content-encoding": "gzip",
+        "content-type": "application/octet-stream"
+      },
+      "filename": "tab-download-ssid-4325132.xtz",
+      "sha256": "cb6a70729c817ce1caa71b5c0a80dc1cbae1a19ce7e84aae8cdd7e15f6961c92",
+      "source_url": "https://tabs.ultimate-guitar.com/tab/download/file?ssid=4325132&m=1&s=3ca7ddba29be8c76099ae9a284ee0460355337c3",
+      "xtz_magic_ok": true
+    }
+  ],
+  "http_status": 200,
+  "route": "muse/verona-official-4325132",
+  "scraped_at": "2026-06-25T17:35:50",
+  "scraper_version": "0.1.0",
+  "song": {
+    "album_id": 2109017,
+    "artist_id": 940,
+    "artist_name": "Muse",
+    "song_id": 13413704,
+    "song_name": "Verona",
+    "tonality": "G",
+    "tuning": "E A D G B E"
+  },
+  "tab_id": "muse/verona-official-4325132",
+  "url": "https://tabs.ultimate-guitar.com/tab/muse/verona-official-4325132"
+}

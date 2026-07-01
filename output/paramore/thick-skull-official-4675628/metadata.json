@@ -1,0 +1,30 @@
+{
+  "files": [
+    {
+      "byte_size": 58311,
+      "content_headers": {
+        "content-encoding": "gzip",
+        "content-type": "application/octet-stream"
+      },
+      "filename": "tab-download-ssid-4675628.xtz",
+      "sha256": "e60c54e877ed41edaad36cc04266e761a3c45954247b95bbf5dead6c86e37a38",
+      "source_url": "https://tabs.ultimate-guitar.com/tab/download/file?ssid=4675628&m=1&s=da92f2baf1b9b28b4cd477a04f7c3c03a9907454",
+      "xtz_magic_ok": true
+    }
+  ],
+  "http_status": 200,
+  "route": "paramore/thick-skull-official-4675628",
+  "scraped_at": "2026-06-28T22:50:00",
+  "scraper_version": "0.1.0",
+  "song": {
+    "album_id": 2369855,
+    "artist_id": 11926,
+    "artist_name": "Paramore",
+    "song_id": 14918399,
+    "song_name": "Thick Skull",
+    "tonality": "A",
+    "tuning": "E A D G B E"
+  },
+  "tab_id": "paramore/thick-skull-official-4675628",
+  "url": "https://tabs.ultimate-guitar.com/tab/paramore/thick-skull-official-4675628"
+}

@@ -1,0 +1,29 @@
+{
+  "files": [
+    {
+      "byte_size": 133321,
+      "content_headers": {
+        "content-encoding": "gzip",
+        "content-type": "application/octet-stream"
+      },
+      "filename": "tab-download-ssid-3088862.xtz",
+      "sha256": "5bd18fd0e7357e3f311a58dda84628e84da7eebaade6a97016d93ecd6fbb2fe8",
+      "source_url": "https://tabs.ultimate-guitar.com/tab/download/file?ssid=3088862&m=1&s=fb07de6a6c9123ceedf92323baa43fbd41a78c11",
+      "xtz_magic_ok": true
+    }
+  ],
+  "http_status": 200,
+  "route": "all-time-low/trouble-is-official-3088862",
+  "scraped_at": "2026-06-29T00:16:54",
+  "scraper_version": "0.1.0",
+  "song": {
+    "album_id": 583640,
+    "artist_id": 15557,
+    "artist_name": "All Time Low",
+    "song_id": 3846895,
+    "song_name": "Trouble Is",
+    "tonality": "A"
+  },
+  "tab_id": "all-time-low/trouble-is-official-3088862",
+  "url": "https://tabs.ultimate-guitar.com/tab/all-time-low/trouble-is-official-3088862"
+}

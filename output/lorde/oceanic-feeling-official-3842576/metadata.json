@@ -1,0 +1,30 @@
+{
+  "files": [
+    {
+      "byte_size": 80929,
+      "content_headers": {
+        "content-encoding": "gzip",
+        "content-type": "application/octet-stream"
+      },
+      "filename": "tab-download-ssid-3842576.xtz",
+      "sha256": "678c26dae467b8b614383749371563d2b50601842e3cad6f3400dc108a8e0735",
+      "source_url": "https://tabs.ultimate-guitar.com/tab/download/file?ssid=3842576&m=1&s=fbd81b412de926ca080a9f4a032dc2bc66ca44b6",
+      "xtz_magic_ok": true
+    }
+  ],
+  "http_status": 200,
+  "route": "lorde/oceanic-feeling-official-3842576",
+  "scraped_at": "2026-06-24T06:16:16",
+  "scraper_version": "0.1.0",
+  "song": {
+    "album_id": 921725,
+    "artist_id": 40477,
+    "artist_name": "Lorde",
+    "song_id": 7429691,
+    "song_name": "Oceanic Feeling",
+    "tonality": "C",
+    "tuning": "E A D G B E"
+  },
+  "tab_id": "lorde/oceanic-feeling-official-3842576",
+  "url": "https://tabs.ultimate-guitar.com/tab/lorde/oceanic-feeling-official-3842576"
+}

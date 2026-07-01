@@ -1,0 +1,30 @@
+{
+  "files": [
+    {
+      "byte_size": 38064,
+      "content_headers": {
+        "content-encoding": "gzip",
+        "content-type": "application/octet-stream"
+      },
+      "filename": "tab-download-ssid-4721633.xtz",
+      "sha256": "a3f3ab75500477681295d917bda5137dc752e70221fb93e98c25d45f409bfdef",
+      "source_url": "https://tabs.ultimate-guitar.com/tab/download/file?ssid=4721633&m=1&s=e1e9d5dbfc3e8fab90528db080dab34be23aff4e",
+      "xtz_magic_ok": true
+    }
+  ],
+  "http_status": 200,
+  "route": "beabadoobee/sunny-day-official-4721633",
+  "scraped_at": "2026-06-29T12:54:39",
+  "scraper_version": "0.1.0",
+  "song": {
+    "album_id": 2024422,
+    "artist_id": 117331,
+    "artist_name": "beabadoobee",
+    "song_id": 12976108,
+    "song_name": "Sunny Day",
+    "tonality": "A",
+    "tuning": "E A D G B E"
+  },
+  "tab_id": "beabadoobee/sunny-day-official-4721633",
+  "url": "https://tabs.ultimate-guitar.com/tab/beabadoobee/sunny-day-official-4721633"
+}

@@ -1,0 +1,30 @@
+{
+  "files": [
+    {
+      "byte_size": 62999,
+      "content_headers": {
+        "content-encoding": "gzip",
+        "content-type": "application/octet-stream"
+      },
+      "filename": "tab-download-ssid-4699694.xtz",
+      "sha256": "7c08c6228a977c5b73072642d137cfee7dfee6662eaa5aa63d42184a6d04365f",
+      "source_url": "https://tabs.ultimate-guitar.com/tab/download/file?ssid=4699694&m=1&s=e99710494d5d55c6f56adb224a9be64295a55965",
+      "xtz_magic_ok": true
+    }
+  ],
+  "http_status": 200,
+  "route": "paramore/figure-8-official-4699694",
+  "scraped_at": "2026-06-28T11:03:39",
+  "scraper_version": "0.1.0",
+  "song": {
+    "album_id": 2369855,
+    "artist_id": 11926,
+    "artist_name": "Paramore",
+    "song_id": 14918366,
+    "song_name": "Figure 8",
+    "tonality": "E",
+    "tuning": "E A D G B E"
+  },
+  "tab_id": "paramore/figure-8-official-4699694",
+  "url": "https://tabs.ultimate-guitar.com/tab/paramore/figure-8-official-4699694"
+}

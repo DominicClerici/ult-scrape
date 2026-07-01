@@ -1,0 +1,30 @@
+{
+  "files": [
+    {
+      "byte_size": 39162,
+      "content_headers": {
+        "content-encoding": "gzip",
+        "content-type": "application/octet-stream"
+      },
+      "filename": "tab-download-ssid-5657352.xtz",
+      "sha256": "0fb51b39d47c210e6ff339a7f190d0a0e6393622b8c63f1c49615fc4845f6db9",
+      "source_url": "https://tabs.ultimate-guitar.com/tab/download/file?ssid=5657352&m=1&s=b98756bcdcf6bbf4e90ab6b987f65c5a5520c229",
+      "xtz_magic_ok": true
+    }
+  ],
+  "http_status": 200,
+  "route": "beabadoobee/worth-it-official-5657352",
+  "scraped_at": "2026-06-23T21:13:31",
+  "scraper_version": "0.1.0",
+  "song": {
+    "album_id": 422537,
+    "artist_id": 117331,
+    "artist_name": "beabadoobee",
+    "song_id": 4046051,
+    "song_name": "Worth It",
+    "tonality": "D",
+    "tuning": "E A D G B E"
+  },
+  "tab_id": "beabadoobee/worth-it-official-5657352",
+  "url": "https://tabs.ultimate-guitar.com/tab/beabadoobee/worth-it-official-5657352"
+}

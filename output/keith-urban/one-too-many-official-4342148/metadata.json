@@ -1,0 +1,30 @@
+{
+  "files": [
+    {
+      "byte_size": 68236,
+      "content_headers": {
+        "content-encoding": "gzip",
+        "content-type": "application/octet-stream"
+      },
+      "filename": "tab-download-ssid-4342148.xtz",
+      "sha256": "a245a0756a2259a883d37c863f30c1caf421506a12e2133cab06c3258d72ec59",
+      "source_url": "https://tabs.ultimate-guitar.com/tab/download/file?ssid=4342148&m=1&s=717394ac4ecb540d47c1f0d1a475fefe80100706",
+      "xtz_magic_ok": true
+    }
+  ],
+  "http_status": 200,
+  "route": "keith-urban/one-too-many-official-4342148",
+  "scraped_at": "2026-06-28T13:23:44",
+  "scraper_version": "0.1.0",
+  "song": {
+    "album_id": 863054,
+    "artist_id": 11500,
+    "artist_name": "Keith Urban",
+    "song_id": 4053626,
+    "song_name": "One Too Many",
+    "tonality": "E",
+    "tuning": "E A D G B E"
+  },
+  "tab_id": "keith-urban/one-too-many-official-4342148",
+  "url": "https://tabs.ultimate-guitar.com/tab/keith-urban/one-too-many-official-4342148"
+}

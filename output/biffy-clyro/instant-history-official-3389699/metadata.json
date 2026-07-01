@@ -1,0 +1,30 @@
+{
+  "files": [
+    {
+      "byte_size": 75553,
+      "content_headers": {
+        "content-encoding": "gzip",
+        "content-type": "application/octet-stream"
+      },
+      "filename": "tab-download-ssid-3389699.xtz",
+      "sha256": "932ac4bde7ed789d976be4f3bc6341809be54f942333e891bc11c61ff372cb4a",
+      "source_url": "https://tabs.ultimate-guitar.com/tab/download/file?ssid=3389699&m=1&s=34a9ce5a3bcb26affdf9e015e7bac561d96ddd26",
+      "xtz_magic_ok": true
+    }
+  ],
+  "http_status": 200,
+  "route": "biffy-clyro/instant-history-official-3389699",
+  "scraped_at": "2026-06-28T12:17:03",
+  "scraper_version": "0.1.0",
+  "song": {
+    "album_id": 306368,
+    "artist_id": 2497,
+    "artist_name": "Biffy Clyro",
+    "song_id": 3807053,
+    "song_name": "Instant History",
+    "tonality": "E",
+    "tuning": "E A D G B E"
+  },
+  "tab_id": "biffy-clyro/instant-history-official-3389699",
+  "url": "https://tabs.ultimate-guitar.com/tab/biffy-clyro/instant-history-official-3389699"
+}

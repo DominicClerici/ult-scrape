@@ -1,0 +1,30 @@
+{
+  "files": [
+    {
+      "byte_size": 33044,
+      "content_headers": {
+        "content-encoding": "gzip",
+        "content-type": "application/octet-stream"
+      },
+      "filename": "tab-download-ssid-4112791.xtz",
+      "sha256": "f596f7b2093458587041b5ebfa4639fc9684943a0d0988cc969d86cb84f7d46d",
+      "source_url": "https://tabs.ultimate-guitar.com/tab/download/file?ssid=4112791&m=1&s=9b2c9f2ad42499a3fe48b58c8dfe02aa7899a3da",
+      "xtz_magic_ok": true
+    }
+  ],
+  "http_status": 200,
+  "route": "annenmaykantereit/tommi-official-4112791",
+  "scraped_at": "2026-06-29T11:58:28",
+  "scraper_version": "0.1.0",
+  "song": {
+    "album_id": 2394797,
+    "artist_id": 48045,
+    "artist_name": "AnnenMayKantereit",
+    "song_id": 3725030,
+    "song_name": "Tommi",
+    "tonality": "A",
+    "tuning": "E A D G B E"
+  },
+  "tab_id": "annenmaykantereit/tommi-official-4112791",
+  "url": "https://tabs.ultimate-guitar.com/tab/annenmaykantereit/tommi-official-4112791"
+}

@@ -1,0 +1,30 @@
+{
+  "files": [
+    {
+      "byte_size": 37840,
+      "content_headers": {
+        "content-encoding": "gzip",
+        "content-type": "application/octet-stream"
+      },
+      "filename": "tab-download-ssid-4767212.xtz",
+      "sha256": "189b9996514c8d8d844861f5fadac4403bd6e709b74350105f4eacbbd97bfe7c",
+      "source_url": "https://tabs.ultimate-guitar.com/tab/download/file?ssid=4767212&m=1&s=fa6de25f0314ea116f469cdf868713eb96280e3e",
+      "xtz_magic_ok": true
+    }
+  ],
+  "http_status": 200,
+  "route": "calum-scott/biblical-official-4767212",
+  "scraped_at": "2026-06-28T15:18:49",
+  "scraper_version": "0.1.0",
+  "song": {
+    "album_id": 1975129,
+    "artist_id": 61085,
+    "artist_name": "Calum Scott",
+    "song_id": 6643736,
+    "song_name": "Biblical",
+    "tonality": "E",
+    "tuning": "E A D G B E"
+  },
+  "tab_id": "calum-scott/biblical-official-4767212",
+  "url": "https://tabs.ultimate-guitar.com/tab/calum-scott/biblical-official-4767212"
+}

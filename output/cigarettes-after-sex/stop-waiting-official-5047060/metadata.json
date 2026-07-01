@@ -1,0 +1,30 @@
+{
+  "files": [
+    {
+      "byte_size": 43372,
+      "content_headers": {
+        "content-encoding": "gzip",
+        "content-type": "application/octet-stream"
+      },
+      "filename": "tab-download-ssid-5047060.xtz",
+      "sha256": "b6817f7dbf18653fb27362dcdff7f1744404647566c1e8002d483b426f4c6384",
+      "source_url": "https://tabs.ultimate-guitar.com/tab/download/file?ssid=5047060&m=1&s=73cb124f7b7d477b251d478bf5f255339305f8dd",
+      "xtz_magic_ok": true
+    }
+  ],
+  "http_status": 200,
+  "route": "cigarettes-after-sex/stop-waiting-official-5047060",
+  "scraped_at": "2026-06-24T04:47:56",
+  "scraper_version": "0.1.0",
+  "song": {
+    "album_id": 2953663,
+    "artist_id": 63094,
+    "artist_name": "Cigarettes After Sex",
+    "song_id": 15966671,
+    "song_name": "Stop Waiting",
+    "tonality": "D",
+    "tuning": "E A D G B E"
+  },
+  "tab_id": "cigarettes-after-sex/stop-waiting-official-5047060",
+  "url": "https://tabs.ultimate-guitar.com/tab/cigarettes-after-sex/stop-waiting-official-5047060"
+}

@@ -1,0 +1,30 @@
+{
+  "files": [
+    {
+      "byte_size": 61344,
+      "content_headers": {
+        "content-encoding": "gzip",
+        "content-type": "application/octet-stream"
+      },
+      "filename": "tab-download-ssid-4915306.xtz",
+      "sha256": "eea8800d475782d0d8399512d1a7c3d9646c8694aedc445af26b4dd203eae8a8",
+      "source_url": "https://tabs.ultimate-guitar.com/tab/download/file?ssid=4915306&m=1&s=9ca16b5b6c01addd035fa4931f01e7641d369fd4",
+      "xtz_magic_ok": true
+    }
+  ],
+  "http_status": 200,
+  "route": "nickelback/those-days-official-4915306",
+  "scraped_at": "2026-06-24T05:13:34",
+  "scraper_version": "0.1.0",
+  "song": {
+    "album_id": 2234123,
+    "artist_id": 782,
+    "artist_name": "Nickelback",
+    "song_id": 13780733,
+    "song_name": "Those Days",
+    "tonality": "C",
+    "tuning": "E A D G B E"
+  },
+  "tab_id": "nickelback/those-days-official-4915306",
+  "url": "https://tabs.ultimate-guitar.com/tab/nickelback/those-days-official-4915306"
+}

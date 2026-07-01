@@ -1,0 +1,30 @@
+{
+  "files": [
+    {
+      "byte_size": 45071,
+      "content_headers": {
+        "content-encoding": "gzip",
+        "content-type": "application/octet-stream"
+      },
+      "filename": "tab-download-ssid-6312770.xtz",
+      "sha256": "2d404e29779b8f5b11deca0e2a34e5d43c3b8eac296e623e55dc6aa2e37e210b",
+      "source_url": "https://tabs.ultimate-guitar.com/tab/download/file?ssid=6312770&m=1&s=119153ac133248a6905859b238947202eb129ee7",
+      "xtz_magic_ok": true
+    }
+  ],
+  "http_status": 200,
+  "route": "dominic-fike/double-negative-skeleton-milkshake-official-6312770",
+  "scraped_at": "2026-06-28T13:03:14",
+  "scraper_version": "0.1.0",
+  "song": {
+    "album_id": 554711,
+    "artist_id": 176892,
+    "artist_name": "Dominic Fike",
+    "song_id": 4009361,
+    "song_name": "Double Negative Skeleton Milkshake",
+    "tonality": "E",
+    "tuning": "E A D G B E"
+  },
+  "tab_id": "dominic-fike/double-negative-skeleton-milkshake-official-6312770",
+  "url": "https://tabs.ultimate-guitar.com/tab/dominic-fike/double-negative-skeleton-milkshake-official-6312770"
+}

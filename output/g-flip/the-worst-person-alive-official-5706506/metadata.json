@@ -1,0 +1,30 @@
+{
+  "files": [
+    {
+      "byte_size": 61171,
+      "content_headers": {
+        "content-encoding": "gzip",
+        "content-type": "application/octet-stream"
+      },
+      "filename": "tab-download-ssid-5706506.xtz",
+      "sha256": "188b7663d1add6e0b9168a4d4bd333b77cb6a6d58797ae2161c5747efde2bff0",
+      "source_url": "https://tabs.ultimate-guitar.com/tab/download/file?ssid=5706506&m=1&s=c4eb278ce1478047415b6db151b19c3f0dc526eb",
+      "xtz_magic_ok": true
+    }
+  ],
+  "http_status": 200,
+  "route": "g-flip/the-worst-person-alive-official-5706506",
+  "scraped_at": "2026-06-25T17:53:53",
+  "scraper_version": "0.1.0",
+  "song": {
+    "album_id": 2540140,
+    "artist_id": 133963,
+    "artist_name": "G Flip",
+    "song_id": 15971000,
+    "song_name": "The Worst Person Alive",
+    "tonality": "G",
+    "tuning": "E A D G B E"
+  },
+  "tab_id": "g-flip/the-worst-person-alive-official-5706506",
+  "url": "https://tabs.ultimate-guitar.com/tab/g-flip/the-worst-person-alive-official-5706506"
+}

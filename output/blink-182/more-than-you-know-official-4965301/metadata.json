@@ -1,0 +1,30 @@
+{
+  "files": [
+    {
+      "byte_size": 69885,
+      "content_headers": {
+        "content-encoding": "gzip",
+        "content-type": "application/octet-stream"
+      },
+      "filename": "tab-download-ssid-4965301.xtz",
+      "sha256": "9e040e77d27bd2903f4dd950470b7553d0b92f1286f3bfcb025289eb5abae2b2",
+      "source_url": "https://tabs.ultimate-guitar.com/tab/download/file?ssid=4965301&m=1&s=450e67cfc927c2c0a7b11fd192e5e9282e0e4f4e",
+      "xtz_magic_ok": true
+    }
+  ],
+  "http_status": 200,
+  "route": "blink-182/more-than-you-know-official-4965301",
+  "scraped_at": "2026-06-28T20:39:07",
+  "scraper_version": "0.1.0",
+  "song": {
+    "album_id": 3062899,
+    "artist_id": 1930,
+    "artist_name": "Blink-182",
+    "song_id": 16071184,
+    "song_name": "More Than You Know",
+    "tonality": "E",
+    "tuning": "E A D G B E"
+  },
+  "tab_id": "blink-182/more-than-you-know-official-4965301",
+  "url": "https://tabs.ultimate-guitar.com/tab/blink-182/more-than-you-know-official-4965301"
+}

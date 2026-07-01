@@ -1,0 +1,30 @@
+{
+  "files": [
+    {
+      "byte_size": 76551,
+      "content_headers": {
+        "content-encoding": "gzip",
+        "content-type": "application/octet-stream"
+      },
+      "filename": "tab-download-ssid-4683968.xtz",
+      "sha256": "a8cccfc57b2807e5ef04203811bcd3cfa9bb95ef889431bfac39efa536be4845",
+      "source_url": "https://tabs.ultimate-guitar.com/tab/download/file?ssid=4683968&m=1&s=94ec1ce96f5ee3d67f7da3405cc77792d5daef55",
+      "xtz_magic_ok": true
+    }
+  ],
+  "http_status": 200,
+  "route": "paramore/big-man-little-dignity-official-4683968",
+  "scraped_at": "2026-06-24T05:15:03",
+  "scraper_version": "0.1.0",
+  "song": {
+    "album_id": 2369855,
+    "artist_id": 11926,
+    "artist_name": "Paramore",
+    "song_id": 14918348,
+    "song_name": "Big Man Little Dignity",
+    "tonality": "C",
+    "tuning": "E A D G B E"
+  },
+  "tab_id": "paramore/big-man-little-dignity-official-4683968",
+  "url": "https://tabs.ultimate-guitar.com/tab/paramore/big-man-little-dignity-official-4683968"
+}

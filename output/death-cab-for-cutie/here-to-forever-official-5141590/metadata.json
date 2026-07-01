@@ -1,0 +1,30 @@
+{
+  "files": [
+    {
+      "byte_size": 69576,
+      "content_headers": {
+        "content-encoding": "gzip",
+        "content-type": "application/octet-stream"
+      },
+      "filename": "tab-download-ssid-5141590.xtz",
+      "sha256": "162d99c541a77fa45449fdc03da5dd69e7a89a196eb478b6abaafca60c0e501e",
+      "source_url": "https://tabs.ultimate-guitar.com/tab/download/file?ssid=5141590&m=1&s=95948788a60c159114e26f014ff3e35cee727425",
+      "xtz_magic_ok": true
+    }
+  ],
+  "http_status": 200,
+  "route": "death-cab-for-cutie/here-to-forever-official-5141590",
+  "scraped_at": "2026-06-23T21:50:11",
+  "scraper_version": "0.1.0",
+  "song": {
+    "album_id": 2146616,
+    "artist_id": 7750,
+    "artist_name": "Death Cab for Cutie",
+    "song_id": 13132835,
+    "song_name": "Here To Forever",
+    "tonality": "D",
+    "tuning": "D A D G B E"
+  },
+  "tab_id": "death-cab-for-cutie/here-to-forever-official-5141590",
+  "url": "https://tabs.ultimate-guitar.com/tab/death-cab-for-cutie/here-to-forever-official-5141590"
+}

@@ -1,0 +1,30 @@
+{
+  "files": [
+    {
+      "byte_size": 41379,
+      "content_headers": {
+        "content-encoding": "gzip",
+        "content-type": "application/octet-stream"
+      },
+      "filename": "tab-download-ssid-5583720.xtz",
+      "sha256": "6efd22d8ab8c371c21d22bc1001f46a8152d6b99c0981eb305faa5b098731f03",
+      "source_url": "https://tabs.ultimate-guitar.com/tab/download/file?ssid=5583720&m=1&s=b8031dc40aceba96da5e35dd219c11e8d3f90038",
+      "xtz_magic_ok": true
+    }
+  ],
+  "http_status": 200,
+  "route": "tobymac/promised-land-official-5583720",
+  "scraped_at": "2026-06-25T17:19:34",
+  "scraper_version": "0.1.0",
+  "song": {
+    "album_id": 1382105,
+    "artist_id": 11631,
+    "artist_name": "tobyMac",
+    "song_id": 8525810,
+    "song_name": "Promised Land",
+    "tonality": "G",
+    "tuning": "E A D G B E"
+  },
+  "tab_id": "tobymac/promised-land-official-5583720",
+  "url": "https://tabs.ultimate-guitar.com/tab/tobymac/promised-land-official-5583720"
+}

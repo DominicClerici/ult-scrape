@@ -1,0 +1,30 @@
+{
+  "files": [
+    {
+      "byte_size": 56213,
+      "content_headers": {
+        "content-encoding": "gzip",
+        "content-type": "application/octet-stream"
+      },
+      "filename": "tab-download-ssid-3727520.xtz",
+      "sha256": "6381e194f1deb9fe09f29156549fc1a6f28d57b4c6eaf44b755a2d8cb25fa384",
+      "source_url": "https://tabs.ultimate-guitar.com/tab/download/file?ssid=3727520&m=1&s=86cbd84c6916aafad03aa974ca6e5006c94ffe53",
+      "xtz_magic_ok": true
+    }
+  ],
+  "http_status": 200,
+  "route": "twenty-one-pilots/good-day-official-3727520",
+  "scraped_at": "2026-06-25T17:11:09",
+  "scraper_version": "0.1.0",
+  "song": {
+    "album_id": 741683,
+    "artist_id": 36284,
+    "artist_name": "twenty one pilots",
+    "song_id": 6621173,
+    "song_name": "Good Day",
+    "tonality": "G",
+    "tuning": "E A D G B E"
+  },
+  "tab_id": "twenty-one-pilots/good-day-official-3727520",
+  "url": "https://tabs.ultimate-guitar.com/tab/twenty-one-pilots/good-day-official-3727520"
+}

@@ -1,0 +1,30 @@
+{
+  "files": [
+    {
+      "byte_size": 52087,
+      "content_headers": {
+        "content-encoding": "gzip",
+        "content-type": "application/octet-stream"
+      },
+      "filename": "tab-download-ssid-5360373.xtz",
+      "sha256": "6870a79c79cc94b3dccc21211a80616fc4f003b1f36b6442386fc83743c50df3",
+      "source_url": "https://tabs.ultimate-guitar.com/tab/download/file?ssid=5360373&m=1&s=3482a393ddc8ed1728cd9eb2304843936773198b",
+      "xtz_magic_ok": true
+    }
+  ],
+  "http_status": 200,
+  "route": "the-honeysticks/i-dont-love-you-anymore-official-5360373",
+  "scraped_at": "2026-06-23T21:09:27",
+  "scraper_version": "0.1.0",
+  "song": {
+    "album_id": 555185,
+    "artist_id": 156967,
+    "artist_name": "The Honeysticks",
+    "song_id": 3012078,
+    "song_name": "I Dont Love You Anymore",
+    "tonality": "D",
+    "tuning": "E A D G B E"
+  },
+  "tab_id": "the-honeysticks/i-dont-love-you-anymore-official-5360373",
+  "url": "https://tabs.ultimate-guitar.com/tab/the-honeysticks/i-dont-love-you-anymore-official-5360373"
+}

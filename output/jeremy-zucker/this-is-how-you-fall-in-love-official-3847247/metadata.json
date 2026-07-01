@@ -1,0 +1,30 @@
+{
+  "files": [
+    {
+      "byte_size": 106394,
+      "content_headers": {
+        "content-encoding": "gzip",
+        "content-type": "application/octet-stream"
+      },
+      "filename": "tab-download-ssid-3847247.xtz",
+      "sha256": "0b043afa428883af51654320622738ef13e5e5b3175a3273a375ad6d698c95e6",
+      "source_url": "https://tabs.ultimate-guitar.com/tab/download/file?ssid=3847247&m=1&s=3538d5835a59dd38b0755288a1e11473dd92d41d",
+      "xtz_magic_ok": true
+    }
+  ],
+  "http_status": 200,
+  "route": "jeremy-zucker/this-is-how-you-fall-in-love-official-3847247",
+  "scraped_at": "2026-06-25T17:08:45",
+  "scraper_version": "0.1.0",
+  "song": {
+    "album_id": 751220,
+    "artist_id": 70159,
+    "artist_name": "Jeremy Zucker",
+    "song_id": 6194165,
+    "song_name": "This Is How You Fall In Love",
+    "tonality": "G",
+    "tuning": "E A D G B E"
+  },
+  "tab_id": "jeremy-zucker/this-is-how-you-fall-in-love-official-3847247",
+  "url": "https://tabs.ultimate-guitar.com/tab/jeremy-zucker/this-is-how-you-fall-in-love-official-3847247"
+}

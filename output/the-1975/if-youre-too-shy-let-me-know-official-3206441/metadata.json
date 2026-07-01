@@ -1,0 +1,30 @@
+{
+  "files": [
+    {
+      "byte_size": 50398,
+      "content_headers": {
+        "content-encoding": "gzip",
+        "content-type": "application/octet-stream"
+      },
+      "filename": "tab-download-ssid-3206441.xtz",
+      "sha256": "21d64e54b546736a721134b701af8226d2fc109ff72d12f3c12af83a444f5004",
+      "source_url": "https://tabs.ultimate-guitar.com/tab/download/file?ssid=3206441&m=1&s=8485ec97dd3eb762a5dd11b5bba257b7babb0469",
+      "xtz_magic_ok": true
+    }
+  ],
+  "http_status": 200,
+  "route": "the-1975/if-youre-too-shy-let-me-know-official-3206441",
+  "scraped_at": "2026-06-23T21:10:17",
+  "scraper_version": "0.1.0",
+  "song": {
+    "album_id": 571337,
+    "artist_id": 39990,
+    "artist_name": "The 1975",
+    "song_id": 3808580,
+    "song_name": "If Youre Too Shy Let Me Know",
+    "tonality": "D",
+    "tuning": "E A D G B E"
+  },
+  "tab_id": "the-1975/if-youre-too-shy-let-me-know-official-3206441",
+  "url": "https://tabs.ultimate-guitar.com/tab/the-1975/if-youre-too-shy-let-me-know-official-3206441"
+}

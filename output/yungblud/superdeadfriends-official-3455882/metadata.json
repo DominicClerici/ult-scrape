@@ -1,0 +1,30 @@
+{
+  "files": [
+    {
+      "byte_size": 38086,
+      "content_headers": {
+        "content-encoding": "gzip",
+        "content-type": "application/octet-stream"
+      },
+      "filename": "tab-download-ssid-3455882.xtz",
+      "sha256": "45fc73697a7a72120594b2f83f20ccd2b57e5f95beef48ece244e58a939c571c",
+      "source_url": "https://tabs.ultimate-guitar.com/tab/download/file?ssid=3455882&m=1&s=7c3a1ddd9d9b919e1b5eae45763f5888f57aeea4",
+      "xtz_magic_ok": true
+    }
+  ],
+  "http_status": 200,
+  "route": "yungblud/superdeadfriends-official-3455882",
+  "scraped_at": "2026-06-25T17:05:29",
+  "scraper_version": "0.1.0",
+  "song": {
+    "album_id": 307391,
+    "artist_id": 117537,
+    "artist_name": "YUNGBLUD",
+    "song_id": 4097321,
+    "song_name": "Superdeadfriends",
+    "tonality": "G",
+    "tuning": "E A D G B E"
+  },
+  "tab_id": "yungblud/superdeadfriends-official-3455882",
+  "url": "https://tabs.ultimate-guitar.com/tab/yungblud/superdeadfriends-official-3455882"
+}

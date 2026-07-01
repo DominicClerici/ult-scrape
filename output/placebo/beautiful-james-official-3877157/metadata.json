@@ -1,0 +1,30 @@
+{
+  "files": [
+    {
+      "byte_size": 46146,
+      "content_headers": {
+        "content-encoding": "gzip",
+        "content-type": "application/octet-stream"
+      },
+      "filename": "tab-download-ssid-3877157.xtz",
+      "sha256": "ed1e6e45a4668a5bc39858e5deb9870c731362349a45b6343ba099c806392944",
+      "source_url": "https://tabs.ultimate-guitar.com/tab/download/file?ssid=3877157&m=1&s=b22b08760cba51a5ad9da502ab9183b806dda72a",
+      "xtz_magic_ok": true
+    }
+  ],
+  "http_status": 200,
+  "route": "placebo/beautiful-james-official-3877157",
+  "scraped_at": "2026-06-24T06:27:47",
+  "scraper_version": "0.1.0",
+  "song": {
+    "album_id": 1806091,
+    "artist_id": 689,
+    "artist_name": "Placebo",
+    "song_id": 8483855,
+    "song_name": "Beautiful James",
+    "tonality": "C",
+    "tuning": "D A D G B E"
+  },
+  "tab_id": "placebo/beautiful-james-official-3877157",
+  "url": "https://tabs.ultimate-guitar.com/tab/placebo/beautiful-james-official-3877157"
+}

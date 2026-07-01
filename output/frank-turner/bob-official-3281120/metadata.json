@@ -1,0 +1,30 @@
+{
+  "files": [
+    {
+      "byte_size": 170239,
+      "content_headers": {
+        "content-encoding": "gzip",
+        "content-type": "application/octet-stream"
+      },
+      "filename": "tab-download-ssid-3281120.xtz",
+      "sha256": "97d45add61498daf61cd5206a888747ffa2d66c76f3e355280345dcf285b7fea",
+      "source_url": "https://tabs.ultimate-guitar.com/tab/download/file?ssid=3281120&m=1&s=89421d3408b60c0432cd1e2b47bd4f9cccf464fe",
+      "xtz_magic_ok": true
+    }
+  ],
+  "http_status": 200,
+  "route": "frank-turner/bob-official-3281120",
+  "scraped_at": "2026-06-24T13:59:45",
+  "scraper_version": "0.1.0",
+  "song": {
+    "album_id": 696725,
+    "artist_id": 17185,
+    "artist_name": "Frank Turner",
+    "song_id": 3942458,
+    "song_name": "Bob",
+    "tonality": "G",
+    "tuning": "E A D G B E"
+  },
+  "tab_id": "frank-turner/bob-official-3281120",
+  "url": "https://tabs.ultimate-guitar.com/tab/frank-turner/bob-official-3281120"
+}

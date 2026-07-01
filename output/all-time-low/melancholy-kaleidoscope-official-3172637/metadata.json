@@ -1,0 +1,30 @@
+{
+  "files": [
+    {
+      "byte_size": 58817,
+      "content_headers": {
+        "content-encoding": "gzip",
+        "content-type": "application/octet-stream"
+      },
+      "filename": "tab-download-ssid-3172637.xtz",
+      "sha256": "f19e4d21763c57897f459605f2e140086c6291384308e616fc41637a9dbc27d2",
+      "source_url": "https://tabs.ultimate-guitar.com/tab/download/file?ssid=3172637&m=1&s=d71e1e8271a4c5efcde88159f4fe018e7205bcc9",
+      "xtz_magic_ok": true
+    }
+  ],
+  "http_status": 200,
+  "route": "all-time-low/melancholy-kaleidoscope-official-3172637",
+  "scraped_at": "2026-06-23T21:11:19",
+  "scraper_version": "0.1.0",
+  "song": {
+    "album_id": 583640,
+    "artist_id": 15557,
+    "artist_name": "All Time Low",
+    "song_id": 3842509,
+    "song_name": "Melancholy Kaleidoscope",
+    "tonality": "D",
+    "tuning": "E A D G B E"
+  },
+  "tab_id": "all-time-low/melancholy-kaleidoscope-official-3172637",
+  "url": "https://tabs.ultimate-guitar.com/tab/all-time-low/melancholy-kaleidoscope-official-3172637"
+}

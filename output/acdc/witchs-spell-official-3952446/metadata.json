@@ -1,0 +1,30 @@
+{
+  "files": [
+    {
+      "byte_size": 40569,
+      "content_headers": {
+        "content-encoding": "gzip",
+        "content-type": "application/octet-stream"
+      },
+      "filename": "tab-download-ssid-3952446.xtz",
+      "sha256": "64bf37ddadc134f8b40a08585f97e41d1c10cc17033ee50f88639478cc2c12c4",
+      "source_url": "https://tabs.ultimate-guitar.com/tab/download/file?ssid=3952446&m=1&s=3e382b648c31884439dc874f633d3a5d5110fb12",
+      "xtz_magic_ok": true
+    }
+  ],
+  "http_status": 200,
+  "route": "acdc/witchs-spell-official-3952446",
+  "scraped_at": "2026-06-23T21:15:44",
+  "scraper_version": "0.1.0",
+  "song": {
+    "album_id": 564188,
+    "artist_id": 2025,
+    "artist_name": "AC/DC",
+    "song_id": 5495093,
+    "song_name": "Witchs Spell",
+    "tonality": "D",
+    "tuning": "E A D G B E"
+  },
+  "tab_id": "acdc/witchs-spell-official-3952446",
+  "url": "https://tabs.ultimate-guitar.com/tab/acdc/witchs-spell-official-3952446"
+}

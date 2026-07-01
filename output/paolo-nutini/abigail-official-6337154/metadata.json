@@ -1,0 +1,30 @@
+{
+  "files": [
+    {
+      "byte_size": 31066,
+      "content_headers": {
+        "content-encoding": "gzip",
+        "content-type": "application/octet-stream"
+      },
+      "filename": "tab-download-ssid-6337154.xtz",
+      "sha256": "4abf3a2004586c86ebbb015282e1227e99e0fb0cfcb8a7fdee136bb5864cf537",
+      "source_url": "https://tabs.ultimate-guitar.com/tab/download/file?ssid=6337154&m=1&s=79fd1acd35e07283444e844d0d3745aa73852145",
+      "xtz_magic_ok": true
+    }
+  ],
+  "http_status": 200,
+  "route": "paolo-nutini/abigail-official-6337154",
+  "scraped_at": "2026-06-28T10:52:03",
+  "scraper_version": "0.1.0",
+  "song": {
+    "album_id": 2000680,
+    "artist_id": 15444,
+    "artist_name": "Paolo Nutini",
+    "song_id": 12843061,
+    "song_name": "Abigail",
+    "tonality": "E",
+    "tuning": "E A D G B E"
+  },
+  "tab_id": "paolo-nutini/abigail-official-6337154",
+  "url": "https://tabs.ultimate-guitar.com/tab/paolo-nutini/abigail-official-6337154"
+}

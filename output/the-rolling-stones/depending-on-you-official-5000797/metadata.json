@@ -1,0 +1,30 @@
+{
+  "files": [
+    {
+      "byte_size": 58639,
+      "content_headers": {
+        "content-encoding": "gzip",
+        "content-type": "application/octet-stream"
+      },
+      "filename": "tab-download-ssid-5000797.xtz",
+      "sha256": "bc1d3a90225a504adf1ce49fb8e36d9b12728fe43d36952bcf2b20f475fa9dfb",
+      "source_url": "https://tabs.ultimate-guitar.com/tab/download/file?ssid=5000797&m=1&s=46b228647601741f24d16c5628c43b578e203772",
+      "xtz_magic_ok": true
+    }
+  ],
+  "http_status": 200,
+  "route": "the-rolling-stones/depending-on-you-official-5000797",
+  "scraped_at": "2026-06-24T11:55:22",
+  "scraper_version": "0.1.0",
+  "song": {
+    "album_id": 3056923,
+    "artist_id": 571,
+    "artist_name": "The Rolling Stones",
+    "song_id": 16100464,
+    "song_name": "Depending On You",
+    "tonality": "G",
+    "tuning": "D G D G B D"
+  },
+  "tab_id": "the-rolling-stones/depending-on-you-official-5000797",
+  "url": "https://tabs.ultimate-guitar.com/tab/the-rolling-stones/depending-on-you-official-5000797"
+}

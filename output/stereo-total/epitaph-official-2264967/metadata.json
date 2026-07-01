@@ -1,0 +1,30 @@
+{
+  "files": [
+    {
+      "byte_size": 56049,
+      "content_headers": {
+        "content-encoding": "gzip",
+        "content-type": "application/octet-stream"
+      },
+      "filename": "tab-download-ssid-2264967.xtz",
+      "sha256": "905f343670a0ee634c526f5996f5f935e31d938e1784c77cab933fbb72058ceb",
+      "source_url": "https://tabs.ultimate-guitar.com/tab/download/file?ssid=2264967&m=1&s=02489b8188668bc797191591842cf5d728f08780",
+      "xtz_magic_ok": true
+    }
+  ],
+  "http_status": 200,
+  "route": "stereo-total/epitaph-official-2264967",
+  "scraped_at": "2026-06-24T05:17:58",
+  "scraper_version": "0.1.0",
+  "song": {
+    "album_id": 2279156,
+    "artist_id": 31816,
+    "artist_name": "Stereo Total",
+    "song_id": 2657495,
+    "song_name": "Epitaph",
+    "tonality": "C",
+    "tuning": "E A D G B E"
+  },
+  "tab_id": "stereo-total/epitaph-official-2264967",
+  "url": "https://tabs.ultimate-guitar.com/tab/stereo-total/epitaph-official-2264967"
+}

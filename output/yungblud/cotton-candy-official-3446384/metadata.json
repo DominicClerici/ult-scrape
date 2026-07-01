@@ -1,0 +1,30 @@
+{
+  "files": [
+    {
+      "byte_size": 102888,
+      "content_headers": {
+        "content-encoding": "gzip",
+        "content-type": "application/octet-stream"
+      },
+      "filename": "tab-download-ssid-3446384.xtz",
+      "sha256": "b2f14289f71d94fce69155824a992e28e008244c4e9c5a70401ae45edf6286b0",
+      "source_url": "https://tabs.ultimate-guitar.com/tab/download/file?ssid=3446384&m=1&s=bf347143bcfcecc586b47012da0cb7392a44b617",
+      "xtz_magic_ok": true
+    }
+  ],
+  "http_status": 200,
+  "route": "yungblud/cotton-candy-official-3446384",
+  "scraped_at": "2026-06-29T02:08:08",
+  "scraper_version": "0.1.0",
+  "song": {
+    "album_id": 307391,
+    "artist_id": 117537,
+    "artist_name": "YUNGBLUD",
+    "song_id": 4080458,
+    "song_name": "Cotton Candy",
+    "tonality": "A",
+    "tuning": "E A D G B E"
+  },
+  "tab_id": "yungblud/cotton-candy-official-3446384",
+  "url": "https://tabs.ultimate-guitar.com/tab/yungblud/cotton-candy-official-3446384"
+}

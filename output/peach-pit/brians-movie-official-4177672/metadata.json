@@ -1,0 +1,30 @@
+{
+  "files": [
+    {
+      "byte_size": 46508,
+      "content_headers": {
+        "content-encoding": "gzip",
+        "content-type": "application/octet-stream"
+      },
+      "filename": "tab-download-ssid-4177672.xtz",
+      "sha256": "ee529c502378fe73fa0d35d9496f37c5f675820a674d74f9a499d7f5e2655e51",
+      "source_url": "https://tabs.ultimate-guitar.com/tab/download/file?ssid=4177672&m=1&s=6697e6d5551cc51cc2e55067b9614a7079153539",
+      "xtz_magic_ok": true
+    }
+  ],
+  "http_status": 200,
+  "route": "peach-pit/brians-movie-official-4177672",
+  "scraped_at": "2026-06-24T13:58:46",
+  "scraper_version": "0.1.0",
+  "song": {
+    "album_id": 741947,
+    "artist_id": 76289,
+    "artist_name": "Peach Pit",
+    "song_id": 3856973,
+    "song_name": "Brians Movie",
+    "tonality": "G",
+    "tuning": "E A D G B E"
+  },
+  "tab_id": "peach-pit/brians-movie-official-4177672",
+  "url": "https://tabs.ultimate-guitar.com/tab/peach-pit/brians-movie-official-4177672"
+}

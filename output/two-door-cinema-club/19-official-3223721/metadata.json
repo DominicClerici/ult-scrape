@@ -1,0 +1,30 @@
+{
+  "files": [
+    {
+      "byte_size": 103818,
+      "content_headers": {
+        "content-encoding": "gzip",
+        "content-type": "application/octet-stream"
+      },
+      "filename": "tab-download-ssid-3223721.xtz",
+      "sha256": "4495cdf85dc8c1010f709e52154c1cc8a058a3f11e2a3da23824ba6c5e8615d9",
+      "source_url": "https://tabs.ultimate-guitar.com/tab/download/file?ssid=3223721&m=1&s=b26ad75343a406ee5befd6f16db39fed9e4b86c6",
+      "xtz_magic_ok": true
+    }
+  ],
+  "http_status": 200,
+  "route": "two-door-cinema-club/19-official-3223721",
+  "scraped_at": "2026-06-29T01:11:56",
+  "scraper_version": "0.1.0",
+  "song": {
+    "album_id": 795476,
+    "artist_id": 27657,
+    "artist_name": "Two Door Cinema Club",
+    "song_id": 3944570,
+    "song_name": "19",
+    "tonality": "A",
+    "tuning": "E A D G B E"
+  },
+  "tab_id": "two-door-cinema-club/19-official-3223721",
+  "url": "https://tabs.ultimate-guitar.com/tab/two-door-cinema-club/19-official-3223721"
+}

@@ -1,0 +1,30 @@
+{
+  "files": [
+    {
+      "byte_size": 32562,
+      "content_headers": {
+        "content-encoding": "gzip",
+        "content-type": "application/octet-stream"
+      },
+      "filename": "tab-download-ssid-4199215.xtz",
+      "sha256": "6af635c686ba659fb07351952dcacc24ecd488fe106d7b2b427333565af03872",
+      "source_url": "https://tabs.ultimate-guitar.com/tab/download/file?ssid=4199215&m=1&s=91c5c1d73f879083e74b54d36f435aa753d3a9e9",
+      "xtz_magic_ok": true
+    }
+  ],
+  "http_status": 200,
+  "route": "harry-styles/daylight-official-4199215",
+  "scraped_at": "2026-06-24T06:46:10",
+  "scraper_version": "0.1.0",
+  "song": {
+    "album_id": 1912624,
+    "artist_id": 41228,
+    "artist_name": "Harry Styles",
+    "song_id": 12344554,
+    "song_name": "Daylight",
+    "tonality": "C",
+    "tuning": "E A D G B E"
+  },
+  "tab_id": "harry-styles/daylight-official-4199215",
+  "url": "https://tabs.ultimate-guitar.com/tab/harry-styles/daylight-official-4199215"
+}

@@ -1,0 +1,30 @@
+{
+  "files": [
+    {
+      "byte_size": 32695,
+      "content_headers": {
+        "content-encoding": "gzip",
+        "content-type": "application/octet-stream"
+      },
+      "filename": "tab-download-ssid-5044495.xtz",
+      "sha256": "a1587703245041ee5a973da1bc3a4283c767887e4f17ec95d2e0f9eeee41daab",
+      "source_url": "https://tabs.ultimate-guitar.com/tab/download/file?ssid=5044495&m=1&s=e77fe2a3ad892ac20fe6f2a848eb751318a03a2d",
+      "xtz_magic_ok": true
+    }
+  ],
+  "http_status": 200,
+  "route": "milky-chance/save-your-tears-official-5044495",
+  "scraped_at": "2026-06-28T16:20:12",
+  "scraper_version": "0.1.0",
+  "song": {
+    "album_id": 2163305,
+    "artist_id": 40687,
+    "artist_name": "Milky Chance",
+    "song_id": 9641555,
+    "song_name": "Save Your Tears",
+    "tonality": "E",
+    "tuning": "E A D G B E"
+  },
+  "tab_id": "milky-chance/save-your-tears-official-5044495",
+  "url": "https://tabs.ultimate-guitar.com/tab/milky-chance/save-your-tears-official-5044495"
+}

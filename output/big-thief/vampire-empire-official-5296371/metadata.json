@@ -1,0 +1,30 @@
+{
+  "files": [
+    {
+      "byte_size": 50133,
+      "content_headers": {
+        "content-encoding": "gzip",
+        "content-type": "application/octet-stream"
+      },
+      "filename": "tab-download-ssid-5296371.xtz",
+      "sha256": "00cdb2c3aa908bd5d1b686cf3f74c44666db4e5924b266afb87a9f4e61aaf9ac",
+      "source_url": "https://tabs.ultimate-guitar.com/tab/download/file?ssid=5296371&m=1&s=f79bd6b2964f66b57a3aadcb018d459d38880544",
+      "xtz_magic_ok": true
+    }
+  ],
+  "http_status": 200,
+  "route": "big-thief/vampire-empire-official-5296371",
+  "scraped_at": "2026-06-28T22:44:10",
+  "scraper_version": "0.1.0",
+  "song": {
+    "album_id": 3001138,
+    "artist_id": 68015,
+    "artist_name": "Big Thief",
+    "song_id": 14176568,
+    "song_name": "Vampire Empire",
+    "tonality": "A",
+    "tuning": "E A D G B E"
+  },
+  "tab_id": "big-thief/vampire-empire-official-5296371",
+  "url": "https://tabs.ultimate-guitar.com/tab/big-thief/vampire-empire-official-5296371"
+}

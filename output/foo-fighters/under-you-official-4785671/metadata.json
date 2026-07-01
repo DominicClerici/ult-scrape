@@ -1,0 +1,30 @@
+{
+  "files": [
+    {
+      "byte_size": 51952,
+      "content_headers": {
+        "content-encoding": "gzip",
+        "content-type": "application/octet-stream"
+      },
+      "filename": "tab-download-ssid-4785671.xtz",
+      "sha256": "ea862d27cca455c55940625684b78079c8172d3669f168cb09931523d70c0f5d",
+      "source_url": "https://tabs.ultimate-guitar.com/tab/download/file?ssid=4785671&m=1&s=661b401f568f47d63c0c2af1bfe9df57f7945ea5",
+      "xtz_magic_ok": true
+    }
+  ],
+  "http_status": 200,
+  "route": "foo-fighters/under-you-official-4785671",
+  "scraped_at": "2026-06-28T21:58:43",
+  "scraper_version": "0.1.0",
+  "song": {
+    "album_id": 2499740,
+    "artist_id": 1453,
+    "artist_name": "Foo Fighters",
+    "song_id": 15640571,
+    "song_name": "Under You",
+    "tonality": "A",
+    "tuning": "E A D G B E"
+  },
+  "tab_id": "foo-fighters/under-you-official-4785671",
+  "url": "https://tabs.ultimate-guitar.com/tab/foo-fighters/under-you-official-4785671"
+}

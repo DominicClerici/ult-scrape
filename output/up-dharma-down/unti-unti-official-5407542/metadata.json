@@ -1,0 +1,30 @@
+{
+  "files": [
+    {
+      "byte_size": 57299,
+      "content_headers": {
+        "content-encoding": "gzip",
+        "content-type": "application/octet-stream"
+      },
+      "filename": "tab-download-ssid-5407542.xtz",
+      "sha256": "67ab003ef6a60b4eb5d788353a8a50a78143f2f91043ad6378d879f9a702b820",
+      "source_url": "https://tabs.ultimate-guitar.com/tab/download/file?ssid=5407542&m=1&s=0ce49d1656d7af2dcb29cd425ce348fdebc25b2a",
+      "xtz_magic_ok": true
+    }
+  ],
+  "http_status": 200,
+  "route": "up-dharma-down/unti-unti-official-5407542",
+  "scraped_at": "2026-06-28T23:08:37",
+  "scraper_version": "0.1.0",
+  "song": {
+    "album_id": 684179,
+    "artist_id": 15822,
+    "artist_name": "Up Dharma Down",
+    "song_id": 1738105,
+    "song_name": "Unti Unti",
+    "tonality": "A",
+    "tuning": "E A D G B E"
+  },
+  "tab_id": "up-dharma-down/unti-unti-official-5407542",
+  "url": "https://tabs.ultimate-guitar.com/tab/up-dharma-down/unti-unti-official-5407542"
+}

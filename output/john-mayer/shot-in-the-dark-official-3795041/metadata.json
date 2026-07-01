@@ -1,0 +1,30 @@
+{
+  "files": [
+    {
+      "byte_size": 73194,
+      "content_headers": {
+        "content-encoding": "gzip",
+        "content-type": "application/octet-stream"
+      },
+      "filename": "tab-download-ssid-3795041.xtz",
+      "sha256": "3c4404970c054fbd262340c7d6a99dc296ae8434e86fb2a7d9b29e96e03cdee9",
+      "source_url": "https://tabs.ultimate-guitar.com/tab/download/file?ssid=3795041&m=1&s=f29e67c8abd41cedbcefaf0b5147f3f32b2bfc66",
+      "xtz_magic_ok": true
+    }
+  ],
+  "http_status": 200,
+  "route": "john-mayer/shot-in-the-dark-official-3795041",
+  "scraped_at": "2026-06-23T21:18:43",
+  "scraper_version": "0.1.0",
+  "song": {
+    "album_id": 746804,
+    "artist_id": 10857,
+    "artist_name": "John Mayer",
+    "song_id": 6691181,
+    "song_name": "Shot In The Dark",
+    "tonality": "D",
+    "tuning": "E A D G B E"
+  },
+  "tab_id": "john-mayer/shot-in-the-dark-official-3795041",
+  "url": "https://tabs.ultimate-guitar.com/tab/john-mayer/shot-in-the-dark-official-3795041"
+}

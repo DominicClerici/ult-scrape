@@ -1,0 +1,29 @@
+{
+  "files": [
+    {
+      "byte_size": 129207,
+      "content_headers": {
+        "content-encoding": "gzip",
+        "content-type": "application/octet-stream"
+      },
+      "filename": "tab-download-ssid-2813717.xtz",
+      "sha256": "b16b132a27f2beaaa71f689b32d56883ba2101fea0a0d3c2b7758862798c8627",
+      "source_url": "https://tabs.ultimate-guitar.com/tab/download/file?ssid=2813717&m=1&s=679e5cbc0dd26b13920944dee24143180194696b",
+      "xtz_magic_ok": true
+    }
+  ],
+  "http_status": 200,
+  "route": "volbeat/under-the-influence-official-2813717",
+  "scraped_at": "2026-06-28T11:32:40",
+  "scraper_version": "0.1.0",
+  "song": {
+    "album_id": 772628,
+    "artist_id": 15698,
+    "artist_name": "Volbeat",
+    "song_id": 3664238,
+    "song_name": "Under The Influence",
+    "tonality": "E"
+  },
+  "tab_id": "volbeat/under-the-influence-official-2813717",
+  "url": "https://tabs.ultimate-guitar.com/tab/volbeat/under-the-influence-official-2813717"
+}

@@ -1,0 +1,30 @@
+{
+  "files": [
+    {
+      "byte_size": 54776,
+      "content_headers": {
+        "content-encoding": "gzip",
+        "content-type": "application/octet-stream"
+      },
+      "filename": "tab-download-ssid-4314212.xtz",
+      "sha256": "7b868dc8213aa2b920b644b2f999ab11607987664f652682dab8fcebdf8ac5f6",
+      "source_url": "https://tabs.ultimate-guitar.com/tab/download/file?ssid=4314212&m=1&s=eeb391b5868f2fbc887c93aa676bd61c75f31329",
+      "xtz_magic_ok": true
+    }
+  ],
+  "http_status": 200,
+  "route": "panic-at-the-disco/dont-let-the-light-go-out-official-4314212",
+  "scraped_at": "2026-06-25T17:34:01",
+  "scraper_version": "0.1.0",
+  "song": {
+    "album_id": 2088884,
+    "artist_id": 11756,
+    "artist_name": "Panic! At the Disco",
+    "song_id": 13302884,
+    "song_name": "Dont Let The Light Go Out",
+    "tonality": "G",
+    "tuning": "E A D G B E"
+  },
+  "tab_id": "panic-at-the-disco/dont-let-the-light-go-out-official-4314212",
+  "url": "https://tabs.ultimate-guitar.com/tab/panic-at-the-disco/dont-let-the-light-go-out-official-4314212"
+}

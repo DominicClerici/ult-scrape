@@ -1,0 +1,30 @@
+{
+  "files": [
+    {
+      "byte_size": 104685,
+      "content_headers": {
+        "content-encoding": "gzip",
+        "content-type": "application/octet-stream"
+      },
+      "filename": "tab-download-ssid-3612986.xtz",
+      "sha256": "b7f0257c94b6edaf1f8f9c6a9b757af173a296fbb96419af58d2aa1790ae27c8",
+      "source_url": "https://tabs.ultimate-guitar.com/tab/download/file?ssid=3612986&m=1&s=20e0f0108251eca46981c6c32ae20405e71e775c",
+      "xtz_magic_ok": true
+    }
+  ],
+  "http_status": 200,
+  "route": "imagine-dragons/follow-you-official-3612986",
+  "scraped_at": "2026-06-29T07:17:06",
+  "scraper_version": "0.1.0",
+  "song": {
+    "album_id": 1085819,
+    "artist_id": 36784,
+    "artist_name": "Imagine Dragons",
+    "song_id": 6364337,
+    "song_name": "Follow You",
+    "tonality": "A",
+    "tuning": "E A D G B E"
+  },
+  "tab_id": "imagine-dragons/follow-you-official-3612986",
+  "url": "https://tabs.ultimate-guitar.com/tab/imagine-dragons/follow-you-official-3612986"
+}

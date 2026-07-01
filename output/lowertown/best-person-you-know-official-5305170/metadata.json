@@ -1,0 +1,30 @@
+{
+  "files": [
+    {
+      "byte_size": 45755,
+      "content_headers": {
+        "content-encoding": "gzip",
+        "content-type": "application/octet-stream"
+      },
+      "filename": "tab-download-ssid-5305170.xtz",
+      "sha256": "3cbef695df6d0dde17175ef03f648b817345862645bf9fbc4518481ea0b9dee2",
+      "source_url": "https://tabs.ultimate-guitar.com/tab/download/file?ssid=5305170&m=1&s=22021b09b94e2b451e6a89365732034b0535f6a3",
+      "xtz_magic_ok": true
+    }
+  ],
+  "http_status": 200,
+  "route": "lowertown/best-person-you-know-official-5305170",
+  "scraped_at": "2026-06-23T21:04:59",
+  "scraper_version": "0.1.0",
+  "song": {
+    "album_id": 1008818,
+    "artist_id": 372810,
+    "artist_name": "Lowertown",
+    "song_id": 6120446,
+    "song_name": "Best Person You Know",
+    "tonality": "D",
+    "tuning": "D A D G B E"
+  },
+  "tab_id": "lowertown/best-person-you-know-official-5305170",
+  "url": "https://tabs.ultimate-guitar.com/tab/lowertown/best-person-you-know-official-5305170"
+}

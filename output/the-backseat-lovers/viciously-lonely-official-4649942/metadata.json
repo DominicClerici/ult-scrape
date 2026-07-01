@@ -1,0 +1,30 @@
+{
+  "files": [
+    {
+      "byte_size": 55210,
+      "content_headers": {
+        "content-encoding": "gzip",
+        "content-type": "application/octet-stream"
+      },
+      "filename": "tab-download-ssid-4649942.xtz",
+      "sha256": "28bd27d80919dcfab52c5bed60bab8d90495e82712b33e6f126453d88885b2d6",
+      "source_url": "https://tabs.ultimate-guitar.com/tab/download/file?ssid=4649942&m=1&s=56de2d253ad8a9d3a047d789fe02ec5c318ff85f",
+      "xtz_magic_ok": true
+    }
+  ],
+  "http_status": 200,
+  "route": "the-backseat-lovers/viciously-lonely-official-4649942",
+  "scraped_at": "2026-06-24T11:02:37",
+  "scraper_version": "0.1.0",
+  "song": {
+    "album_id": 2204720,
+    "artist_id": 181323,
+    "artist_name": "The Backseat Lovers",
+    "song_id": 6504767,
+    "song_name": "Viciously Lonely",
+    "tonality": "G",
+    "tuning": "E A D G B E"
+  },
+  "tab_id": "the-backseat-lovers/viciously-lonely-official-4649942",
+  "url": "https://tabs.ultimate-guitar.com/tab/the-backseat-lovers/viciously-lonely-official-4649942"
+}

@@ -1,0 +1,30 @@
+{
+  "files": [
+    {
+      "byte_size": 39310,
+      "content_headers": {
+        "content-encoding": "gzip",
+        "content-type": "application/octet-stream"
+      },
+      "filename": "tab-download-ssid-4934350.xtz",
+      "sha256": "12cd7fddc64a4e82ffe5eeb2cea56ddd538330c8cf2264597a866f58361aee45",
+      "source_url": "https://tabs.ultimate-guitar.com/tab/download/file?ssid=4934350&m=1&s=1ad8fce3a293cc5833d07c3c603b4fda65a7658e",
+      "xtz_magic_ok": true
+    }
+  ],
+  "http_status": 200,
+  "route": "laufey/love-flew-away-official-4934350",
+  "scraped_at": "2026-06-24T05:12:11",
+  "scraper_version": "0.1.0",
+  "song": {
+    "album_id": 2639095,
+    "artist_id": 580664,
+    "artist_name": "Laufey",
+    "song_id": 8876102,
+    "song_name": "Love Flew Away",
+    "tonality": "C",
+    "tuning": "E A D G B E"
+  },
+  "tab_id": "laufey/love-flew-away-official-4934350",
+  "url": "https://tabs.ultimate-guitar.com/tab/laufey/love-flew-away-official-4934350"
+}

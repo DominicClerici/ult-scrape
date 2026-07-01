@@ -1,0 +1,30 @@
+{
+  "files": [
+    {
+      "byte_size": 51899,
+      "content_headers": {
+        "content-encoding": "gzip",
+        "content-type": "application/octet-stream"
+      },
+      "filename": "tab-download-ssid-4984879.xtz",
+      "sha256": "6f350255c72892ce6aee20daea4654582c4b61b4edfad40456f4066201feb99a",
+      "source_url": "https://tabs.ultimate-guitar.com/tab/download/file?ssid=4984879&m=1&s=a76dd57aef9b360c257c656cca21a17c889c30b1",
+      "xtz_magic_ok": true
+    }
+  ],
+  "http_status": 200,
+  "route": "mitski/i-dont-like-my-mind-official-4984879",
+  "scraped_at": "2026-06-28T20:25:22",
+  "scraper_version": "0.1.0",
+  "song": {
+    "album_id": 3759856,
+    "artist_id": 59648,
+    "artist_name": "Mitski",
+    "song_id": 16064434,
+    "song_name": "I Dont Like My Mind",
+    "tonality": "E",
+    "tuning": "E A D G B E"
+  },
+  "tab_id": "mitski/i-dont-like-my-mind-official-4984879",
+  "url": "https://tabs.ultimate-guitar.com/tab/mitski/i-dont-like-my-mind-official-4984879"
+}

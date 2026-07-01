@@ -1,0 +1,30 @@
+{
+  "files": [
+    {
+      "byte_size": 67785,
+      "content_headers": {
+        "content-encoding": "gzip",
+        "content-type": "application/octet-stream"
+      },
+      "filename": "tab-download-ssid-3460586.xtz",
+      "sha256": "dbfd59bedcd72a5b45c55b18ff6df893502854ddd81c52c1bf0ac512fc03dc7b",
+      "source_url": "https://tabs.ultimate-guitar.com/tab/download/file?ssid=3460586&m=1&s=ae21048dd5fbd63df6acb4f1d3a2ba093837c6dd",
+      "xtz_magic_ok": true
+    }
+  ],
+  "http_status": 200,
+  "route": "yungblud/love-song-official-3460586",
+  "scraped_at": "2026-06-29T02:28:46",
+  "scraper_version": "0.1.0",
+  "song": {
+    "album_id": 307391,
+    "artist_id": 117537,
+    "artist_name": "YUNGBLUD",
+    "song_id": 4097324,
+    "song_name": "Love Song",
+    "tonality": "A",
+    "tuning": "E A D G B E"
+  },
+  "tab_id": "yungblud/love-song-official-3460586",
+  "url": "https://tabs.ultimate-guitar.com/tab/yungblud/love-song-official-3460586"
+}

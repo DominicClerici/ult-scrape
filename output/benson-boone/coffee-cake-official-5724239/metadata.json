@@ -1,0 +1,30 @@
+{
+  "files": [
+    {
+      "byte_size": 72516,
+      "content_headers": {
+        "content-encoding": "gzip",
+        "content-type": "application/octet-stream"
+      },
+      "filename": "tab-download-ssid-5724239.xtz",
+      "sha256": "c6413fb38d6f38a63413cba6346fb8a78f9a6c49445e40d7bfacd5dd235a08e0",
+      "source_url": "https://tabs.ultimate-guitar.com/tab/download/file?ssid=5724239&m=1&s=4e9104eeaa017576a98bd17c816c08cd21fff29c",
+      "xtz_magic_ok": true
+    }
+  ],
+  "http_status": 200,
+  "route": "benson-boone/coffee-cake-official-5724239",
+  "scraped_at": "2026-06-24T04:46:15",
+  "scraper_version": "0.1.0",
+  "song": {
+    "album_id": 2521330,
+    "artist_id": 964703,
+    "artist_name": "Benson Boone",
+    "song_id": 15715082,
+    "song_name": "Coffee Cake",
+    "tonality": "D",
+    "tuning": "E A D G B E"
+  },
+  "tab_id": "benson-boone/coffee-cake-official-5724239",
+  "url": "https://tabs.ultimate-guitar.com/tab/benson-boone/coffee-cake-official-5724239"
+}

@@ -1,0 +1,30 @@
+{
+  "files": [
+    {
+      "byte_size": 44061,
+      "content_headers": {
+        "content-encoding": "gzip",
+        "content-type": "application/octet-stream"
+      },
+      "filename": "tab-download-ssid-4951906.xtz",
+      "sha256": "fe5a5e89894c3738897cc04d88ad8e1992573366b373f28d4b323378fe55cece",
+      "source_url": "https://tabs.ultimate-guitar.com/tab/download/file?ssid=4951906&m=1&s=159eb7fca602d0b7473b5e3700ac0f1faa41615d",
+      "xtz_magic_ok": true
+    }
+  ],
+  "http_status": 200,
+  "route": "royal-blood/pull-me-through-official-4951906",
+  "scraped_at": "2026-06-24T07:39:08",
+  "scraper_version": "0.1.0",
+  "song": {
+    "album_id": 3563845,
+    "artist_id": 42970,
+    "artist_name": "Royal Blood",
+    "song_id": 15957119,
+    "song_name": "Pull Me Through",
+    "tonality": "C",
+    "tuning": "C F Bb Eb G C"
+  },
+  "tab_id": "royal-blood/pull-me-through-official-4951906",
+  "url": "https://tabs.ultimate-guitar.com/tab/royal-blood/pull-me-through-official-4951906"
+}

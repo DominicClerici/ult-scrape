@@ -1,0 +1,30 @@
+{
+  "files": [
+    {
+      "byte_size": 47742,
+      "content_headers": {
+        "content-encoding": "gzip",
+        "content-type": "application/octet-stream"
+      },
+      "filename": "tab-download-ssid-4908796.xtz",
+      "sha256": "2a7093460c945d6f7b6761348e65ecd5cf704c5734c15ba9b5b0846195d22578",
+      "source_url": "https://tabs.ultimate-guitar.com/tab/download/file?ssid=4908796&m=1&s=bdbf10defc76500d6a75714202dbe6a3ecfde9c0",
+      "xtz_magic_ok": true
+    }
+  ],
+  "http_status": 200,
+  "route": "peach-pit/2015-official-4908796",
+  "scraped_at": "2026-06-29T11:53:20",
+  "scraper_version": "0.1.0",
+  "song": {
+    "album_id": 1741855,
+    "artist_id": 76289,
+    "artist_name": "Peach Pit",
+    "song_id": 11479570,
+    "song_name": "2015",
+    "tonality": "A",
+    "tuning": "E A D G B E"
+  },
+  "tab_id": "peach-pit/2015-official-4908796",
+  "url": "https://tabs.ultimate-guitar.com/tab/peach-pit/2015-official-4908796"
+}

@@ -1,0 +1,30 @@
+{
+  "files": [
+    {
+      "byte_size": 80574,
+      "content_headers": {
+        "content-encoding": "gzip",
+        "content-type": "application/octet-stream"
+      },
+      "filename": "tab-download-ssid-4315259.xtz",
+      "sha256": "12f90cb5b04b1af26f3cd91abae1c49b88a7653b7cc8917c5b0f1ea1187c70e1",
+      "source_url": "https://tabs.ultimate-guitar.com/tab/download/file?ssid=4315259&m=1&s=c1d9796e7e0e1cd970afde5e9dfa9811ce7ba9ea",
+      "xtz_magic_ok": true
+    }
+  ],
+  "http_status": 200,
+  "route": "the-killers/caution-official-4315259",
+  "scraped_at": "2026-06-24T13:57:47",
+  "scraper_version": "0.1.0",
+  "song": {
+    "album_id": 306371,
+    "artist_id": 8183,
+    "artist_name": "The Killers",
+    "song_id": 3830792,
+    "song_name": "Caution",
+    "tonality": "G",
+    "tuning": "E A D G B E"
+  },
+  "tab_id": "the-killers/caution-official-4315259",
+  "url": "https://tabs.ultimate-guitar.com/tab/the-killers/caution-official-4315259"
+}

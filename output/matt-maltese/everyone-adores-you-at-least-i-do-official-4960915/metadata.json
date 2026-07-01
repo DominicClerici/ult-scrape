@@ -1,0 +1,30 @@
+{
+  "files": [
+    {
+      "byte_size": 43682,
+      "content_headers": {
+        "content-encoding": "gzip",
+        "content-type": "application/octet-stream"
+      },
+      "filename": "tab-download-ssid-4960915.xtz",
+      "sha256": "cc1f1d237c9c05d9c493eadaa5ed74e6eb6bcbc580d18b7eff7fa49566dd5a4a",
+      "source_url": "https://tabs.ultimate-guitar.com/tab/download/file?ssid=4960915&m=1&s=57e770ab8016cc4133013fede4a9e3dcc995ec75",
+      "xtz_magic_ok": true
+    }
+  ],
+  "http_status": 200,
+  "route": "matt-maltese/everyone-adores-you-at-least-i-do-official-4960915",
+  "scraped_at": "2026-06-24T06:29:35",
+  "scraper_version": "0.1.0",
+  "song": {
+    "album_id": 1315394,
+    "artist_id": 66207,
+    "artist_name": "Matt Maltese",
+    "song_id": 9262997,
+    "song_name": "Everyone Adores You At Least I Do",
+    "tonality": "C",
+    "tuning": "E A D G B E"
+  },
+  "tab_id": "matt-maltese/everyone-adores-you-at-least-i-do-official-4960915",
+  "url": "https://tabs.ultimate-guitar.com/tab/matt-maltese/everyone-adores-you-at-least-i-do-official-4960915"
+}
