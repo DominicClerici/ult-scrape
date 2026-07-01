@@ -197,9 +197,9 @@ automatically), but `confidence`, `offset_s`, `tempo_ratio`, `mode`,
 
 **Tempo fields:** alignment runs a five-stage pipeline — silence/gap detection
 first (tempo-free, so a long dead stretch can't tilt the tempo estimate), then a
-coarse DTW at the notated tempo, a robust tempo fit on active regions only, a
-snap to a clean factor (or a DTW-derived fallback), and a final gap-aware
-alignment (see
+coarse DTW at the notated tempo, a robust tempo fit that masks internal dead regions
+from the slope calculation, a snap to a clean factor (or a DTW-derived fallback),
+and a final gap-aware alignment (see
 [aligner overview](./aligner-py/overview.md#gap-aware-tempo-alignment)).
 `tempo_ratio` is the applied real/symbolic tempo ratio (`1.0` = none);
 `tempo_source` records where it came from: `notated` (rendered tempo already

@@ -15,11 +15,10 @@ reference and the real recording, and aligns them with a **gap-aware**, trusted-
 DTW pipeline. The result is a monotonic **warp function** (anchor pairs mapping
 symbolic time → real time), an explicit **`gaps`** list (real-audio dead regions),
 a **`coverage`** health metric, and two **confidence metrics** (`fit_cost`,
-`path_deviation`, computed on active regions only). If `fit_cost`, `path_deviation`,
-and `coverage` are all within the configured thresholds the tab is marked `ok`;
-otherwise `rejected`. The output is written to `align.json` (written last as the
-commit marker). See the [output contract](../output-contract.md) for the artifact
-details.
+`path_deviation`). If `fit_cost`, `path_deviation`, and `coverage` are all within
+the configured thresholds the tab is marked `ok`; otherwise `rejected`. The output
+is written to `align.json` (written last as the commit marker). See the [output
+contract](../output-contract.md) for the artifact details.
 
 ### Gap-aware tempo alignment
 
@@ -134,9 +133,9 @@ alignment" section per the follow-up
 |---|---|
 | `status` | `ok` — `fit_cost`, `path_deviation`, **and** `coverage` all within threshold. `rejected` — aligned but one of those missed. `no_gp` — no decoded `.gp` found. `no_audio` — no `audio.*` found. |
 | `source.gp` / `source.audio` | Filenames of the inputs used (null when not applicable). |
-| `confidence.fit_cost` | Mean cosine distance along the final DTW path, computed on active regions only (dead frames excluded; lower = better). |
-| `confidence.path_deviation` | Residual deviation of the final path from a straight diagonal, active regions only (also part of the global-vs-local decision). |
-| `offset_s` | Estimated time offset (seconds) of the real recording relative to the symbolic score (= `warp[0]` real time; equals the end of a leading gap when one exists). |
+| `confidence.fit_cost` | Mean cosine distance along the final DTW path (lower = better). Computed after trimming LEADING/TRAILING silence, but INTERNAL dead regions remain in the path and cost; only the tempo fit (`robust_tempo`) excludes internal-gap frames. |
+| `confidence.path_deviation` | Residual deviation of the tempo-corrected path from a straight diagonal (also part of the global-vs-local decision). Computed after trimming LEADING/TRAILING silence; INTERNAL gaps are not excluded from this metric. |
+| `offset_s` | Estimated time offset (seconds) of the real recording relative to the symbolic score (= `warp[0]` real time; approximately the end of a leading gap when one exists, including a small residual from the tempo-corrected warp). |
 | `tempo_ratio` | Tempo correction applied on top of the notated tempo (real seconds per symbolic second). `1.0` means the notated tempo already matched; the reference is only re-rendered when this is not `1.0`. |
 | `tempo_source` | Where `tempo_ratio` came from: `"notated"` (no correction), `"notated_x2"` / `"notated_x0.5"` / `"notated_x1.5"` / `"notated_x3"` (snapped to a clean half/double/triple-time factor within `TEMPO_SNAP_TOL`), or `"dtw_fallback"` (no clean factor fit; raw DTW-derived ratio used, clamped to `[TEMPO_MIN, TEMPO_MAX]`). |
 | `mode` | `"global"` — one constant tempo explains the song **and** there are no internal gaps (`warp` is a 2-point line). `"local"` — a residual elastic warp was kept, or an internal gap forced it (`warp` has ~`step_s`-spaced anchors, with steep gap-holding segments across dead regions). |
