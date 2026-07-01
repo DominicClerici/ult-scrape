@@ -128,7 +128,9 @@ the consumed contract (they can be deleted without consequence):
     clicks for spotting drift.
 - `align_plot.png` — real audio chroma / spectrogram with warped note onsets drawn
   on top, plus the DTW warping path and cost curve. Drift shows up as onsets sliding
-  off the energy; use this view to calibrate confidence thresholds.
+  off the energy; use this view to calibrate confidence thresholds. Detected gaps
+  (from `align.json`'s `gaps` list) are shaded as translucent red spans on the
+  chroma axis.
 
 ## Commands
 
