@@ -23,12 +23,17 @@ contract](../output-contract.md) for the artifact details.
 ### Gap-aware tempo alignment
 
 A `.gp`'s notated tempo is often a constant factor off the real recording (or
-notated in half/double-time), and dead stretches — silent intros/outros or
-mid-song breaks the tab doesn't account for — pull a naive DTW path off-diagonal
+notated in half/double-time), and stretches the tab doesn't cover — *silent*
+intros/outros and mid-song breaks, **and** *non-silent* content the tab omits
+(an atmospheric intro, an outro, a jam) — pull a naive DTW path off-diagonal
 and, worse, **corrupt tempo estimation** if the tempo is derived from that same
-path (a long gap tilts the regression line). The aligner (`align_gap_aware`)
-breaks that circular dependency by detecting gaps *before* estimating tempo, and
-trusts the notated tempo as the primary source rather than deriving it:
+path (a long gap tilts the regression line; an uncovered intro forces the tab to
+stretch across it). The aligner (`align_gap_aware`) handles both: it detects
+silent gaps *before* estimating tempo (breaking that circular dependency), trusts
+the notated tempo as the primary source rather than deriving it, and runs its
+DTW passes in **subsequence mode** (`dtw_path(..., subseq=True)`) so the tab is
+matched to a contiguous *subsequence* of the recording — leading/trailing content
+the tab doesn't cover, silent *or not*, is skipped rather than stretched over:
 
 1. **Detect silence/activity (tempo-free).** RMS-energy envelope the real audio
    (`GAP_FRAME_S` frames, `SILENCE_RMS_DB` floor) to find dead regions —
@@ -36,9 +41,11 @@ trusts the notated tempo as the primary source rather than deriving it:
    `trailing`, or `internal`. This needs no tempo knowledge, so it runs first and
    cannot be skewed by a bad tempo guess.
 2. **Coarse DTW at the notated tempo.** Render the reference once at the score's
-   own tempo and run one `dtw_path` against the real audio (both trimmed to their
-   detected active span). This path is used only to estimate tempo and seed gap
-   placement, not as the final warp.
+   own tempo and run one `dtw_path(..., subseq=True)` against the real audio
+   (both trimmed to their detected active span; subsequence mode additionally
+   frees both ends of the recording so a non-silent intro/outro is skipped). This
+   path is used only to estimate tempo and seed gap placement, not as the final
+   warp.
 3. **Robust tempo on active regions only.** Fit the path slope (`robust_tempo`)
    while masking out any path frame that falls in a detected dead region on
    either side, plus one MAD outlier-rejection pass. Excluding dead frames is
@@ -73,6 +80,16 @@ stretch tilts the fit and corrupts every downstream metric (the exact failure
 this pipeline fixes). Because real-audio silence detection needs no tempo
 information, it can safely run first and break that circularity.
 
+**Skipping non-tab intros/outros:** subsequence DTW consumes the *whole*
+reference but only a contiguous window of the recording, so the true start
+offset is simply where the path begins in real time — `compose_anchors` reads it
+out of the path unchanged (no extra machinery). Because the matched window can
+begin partway into the recording, `path_deviation`/`masked_path_deviation`
+normalize each axis from its own path endpoints (not from the origin); this keeps
+a correct offset match from reading as high deviation and being falsely rejected.
+Structural gaps the tab omits *inside* the song (a non-silent breakdown) are not
+yet handled — see **Deferred / future** below.
+
 This implements **strategy C** from the design spec
 ([2026-06-29-aligner-py-vertical-slice-design.md](../superpowers/specs/2026-06-29-aligner-py-vertical-slice-design.md)):
 hybrid training data — synthetic audio (perfectly aligned by construction) for bulk
@@ -90,8 +107,8 @@ alignment" section per the follow-up
 | `app/discover.py` | Walk `output/`; per-tab readiness + filesystem state (`find_tab`, `iter_ready_tabs`, `find_gp`, `find_audio_file`, `read_align_status`). |
 | `app/render.py` | `.gp` → MIDI (MuseScore CLI) → reference WAV (FluidSynth). Injectable `Renderer` with configurable binaries and soundfont. `render_corrected` re-renders at a globally scaled tempo via `scale_midi_tempo` (mido rewrites every `set_tempo` event; pitch-exact), reusing `ref.mid` so MuseScore runs once. The MuseScore step tolerates a nonzero exit when a non-empty MIDI was produced: MuseScore 4 on macOS exports correctly but can SIGABRT during teardown ("mutex lock failed") *after* the file is flushed, so output-presence (not exit code) is the success signal there; FluidSynth is still gated strictly on exit code. |
 | `app/features.py` | Chroma-CENS extraction and audio loading (`chroma_cens`, `load_audio`, `hop_seconds`, `energy_envelope`, `detect_dead_regions`). `load_audio` decodes to mono float32 via libsndfile (soundfile) first — tool-free, covers WAV/FLAC/OGG/Opus — and falls back to an `ffmpeg` subprocess for containers libsndfile can't open (e.g. WebM), sidestepping librosa's deprecated audioread path. `energy_envelope` computes a tempo-free per-frame RMS-in-dB envelope; `detect_dead_regions` thresholds it into `(start_s, end_s, kind)` dead regions (`lead`/`trailing`/`internal`). No filesystem writes. |
-| `app/align.py` | Pure DTW building blocks: `dtw_path`, `estimate_tempo` (naive path-slope tempo, used as the safety-net fallback), `robust_tempo` (masked/MAD-filtered path-slope tempo excluding dead-region frames), `snap_tempo_factor` (snap a ratio to a clean half/double/triple-time factor or fall back to the raw ratio), `path_deviation` / `masked_path_deviation` (RMS diagonal-residual deviation; the masked variant excludes dead-region path steps from the residual average), `path_fit_cost` (mean cosine distance along the DTW path, same dead-region exclusion), `compose_anchors` (gap-aware: folds tempo ratio + silence leads + final-pass residual into symbolic→real anchors, clamping any anchor that would land inside an internal gap to the nearer gap edge — holding symbolic time across real dead regions), and `coverage` (fraction of the symbolic timeline mapped outside every gap). `AlignResult` = anchors, `fit_cost`, `path_deviation`, `offset_s`, `tempo_ratio`, `mode`, `gaps`, `coverage`, `tempo_source`. |
-| `app/pipeline.py` | Gap-aware orchestration (`align_gap_aware`, `align_tab`): detect real-audio dead regions (tempo-free) → coarse DTW at notated tempo → robust tempo on active regions → snap to a clean factor / DTW-fallback → re-render only if the factor ≠ 1 → final DTW → gap-aware compose + `gaps` + `coverage` → write `align.json`. `align_tab` folds `coverage` (alongside `fit_cost`/`path_deviation`) into the `ok`/`rejected` decision. The only module that drives rendering during alignment. |
+| `app/align.py` | Pure DTW building blocks: `dtw_path` (chroma DTW; `subseq=True` aligns the reference to a contiguous subsequence of the recording, freeing both ends so non-tab intros/outros are skipped, and reads the fit from the free endpoint), `estimate_tempo` (naive path-slope tempo, used as the safety-net fallback), `robust_tempo` (masked/MAD-filtered path-slope tempo excluding dead-region frames), `snap_tempo_factor` (snap a ratio to a clean half/double/triple-time factor or fall back to the raw ratio), `path_deviation` / `masked_path_deviation` (RMS diagonal-residual deviation, normalized per-axis from the path's own endpoints so a subsequence match starting mid-recording is not read as high deviation; the masked variant excludes dead-region path steps from the residual average), `path_fit_cost` (mean cosine distance along the DTW path, same dead-region exclusion), `compose_anchors` (gap-aware: folds tempo ratio + silence leads + final-pass residual into symbolic→real anchors, clamping any anchor that would land inside an internal gap to the nearer gap edge — holding symbolic time across real dead regions), and `coverage` (fraction of the symbolic timeline mapped outside every gap). `AlignResult` = anchors, `fit_cost`, `path_deviation`, `offset_s`, `tempo_ratio`, `mode`, `gaps`, `coverage`, `tempo_source`. |
+| `app/pipeline.py` | Gap-aware orchestration (`align_gap_aware`, `align_tab`): detect real-audio dead regions (tempo-free) → coarse subsequence DTW at notated tempo → robust tempo on active regions → snap to a clean factor / DTW-fallback → re-render only if the factor ≠ 1 → final subsequence DTW → gap-aware compose + `gaps` + `coverage` → write `align.json`. Both DTW passes run `subseq=True`, so a non-silent intro/outro the tab doesn't cover is skipped instead of stretched across. `align_tab` folds `coverage` (alongside `fit_cost`/`path_deviation`) into the `ok`/`rejected` decision. The only module that drives rendering during alignment. |
 | `app/output.py` | Atomic commit of `align.json` via temp + `os.replace`. |
 | `app/inspect.py` | Build the listen overlay (`align_overlay.wav`) and look plot (`align_plot.png`). Developer-facing; not part of the consumed contract. |
 | `app/cli.py` | `run` / `inspect` / `status` entry points. |
@@ -138,7 +155,7 @@ alignment" section per the follow-up
 | `status` | `ok` — `fit_cost`, `path_deviation`, **and** `coverage` all within threshold. `rejected` — aligned but one of those missed. `no_gp` — no decoded `.gp` found. `no_audio` — no `audio.*` found. |
 | `source.gp` / `source.audio` | Filenames of the inputs used (null when not applicable). |
 | `confidence.fit_cost` | Mean cosine distance along the final DTW path (lower = better), via `path_fit_cost`. Computed after trimming LEADING/TRAILING silence; INTERNAL dead-region path steps are excluded from the average the same way `robust_tempo` excludes them from the tempo fit (falls back to the full path if masking would leave nothing). |
-| `confidence.path_deviation` | Residual deviation of the tempo-corrected path from a straight diagonal (also part of the global-vs-local decision), via `masked_path_deviation`. Computed after trimming LEADING/TRAILING silence; INTERNAL dead-region path steps are excluded from the residual average (normalizers still use the full path extent). |
+| `confidence.path_deviation` | Residual deviation of the tempo-corrected path from a straight diagonal (also part of the global-vs-local decision), via `masked_path_deviation`. Each axis is normalized from the path's own endpoints, so a subsequence match beginning partway into the recording (a skipped intro) is not read as high deviation. Computed after trimming LEADING/TRAILING silence; INTERNAL dead-region path steps are excluded from the residual average (normalizers still use the full path extent). |
 | `offset_s` | Estimated time offset (seconds) of the real recording relative to the symbolic score (= `warp[0]` real time; approximately the end of a leading gap when one exists, including a small residual from the tempo-corrected warp). |
 | `tempo_ratio` | Tempo correction applied on top of the notated tempo (real seconds per symbolic second). `1.0` means the notated tempo already matched; the reference is only re-rendered when this is not `1.0`. |
 | `tempo_source` | Where `tempo_ratio` came from: `"notated"` (no correction), `"notated_x2"` / `"notated_x0.5"` / `"notated_x1.5"` / `"notated_x3"` (snapped to a clean half/double/triple-time factor within `TEMPO_SNAP_TOL`), or `"dtw_fallback"` (no clean factor fit; raw DTW-derived ratio used, clamped to `[TEMPO_MIN, TEMPO_MAX]`). |
@@ -214,8 +231,10 @@ Named here so they are not lost when the slice proves out (from §9 of the desig
 
 - Transposition / key-shift search (try chroma rotations; record detected shift).
 - Capo & tuning normalization.
-- Subsequence / partial DTW for structural mismatch (missing solos, differing
-  repeats), with trimming/flagging.
+- Subsequence DTW already skips leading/trailing content the tab omits (silent
+  or not). Still deferred: partial DTW for *internal* structural mismatch
+  (missing solos, differing repeats, a non-silent breakdown the tab lacks) —
+  detecting an uncovered stretch mid-song and flagging/holding across it.
 - Stem-assisted chroma (run Demucs `htdemucs_6s`, align on a harmonic stem).
 - SQLite work queue + `scan`/backoff/recovery for corpus scale (mirror
   `enricher-py`).

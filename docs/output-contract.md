@@ -200,7 +200,11 @@ first (tempo-free, so a long dead stretch can't tilt the tempo estimate), then a
 coarse DTW at the notated tempo, a robust tempo fit that masks internal dead regions
 from the slope calculation, a snap to a clean factor (or a DTW-derived fallback),
 and a final gap-aware alignment (see
-[aligner overview](./aligner-py/overview.md#gap-aware-tempo-alignment)).
+[aligner overview](./aligner-py/overview.md#gap-aware-tempo-alignment)). Both DTW
+passes run in **subsequence mode**, so a leading/trailing stretch the tab doesn't
+cover — a non-silent intro, outro, or jam — is skipped rather than stretched over;
+`offset_s` is then the real time the tab's first note maps to (it can be tens of
+seconds when a recording opens with an uncovered intro).
 `tempo_ratio` is the applied real/symbolic tempo ratio (`1.0` = none);
 `tempo_source` records where it came from: `notated` (rendered tempo already
 matched), `notated_x2` / `notated_x0.5` / `notated_x1.5` / `notated_x3` (snapped
