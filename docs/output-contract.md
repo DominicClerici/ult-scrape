@@ -1,10 +1,9 @@
 # The Output Contract (the seam between scraper and decoder)
 
 > Part of the [documentation map](../OVERVIEW.md). This is the **shared
-> interface** between all four projects: [`scraper-py`](./scraper-py/overview.md)
-> (producer), [`decoder-rs`](./decoder-rs/overview.md) (decoder consumer),
-> [`enricher-py`](./enricher-py/overview.md) (audio consumer/writer), and
-> [`aligner-py`](./aligner-py/overview.md) (alignment consumer/writer). All four
+> interface** between all three projects: [`scraper-py`](./scraper-py/overview.md)
+> (producer), [`decoder-rs`](./decoder-rs/overview.md) (decoder consumer), and
+> [`enricher-py`](./enricher-py/overview.md) (audio consumer/writer). All three
 > share no code — only this filesystem layout. Treat it as **frozen**: a change
 > here must be reflected in every affected project at once.
 
@@ -25,7 +24,6 @@ OUTPUT_DIR/<tab_id>/                # <tab_id> contains a slash, e.g. eagles/hot
   <name>.gpif                       # (added later by decoder-rs) extracted score.gpif XML
   audio.<ext>                       # (added later by enricher-py) best-available source audio
   audio.json                        # (added later by enricher-py) provenance + status sidecar
-  align.json                        # (added later by aligner-py) audio↔.gp alignment + confidence
 ```
 
 - `<tab_id>` is the canonical route, e.g. `eagles/hotel-california-official-1910943`.
@@ -126,10 +124,9 @@ documented in [XTZ format & cipher](./decoder-rs/xtz-format-and-cipher.md).
 ## Re-scrape & idempotency
 
 On a re-scrape, the scraper does `rmtree(<tab_id>)` then re-commits the directory.
-This deletes any `.gp`/`.gpif` the decoder previously wrote, any `audio.*`/`audio.json`
-the enricher wrote, and any `align.json` the aligner wrote — the system is
-self-healing with no extra state. See
-[decoder idempotency](./decoder-rs/pipeline.md#idempotency).
+This deletes any `.gp`/`.gpif` the decoder previously wrote and any
+`audio.*`/`audio.json` the enricher wrote — the system is self-healing with no
+extra state. See [decoder idempotency](./decoder-rs/pipeline.md#idempotency).
 
 ## Output files written by the decoder
 
@@ -178,68 +175,3 @@ on the next `enricher run`. No extra state is required.
 
 **Decoder interaction:** the decoder ignores `audio.*` files entirely — they play
 no role in the `<stem>.xtz` → `<stem>.gp`/`.gpx` pipeline.
-
-## Output files written by the aligner
-
-For each tab directory that has `metadata.json`, at least one decoded `.gp`, and an
-`audio.*` file, `aligner-py` writes one file:
-
-- `align.json` — written **last** (via temp + `os.replace`) as the aligner's commit
-  marker. Its presence is the done gate for consumers — `align run` re-aligns and
-  overwrites it unconditionally each time you name the tab.
-
-**`status` values:** `ok` (aligned; `fit_cost`, `path_deviation`, **and**
-`coverage` all within thresholds), `rejected` (aligned but any one of those
-missed), `no_gp` (no decoded `.gp` found), `no_audio` (no `audio.*` found). For
-`no_gp` and `no_audio`, `align.json` is still written (so the tab is not retried
-automatically), but `confidence`, `offset_s`, `tempo_ratio`, `mode`,
-`tempo_source`, and `coverage` are `null`, and `warp` and `gaps` are `[]`.
-
-**Tempo fields:** alignment runs a five-stage pipeline — silence/gap detection
-first (tempo-free, so a long dead stretch can't tilt the tempo estimate), then a
-coarse DTW at the notated tempo, a robust tempo fit that masks internal dead regions
-from the slope calculation, a snap to a clean factor (or a DTW-derived fallback),
-and a final gap-aware alignment (see
-[aligner overview](./aligner-py/overview.md#gap-aware-tempo-alignment)). Both DTW
-passes run in **subsequence mode**, so a leading/trailing stretch the tab doesn't
-cover — a non-silent intro, outro, or jam — is skipped rather than stretched over;
-`offset_s` is then the real time the tab's first note maps to (it can be tens of
-seconds when a recording opens with an uncovered intro).
-`tempo_ratio` is the applied real/symbolic tempo ratio (`1.0` = none);
-`tempo_source` records where it came from: `notated` (rendered tempo already
-matched), `notated_x2` / `notated_x0.5` / `notated_x1.5` / `notated_x3` (snapped
-to a clean half/double/triple-time factor), or `dtw_fallback` (no clean factor
-fit within tolerance, so the raw DTW-derived ratio was used, clamped to
-`[TEMPO_MIN, TEMPO_MAX]`). `mode` is `"global"` (one constant tempo explains the
-song) or `"local"` (a residual elastic warp was kept); `warp` is a 2-point line
-**only** in `global` mode with no internal gaps — any internal gap forces
-`local` mode (with a gap-holding segment in the warp) even when the tempo itself
-is otherwise constant. Consumers still interpolate `warp` either way; the tempo
-fields are informational.
-
-**Gap / coverage fields:** `gaps` is the list of real-audio dead regions detected
-by RMS energy on the **original, untrimmed** real timeline — each entry is
-`{real_start_s, real_end_s, kind}` with `kind` one of `lead` (before the first
-real content), `trailing` (after the last), or `internal` (mid-recording).
-`gaps` is `[]` for `no_gp`/`no_audio`. Consumers (e.g. the Phase-0 export) should
-drop any window that overlaps a gap rather than treat it as aligned audio.
-`coverage` is the fraction of the symbolic timeline that warps to real content
-outside every gap — a low value flags a tab that only matched part of the
-recording even when the local fit otherwise looks fine; `coverage` is `null` for
-`no_gp`/`no_audio`.
-
-**Commit ordering:** `align.json` is the sole output file and is renamed in last.
-The temp + `os.replace` write guarantees the file is never observed partially
-written.
-
-**Re-scrape / self-healing:** a scraper re-scrape calls `rmtree(<tab_id>)` before
-re-committing, which wipes `align.json` too. The tab will be re-aligned on the next
-`align run`. No extra state is required.
-
-**Inspection artifacts (developer-facing, not part of the contract):**
-`align inspect <tab_id>` additionally writes `align_overlay.wav` and
-`align_plot.png` into the tab directory for manual verification. These files are not
-consumed by any other project and can be deleted without breaking any pipeline.
-
-**Other projects:** `scraper-py`, `decoder-rs`, and `enricher-py` ignore
-`align.json` entirely — it plays no role in their pipelines.

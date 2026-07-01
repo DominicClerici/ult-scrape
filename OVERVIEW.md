@@ -7,7 +7,7 @@ neighbors, so you can explore the system one hop at a time.
 ## What this project is
 
 `ult-scrape` turns an Ultimate Guitar (UG) tab URL into a usable Guitar Pro file,
-in **four decoupled stages** that share no code — only a filesystem directory:
+in **three decoupled stages** that share no code — only a filesystem directory:
 
 ```
   UG tab URL ──▶  scraper-py  ──▶  OUTPUT_DIR/<tab_id>/*.xtz  ──▶  decoder-rs  ──▶  *.gp + *.gpif
@@ -16,9 +16,6 @@ in **four decoupled stages** that share no code — only a filesystem directory:
                                              │
                                        enricher-py  ──▶  audio.<ext> + audio.json
                                        (downloads best-available source audio per tab)
-                                             │
-                                       aligner-py   ──▶  align.json
-                                       (aligns .gp ↔ audio; writes warp + confidence)
 ```
 
 - **[`scraper-py/`](./scraper-py/)** — a FastAPI service that logs into UG, works a
@@ -31,12 +28,8 @@ in **four decoupled stages** that share no code — only a filesystem directory:
 - **[`enricher-py/`](./enricher-py/)** — an async Python CLI that walks the shared
   `output/` tree and downloads the best-available full audio (YouTube, Topic-first
   via `yt-dlp`) into each tab directory.
-- **[`aligner-py/`](./aligner-py/)** — a Python CLI that reads decoded `.gp` files
-  and their source audio, renders a pitch-accurate reference via MuseScore + FluidSynth,
-  and aligns the reference to the real recording via chroma-CENS + DTW. Writes an
-  `align.json` sidecar (warp function + confidence metrics) per tab.
 
-All four communicate **only** through the filesystem — see the output contract below.
+All three communicate **only** through the filesystem — see the output contract below.
 
 ## The map
 
@@ -45,7 +38,7 @@ All four communicate **only** through the filesystem — see the output contract
 | Doc | Read it to understand… |
 |---|---|
 | 📐 [Architecture](./docs/architecture.md) | The four-project architecture, end-to-end data flow, and why it's decoupled. **Start here.** |
-| 🔌 [Output contract](./docs/output-contract.md) | The shared filesystem interface all four projects communicate through: directory layout, the `metadata.json` commit marker, `.xtz`/`.gp`/`.gpif`/`audio.*`/`align.json` files, idempotency. |
+| 🔌 [Output contract](./docs/output-contract.md) | The shared filesystem interface all three projects communicate through: directory layout, the `metadata.json` commit marker, `.xtz`/`.gp`/`.gpif`/`audio.*` files, idempotency. |
 | 🛠️ [Operator scripts](./docs/scripts.md) | The `scripts/` wrappers for running and driving the scraper from the CLI: `start-scraper.sh`, `enqueue.sh`, `status.sh`, `pause.sh`, `resume.sh`. |
 
 ### scraper-py (Python · FastAPI + Camoufox)
@@ -73,12 +66,6 @@ All four communicate **only** through the filesystem — see the output contract
 | Doc | Covers |
 |---|---|
 | 📦 [Overview](./docs/enricher-py/overview.md) | Module map, queue/idempotency/recovery, commands, deferred work. **Entry point for the enricher.** |
-
-### aligner-py (Python · CLI)
-
-| Doc | Covers |
-|---|---|
-| 📦 [Overview](./docs/aligner-py/overview.md) | Module map, readiness gates, `align.json` schema, inspection artifacts, commands, deferred work. **Entry point for the aligner.** |
 
 ### Design history (the "why")
 
