@@ -90,6 +90,20 @@ a correct offset match from reading as high deviation and being falsely rejected
 Structural gaps the tab omits *inside* the song (a non-silent breakdown) are not
 yet handled — see **Deferred / future** below.
 
+**Keeping the path near-diagonal (mid-song drift):** even with the right offset
+and tempo, an unweighted DTW path *wobbles* through the song — where a repeated
+or ambiguous section makes several real frames match a reference frame about
+equally, the path takes a locally-cheaper zig-zag off the diagonal and then
+snaps back to catch up, so the alignment audibly drifts off the beat and jerks
+back. `dtw_path` counters this with a **diagonal step bias** (`diag_bias`,
+default `2.0`): the two off-diagonal ("stall") DTW steps cost twice the diagonal
+one, so the path prefers a straight constant-tempo line and only inserts a stall
+where the audio genuinely demands one. (librosa's `band_rad` global constraint is
+*not* honored under `subseq=True`, so this step weighting — which is — is how the
+path is held near the diagonal.) On a real full-mix track this roughly halves the
+mid-song local-tempo variance and removes the catch-up overshoots entirely, while
+the subsequence intro/outro skip is preserved.
+
 This implements **strategy C** from the design spec
 ([2026-06-29-aligner-py-vertical-slice-design.md](../superpowers/specs/2026-06-29-aligner-py-vertical-slice-design.md)):
 hybrid training data — synthetic audio (perfectly aligned by construction) for bulk
@@ -107,10 +121,10 @@ alignment" section per the follow-up
 | `app/discover.py` | Walk `output/`; per-tab readiness + filesystem state (`find_tab`, `iter_ready_tabs`, `find_gp`, `find_audio_file`, `read_align_status`). |
 | `app/render.py` | `.gp` → MIDI (MuseScore CLI) → reference WAV (FluidSynth). Injectable `Renderer` with configurable binaries and soundfont. `render_corrected` re-renders at a globally scaled tempo via `scale_midi_tempo` (mido rewrites every `set_tempo` event; pitch-exact), reusing `ref.mid` so MuseScore runs once. The MuseScore step tolerates a nonzero exit when a non-empty MIDI was produced: MuseScore 4 on macOS exports correctly but can SIGABRT during teardown ("mutex lock failed") *after* the file is flushed, so output-presence (not exit code) is the success signal there; FluidSynth is still gated strictly on exit code. |
 | `app/features.py` | Chroma-CENS extraction and audio loading (`chroma_cens`, `load_audio`, `hop_seconds`, `energy_envelope`, `detect_dead_regions`). `load_audio` decodes to mono float32 via libsndfile (soundfile) first — tool-free, covers WAV/FLAC/OGG/Opus — and falls back to an `ffmpeg` subprocess for containers libsndfile can't open (e.g. WebM), sidestepping librosa's deprecated audioread path. `energy_envelope` computes a tempo-free per-frame RMS-in-dB envelope; `detect_dead_regions` thresholds it into `(start_s, end_s, kind)` dead regions (`lead`/`trailing`/`internal`). No filesystem writes. |
-| `app/align.py` | Pure DTW building blocks: `dtw_path` (chroma DTW; `subseq=True` aligns the reference to a contiguous subsequence of the recording, freeing both ends so non-tab intros/outros are skipped, and reads the fit from the free endpoint), `estimate_tempo` (naive path-slope tempo, used as the safety-net fallback), `robust_tempo` (masked/MAD-filtered path-slope tempo excluding dead-region frames), `snap_tempo_factor` (snap a ratio to a clean half/double/triple-time factor or fall back to the raw ratio), `path_deviation` / `masked_path_deviation` (RMS diagonal-residual deviation, normalized per-axis from the path's own endpoints so a subsequence match starting mid-recording is not read as high deviation; the masked variant excludes dead-region path steps from the residual average), `path_fit_cost` (mean cosine distance along the DTW path, same dead-region exclusion), `compose_anchors` (gap-aware: folds tempo ratio + silence leads + final-pass residual into symbolic→real anchors, clamping any anchor that would land inside an internal gap to the nearer gap edge — holding symbolic time across real dead regions), and `coverage` (fraction of the symbolic timeline mapped outside every gap). `AlignResult` = anchors, `fit_cost`, `path_deviation`, `offset_s`, `tempo_ratio`, `mode`, `gaps`, `coverage`, `tempo_source`. |
+| `app/align.py` | Pure DTW building blocks: `dtw_path` (chroma DTW; `subseq=True` aligns the reference to a contiguous subsequence of the recording, freeing both ends so non-tab intros/outros are skipped, and reads the fit from the free endpoint; `diag_bias` (default `2.0`) doubles the cost of the off-diagonal stall steps to keep the path near-diagonal and suppress mid-song drift-then-snap, since `band_rad` is ignored under `subseq`), `estimate_tempo` (naive path-slope tempo, used as the safety-net fallback), `robust_tempo` (masked/MAD-filtered path-slope tempo excluding dead-region frames), `snap_tempo_factor` (snap a ratio to a clean half/double/triple-time factor or fall back to the raw ratio), `path_deviation` / `masked_path_deviation` (RMS diagonal-residual deviation, normalized per-axis from the path's own endpoints so a subsequence match starting mid-recording is not read as high deviation; the masked variant excludes dead-region path steps from the residual average), `path_fit_cost` (mean cosine distance along the DTW path, same dead-region exclusion), `compose_anchors` (gap-aware: folds tempo ratio + silence leads + final-pass residual into symbolic→real anchors, clamping any anchor that would land inside an internal gap to the nearer gap edge — holding symbolic time across real dead regions), and `coverage` (fraction of the symbolic timeline mapped outside every gap). `AlignResult` = anchors, `fit_cost`, `path_deviation`, `offset_s`, `tempo_ratio`, `mode`, `gaps`, `coverage`, `tempo_source`. |
 | `app/pipeline.py` | Gap-aware orchestration (`align_gap_aware`, `align_tab`): detect real-audio dead regions (tempo-free) → coarse subsequence DTW at notated tempo → robust tempo on active regions → snap to a clean factor / DTW-fallback → re-render only if the factor ≠ 1 → final subsequence DTW → gap-aware compose + `gaps` + `coverage` → write `align.json`. Both DTW passes run `subseq=True`, so a non-silent intro/outro the tab doesn't cover is skipped instead of stretched across. `align_tab` folds `coverage` (alongside `fit_cost`/`path_deviation`) into the `ok`/`rejected` decision. The only module that drives rendering during alignment. |
 | `app/output.py` | Atomic commit of `align.json` via temp + `os.replace`. |
-| `app/inspect.py` | Build the listen overlay (`align_overlay.wav`) and look plot (`align_plot.png`). Developer-facing; not part of the consumed contract. |
+| `app/inspect.py` | Build the listen overlay (`align_overlay.wav`) and look plot (`align_plot.png`, three panels incl. a `local_tempo` warp-slope diagnostic). Developer-facing; not part of the consumed contract. |
 | `app/cli.py` | `run` / `inspect` / `status` entry points. |
 
 ## Readiness gates & idempotency
@@ -188,11 +202,16 @@ the consumed contract (they can be deleted without consequence):
     side by side. In `global` mode this is a pure time-shift with no pitch wobble;
     in `local` mode only the small residual warp stretches. More intuitive than
     clicks for spotting drift.
-- `align_plot.png` — real audio chroma / spectrogram with warped note onsets drawn
-  on top, plus the DTW warping path and cost curve. Drift shows up as onsets sliding
-  off the energy; use this view to calibrate confidence thresholds. Detected gaps
-  (from `align.json`'s `gaps` list) are shaded as translucent red spans on the
-  chroma axis.
+- `align_plot.png` — three stacked panels: (1) real audio chroma / spectrogram
+  with warped note onsets drawn on top, (2) the warp function (symbolic → real
+  time), and (3) a **local warp-slope** diagnostic (`local_tempo`) — real seconds
+  per symbolic second at each anchor, flat at the tempo when alignment is steady.
+  Mid-song drift-then-snap shows as onsets sliding off the energy in panel 1 and,
+  more precisely, as dips/spikes away from the flat line in panel 3 (a downward
+  dip is a legitimate stall where the tab covers nothing; an upward spike is a
+  catch-up snap — what the diagonal step bias exists to remove). Use these views
+  to calibrate confidence thresholds. Detected gaps (from `align.json`'s `gaps`
+  list) are shaded as translucent red spans on the chroma axis.
 
 ## Commands
 
