@@ -188,19 +188,41 @@ For each tab directory that has `metadata.json`, at least one decoded `.gp`, and
   marker. Its presence is the done gate for consumers — `align run` re-aligns and
   overwrites it unconditionally each time you name the tab.
 
-**`status` values:** `ok` (aligned; confidence within thresholds), `rejected`
-(aligned but below threshold), `no_gp` (no decoded `.gp` found), `no_audio` (no
-`audio.*` found). For `no_gp` and `no_audio`, `align.json` is still written (so
-the tab is not retried automatically), but `confidence`, `offset_s`, `tempo_ratio`,
-and `mode` are `null`, and `warp` is `[]`.
+**`status` values:** `ok` (aligned; `fit_cost`, `path_deviation`, **and**
+`coverage` all within thresholds), `rejected` (aligned but any one of those
+missed), `no_gp` (no decoded `.gp` found), `no_audio` (no `audio.*` found). For
+`no_gp` and `no_audio`, `align.json` is still written (so the tab is not retried
+automatically), but `confidence`, `offset_s`, `tempo_ratio`, `mode`,
+`tempo_source`, and `coverage` are `null`, and `warp` and `gaps` are `[]`.
 
-**Tempo fields:** alignment is two-pass — a global tempo correction is estimated and
-re-rendered before the final alignment (see
-[aligner overview](./aligner-py/overview.md#two-pass-tempo-alignment)). `tempo_ratio`
-is the applied real/symbolic tempo ratio (`1.0` = none); `mode` is `"global"` (one
-constant tempo explained the song — `warp` is a 2-point line) or `"local"` (a
-residual elastic warp was kept — `warp` has ~`step_s`-spaced anchors). Consumers
-still interpolate `warp` either way; the tempo fields are informational.
+**Tempo fields:** alignment runs a five-stage pipeline — silence/gap detection
+first (tempo-free, so a long dead stretch can't tilt the tempo estimate), then a
+coarse DTW at the notated tempo, a robust tempo fit on active regions only, a
+snap to a clean factor (or a DTW-derived fallback), and a final gap-aware
+alignment (see
+[aligner overview](./aligner-py/overview.md#gap-aware-tempo-alignment)).
+`tempo_ratio` is the applied real/symbolic tempo ratio (`1.0` = none);
+`tempo_source` records where it came from: `notated` (rendered tempo already
+matched), `notated_x2` / `notated_x0.5` / `notated_x1.5` / `notated_x3` (snapped
+to a clean half/double/triple-time factor), or `dtw_fallback` (no clean factor
+fit within tolerance, so the raw DTW-derived ratio was used, clamped to
+`[TEMPO_MIN, TEMPO_MAX]`). `mode` is `"global"` (one constant tempo explains the
+song) or `"local"` (a residual elastic warp was kept); `warp` is a 2-point line
+**only** in `global` mode with no internal gaps — any internal gap forces
+`local` mode (with a gap-holding segment in the warp) even when the tempo itself
+is otherwise constant. Consumers still interpolate `warp` either way; the tempo
+fields are informational.
+
+**Gap / coverage fields:** `gaps` is the list of real-audio dead regions detected
+by RMS energy on the **original, untrimmed** real timeline — each entry is
+`{real_start_s, real_end_s, kind}` with `kind` one of `lead` (before the first
+real content), `trailing` (after the last), or `internal` (mid-recording).
+`gaps` is `[]` for `no_gp`/`no_audio`. Consumers (e.g. the Phase-0 export) should
+drop any window that overlaps a gap rather than treat it as aligned audio.
+`coverage` is the fraction of the symbolic timeline that warps to real content
+outside every gap — a low value flags a tab that only matched part of the
+recording even when the local fit otherwise looks fine; `coverage` is `null` for
+`no_gp`/`no_audio`.
 
 **Commit ordering:** `align.json` is the sole output file and is renamed in last.
 The temp + `os.replace` write guarantees the file is never observed partially
