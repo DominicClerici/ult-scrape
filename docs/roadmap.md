@@ -69,20 +69,26 @@ throughout.
 
 ### Phase 0 — Corpus audit & hygiene
 
-Know exactly what we have before building on it.
+**Expanded: see [`plans/phase_0.md`](../plans/phase_0.md)** (2026-07-01). Know
+exactly what we have before building on it.
 
 - Parse every `.gpif`: inventory tracks per song (instrument types, tunings,
   capo, 6/7-string, drop tunings), technique frequency, tempo-map complexity,
-  song lengths.
+  song lengths. This **starts the shared score-model library** (`score-py/`,
+  a structure-scoped pull-forward of Phase 2a — repeat expansion and tempo
+  maps, but no note-level model; Phase 2a owns that design).
 - **Audio verification**: the enricher's YouTube match can be wrong (covers,
-  live versions, remasters at different pitch). Flag suspects via duration
-  mismatch, key/chroma comparison against a synthetic render, and (later)
-  alignment fit cost. Wrong-audio pairs are poison for training.
-- Dedup (same song, multiple tab versions), and define **held-out test
-  artists/songs now**, before anyone looks at them — splits must be by artist
-  to prevent leakage.
-- Deliverable: a corpus report + a `manifest` format (per-tab quality flags)
-  that every later phase consumes.
+  live versions, remasters at different pitch). Flag suspects via
+  repeat-expanded duration mismatch and a 12-rotation pitch-class↔chroma
+  comparison (no synthesis needed); alignment fit cost backfills from
+  Phase 2. Wrong-audio pairs are poison for training — flagged (graded
+  `ok`/`suspect`/`bad`), never deleted.
+- Dedup as an invariant (the pilot corpus measured zero duplicates) with
+  cross-artist cover flagging, and the **held-out split fixed now**: a
+  deterministic hash of UG `artist_id` → 85/5/10 train/val/test, so future
+  artists auto-classify and no human ever picks test artists.
+- Deliverable: `audit-py/` producing `manifest/manifest.jsonl` (single
+  regenerable JSONL every later phase consumes) + a corpus report.
 
 ### Phase 1 — Scale the corpus (continuous, background)
 
@@ -100,6 +106,9 @@ Two sub-problems:
 notes with string/fret/tick/duration, tempo map, tracks, techniques, repeats
 / jumps expanded into linear time. This is needed by *everything* downstream
 (tokenizer, synthesizer, aligner, eval) and must be a single shared library.
+Phase 0 already seeds this library (`score-py/`, structure-scoped: tracks,
+tunings, tempo map, repeat expansion, aggregate counts); Phase 2a designs the
+note-level model and owns refactoring the internals toward a 1.0 API.
 
 **2b. Tab ↔ real-audio alignment.** Open design problem. The scrapped
 `aligner-py` (synth render + subsequence DTW) surfaced the real failure modes,
@@ -232,5 +241,7 @@ Phase 0 (audit) ─▶ Phase 2 (score model + alignment) ─▶ Phase 3 (tokeniz
 ```
 
 Next planning sessions expand phases into detailed designs, in this order:
-**Phase 0** (cheap, informs everything), **Phase 2** (highest risk), **Phase 3**
-(most consequential design), then 4–6 together as the training substrate.
+**Phase 0** (cheap, informs everything — done, see
+[`plans/phase_0.md`](../plans/phase_0.md)), **Phase 2** (highest risk),
+**Phase 3** (most consequential design), then 4–6 together as the training
+substrate.
