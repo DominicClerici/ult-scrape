@@ -1,1 +1,8 @@
 /output/**/*.xtz filter=lfs diff=lfs merge=lfs -text
+
+# .xtz/.gp/.gpif are binary/encrypted formats decoded byte-for-byte; never let
+# git normalize line endings in them (Windows core.autocrlf=true silently
+# corrupts them otherwise, breaking decoder-rs's golden-fixture tests).
+*.xtz -text
+*.gp -text
+*.gpif -text

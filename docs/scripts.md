@@ -108,6 +108,38 @@ submitted — that's expected.
 
 > Requires `jq` (used to build the request body safely).
 
+## Windows
+
+`scripts/windows/` holds PowerShell (`.ps1`) counterparts of the same wrappers,
+for running the toolchain natively on Windows (no WSL/Git Bash required):
+`start-scraper.ps1`, `enqueue.ps1`, `discover.ps1`, `status.ps1`, `clear.ps1`,
+`pause.ps1`, `resume.ps1`, `decode.ps1`, `patch-playwright-driver.ps1`, and
+`_common.ps1` (dot-sourced, not run directly). They talk to the same HTTP API
+and read the same `scraper-py/.env`, `scripts/tabs.csv`, and `OUTPUT_DIR`
+conventions described above — flags are PowerShell-native (e.g. `-Max 50`,
+`-ListRuns`, `-Enqueue`, `-HardReset` in place of `--max`, `--list`, `--enqueue`,
+`--hard-reset`). No `jq` dependency; JSON is parsed natively.
+
+```powershell
+.\scripts\windows\start-scraper.ps1
+.\scripts\windows\enqueue.ps1 scripts\tabs.csv
+.\scripts\windows\status.ps1
+.\scripts\windows\pause.ps1   # / .\scripts\windows\resume.ps1
+.\scripts\windows\decode.ps1  # builds decoder-rs (release) on first run
+```
+
+Building `decoder-rs` on Windows requires the MSVC toolchain (rustup's default
+host on Windows): install Rust via `rustup` and the "Desktop development with
+C++" workload from the [Visual Studio Build Tools](https://visualstudio.microsoft.com/visual-cpp-build-tools/)
+(provides `link.exe`).
+
+> **Windows checkout gotcha:** `decoder-rs/tests/fixtures/*.{gp,xtz,gpif}` are
+> binary/encrypted formats decoded byte-for-byte; they're pinned `-text` in
+> `.gitattributes` so Windows Git's `core.autocrlf` can't silently corrupt them
+> on checkout. If a fresh Windows clone predates that pin and the golden-fixture
+> tests fail, run `git checkout HEAD -- decoder-rs/tests/fixtures/` after
+> pulling to force a clean re-checkout.
+
 ## Typical loop
 
 ```bash

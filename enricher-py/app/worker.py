@@ -73,14 +73,16 @@ async def enrich_tab(tab: TabDir, deps: EnrichDeps) -> JobStatus:
                 chosen.candidate.video_id, Path(tmp), s.ytdlp_format
             )
             probe = await deps.prober.probe(dl.path)
+            commit_audio(
+                tab_dir=tab.path, query=query, chosen=chosen, audio_tmp=dl.path,
+                ext=dl.ext, probe=probe, enricher_version=deps.version,
+                yt_dlp_version=deps.yt_dlp_version, now_iso=now_iso,
+            )
         except Exception as e:
-            raise TransientEnrichError(f"download/probe failed: {e}") from e
-
-        commit_audio(
-            tab_dir=tab.path, query=query, chosen=chosen, audio_tmp=dl.path,
-            ext=dl.ext, probe=probe, enricher_version=deps.version,
-            yt_dlp_version=deps.yt_dlp_version, now_iso=now_iso,
-        )
+            # Covers transient OS-level failures too (e.g. os.replace() hitting
+            # WinError 32 when AV/indexing briefly locks a just-downloaded
+            # file), not just search/tooling errors.
+            raise TransientEnrichError(f"download/probe/commit failed: {e}") from e
     return JobStatus.DONE
 
 
