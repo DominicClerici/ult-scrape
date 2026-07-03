@@ -100,68 +100,81 @@ exactly what we have before building on it.
 
 ### Phase 2 — Ground truth: symbolic extraction + alignment (redesign)
 
-Two sub-problems:
+**Expanded: see [`plans/phase_2.md`](../plans/phase_2.md)** (2026-07-01). Two
+sub-problems:
 
-**2a. Symbolic extraction.** A robust `.gpif` → internal score model parser:
-notes with string/fret/tick/duration, tempo map, tracks, techniques, repeats
-/ jumps expanded into linear time. This is needed by *everything* downstream
-(tokenizer, synthesizer, aligner, eval) and must be a single shared library.
-Phase 0 already seeds this library (`score-py/`, structure-scoped: tracks,
-tunings, tempo map, repeat expansion, aggregate counts); Phase 2a designs the
-note-level model and owns refactoring the internals toward a 1.0 API.
+**2a. Symbolic extraction.** Extend `score-py/` (`gpscore`) with the
+note-level model and freeze the 1.0 API — needed by *everything* downstream
+(tokenizer, synthesizer, aligner, eval). Locked shape: a **two-layer** model
+(faithful document model with a technique superset + derived linear-time
+performance view), exact rational (`Fraction`) musical time, GPIF writer
+deferred to Phase 3.
 
-**2b. Tab ↔ real-audio alignment.** Open design problem. The scrapped
-`aligner-py` (synth render + subsequence DTW) surfaced the real failure modes,
-which the redesign must treat as requirements:
-
-- performances contain **non-tab material** (intros/outros/solos) → subsequence
-  or gap-tolerant alignment, not global DTW;
-- **drift-then-snap** pathologies in the warp path;
-- **half/double-time** tempo confusions;
-- need for **confidence metrics** (fit cost, path deviation, coverage) that
-  gate pairs in/out of the training set rather than trusting every alignment.
-
-Candidate directions to evaluate in the phase design doc: improved
-feature/DTW stack; beat-tracking + measure-level anchoring; training a small
-alignment model (CTC forced alignment of the tab's pitch sequence against the
-audio, as speech does with text); or a formulation that needs only *coarse*
-alignment (see Phase 3's score-time output option). Imperfect coverage is
-acceptable — a high-precision aligned subset beats a high-recall noisy one.
+**2b. Tab ↔ real-audio alignment.** Locked approach: **staged coarse-to-fine
+with measured escalation** in a fresh `aligner-py/`. Baseline = upgraded
+classical stack (chroma + onset features, subsequence multi-resolution DTW,
+synctoolbox-class) with score-side features computed **directly from the
+score model — no audio rendering in 2b** — plus local onset-snap refinement;
+a CTC forced-aligner is the pre-designed escalation, built only if measurement
+demands it (it needs Phase 4 renders). The scrapped aligner's validated
+structural learnings carry over (trusted notated tempo, half/double-time
+snapping, gap-detection-before-tempo, subsequence matching); its plain
+chroma-CENS/DTW core does not. Output is a **tiered, measured contract**:
+per-segment grades (`onset_grade` ≤ 50 ms / `beat_grade` ≤ ~250 ms /
+`unusable`) calibrated against a ~30-song hand-labeled eval set, written to
+`manifest/alignment/` + `manifest/alignment.jsonl` (settling Phase 0's
+backfill question; `output/` stays untouched). Transposed pairs are aligned
+and annotated but not consumed by default. A high-precision aligned subset
+beats a high-recall noisy one — and synthetic data (Phase 4) carries the bulk
+of training regardless.
 
 ### Phase 3 — Representation: tokenizer + dataset builder
 
-The single most consequential design choice. Requirements:
+**Expanded: see [`plans/phase_3.md`](../plans/phase_3.md)** (2026-07-01). The
+single most consequential design choice — now locked, grounded in a full-corpus
+census (509 `.gpif`s):
 
-- Expresses **string+fret** (not just pitch), tuning/capo context, note
-  durations, and a prioritized subset of techniques.
-- **Multi-track-capable** (track/instrument tokens) even though v1 emits only
-  guitar.
-- Decodable back to a valid score → `.gp` file (round-trip tested against the
-  corpus: gpif → tokens → gpif should preserve what we claim to model).
-
-Key open decision — **output time base**:
-
-- *Performance-time events* (MT3-style, absolute timestamps): easier to train,
-  needs beat-tracking + quantization post-processing to become readable tabs.
-- *Score-time tokens* (bars/beats directly, DadaGP-style): the model output
-  **is** the tab, and it may reduce dependence on fine-grained alignment — but
-  it is a harder learning problem.
-
-Prior art to mine rather than reinvent: DadaGP's GP token vocabulary, MT3's
-event vocabulary. Also in this phase: chunking strategy (train on ~15–30 s
-windows with stitching at inference), augmentation design (pitch-shift with
-fret-aware label transposition, time-stretch, EQ/noise/reverb), and optional
-**source separation** (Demucs) as an input channel — the "other"/guitar stem
-both simplifies the task and maps cleanly onto per-track supervision later.
+- **Time base settled: score-time tokens + per-bar time anchors** (DadaGP-style
+  symbolic output — the model output *is* the tab — with Whisper-timestamp-style
+  bar-onset anchors). Consequence: **`beat_grade` alignment suffices** for real
+  audio, lowering what Phase 2 must deliver; Phase 8 shrinks to validation.
+  Fallback to performance-time stays cheap because dataset records store
+  symbolic windows, never token IDs.
+- Vocabulary (~500–600 tokens): bar-major multi-track interleave, predicted
+  per-track headers (tuning/capo — forceable at inference), fused
+  `NOTE(string,fret)`, factored symbolic rhythm (exact round-trip), 12
+  census-justified Tier-1 techniques with 3-point quantized bends; dynamics and
+  tail techniques dropped **with accounting**.
+- `gpscore.tokens` + the GPIF writer (GP7/8 dialect, `.gp` packaging) live in
+  `score-py/`; corpus-wide round-trip tests under a "modeled projection".
+- `dataset-py/` builds per-song records (`dataset/<snapshot>/` + index; snapshot
+  = index hash); windows are bar-aligned (~20 s target), sampled at load time.
+  Augmentation: tuning-shift transposition offline (rescues Phase 2's transposed
+  pairs), audio-domain augs on-the-fly. Demucs: N-channel input contract
+  reserved; mix vs mix+stem is a Phase 6 ablation.
 
 ### Phase 4 — Synthetic data engine
 
-- Batch-render every tab to audio: multiple soundfonts / amp+cab sims / mix
-  perturbations per song; guitar-stem-only and full-mix variants.
-- Perfect labels come free from the score model. Scale is bounded only by disk
-  and render throughput.
-- Output feeds the same dataset builder as real audio — synthetic vs real is
-  just a manifest flag.
+**Expanded: see [`plans/phase_4.md`](../plans/phase_4.md)** (2026-07-02).
+Locked shape:
+
+- **`render-py/`** (house-pattern CLI) renders every `parse_ok` tab —
+  alignment and even source audio are not needed, so `bad`-pair tabs become
+  usable training material. Output: `renders/<tab_id>/<variant>/` (mix +
+  guitar-bus FLACs + `render_meta.json` with the full recipe, realized bar
+  grid, and per-note onsets — the CTC-escalation training export). Ingested
+  by `dataset-py` as `source: "synthetic"` records.
+- **Pluggable backends over an articulated per-string event stream**: open
+  stack v1 (FluidSynth/sfizz), commercial-VST adapter (SynthTab-style) as
+  the pre-designed escalation, triggered only by Phase 6 transfer
+  measurement. All 12 Tier-1 techniques audibly voiced — enforced by a CI
+  audibility test.
+- **Signal chain = pedalboard + free NAM amp captures + cab IRs**, tone
+  identity in a versioned recipe library; hash-pinned asset registry.
+- **Seeded stochastic variants** (samples, tones, tempo ×0.8–1.2, mix,
+  vocal-line instrumental distractors, humanization with realized-time
+  labels) + a canonical clean variant 0 per song. Split inherited strictly;
+  val/test rendered with **held-out timbres** (eval-tagged assets).
 
 ### Phase 5 — Evaluation harness (before serious training)
 
@@ -199,8 +212,10 @@ retrain.
 
 ### Phase 8 — From model output to readable tabs
 
-- If Phase 3 chose performance-time output: beat/downbeat tracking →
-  quantization to bars → rhythm cleanup. If score-time: mostly validation.
+- Phase 3 chose score-time output, so this is mostly validation plus
+  stitching: cross-window track matching, header (tuning/capo) majority
+  voting, anchor-based window merging. (Beat-tracking + quantization only if
+  Phase 6 ever falls back to performance-time.)
 - Playability post-processing (fret-assignment sanity, impossible-stretch
   repair), key/tuning inference.
 - Export: tokens → `.gp` (e.g. via PyGuitarPro / gpif writer) + MusicXML;
@@ -242,6 +257,9 @@ Phase 0 (audit) ─▶ Phase 2 (score model + alignment) ─▶ Phase 3 (tokeniz
 
 Next planning sessions expand phases into detailed designs, in this order:
 **Phase 0** (cheap, informs everything — done, see
-[`plans/phase_0.md`](../plans/phase_0.md)), **Phase 2** (highest risk),
-**Phase 3** (most consequential design), then 4–6 together as the training
-substrate.
+[`plans/phase_0.md`](../plans/phase_0.md)), **Phase 2** (highest risk — done,
+see [`plans/phase_2.md`](../plans/phase_2.md)), **Phase 3** (most
+consequential design — done, see [`plans/phase_3.md`](../plans/phase_3.md)),
+**Phase 4** (synth engine — done, see
+[`plans/phase_4.md`](../plans/phase_4.md)), then 5–6 to complete the
+training substrate.
