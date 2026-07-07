@@ -178,25 +178,56 @@ Locked shape:
 
 ### Phase 5 — Evaluation harness (before serious training)
 
-- Automatic metrics: onset/pitch F1 (`mir_eval`-style), tab accuracy
-  (string+fret exact match), technique F1, and post-quantization bar/rhythm
-  accuracy.
-- Fixed held-out real-audio test set (from Phase 0) + a synthetic test set.
-- A qualitative loop: render predicted tabs side-by-side with ground truth for
-  human listening/reading review.
-- Every experiment reports the same scorecard; experiment tracking (e.g. W&B)
-  from the first run.
+**Expanded: see [`plans/phase_5.md`](../plans/phase_5.md)** (2026-07-02).
+Locked shape:
+
+- **`eval-py/`** (house-pattern CLI + importable `tabeval` library, imported
+  by Phase 6 for training-time val metrics). Model-free: Phase 6 writes a
+  `predictions.jsonl` of raw token sequences per window; the harness
+  detokenizes with a pinned `gpscore.tokens` and scores files.
+- **Eval unit**: frozen bar-aligned windows (primary) + a frozen offset-slice
+  suite measuring bar-alignment dependence; song-level stitched eval stays in
+  Phase 8. Eval sets are **committed, versioned manifests** — no silent drift.
+- **Dual note correspondence, symbolic primary**: DP bar alignment + exact
+  within-bar onset matching feeds tab/technique/rhythm metrics on all data
+  (so `beat_grade` real windows are fully scoreable); mir_eval time-domain
+  matching feeds onset/pitch F1 (synthetic + `onset_grade` real); anchors
+  scored separately; Hungarian track assignment + order metric.
+- **Headline: Tab F1 (string+fret) on the real held-out test set**,
+  song-macro, both tiers included with per-tier facets. Synthetic test =
+  canonical + 2 held-out-timbre variants per test song (settles Phase 4's
+  open question); facet gaps are the Phase 6 escalation discriminators.
+- **Self-validated harness**: oracle ceiling, corruption-sensitivity CI
+  (metrics must move monotonically and selectively), floor baselines.
+  Human-correlation protocol ships now, executes early Phase 6.
+- Qualitative loop: static HTML bundle (real / GT-render / prediction-render
+  audio + side-by-side alphaTab notation). W&B as a thin sink over canonical
+  local `scorecard.json`.
 
 ### Phase 6 — Baseline model (v1: guitar only)
 
-- Architecture: encoder–decoder transformer, spectrogram (or pretrained audio
-  encoder, e.g. MERT/Whisper-encoder) → tab tokens. Evaluate **fine-tuning an
-  existing AMT model** (MT3 family) vs training a compact model from scratch on
-  synthetic pretraining — pick empirically, sized for the local GPU.
-- Training recipe: synthetic pretrain → real-audio fine-tune → eval on held-out
-  real songs.
-- Success bar for the phase: on held-out real audio, output that a guitarist
-  recognizes as "the song, mostly right" — not perfection.
+**Expanded: see [`plans/phase_6.md`](../plans/phase_6.md)** (2026-07-02).
+Locked shape:
+
+- **`model-py/`** (plain-PyTorch single-GPU loop, 16 GB envelope, multi-day
+  runs): **MERT-v1-95M (24 kHz, pinned) + fresh ~40M decoder (3k ctx)** as
+  primary, compact from-scratch mel model as pilot-scale control — the
+  "empirical pick" is a bounded 1–2-day bake-off with a zero-shot real-val
+  transfer probe; MT3 fine-tuning dropped (vocab mismatch guts the transfer
+  value). Stem channel = shared-encoder feature concat (ablated at pilot
+  scale on free render stems).
+- **Recipe**: clean warmup → full variant mix pretrain; staged
+  transfer-guarded MERT unfreeze; real fine-tune = mixed replay with real
+  oversampled. Greedy decoding, headers predicted; checkpoint selection on a
+  frozen cheap val subset (settles Phase 5's open question).
+- **Gated milestone sequence** M0–M6: plumbing sanity → **representation
+  pilot with a pre-committed numeric gate** (canonical synthetic; Tab F1
+  ≥ 60 % and ≥ 0.75× oracle, else the Phase 3 performance-time fallback
+  review) → bake-off → full pretrain → **transfer measurement** (owns the
+  Phase 4 VST gate and Phase 2 CTC/data gate via pre-committed discriminator
+  logic) → real fine-tune (headline Tab F1) → **human-correlation
+  checkpoint** (success bar: median blinded recognizability ≥ 3/5), required
+  before Phase 7 iteration.
 
 ### Phase 7 — Scale & iterate
 
@@ -261,5 +292,10 @@ Next planning sessions expand phases into detailed designs, in this order:
 see [`plans/phase_2.md`](../plans/phase_2.md)), **Phase 3** (most
 consequential design — done, see [`plans/phase_3.md`](../plans/phase_3.md)),
 **Phase 4** (synth engine — done, see
-[`plans/phase_4.md`](../plans/phase_4.md)), then 5–6 to complete the
-training substrate.
+[`plans/phase_4.md`](../plans/phase_4.md)), **Phase 5** (eval harness —
+done, see [`plans/phase_5.md`](../plans/phase_5.md)), **Phase 6** (baseline
+model — done, see [`plans/phase_6.md`](../plans/phase_6.md)). Phases 0 and 2–6 are now
+fully planned; Phase 1 is continuous ops, and Phases 7–9 are expanded when
+Phase 6's implementation produces the evidence they depend on. Implementation
+proceeds in dependency order: Phase 0 → 2 → 3 → 4 → 5 → 6, with Phase 1
+continuous.
