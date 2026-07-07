@@ -23,7 +23,7 @@ pilot corpus:
 | Decision | Choice | Rationale |
 |---|---|---|
 | v1 transcription scope | **Guitar only** (all guitar tracks in the mix) | Core use case; simplest eval; bass/vocals/drums later. The **token format must be multi-track-capable from day one** so later scope costs no redesign. |
-| Corpus size | **Scale to thousands** (2k–10k songs) via the existing pipeline | More real data is the highest-value input and the pipeline already exists. |
+| Corpus size | **Scrape the entire official catalogue (~100k tabs)** via the existing pipeline, at its fixed slow rate (revised 2026-07-06 from the original 2k–10k target; see [Phase 1](../plans/phase_1.md)) | More real data is the highest-value input and the pipeline already exists; the catalogue is finite and uniform-quality, so selection adds nothing — order is the only lever. |
 | Compute strategy | **Local GPU first, cloud when needed** | Prove everything at small scale locally; escalate to rented A100/H100 for the runs that demonstrably need it. |
 | Alignment approach | **Open design problem** | A prior DTW-based `aligner-py` was built and scrapped (removed `90d1a0c`). Its learnings inform the redesign (see Phase 2) but the approach is not presumed. |
 
@@ -92,11 +92,28 @@ exactly what we have before building on it.
 
 ### Phase 1 — Scale the corpus (continuous, background)
 
-- Use discovery + scraper + enricher to grow toward 2k–10k official tabs.
-- Prioritize diversity: tunings, genres, acoustic vs distorted, tempo range.
-- Storage/ops: LFS strategy, re-run cadence, enrichment retry policy.
-- The corpus is *versioned*: dataset snapshots are immutable inputs to training
-  runs (reproducibility).
+**Expanded: see [`plans/phase_1.md`](../plans/phase_1.md)** (2026-07-06).
+Locked shape — a pure ops phase (policies + `scripts/` glue, no new
+subsystems):
+
+- The catalogue is **~100k official tabs**; scrape **all of it eventually**
+  at the pipeline's fixed slow rate — no numeric target. Training runs are
+  **manual** and train on everything available at each cut (until the corpus
+  is very large, ≥50k).
+- **Seeded-random enqueue order** (stable hash shuffle), so the corpus is an
+  unbiased sample of the catalogue at every instant — diversity arrives in
+  expectation, no distribution shift; `manifest/requests/` priorities jump
+  the queue (re-enrichment consumed mechanically, discovery strata via
+  facet-scoped discovery runs).
+- Ops = one manual command (`scripts/maintain.sh`): decode → enrich (new
+  arrivals only, trickle-paced) → regenerate manifest → **external-drive
+  backup** of audio + the scraper/enricher DBs (the irreplaceable classes;
+  `.xtz` stays in git LFS, renders are regenerable and not backed up).
+- Snapshot = regenerate + **git-commit the manifest** before each training
+  run: manifest hash = corpus snapshot ID, git history = retention.
+- Re-enrichment: `retry-audio` script over Phase 0 `bad` verdicts + Phase 2
+  audio-reason alignment failures + Phase 7 requests, **eval-split songs
+  first**; retries keyed to `yt-dlp` upgrades.
 
 ### Phase 2 — Ground truth: symbolic extraction + alignment (redesign)
 
@@ -363,8 +380,12 @@ on its committed degradation curves read against Phase 6's M5 statistics),
 **Phase 9** (product — done, see [`plans/phase_9.md`](../plans/phase_9.md);
 same oracle-first genre: the service is buildable checkpoint-free, sizing is
 an evidence slot, and the product decisions the roadmap deferred are parked
-behind a defined public-exposure gate).
-Phases 0 and 2–9 are now fully planned; Phase 1 is continuous ops.
+behind a defined public-exposure gate), and finally **Phase 1** (continuous
+corpus ops — done, see [`plans/phase_1.md`](../plans/phase_1.md); planned
+last since every other phase's deferrals defined its inputs: seeded-random
+scrape order over the ~100k catalogue, manual maintenance/backup routine,
+manifest-commit snapshots, and the feedback-loop consumers).
+All ten phases are now fully planned.
 Implementation proceeds in dependency order:
 Phase 0 → 2 → 3 → 4 → 5 → 6 → 7, with Phase 1 continuous, Phase 8's
 oracle-first machinery buildable any time after Phase 3 (its
