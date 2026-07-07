@@ -22,3 +22,11 @@ DadaGP-v1.1/
 # irreplaceable, never git).
 /renders/
 /dataset/
+# The committed manifest is an explicit allowlist: ignore everything under
+# manifest/ (Phase 2's per-tab alignment warps, Phase 1's requests/, etc. are
+# derived and can grow huge), then re-include exactly the snapshot files. Never
+# `git add manifest/`. See plans/phase_0.md "Git-commit boundary".
+/manifest/**
+!/manifest/manifest.jsonl
+!/manifest/overrides.json
+!/manifest/report.md

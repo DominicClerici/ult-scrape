@@ -29,9 +29,17 @@ dataset snapshot/versioning mechanics (Phase 1).
 ## Inputs / outputs
 
 **Consumes** (read-only): the frozen [output contract](../docs/output-contract.md)
-— `output/<artist>/<song>/` with `metadata.json` (has canonical `song_id`,
-`artist_id`, `tonality`, `tuning`), decoded `.gpif`, `audio.<ext>` +
+— `output/<artist>/<song>/` with `metadata.json`, decoded `.gpif`, `audio.<ext>` +
 `audio.json`. Phase 0 never modifies `output/`.
+
+> **Field shapes are optional — read [`NOTES.md`](../NOTES.md) before coding the
+> extractor.** The canonical song fields (`song_id`, `artist_id`, `tonality`,
+> `tuning`) live in an **optional** `song` block and each sub-field is omitted
+> when blank; in `audio.json`, `confidence`/`reason` sit under `selection.*` and
+> `no_match` records carry no confidence. Treat every such field as optional.
+> Note also that `metadata.json`'s `song.tuning` is a **display string** (e.g.
+> `"E A D G B E"`) — the manifest's per-track MIDI `tuning` comes from `gpscore`
+> parsing the `.gpif`, never from metadata.
 
 **Produces:**
 
@@ -46,6 +54,17 @@ dataset snapshot/versioning mechanics (Phase 1).
 Later-phase consumers: Phase 2 selects alignment candidates from the manifest
 and **backfills** its alignment-confidence fields; Phases 3/4 select training
 material by flags + split; Phase 5 takes the test split as its fixed eval set.
+
+**Git-commit boundary (decided now, enforced by `.gitignore`).** The snapshot
+ritual (Phase 1) commits an **explicit allowlist** of files, never
+`git add manifest/`: `manifest/manifest.jsonl` (its hash *is* the snapshot ID),
+`manifest/overrides.json` (hand-maintained input), and `manifest/report.md`.
+`.gitignore` ignores everything under `manifest/` and re-includes exactly those
+three files, so anything later written there — Phase 2's per-tab
+`manifest/alignment/` warps and `manifest/alignment.jsonl`, Phase 1's
+`manifest/requests/` — is gitignored by default and cannot silently bloat git
+history (the deferred snapshot-scope risk). A later phase that wants an additional
+file versioned adds it to the allowlist deliberately.
 
 ## Locked decisions
 
@@ -69,15 +88,31 @@ Installable package `gpscore`. Public surface (Phase 0 scope):
 
 - `parse_gpif(path | bytes) -> Score`
 - `Score`: `tracks: list[Track]`, `tempo_map`, `master_bars`,
-  `expand_repeats() -> LinearTimeline`, `duration_seconds() -> float`,
+  `performance() -> Performance`, `duration_seconds() -> float`,
   `time_signatures`, warnings list (unparseable constructs are recorded, never
   silently dropped).
+  - **Name/shape locked to Phase 2a — do not call it `expand_repeats()`.** The
+    linear-time view is `performance()` returning a `Performance`; Phase 2a
+    freezes exactly this name at 1.0 and Phase 3 consumes `performance()` + its
+    expanded bar/beat grid. Phase 0's `Performance` is the structure-only
+    version; keep the repeat/jump expansion as **bar-order sequencing,
+    `Fraction`-agnostic** (never baked into float seconds) so Phase 2a's exact-
+    rational grid layers on top without a rewrite. `duration_seconds()` and
+    `expanded_bar_count` are all the audit itself reads from it.
 - `Track`: `name`, `instrument_ref`, `kind` (guitar / bass / drums / vocals /
   other — classified from GPIF instrument refs like `e-gtr6`, `e-bass4`,
   `drmkt`, `s-gtr6`), `string_count`, `tuning` (MIDI numbers), `capo`,
-  `note_count`, `technique_counts: dict[str, int]` (bend, slide, hammer/pull,
-  palm-mute, harmonic, vibrato, tap, let-ring, trill, whammy, dead-note …),
-  `pitch_class_histogram` (from string+fret+tuning; no timing).
+  `note_count`, `technique_counts: dict[str, int]`, `pitch_class_histogram`
+  (from string+fret+tuning; no timing).
+  - **`technique_counts` keys are the Phase 3 taxonomy**, because the report's
+    census (below) is what Phase 3 reads to pick its modeled subset — the keys
+    must match its names and granularity or those cutoffs are ungrounded. Count
+    each as a **distinct** key (in particular `dead` ≠ `ghost`, and `hopo` is the
+    single hammer-on/pull-off key): the Tier-1 set `slide`, `brush`, `staccato`,
+    `accent`, `dead`, `ghost`, `let_ring`, `hopo`, `grace`, `bend`, `palm_mute`,
+    `vibrato`, `harmonic`, **plus the full parsed tail** `whammy`, `arpeggio`,
+    `hairpin`, `fade`, `tap`, `slap`, `pop`, `trill` — so Phase 3's "drop with
+    accounting" has real per-technique numbers.
 
 Repeat/jump expansion covers plain repeats, alternate endings, and the common
 D.C./D.S./Coda directives; anything unexpandable raises a warning flag on the
@@ -123,7 +158,8 @@ One JSON object per line; first line is a header record
     "tempo_change_count": 2, "time_signatures": ["4/4"],
     "tracks": [ { "name": "...", "kind": "guitar", "string_count": 6,
                   "tuning": [40,45,50,55,59,64], "capo": 0,
-                  "note_count": 1843, "technique_counts": {"bend": 31, ...} } ],
+                  "note_count": 1843,
+                  "technique_counts": {"bend": 31, "hopo": 22, "dead": 5, ...} } ],
     "guitar_track_count": 4
   },
   "audio": {
@@ -139,7 +175,8 @@ One JSON object per line; first line is a header record
   },
   "verdict": { "grade": "ok", "reasons": [] },   // or suspect:/bad: reasons
   "dup": { "duplicate_of": null, "possible_cover_of": [] },
-  "split": "train"                                // train | val | test
+  "split": "train",                               // train | val | test
+  "split_basis": "artist_id"                      // artist_id | slug_resolved | slug_fallback
 }
 ```
 
@@ -159,12 +196,33 @@ One JSON object per line; first line is a header record
 
 ### Split mechanics
 
-`bucket = int.from_bytes(sha1(str(artist_id).encode()).digest()[:4], "big") % 100`
-→ 0–84 train, 85–89 val, 90–99 test. Overrides (in `overrides.json`):
-`pin_split: {artist_id: "train"|...}` for contamination,
-`same_side: [[tab_id, tab_id], ...]` for cover pairs (resolved by pinning the
-cover's artist to the original artist's bucket side). The pilot corpus was
-handled during pipeline development, so artists whose *content* was studied in
+Split key = the artist identity, hashed deterministically:
+`bucket = int.from_bytes(sha1(key.encode()).digest()[:4], "big") % 100`
+→ 0–84 train, 85–89 val, 90–99 test.
+
+**Split-key resolution (handles the optional `song` block — see
+[`NOTES.md`](../NOTES.md)).** `song.artist_id` is optional and sometimes absent,
+so the key is resolved per tab in a way that keeps **every tab of one artist on
+the same side** — a split that put two tabs of the same artist in different
+buckets is silent train/test leakage. Resolution order:
+
+1. Build a **slug → `artist_id` map** across the whole corpus from every tab that
+   *does* carry `song.artist_id` (the artist slug is the first path segment of
+   `tab_id`). This is a first pass before any bucket is assigned.
+2. For each tab the hash `key` is: its own `song.artist_id` if present; else the
+   `artist_id` resolved from its slug via the map (a sibling tab supplied it);
+   else — when no tab under that slug carries any `artist_id` — the **slug string
+   itself**.
+3. Record the basis per record as `split_basis`
+   (`artist_id` / `slug_resolved` / `slug_fallback`) and list every
+   `slug_fallback` artist in the report. If a canonical `artist_id` later appears
+   for such an artist (Phase 1 growth), an `overrides.json` `pin_split` entry
+   holds its assignment stable instead of letting it silently re-bucket.
+
+Overrides (in `overrides.json`): `pin_split: {artist_id: "train"|...}` for
+contamination, `same_side: [[tab_id, tab_id], ...]` for cover pairs (resolved by
+pinning the cover's artist to the original artist's bucket side). The pilot corpus
+was handled during pipeline development, so artists whose *content* was studied in
 depth (e.g. alignment experiments) should be pinned to train as they're
 identified.
 

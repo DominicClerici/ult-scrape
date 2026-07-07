@@ -134,6 +134,8 @@ update that page. Use this map of code → doc:
 | `decoder-rs/src/gpx.rs` or the GP6 `.gpx`/BCFZ format | `docs/decoder-rs/gpx-bcfz-format.md` |
 | `decoder-rs/src/discover.rs`, `output.rs`, `lib.rs`, `main.rs` (flow/CLI) | `docs/decoder-rs/pipeline.md` |
 | `enricher-py/app/` (any module), CLI flags, config keys | `docs/enricher-py/overview.md` (+ this file's commands) |
+| `score-py/` (`gpscore` package) — parser, score/performance model, technique taxonomy | `docs/score-py/overview.md` |
+| `audit-py/app/` (any module), CLI flags, or the manifest/`overrides.json` schema | `docs/audit-py/overview.md` |
 | Crate/module layout, deps, build/test commands (any project) | the relevant `overview.md` (+ this file's commands) |
 | `scripts/*.sh` (operator wrappers) | `docs/scripts.md` |
 

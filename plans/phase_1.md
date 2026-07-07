@@ -104,9 +104,13 @@ Three tempos, all operator-driven:
   first Phase 1 action. Tabs that disappear from UG stay in the corpus.
 
 **Snapshot ritual** (before every training run): run `maintain.sh` → confirm
-queue quiescent for decode/enrich → `git add manifest/ && git commit`. The
-committed manifest's hash is the corpus snapshot ID recorded by the training
-run and by `dataset-py`.
+queue quiescent for decode/enrich → commit the manifest's **explicit allowlist**
+(`git add manifest/manifest.jsonl manifest/overrides.json manifest/report.md &&
+git commit`), never `git add manifest/` — `.gitignore` already fences off the
+derived/large sub-trees (Phase 2 alignment warps, `requests/`), but staging by
+file keeps the boundary explicit (see plans/phase_0.md "Git-commit boundary").
+The committed `manifest.jsonl`'s hash is the corpus snapshot ID recorded by the
+training run and by `dataset-py`.
 
 ### `scripts/top-up`
 
