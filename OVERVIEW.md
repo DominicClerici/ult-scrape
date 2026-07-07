@@ -75,6 +75,13 @@ under [`docs/superpowers/`](./docs/superpowers/). They capture locked decisions
 and rationale. The pages above describe the system **as built** and are the docs
 kept current.
 
+The ML roadmap's detailed phase plans live under [`plans/`](./plans/)
+(`phase_0.md` … `phase_9.md`), alongside the implementation-process documents:
+[`plans/PROMPT.md`](./plans/PROMPT.md) (the orchestrator prompt that drives each
+implementation session), [`plans/PROGRESS.md`](./plans/PROGRESS.md) (live phase
+status), and [`plans/CAVEATS.md`](./plans/CAVEATS.md) (recorded deviations from
+the plans).
+
 ## Quick start
 
 ```bash
