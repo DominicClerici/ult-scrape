@@ -231,35 +231,94 @@ Locked shape:
 
 ### Phase 7 — Scale & iterate
 
-The loop that actually produces quality: error analysis → targeted fixes →
-retrain.
+**Expanded: see [`plans/phase_7.md`](../plans/phase_7.md)** (2026-07-06).
+Deliberately an **evidence-contingent framework** (Phase 6's evidence doesn't
+exist yet): the iteration *machinery* is locked; concrete priorities are
+named slots M5/M6 fill. Locked shape:
 
-- Levers, roughly in expected-value order: more real aligned data (Phase 1
-  feeds this), better alignment precision, augmentation breadth, model size
-  (cloud runs enter here), representation refinements, source-separation
-  input.
-- Extend scope when guitar is strong: **bass** first (nearly free — same
-  format, cleaner in the mix), then evaluate drums/vocals demand.
+- **Cycle protocol**: one headline lever per cycle (+ pilot-scale side
+  ablations), tiered by cost (T0 decode-only / T1 fine-tune / T2 pretrain);
+  acceptance only by **paired-bootstrap 95% CI over songs**; test set
+  release-gated with logged consultations; val grows via versioned eval-set
+  extensions; every cycle recorded in `docs/model-py/cycles/` + a JSONL
+  registry (no new project — this is a process over `model-py`/`eval-py`).
+- **Levers picked evidence-first** from a trigger-signature inventory
+  (roadmap EV order is the tie-breaking prior); pre-wired M4 gates (VST →
+  Phase 4, CTC → Phase 2) execute as decided, never re-argued; T2 cycles
+  admitted only by fired trigger or measured T0/T1 saturation.
+- **Cloud ladder**: rung 1 = one big GPU, identical single-GPU code (shard
+  conversion + DDP only at an amendment-gated rung 2); ~$300 standing
+  per-cycle cap with pre-stated estimates.
+- **Corpus growth enters as data-lever cycles only** (snapshot bumps are
+  themselves the tested change); error analysis feeds Phase 1 via
+  `manifest/requests/`.
+- **Bass** admitted once the human floor is met, as a normal T2 cycle;
+  headline stays guitar Tab F1 with bass F1 separate; drums/vocals capped at
+  a demand write-up.
+- **Exit = saturation + floor**: two consecutive no-significant-gain cycles
+  *and* median blinded recognizability ≥ 4/5; saturating below the floor
+  forces an escalation review. **Phase 8 may start early in parallel**
+  against a pinned interim checkpoint; Phase 7 continues as a background
+  loop after exit (like Phase 1).
 
 ### Phase 8 — From model output to readable tabs
 
-- Phase 3 chose score-time output, so this is mostly validation plus
-  stitching: cross-window track matching, header (tuning/capo) majority
-  voting, anchor-based window merging. (Beat-tracking + quantization only if
-  Phase 6 ever falls back to performance-time.)
-- Playability post-processing (fret-assignment sanity, impossible-stretch
-  repair), key/tuning inference.
-- Export: tokens → `.gp` (e.g. via PyGuitarPro / gpif writer) + MusicXML;
-  in-browser rendering via alphaTab.
+**Expanded: see [`plans/phase_8.md`](../plans/phase_8.md)** (2026-07-06).
+Locked shape — a **concrete, oracle-first design** (unlike Phase 7's
+framework: the stitcher's inputs are symbolic and exactly simulable, so the
+machinery is buildable and falsifiable before any checkpoint exists):
+
+- **Model-free `stitch-py/`** + `model-py predict --song` (the Phase 5
+  `song`-mode contract made concrete): overlapped fixed-duration slices →
+  per-window predictions → track clustering (Hungarian + canonical-order
+  prior, chained), anchor+content bar merging with interior-preference
+  overlap consensus (overlap doubles as malformed-span repair material),
+  content-weighted header voting, piecewise-constant tempo fit,
+  detect+minimal-repair playability, Krumhansl key inference → `.gp` via
+  the Phase 3 writer. A `transcribe` driver (subprocess over `model-py`)
+  is the entry point Phase 9 wraps. MusicXML deferred to demand.
+- **Pre-designed escalations, evidence-triggered**: two-pass anchor-guided
+  re-slicing (trigger: slice-suite gap / seam-dominated errors) and
+  forced-header re-decode (trigger: header stats) — Phase 2/4-style.
+- **Feasibility bar = committed degradation curves**: stitched quality vs
+  injected anchor/header/structure noise, measured on oracle predictions;
+  M5's real statistics are read off the curves to gate real-checkpoint
+  integration — no invented thresholds.
+- **Song-level eval in `eval-py`**: headline = stitched song Tab F1 (real
+  test, aligned-coverage) + the **stitching tax** (song F1 − window F1 —
+  isolates pipeline loss from model loss); frozen real + synthetic
+  full-song eval sets. (Beat-tracking + quantization remain a contingency
+  only if Phase 6's M1 gate had forced the performance-time fallback.)
 
 ### Phase 9 — Product: upload mp3 → get tabs
 
-- Inference pipeline: upload → (separation) → chunked transcription →
-  stitching → quantization → export/render.
-- Simple web service (the team already runs FastAPI); GPU inference sized for
-  ~real-time or better per song.
-- Product decisions deferred until the model earns them: hosting, accounts,
-  pricing, batch vs interactive.
+**Expanded: see [`plans/phase_9.md`](../plans/phase_9.md)** (2026-07-06).
+Locked shape — concrete, oracle-first (Phase 8's genre: the whole service is
+buildable checkpoint-free against the oracle-backed driver), with **sizing as
+a named evidence slot** (M5 / Phase 7-exit per-window latency × the overlap
+factor; "~real-time or better" is a measured report, not a requirement):
+
+- **v1 = private tool with public-ready seams**: **`serve-py/`** — FastAPI +
+  SQLite job queue + one GPU worker (the scraper's skeleton with the GPU as
+  the scarce resource), on the training box behind a tunnel + shared token;
+  an advisory GPU lease serializes jobs against Phase 7 background training.
+- Pipeline per job: upload (any ffmpeg format) or YouTube URL → normalize →
+  (Demucs only per Phase 6's stem verdict — pipeline config, never
+  user-facing) → `stitch-py transcribe` (subprocess per job; a warm
+  `model-py serve --spool` predictor is pre-designed, triggered by measured
+  cold-start fraction) → result page: alphaTab render + playback, `.gp`
+  download, honest diagnostics panel from `assembly_meta.json` (no invented
+  confidence score). One user control: tuning/capo forcing (Phase 8's
+  forced-header path). The old bullet's "quantization" step is trimmed —
+  Phase 8 made it contingency-only.
+- Jobs retained with full provenance (every job pins its checkpoint — any
+  pinned Phase 7 registry checkpoint may serve) + per-job delete + a
+  flag-bad-result feedback feed (`manifest/requests/feedback.jsonl`) into
+  the Phase 7 background loop.
+- **Public-exposure gate** (all four, together): legal review (incl. the
+  YouTube path) + abuse controls/real auth + the measured sizing/cost
+  readout + Phase 7's ≥ 4/5 human floor. Accounts, pricing, and batch tiers
+  stay parked behind it — "the model earns them" made checkable.
 
 ## Cross-cutting concerns
 
@@ -294,8 +353,21 @@ consequential design — done, see [`plans/phase_3.md`](../plans/phase_3.md)),
 **Phase 4** (synth engine — done, see
 [`plans/phase_4.md`](../plans/phase_4.md)), **Phase 5** (eval harness —
 done, see [`plans/phase_5.md`](../plans/phase_5.md)), **Phase 6** (baseline
-model — done, see [`plans/phase_6.md`](../plans/phase_6.md)). Phases 0 and 2–6 are now
-fully planned; Phase 1 is continuous ops, and Phases 7–9 are expanded when
-Phase 6's implementation produces the evidence they depend on. Implementation
-proceeds in dependency order: Phase 0 → 2 → 3 → 4 → 5 → 6, with Phase 1
-continuous.
+model — done, see [`plans/phase_6.md`](../plans/phase_6.md)), **Phase 7**
+(iteration framework — done, see [`plans/phase_7.md`](../plans/phase_7.md);
+expanded as an evidence-contingent framework since Phase 6's evidence doesn't
+exist yet), **Phase 8** (stitching/export — done, see
+[`plans/phase_8.md`](../plans/phase_8.md); a concrete oracle-first design
+whose machinery needs no checkpoint — real-checkpoint integration is gated
+on its committed degradation curves read against Phase 6's M5 statistics),
+**Phase 9** (product — done, see [`plans/phase_9.md`](../plans/phase_9.md);
+same oracle-first genre: the service is buildable checkpoint-free, sizing is
+an evidence slot, and the product decisions the roadmap deferred are parked
+behind a defined public-exposure gate).
+Phases 0 and 2–9 are now fully planned; Phase 1 is continuous ops.
+Implementation proceeds in dependency order:
+Phase 0 → 2 → 3 → 4 → 5 → 6 → 7, with Phase 1 continuous, Phase 8's
+oracle-first machinery buildable any time after Phase 3 (its
+real-checkpoint stage waits for M5), and Phase 9's service buildable any
+time after Phase 8's driver exists (real serving waits for the first
+pinned checkpoint).
