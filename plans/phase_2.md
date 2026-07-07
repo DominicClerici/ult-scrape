@@ -36,9 +36,14 @@ directly on the structural layer as it appears).
 
 **Consumes:**
 
-- `manifest/manifest.jsonl` (Phase 0): candidate selection — pairs graded
-  `ok`, plus `suspect` transposed pairs (chroma rotation ≠ 0) which are
-  aligned but annotated. `bad` pairs are skipped.
+- `manifest/manifest.jsonl` (Phase 0): candidate selection — **every pair
+  with audio except `bad`**: `ok` pairs plus *all* `suspect` pairs
+  (transposed ones — chroma rotation ≠ 0 — additionally annotated with their
+  offset). Aligning suspects is deliberate (amended 2026-07-06): the
+  alignment outcome is the adjudicating evidence the roadmap's "alignment fit
+  cost backfills from Phase 2" promise refers to — a suspect that aligns
+  cleanly is a verdict-review candidate (promoted via `overrides.json`), one
+  that doesn't corroborates the flag. `bad` pairs are skipped.
 - `manifest/overrides.json` (Phase 0): the aligner-eval annotation set pins
   its artists to the train split here.
 - The frozen [output contract](../docs/output-contract.md), read-only:
@@ -76,6 +81,7 @@ inherits the alignment proxies and the eval-anchor tooling.
 | Aligner evaluation | **Three-part harness**: synthetic-warp CI suite (known tempo factors / inserted gaps / drift, assert recovery); **~30 hand-labeled real songs** (stratified by mix difficulty, ~15–25 anchors each: section-boundary downbeats, first note, distinctive hits); corpus-wide proxies calibrated against the labels | No hand labels (tier boundaries uncalibrated on real mixes — the exact blind spot that sank attempt #1); ~100 labeled songs (3–4 days annotation for precision the calibration can't use yet; grow later if curves are unstable) | The tier contract is meaningless without ground truth *for the aligner*. ~30 songs ≈ one focused annotation day and gives usable per-stratum counts. |
 | Eval-set split hygiene | Every hand-labeled song's **artist is pinned to the train split** via Phase 0 `overrides.json` | — | Studied-in-depth content must never reach the model's test set; exactly the contamination case Phase 0's override mechanism anticipated. |
 | Transposed pairs (rotation ≠ 0) | **Align + annotate** (`pitch_offset_semitones` in the artifact), **excluded from training by default** | Reject outright (discards recoverable Eb-standard/remaster pairs and the offset info); rescue now via label transposition (pulls Phase 3 augmentation machinery forward) | Feature-space rotation makes aligning them nearly free; consuming them safely requires fret-aware transposition, which is Phase 3's machinery and Phase 3's call. |
+| Non-transposed `suspect` pairs (amended 2026-07-06) | **Aligned + annotated like `ok` pairs, excluded from training by default**; measured fit/tier feeds verdict review (the roadmap's Phase 0 backfill promise) — clean alignment ⇒ promotion candidate via `overrides.json`, poor alignment ⇒ flag corroborated | Skip all suspects (leaves grey-band-duration and title-flagged pairs unadjudicated forever — the one measurement that could clear or condemn them never runs) | Alignment is the cheapest strong evidence on a questionable pairing, and the pipeline is identical; consumption stays gated on verdict + tier, so training-poison risk is unchanged. |
 | Gating granularity | **Segment-level tiers**: the warp is partitioned into contiguous regions tagged `onset_grade`/`beat_grade`/`unusable`; song-level tier is a derived summary | Song-level only (discards the good 80% of partially-aligned songs — solos, extended outros) | Training consumes 15–30 s windows anyway; per-region quality converts "coverage" from a rejection criterion into harvested data. Requires windowed proxies, validated per-window in calibration. |
 | Project layout | 2a extends **`score-py/`**; 2b is a fresh **`aligner-py/`** (decoupled CLI: `scan`/`run`/`status`, SQLite queue, mirrors `enricher-py`) | Start `dataset-py` now (guesses at the shape of two undesigned phases) | Repo pattern; the old name is honest and git history disambiguates. |
 | Artifact location | **`manifest/` derived tree**: `manifest/alignment/<tab_id>.json` (full warp + segments, fingerprinted) + `manifest/alignment.jsonl` (compact summary, joined on `tab_id`). `output/` untouched | `align.json` in `output/` (the old contract — re-opens the frozen output contract and ties expensive derived data to re-scrape `rmtree` semantics) | Settles Phase 0's open question ("likely a second derived file joined on `tab_id`"). `manifest.jsonl`'s reserved `checks.alignment` field stays null; consumers join `alignment.jsonl` instead. |
@@ -228,8 +234,8 @@ fallback is acceptable). `librosa`, `soundfile` + `ffmpeg` (decode), `numpy`/
   are structured warnings/records, not crashes); both dialects covered by
   fixtures; performance-view invariants tested; expanded durations match
   Phase 0's structural computation; `gpscore` 1.0 API documented and frozen.
-- **2b baseline:** aligner runs the full pilot corpus (all `ok` + transposed
-  `suspect` pairs) through the queue with resumability; artifacts +
+- **2b baseline:** aligner runs the full pilot corpus (all non-`bad` pairs
+  with audio — `ok` + every `suspect`) through the queue with resumability; artifacts +
   `alignment.jsonl` + report generated; re-run with unchanged inputs is a
   fingerprint-hit no-op.
 - **Calibration:** tier precision ≥ 90 % for `onset_grade` and `beat_grade`

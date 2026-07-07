@@ -37,7 +37,7 @@ All three communicate **only** through the filesystem — see the output contrac
 
 | Doc | Read it to understand… |
 |---|---|
-| 📐 [Architecture](./docs/architecture.md) | The four-project architecture, end-to-end data flow, and why it's decoupled. **Start here.** |
+| 📐 [Architecture](./docs/architecture.md) | The three-project architecture, end-to-end data flow, and why it's decoupled. **Start here.** |
 | 🔌 [Output contract](./docs/output-contract.md) | The shared filesystem interface all three projects communicate through: directory layout, the `metadata.json` commit marker, `.xtz`/`.gp`/`.gpif`/`audio.*` files, idempotency. |
 | 🛠️ [Operator scripts](./docs/scripts.md) | The `scripts/` wrappers for running and driving the scraper from the CLI: `start-scraper.sh`, `enqueue.sh`, `status.sh`, `pause.sh`, `resume.sh`. |
 | 🗺️ [ML roadmap](./docs/roadmap.md) | The phase-by-phase plan for training an audio→tab transcription model on the corpus this pipeline produces — where the whole project is headed. |

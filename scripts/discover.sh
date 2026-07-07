@@ -12,8 +12,9 @@
 #   ./discover.sh --enqueue       enqueue all discovered-but-unscraped tabs
 #
 # Notes:
-#   - A run is accepted only when the scrape queue is empty and no other run is
-#     active (the server returns 409 otherwise).
+#   - A run is accepted any time no other discovery run is active (the server
+#     returns 409 otherwise); the worker finishes its current scrape job, then
+#     services the run before claiming further jobs.
 #   - The run is worker-owned and asynchronous: this script kicks it off and
 #     prints the run id; watch progress with ./discover.sh --list.
 set -euo pipefail

@@ -62,7 +62,7 @@ Tracks every discovery run from `requested` to terminal state.
 |---|---|
 | `id` | UUID4 string — primary key |
 | `params_json` | JSON of per-run override params from `DiscoveryStartRequest` |
-| `state` | `requested` → `running` → `done` \| `canceled` \| `failed` |
+| `state` | `requested` → `running` → `done` \| `canceled` \| `failed`; a run canceled while still `requested` goes straight to `canceled` |
 | `created_at` | Epoch seconds |
 | `started_at` | Epoch seconds when the worker claimed the run (nullable) |
 | `finished_at` | Epoch seconds when the run ended (nullable) |
@@ -80,7 +80,7 @@ Discovery repo methods in `repo.py`: `request_discovery()`,
 `update_discovery_progress()`, `finish_discovery()`,
 `request_discovery_cancel()`, `is_discovery_cancel_requested()`,
 `fail_interrupted_discovery()`, `upsert_tab_metadata()`, `discovered_routes()`,
-`count_active_jobs()`, `has_active_discovery()`.
+`has_active_discovery()`.
 
 ## Normalization
 
@@ -122,7 +122,7 @@ Each transition is a single committed SQL statement in `repo.py`:
 
 | Method | Transition |
 |---|---|
-| `enqueue()` | Inserts a `queued` job. Returns the existing succeeded job instead if dedup applies and `force` is false. |
+| `enqueue()` | Inserts a `queued` job. With `force` false it is idempotent against live work: returns the existing `succeeded` job if one exists, else the existing `queued`/`running` job if one exists. Only `failed`/`canceled` history (or none) inserts a new row — re-enqueue after failure is deliberate retry semantics. |
 | `claim_next()` | Atomic `UPDATE ... WHERE id = (SELECT ... WHERE status='queued' AND next_attempt_at<=now ORDER BY priority, created_at LIMIT 1) RETURNING *`. Sets `running`. Can't double-claim. |
 | `succeeded_output_for()` | Dedup-on-claim lookup: is there already a succeeded job for this `tab_id`? |
 | `mark_succeeded()` | `running → succeeded`, records `output_dir`, clears `error`. Terminal. |
@@ -133,7 +133,7 @@ Each transition is a single committed SQL statement in `repo.py`:
 | `cancel_all_queued()` | Bulk clear: every `queued → canceled` in one statement; returns the count. Leaves `running` untouched (backs `DELETE /jobs`). |
 | `retry()` | `failed → queued`, resets `attempts=0`, clears `error`/timestamps. |
 | `reset_running_to_queued()` | Startup recovery: any `running` job left over from a crash → `queued`. Called in the lifespan. |
-| `fail_interrupted_discovery()` | Startup recovery: any `running` discovery run left over from a crash → `failed` with error `"interrupted by restart"`. Called in the lifespan alongside `reset_running_to_queued()`. |
+| `fail_interrupted_discovery()` | Startup recovery: any `running` discovery run left over from a crash → `failed` with error `"interrupted by restart"`. Called in the lifespan alongside `reset_running_to_queued()`. Runs still in `requested` are left intact — they survive restart and are serviced once the worker is up. |
 
 ### Backoff
 
@@ -216,7 +216,13 @@ up and login confirmed. Each iteration:
 1. If `repo.is_paused()` → set state `PAUSED`, await the resume event, loop.
 2. `repo.claim_discovery()`. If a `requested` run exists, atomically promote it
    to `running`, set state `DISCOVERING`, run `discovery_runner.run(...)`, then
-   loop. Discovery and scraping are mutually exclusive — both use the browser.
+   loop. Because this check comes **before** `claim_next()`, a pending discovery
+   run takes priority over queued scrape jobs: the current job finishes, the
+   discovery run is serviced to completion, then scraping resumes. This
+   worker-level ordering is what keeps discovery and scraping mutually
+   exclusive — both use the browser. `claim_discovery()` also finishes any
+   `requested` run whose cancel was requested while it waited (→ `canceled`)
+   without ever touching the browser.
 3. `repo.claim_next()`. If `None` → state `IDLE`, await the wakeup event (signaled
    on enqueue/retry/discover) with a `POLL_INTERVAL_SECONDS` timeout, loop.
 4. State `RUNNING`. `_process(job)`:

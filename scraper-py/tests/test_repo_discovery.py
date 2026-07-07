@@ -44,6 +44,19 @@ async def test_progress_finish_and_cancel(repo):
     assert await repo.has_active_discovery() is False
 
 
+async def test_claim_skips_run_canceled_while_pending(repo):
+    run = await repo.request_discovery({})
+    assert await repo.request_discovery_cancel(run.id) is True
+
+    repo.clock["t"] = 1500.0
+    assert await repo.claim_discovery() is None  # never reaches 'running'
+    got = await repo.get_discovery_run(run.id)
+    assert got.state == "canceled"
+    assert got.started_at is None
+    assert got.finished_at == 1500.0
+    assert await repo.has_active_discovery() is False
+
+
 async def test_upsert_tab_metadata_and_discovered_routes(repo):
     rec = {"id": 111, "tab_url": "https://tabs.ultimate-guitar.com/tab/band/song-a-official-111"}
     await repo.upsert_tab_metadata("run1", rec)

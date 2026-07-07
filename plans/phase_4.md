@@ -63,7 +63,9 @@ record shape. `render-py` needs no Phase 2b alignment output at all.
 same record shape as real audio (`source: "synthetic"`, variant id, trivial
 alignment from the realized grid) — the roadmap's "synthetic vs real is just
 a manifest flag" made concrete. Phase 5 takes the synthetic test set
-(held-out songs × held-out timbres, canonical variant included). Phase 6
+(held-out songs × held-out timbres, canonical variant included) and drives
+`render-py render-file` (subprocess) for review-bundle GT/prediction audio;
+Phase 8's song-view bundles reuse the same entry point. Phase 6
 pretrains on this and runs the transfer measurement that decides the VST
 escalation. Phase 2's CTC aligner, if ever triggered, trains on the
 per-note realized onsets.
@@ -105,6 +107,7 @@ or `manifest/`.
 | `app/queue.py` / `app/repo.py` | SQLite work queue keyed on `(tab_id, variant_index)`; `scan` skips fingerprint-current variants. |
 | `app/output.py` | Atomic per-variant writes; `render_meta.json` last (commit marker); regeneration of `renders/report.md`. |
 | `app/inspect.py` | Developer diagnostics: play/export a variant with a click-track overlay from the realized grid; per-technique A/B render for the audibility fixture. |
+| `app/render_file.py` | **One-off rendering** (added 2026-07-06): `render-py render-file <gpif|gp> --recipe canonical -o <dir>` renders an arbitrary score file — not tied to `output/` or the queue — with a named recipe; thin importable wrapper around the same event-stream pipeline. This is the subprocess entry point Phase 5's review bundle and Phase 8's song view use to voice GT and **predicted** fragments (predictions exist nowhere in `output/`; they arrive as `.gp`/`.gpif` files written by the `gpscore` writer). |
 
 **Channel-per-string** is structural: independent bends within a chord are
 impossible on one MIDI channel; strings ≤ 10 < 16 channels; also handles

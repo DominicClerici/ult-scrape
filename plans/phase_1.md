@@ -11,8 +11,17 @@ Grow the corpus from ~509 tabs toward the **full UG official catalogue
 pipeline, run as a slow continuous background process — and keep the growing
 corpus *consumable*: decoded, enriched, manifested, backed up, and
 snapshot-able on demand. This is deliberately a **pure operations phase**:
-policies plus a few `scripts/` additions. No new subsystems, no changes to
-scraper/decoder/enricher internals.
+policies plus a few `scripts/` additions. No new subsystems. One sanctioned
+exception to "no pipeline changes" (amended 2026-07-06): the enricher gains a
+small **additive per-tab requeue** — a `repo.py` method + CLI subcommand
+(`enricher requeue <tab_id>…`) — because `retry-audio` needs targeted,
+eval-split-first retries and the enricher's only existing reset paths are
+global (`retry_terminal` resets *every* `no_match`/`failed` row;
+`upsert_pending` is `ON CONFLICT DO NOTHING`, so a re-scan never re-queues a
+terminal row). The scraper-side prerequisites (idempotent enqueue against
+active jobs; discovery startable while the queue is busy, serialized in the
+worker) were implemented ahead of this phase, so `top-up` and catalogue
+refreshes need no further scraper changes.
 
 This session **revised the roadmap's original framing**. The initial planning
 session assumed a 2k–10k target; we now know the official catalogue is
@@ -65,7 +74,7 @@ manifest; training runs (manual) pin the committed manifest's hash;
 | Enqueue ordering | **Seeded random**: stable shuffle, order key `sha1(f"{SEED}:{tab_id}")`, `SEED` a constant committed in the script; priority records from `manifest/requests/` jump the queue | Stratified round-robin by genre facet (needs slice→tab attribution discovery doesn't persist); popularity-first by votes/rating (months of mainstream bias); catalogue order (unexamined bias) | At a fixed slow rate the queue's front *is* the corpus for years. Seeded random makes "everything we have" an **unbiased sample of the catalogue at every instant** — diversity in expectation, representative splits, no distribution shift — with zero new metadata; newly discovered tabs slot in deterministically. |
 | Training integration | **Manual.** Operator triggers training runs; each trains on everything available at cut time; no automated integration policy | Scheduled retrains; snapshot-triggered runs | User decision. Phase 7's data-lever cycles still request cuts explicitly when they exist — the snapshot ritual below serves both. |
 | Snapshot convention | Before each training run: quiesce (finish decode + enrich pass) → regenerate manifest → **git-commit it**. Manifest hash = corpus snapshot ID; git history = retention. No copies, no snapshot directory | `snapshots/` directory of manifest copies (redundant with git); log-only hash in run config (can't reconstruct membership if the file is regenerated) | Phase 0 made the manifest deterministic and single-file precisely so snapshot = file hash; git supplies storage, diffing, and archaeology for free. |
-| Backup | **External drive**, `rsync` of `output/` + `scraper.db` + `enricher.db`, run as a step of every maintenance pass. Decoded `.gp`/`.gpif` ride along in `output/` but renders are **not** backed up (regenerable) | Cloud object storage (B2/S3); both; none | User decision. Audio is the irreplaceable class (throttled re-download; videos vanish) — ~1.6 GB now, ~300 GB at 100k; the DBs hold the catalogue and match history. `.xtz` + `metadata.json` are already safe in git/LFS. |
+| Backup | **External drive**, `rsync` of `output/` + `scraper.db` + `enricher.db`, run as a step of every maintenance pass. Decoded `.gp`/`.gpif` ride along in `output/` but renders are **not** backed up (regenerable) | Cloud object storage (B2/S3); both; none | User decision. The irreplaceable classes are audio (throttled re-download; videos vanish) — ~1.6 GB now, ~300 GB at 100k — **and the raw `.xtz` + `metadata.json`** (re-scraping the catalogue takes years at the fixed rate); all ride in the `output/` rsync. The DBs hold the catalogue and match history. **Git holds code + the committed manifest only — no data, no LFS** (amended 2026-07-06: `output/` is gitignored and lives on the 6 TB data drive; the backup drive must be a separate physical disk from it). |
 | Tooling home | New glue lives in **`scripts/`** (the existing operator layer), documented in `docs/scripts.md`; promote to an `ops-py/` project only if the routine outgrows scripts | New `ops-py/` house-pattern project | ~200 lines of glue today; `scripts/` is already the documented operator surface for driving the pipeline. |
 | Cadence | **Manual, one command**: `scripts/maintain.sh` runs the full maintenance pass whenever the operator chooses (and always as step one of the snapshot ritual). No cron | Scheduled (cron/launchd) + manual before training | Fits manual-training reality; zero moving parts on a personal machine. Backup is folded into the same command so it cannot be separately forgotten. |
 
@@ -82,8 +91,14 @@ Three tempos, all operator-driven:
 - **Per maintenance pass** (`scripts/maintain.sh`) — decode new arrivals
   (`decoder-rs`) → `enricher scan` + `enricher run` (new arrivals only, so
   YouTube load is naturally trickle-paced) → `audit run` (regenerate manifest)
-  → `rsync` to the external drive → print a status summary (queue depth,
-  corpus counts by verdict/split, disk free).
+  → `aligner-py scan` + `run` (new arrivals; once Phase 2 lands) →
+  `render-py scan` + `run` (new arrivals, batch size / disk budget per
+  Phase 4's policy; once Phase 4 lands) → `rsync` to the external drive →
+  print a status summary (queue depth, corpus counts by verdict/split, disk
+  free). Stages whose tool doesn't exist yet are skipped gracefully —
+  `maintain.sh` is the standing **cadence owner for every derived tree**, so
+  alignment and renders never silently go stale as the corpus grows (Phase 7's
+  val growth assumes newly aligned val-split songs accumulate here).
 - **Occasional** — re-run discovery (uncapped) to refresh the catalogue as UG
   adds tabs; the first such run, which sizes the real population, is the
   first Phase 1 action. Tabs that disappear from UG stay in the corpus.
@@ -99,8 +114,9 @@ Reads `tab_metadata`, subtracts tabs with succeeded/pending jobs, sorts the
 remainder by `sha1(f"{SEED}:{tab_id}")`, prepends any actionable
 `manifest/requests/` priority tabs, and enqueues the next K via the existing
 `POST /discover/enqueue`. Must be idempotent (re-running never duplicates
-jobs — the scraper's queue already dedups by `tab_id`, so this is mostly
-free) and must tolerate `manifest/requests/` not existing yet.
+jobs — the scraper's enqueue now short-circuits on both succeeded *and*
+active (queued/running) jobs per the 2026-07-06 scraper amendment, so this
+is mostly free) and must tolerate `manifest/requests/` not existing yet.
 
 ### `scripts/retry-audio`
 
@@ -113,7 +129,9 @@ tabs first** (they're eval capacity — Phases 5/6's standing request):
    reasons (wrong video despite a Phase 0 `ok`).
 3. `manifest/requests/requests.jsonl` `re-enrichment` records.
 
-It resets/re-queues those `tab_id`s in the enricher and reports what it did.
+It resets/re-queues those `tab_id`s via the sanctioned `enricher requeue`
+subcommand (the additive per-tab reset described under Goal & scope — the
+existing `--retry-failed` stays all-or-nothing) and reports what it did.
 Sources 2–3 don't exist until Phases 2/7 run; the script treats missing files
 as empty. Run occasionally, ideally after `yt-dlp` upgrades (matching often
 improves) — matching is otherwise deterministic, so blind retries without a
@@ -133,9 +151,9 @@ tooling change mostly re-fail.
 
 | At | Expectation | Action |
 |---|---|---|
-| ~509 (now) | `output/` 2.2 GB (1.6 GB audio); `.xtz` LFS 31 MB | Baseline |
-| ~10k | audio ~30 GB; `.xtz` LFS ~600 MB | Verify GitHub LFS quota / buy data pack; confirm drive headroom |
-| ~50k+ | audio ~150–300 GB | Drive sized ≥ 1 TB (renders live on local disk only, on top of this) |
+| ~509 (now) | `output/` 2.2 GB (1.6 GB audio, 31 MB `.xtz`) | Baseline |
+| ~10k | `output/` ~35 GB (audio ~30 GB, `.xtz` ~600 MB) | Confirm data-drive and backup-drive headroom |
+| ~50k+ | `output/` ~150–450 GB | Backup drive sized ≥ 1 TB; renders (regenerable, not backed up) live on the 6 TB data drive on top of this — variant count is the disk knob per Phase 4 |
 | any | first manifest dedup-invariant violation | Phase 0's winner policy applies; inspect, add `overrides.json` entries if needed — fuzzy-dedup machinery stays deferred until violations are real |
 
 ## Risks & mitigations
@@ -145,7 +163,7 @@ tooling change mostly re-fail.
 | UG markup/Cloudflare drift breaks scraping (the known-brittle layer) | Queue failures accumulate visibly in `status.sh`/maintain summary; fix per [browser.md](../docs/scraper-py/browser.md); the queue preserves state so nothing is lost while broken. |
 | YouTube throttles/blocks the enricher at 100k scale | Enrichment is trickle-paced by construction (new arrivals per pass); keep `yt-dlp` current; `no_match` is acceptable — Phase 4 makes audio-less tabs usable synthetic training material. |
 | Disk exhaustion (audio + future renders) | Scale-checkpoint table above; maintain.sh prints disk free; operator owns the budget. |
-| Backup goes stale / drive dies silently | Backup is a maintain.sh step, not a separate habit; acceptance includes a restore spot-check; note: drive must not be a partition of the corpus machine's own disk. |
+| Backup goes stale / drive dies silently | Backup is a maintain.sh step, not a separate habit; acceptance includes a restore spot-check; note: the backup drive must be a separate physical disk from both the machine's internal storage and the 6 TB data drive (with `.xtz`/`metadata.json` no longer in git, `output/` + the DBs have no durability outside this backup). |
 | Seeded order silently violated (ad-hoc enqueues) | Ad-hoc/priority enqueues are *allowed* (requests.jsonl, operator judgment) but logged by top-up; the corpus only needs to stay *approximately* unbiased, and the manifest records what's actually present regardless. |
 | Manifest regeneration slow at 100k | `audit-py --jobs` parallelism (Phase 0 design); determinism unaffected; regeneration is per-pass, not per-tab. |
 
@@ -159,7 +177,10 @@ tooling change mostly re-fail.
 - Seeded ordering is reproducible: same catalogue + same seed → same order
   (unit-testable pure function).
 - One maintenance pass has run end-to-end on the live corpus (decode →
-  enrich → manifest → backup) and the backup passed a restore spot-check.
+  enrich → manifest → align/render stages when their tools exist → backup)
+  and the backup passed a restore spot-check.
+- `enricher requeue <tab_id>…` exists (additive repo method + CLI subcommand)
+  and `retry-audio` uses it; global `--retry-failed` behavior unchanged.
 - The snapshot ritual has been exercised once: a committed manifest whose
   hash is recorded as a snapshot ID.
 - The scraper queue has been continuously non-empty across at least one
@@ -171,11 +192,10 @@ tooling change mostly re-fail.
 |---|---|
 | Genre/slice→tab attribution in discovery | Seeded-random ordering needs no metadata; Phase 7 `discovery` requests are served by facet-*scoped* discovery runs instead. Additive change if ever needed (Phase 0's deferral stands). |
 | Fuzzy dedup clustering | Unchanged from Phase 0: the invariant surfaces real collisions; machinery waits for evidence. |
-| Render cadence + render disk budget | Phase 4 implementation scope; renders are regenerable and excluded from backup, so no durability coupling. |
+| Render cadence + render disk budget | Phase 4 implementation scope; renders are regenerable and excluded from backup, so no durability coupling. The `maintain.sh` slot for the render stage already exists — Phase 4 fills in batch size and disk budget. |
 | Cron/scheduled maintenance | One operator, manual training; revisit only if passes get forgotten in practice. |
 | `ops-py/` promotion | `scripts/` suffices at current glue size; promoting later is mechanical. |
 | Exact K (top-up batch size) and pass frequency | Pure operator knobs; nothing downstream depends on them. |
-| GitHub LFS data-pack purchase timing | Scale-checkpoint table flags it at ~10k tabs; nothing breaks before quota warnings. |
 
 ## Open questions for later phases
 

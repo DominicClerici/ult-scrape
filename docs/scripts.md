@@ -155,8 +155,10 @@ turn the captured `.xtz` files into `.gp`.
 ## Discovery loop
 
 Instead of supplying tabs by hand, you can let the scraper crawl UG's explore
-listing for official tabs (see [discovery](./scraper-py/discovery.md)). Discovery
-only starts when the scrape queue is empty:
+listing for official tabs (see [discovery](./scraper-py/discovery.md)). A run
+can be requested even while scrape jobs are queued or running — the worker
+finishes its current job, runs discovery to completion, then resumes scraping
+(only a second concurrent discovery run is rejected with 409):
 
 ```bash
 ./discover.sh --max 50    # crawl until 50 distinct tabs are found

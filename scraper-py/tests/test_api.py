@@ -60,6 +60,14 @@ async def test_enqueue_and_get(client):
     assert r2.status_code == 200
 
 
+async def test_enqueue_same_route_returns_existing_job(client):
+    r1 = await client.post("/jobs", json={"url_or_route": "a/b-1"})
+    r2 = await client.post("/jobs", json={"url_or_route": "a/b-1"})
+    assert r2.status_code == 200
+    assert r2.json()["id"] == r1.json()["id"]
+    assert (await client.get("/status")).json()["queue_depth"] == 1
+
+
 async def test_enqueue_invalid_is_422(client):
     r = await client.post("/jobs", json={"url_or_route": "no-slash"})
     assert r.status_code == 422

@@ -50,3 +50,36 @@ async def test_worker_runs_pending_discovery(repo, monkeypatch):
 
     assert "id" in ran
     assert await repo.has_active_discovery() is False
+
+
+async def test_worker_services_discovery_before_queued_jobs(repo, monkeypatch):
+    order = []
+
+    async def fake_run(browser, repo_, run, settings, **kw):
+        order.append("discovery")
+        await repo_.finish_discovery(run.id, "done")
+
+    monkeypatch.setattr("app.discovery.runner.run", fake_run)
+
+    class RecordingBrowser(FakeBrowser):
+        async def scrape(self, url):
+            order.append("scrape")
+            return [], None
+
+    await repo.enqueue(tab_id="a/b-1", url="u", max_attempts=1)
+    await repo.request_discovery({})
+    settings = Settings(
+        _env_file=None, poll_interval_seconds=0.01,
+        inter_job_delay_min=0, inter_job_delay_max=0,
+    )
+    worker = Worker(repo, RecordingBrowser(), settings)
+
+    task = asyncio.create_task(worker.run())
+    for _ in range(200):
+        await asyncio.sleep(0.005)
+        if "scrape" in order:
+            break
+    worker.stop()
+    await asyncio.wait_for(task, timeout=1.0)
+
+    assert order[:2] == ["discovery", "scrape"]

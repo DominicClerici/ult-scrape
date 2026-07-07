@@ -23,7 +23,7 @@ see [configuration](./configuration.md)).
 | `POST /jobs/{id}/retry` | Re-queue a **failed** job. 404 if unknown, 409 if not failed. |
 | `POST /pause` | Pause the worker after the current job finishes (persists `paused=true`). |
 | `POST /resume` | Resume the worker. |
-| `POST /discover` | Start a discovery run. **409** if any queued/running jobs exist, or a discovery run is already active. |
+| `POST /discover` | Start a discovery run. Accepted even while scrape jobs are queued/running (the run waits in `requested` until the worker services it). **409** only if another discovery run is already active. |
 | `GET /discover` | List discovery runs (newest first). Optional `?limit=` (default 20). |
 | `GET /discover/{run_id}` | Get a single discovery run. 404 if unknown. |
 | `POST /discover/{run_id}/cancel` | Request cancellation of an active run. 404 if unknown, 409 if not cancelable (already finished). |
@@ -42,8 +42,12 @@ see [configuration](./configuration.md)).
   `tab_id`. Unparseable input → **422**.
 - `priority` — lower runs sooner (default `0`).
 - `force` — bypass the dedup short-circuit (re-scrape even if already succeeded).
-- **Dedup:** if a `succeeded` job already exists for the same `tab_id` and
-  `force` is false, the existing job is returned and **no new job is created**.
+- **Dedup:** with `force` false, if a `succeeded` job already exists for the
+  same `tab_id`, the existing job is returned; otherwise, if a **`queued` or
+  `running`** job exists, that job is returned. In both cases **no new job is
+  created** — the response's `id`/`status` identify the existing job. Only
+  `failed`/`canceled` history (or no history) yields a fresh `queued` job, so
+  re-enqueueing after a failure is a deliberate retry.
 - On success the worker is woken immediately (`notify_enqueued()`), so a queued
   job is picked up without waiting for the poll interval.
 
@@ -99,13 +103,17 @@ per-run overrides. Any field omitted (or `null`) falls back to the corresponding
 ```
 
 The endpoint records a `DiscoveryRun` row in state `requested` and signals the
-worker. The worker claims the run only after the scrape queue drains — scraping
-and discovery are mutually exclusive. See [discovery](./discovery.md) for the
-full crawl model.
+worker. The request is accepted even while scrape jobs are queued or running:
+the worker finishes its current job, services the discovery run to completion,
+then resumes scraping — the browser is never shared between the two. The only
+409 is a second concurrent discovery run (`requested` or `running`). See
+[discovery](./discovery.md) for the full crawl model.
 
 `POST /discover/enqueue` draws from `tab_metadata`: it fetches all tabs that
 have no `succeeded` job and enqueues them using the same `repo.enqueue()` path
-as `POST /jobs`. Tabs that already succeeded are skipped by default.
+as `POST /jobs` — so tabs that already have a queued/running job are returned
+as-is rather than duplicated, and the call is safe to re-run. Tabs that already
+succeeded are skipped by default.
 
 ## Wiring note
 

@@ -42,6 +42,7 @@ and update `docs/output-contract.md`.
 | Decoder discovery/decode/write flow | [docs/decoder-rs/pipeline.md](./docs/decoder-rs/pipeline.md) |
 | Enricher (any part) | [docs/enricher-py/overview.md](./docs/enricher-py/overview.md) |
 | Running/driving the scraper from the CLI | [docs/scripts.md](./docs/scripts.md) |
+| Where the project is headed (ML audio→tab model, future `aligner-py`/`audit-py`) | [docs/roadmap.md](./docs/roadmap.md) |
 
 ## Common commands
 
@@ -107,6 +108,9 @@ python3 -m pytest -m integration # live yt-dlp + ffprobe tests
   the most brittle part — start at [browser.md](./docs/scraper-py/browser.md)
   (especially the hardcoded `PROFILE_HREF` and the capture/CF heuristics) when a
   scrape mysteriously fails.
+- Before "fixing" an odd data-shape or edge case, check [`NOTES.md`](./NOTES.md) —
+  it lists issues deliberately deferred (with dates/rationale). Don't re-solve a
+  parked problem; the empty `aligner-py/` is likewise a future scaffold, not live.
 
 ## Keeping documentation up to date
 

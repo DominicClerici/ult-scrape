@@ -106,9 +106,13 @@ subsystems):
   the queue (re-enrichment consumed mechanically, discovery strata via
   facet-scoped discovery runs).
 - Ops = one manual command (`scripts/maintain.sh`): decode → enrich (new
-  arrivals only, trickle-paced) → regenerate manifest → **external-drive
-  backup** of audio + the scraper/enricher DBs (the irreplaceable classes;
-  `.xtz` stays in git LFS, renders are regenerable and not backed up).
+  arrivals only, trickle-paced) → regenerate manifest → align/render new
+  arrivals (once Phases 2/4 land — maintain.sh is the standing cadence owner
+  for every derived tree) → **external-drive backup** of `output/` (audio +
+  raw `.xtz` + `metadata.json`) and the scraper/enricher DBs (the
+  irreplaceable classes; renders are regenerable and not backed up). Git
+  holds code + the committed manifest only — no scraped data, no LFS; all
+  data trees live gitignored on the 6 TB data drive.
 - Snapshot = regenerate + **git-commit the manifest** before each training
   run: manifest hash = corpus snapshot ID, git history = retention.
 - Re-enrichment: `retry-audio` script over Phase 0 `bad` verdicts + Phase 2

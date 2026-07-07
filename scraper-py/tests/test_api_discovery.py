@@ -51,10 +51,12 @@ async def test_discover_start_and_get(client):
     assert c.get("/discover").json()[0]["id"] == run_id
 
 
-async def test_discover_rejected_when_jobs_active(client):
+async def test_discover_accepted_when_jobs_active(client):
     c, repo = client
     await repo.enqueue(tab_id="a/b-official-1", url="https://tabs.ultimate-guitar.com/tab/a/b-official-1", max_attempts=3)
-    assert c.post("/discover", json={}).status_code == 409
+    r = c.post("/discover", json={})
+    assert r.status_code == 200
+    assert r.json()["state"] == "requested"  # waits for the worker; no browser use yet
 
 
 async def test_discover_cancel(client):
@@ -71,4 +73,9 @@ async def test_discover_enqueue(client):
     r = c.post("/discover/enqueue")
     assert r.status_code == 200
     assert [j["tab_id"] for j in r.json()] == ["a/b-official-5"]
+    assert (await repo.queue_depth()) == 1
+
+    # Idempotent: re-running returns the existing queued job, no duplicate.
+    r2 = c.post("/discover/enqueue")
+    assert [j["id"] for j in r2.json()] == [r.json()[0]["id"]]
     assert (await repo.queue_depth()) == 1

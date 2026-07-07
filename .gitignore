@@ -13,13 +13,12 @@ camoufox-profile/
 PY/camoufox-profile/
 # PY/captures/
 DadaGP-v1.1/
-# Shared scraper→decoder output (populated here at runtime).
-# Only the raw scraper output (.xtz) and metadata.json are committed (via LFS);
-# decoded/enriched artifacts (.gp/.gpif/.gpx/audio.*) are regenerated locally.
-/output/*
-!/output/*/
-/output/*/*
-!/output/*/*/
-/output/*/*/*
-!/output/*/*/*.xtz
-!/output/*/*/metadata.json
+# Shared scraper→decoder→enricher output (populated at runtime; lives on the
+# 6 TB data drive). Nothing under output/ is committed — git holds code and the
+# manifest only; durability of scraped data comes from the external-drive
+# backup (scripts/maintain.sh), not from git.
+/output/
+# Other large derived/data trees (same policy: local disk + backup where
+# irreplaceable, never git).
+/renders/
+/dataset/

@@ -148,8 +148,6 @@ async def discover_start(
     req: DiscoveryStartRequest, request: Request, _=Depends(require_api_key)
 ):
     repo, worker = _repo(request), _worker(request)
-    if await repo.count_active_jobs() > 0:
-        raise HTTPException(status_code=409, detail="queue not empty")
     params = req.model_dump(exclude_none=True)
     run = await repo.request_discovery(params)
     if run is None:

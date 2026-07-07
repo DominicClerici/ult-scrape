@@ -52,17 +52,31 @@ Discovery is endpoint-triggered and worker-owned:
 
 1. `POST /discover` records a `DiscoveryRun` row in state `requested` and
    signals the worker's wakeup event (`notify_enqueued()`). The request is
-   accepted only when the scrape queue is empty and no other discovery run is
-   active; both conditions are checked atomically before inserting.
+   accepted even while scrape jobs are queued or running — the run simply waits
+   in `requested` until the worker gets to it. The only rejection (**409**) is
+   another discovery run already being active (`requested` or `running`);
+   that is checked atomically before inserting.
 2. On every worker iteration, `repo.claim_discovery()` is checked **before**
    `repo.claim_next()`. If a `requested` run exists it is atomically promoted to
-   `running` and the worker enters `DISCOVERING` state.
+   `running` and the worker enters `DISCOVERING` state. This ordering is the
+   serialization point: the current scrape job finishes, the discovery run is
+   serviced to completion, then normal scraping resumes automatically.
 3. While a discovery run is active, the worker does nothing else. Scraping and
    discovery are mutually exclusive — both use the browser, and the worker owns
    the browser.
 
-This means discovery only starts when the queue is drained, and while it runs
-no scrape jobs are processed.
+Because the run can now wait in `requested` for a while, two edge cases are
+handled explicitly:
+
+- **Cancel while pending:** `POST /discover/{id}/cancel` works on a `requested`
+  run; `claim_discovery()` finishes such runs as `canceled` instead of claiming
+  them, so a canceled-while-pending run never touches the browser.
+- **Restart while pending:** startup recovery (`fail_interrupted_discovery()`)
+  only fails runs caught in `running`. A `requested` run survives a restart and
+  is serviced once the worker is back up.
+
+`GET /discover` / `GET /discover/{id}` report the `requested` state as-is, so a
+waiting run is visible while the queue drains.
 
 ## Modules (`app/discovery/`)
 
@@ -217,7 +231,7 @@ Tracks one row per discovery run.
 |---|---|
 | `id` | UUID4 string — primary key |
 | `params_json` | JSON of the `DiscoveryStartRequest` overrides (may be `{}`) |
-| `state` | `requested` → `running` → `done` \| `canceled` \| `failed` |
+| `state` | `requested` → `running` → `done` \| `canceled` \| `failed`; a run canceled while still `requested` goes straight to `canceled` |
 | `created_at` | Epoch seconds |
 | `started_at` | Epoch seconds when the worker claimed the run (nullable) |
 | `finished_at` | Epoch seconds when the run ended (nullable) |

@@ -110,7 +110,9 @@ the production pipeline against the same frozen sets.
 ### `eval-py/` — the harness
 
 House-pattern project (mirrors `dataset-py`): CLI + importable `tabeval`
-package. Depends on `gpscore` (+ `mir_eval`, `numpy`, `soundfile`); reads
+package. Depends on `gpscore` (+ `mir_eval`, `numpy`, `soundfile`); invokes
+`render-py render-file` **as a subprocess** for bundle audio (a tool
+dependency, not an import — eval-py never loads the synthesis stack); reads
 `manifest/`, `dataset/`, `renders/`; never writes into any of them. Python
 ≥ 3.13 (repo convention).
 
@@ -123,7 +125,7 @@ package. Depends on `gpscore` (+ `mir_eval`, `numpy`, `soundfile`); reads
 | `tabeval/oracle.py` | Oracle ceiling + corruption generators (note-drop, fret-shift ±1, bar-delete, anchor-jitter, flag-strip) for the sensitivity CI suite; floor baselines. |
 | `app/freeze.py` | `eval freeze`: cut frozen window lists from a pinned dataset snapshot + alignment + renders; write versioned eval-set manifests (real/synth × val/test) including the offset-slice suite's frozen offsets. |
 | `app/score.py` | `eval score --predictions … --eval-set …`: detokenize (pinned `gpscore.tokens`), match, compute, write `scorecard.json` + `windows.jsonl`. |
-| `app/bundle.py` | `eval bundle`: sample windows (stratified: best/worst/random per facet), render prediction audio via `render-py`'s canonical recipe, write `.gp` files via `gpscore`, assemble the static HTML (embedded audio + alphaTab). |
+| `app/bundle.py` | `eval bundle`: sample windows (stratified: best/worst/random per facet), write GT + predicted fragments to `.gp` via `gpscore`, render their audio via `render-py render-file --recipe canonical` (subprocess), assemble the static HTML (embedded audio + alphaTab). |
 | `app/report.py` | `eval report`: human-readable comparison across scorecards; regression check vs a named baseline run. |
 | `app/wandb_sink.py` | Optional: push scorecard (+ bundle link) to W&B; never a data source. |
 | `docs/human_eval.md` + `app/rate.py` | The human-correlation protocol: blinded sampling across the score range, listening rubric (recognizability / notation usefulness, 1–5 scales), rating capture, rank-correlation report. Executed early Phase 6. |

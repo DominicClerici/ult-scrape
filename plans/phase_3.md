@@ -90,7 +90,7 @@ export.
 | **Audio-domain augmentation** | EQ / noise / reverb / gain — **on-the-fly** in the training dataloader; **mild time-stretch (±10 %)** on-the-fly with anchor rescaling | Baked into stored data (multiplies disk, freezes aug policy) | Label-free transforms belong at load time; Phase 4 renders at arbitrary tempo natively, so aggressive time-stretch on real audio is unnecessary. |
 | **Source separation (Demucs)** | **N-channel input contract** (mix = 1 channel; mix + guitar stem = 2); stems an *optional* builder product behind a flag; mix-only vs mix+stem decided as a **Phase 6 ablation** | Bake separation in (all training + inference pays Demucs cost/artifacts before evidence); mix-only contract (retrofitting a channel later touches dataset format and model input layer) | Cheap to reserve, expensive to retrofit; consistent with Phase 2's evidence-first Demucs stance. |
 | **Tokenizer home** | **`gpscore.tokens`** — leaf subpackage of `score-py/`, beside the writer | Inside `dataset-py` (inference/eval would import a corpus-walking CLI to decode tokens); own `tabtok-py/` (third project for one module; version-skew surface) | Pure symbolic transform travels with the model it transforms; preserves the roadmap's "one deliberate shared dependency" invariant; vocab versions with the `gpscore` API. |
-| **Dataset storage** | **Per-song record files + `index.jsonl`** under `dataset/<snapshot>/`; snapshot ID = index hash | WebDataset shards now (cloud-streaming solution to a problem the local-GPU regime doesn't have); HF `datasets`/parquet (heavy dependency, clunky audio inspection, no local-first gain) | Dynamic window sampling wants local random access; debuggable/greppable; mechanically convertible to shards if Phase 7 cloud runs demand it. |
+| **Dataset storage** | **Per-song record files + `index.jsonl`** under `dataset/<snapshot>/`; snapshot ID = index hash. **Audio is never embedded in records** (amended 2026-07-06): decoded/normalized audio lives once in a shared **content-addressed store** `dataset/audio/<sha256[:2]>/<sha256>.flac`; records and the index reference audio by content hash; snapshots share the store; GC removes only hashes no retained snapshot index references | WebDataset shards now (cloud-streaming solution to a problem the local-GPU regime doesn't have); HF `datasets`/parquet (heavy dependency, clunky audio inspection, no local-first gain); audio embedded per record (immutable but duplicates the corpus — and the ingested render variants — for every snapshot); bare path references into `output/`/`renders/` (a pruned render silently breaks a pinned snapshot) | Dynamic window sampling wants local random access; debuggable/greppable; mechanically convertible to shards if Phase 7 cloud runs demand it. Hash-addressing gives immutability (a referenced blob never changes) at one audio copy total, and render pruning can never invalidate a snapshot. |
 | **Record audio format** | **Mono FLAC @ 24 kHz** inside records (builder parameter) | Source-rate 48 kHz (2× disk for headroom no MT3/MERT-class frontend uses); 16 kHz (forecloses 24 kHz encoders like MERT) | Covers the realistic encoder space; `output/` retains originals, so a rebuild can re-decode at any rate — the call is reversible. |
 | **Phase 4 contract** | Synthetic renders enter as the **same record shape**: same symbolic dump, trivial/perfect alignment, `source: "synthetic"` + variant id vs `source: "real"` | A separate synthetic pipeline/format | Roadmap requirement ("synthetic vs real is just a manifest flag") made concrete; builder and dataloader are source-agnostic. |
 
@@ -160,12 +160,19 @@ inputs). Pipeline per tab:
 
 1. Eligibility: manifest verdict `ok` (or transposed-`suspect` when the
    tuning-shift rescue flag is on) + alignment status `aligned` with usable
-   segments; split label attached from the manifest.
+   segments; split label attached from the manifest. (Phase 2 also aligns
+   non-transposed `suspect` pairs, but those enter only after a verdict
+   review promotes them via `overrides.json` — the builder never consumes a
+   `suspect` verdict directly.)
 2. Parse `.gpif` → `Score`; compute the modeled projection + drop accounting.
-3. Decode audio → mono FLAC @ 24 kHz (builder param). Optional Demucs stem
-   behind `--stems`.
+3. Decode audio → mono FLAC @ 24 kHz (builder param) → sha256 → ingest into
+   the content-addressed store `dataset/audio/` (hardlink when source and
+   store share a volume — free for synthetic renders, which are already
+   24 kHz mono FLAC; copy otherwise). Optional Demucs stem behind `--stems`,
+   stored the same way.
 4. Emit record: symbolic dump (document + performance view, JSON),
-   alignment segments (from `manifest/alignment/`), audio blob(s),
+   alignment segments (from `manifest/alignment/`), audio **references**
+   (content hashes into the store — never embedded blobs),
    provenance (`source`, hashes of inputs, `gpscore`/vocab versions).
 5. `index.jsonl` (one line per record, sorted, deterministic) + `report.md`
    (coverage, drop accounting aggregates, window statistics, split counts).
@@ -184,6 +191,7 @@ audio augs, and tacet downsampling.
 score-py/          # Phase 0/2a; grows gpscore.tokens + writer (this phase)
 dataset-py/        # new: builder CLI + window-sampling dataloader library
 dataset/<snapshot>/{songs/…, index.jsonl, report.md}   # derived data
+dataset/audio/     # shared content-addressed audio store (all snapshots)
 ```
 
 ## Risks & mitigations

@@ -53,6 +53,15 @@ class JobRepo:
         row = await cur.fetchone()
         return self._row_to_job(row) if row else None
 
+    async def _latest_active(self, tab_id: str) -> Job | None:
+        cur = await self.conn.execute(
+            "SELECT * FROM jobs WHERE tab_id=? AND status IN ('queued','running') "
+            "ORDER BY created_at DESC LIMIT 1",
+            (tab_id,),
+        )
+        row = await cur.fetchone()
+        return self._row_to_job(row) if row else None
+
     async def enqueue(
         self, *, tab_id: str, url: str, priority: int = 0,
         force: bool = False, max_attempts: int,
@@ -61,6 +70,9 @@ class JobRepo:
             existing = await self._latest_succeeded(tab_id)
             if existing is not None:
                 return existing
+            active = await self._latest_active(tab_id)
+            if active is not None:
+                return active
         job_id = str(uuid4())
         now = self._now()
         await self.conn.execute(
@@ -246,12 +258,6 @@ class JobRepo:
             error=row["error"],
         )
 
-    async def count_active_jobs(self) -> int:
-        cur = await self.conn.execute(
-            "SELECT COUNT(*) c FROM jobs WHERE status IN ('queued','running')"
-        )
-        return (await cur.fetchone())["c"]
-
     async def has_active_discovery(self) -> bool:
         cur = await self.conn.execute(
             "SELECT COUNT(*) c FROM discovery_runs WHERE state IN ('requested','running')"
@@ -273,6 +279,13 @@ class JobRepo:
 
     async def claim_discovery(self) -> DiscoveryRun | None:
         now = self._now()
+        # A run can now wait in 'requested' while scrape jobs finish; if it was
+        # canceled during that wait, finish it here so it never claims the browser.
+        await self.conn.execute(
+            "UPDATE discovery_runs SET state='canceled', finished_at=? "
+            "WHERE state='requested' AND cancel_requested=1",
+            (now,),
+        )
         cur = await self.conn.execute(
             "UPDATE discovery_runs SET state='running', started_at=? "
             "WHERE id = (SELECT id FROM discovery_runs WHERE state='requested' "
