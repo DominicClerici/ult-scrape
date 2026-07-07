@@ -48,6 +48,15 @@ always run in parallel.
 **No git in subagents.** Subagents never commit and never push. You commit;
 nobody pushes (global rule).
 
+**Pause for human input.** Subagents cannot talk to the user — every dispatch
+prompt must instruct the subagent that if it hits a point genuinely needing
+human input (an ambiguous requirement, a decision the plan doesn't settle, a
+contradiction, a destructive/irreversible action, or anything the plan marks as
+your call), it must **stop and report the question back to you rather than guess
+or pick a default**. When a subagent reports such a question — or when you
+yourself reach one — **pause and ask the user** before proceeding. Do not
+paper over a real decision point to keep the pipeline moving.
+
 **Review independence.** A reviewer is always a **fresh agent**, never the
 implementer continued via SendMessage. Reviewers get the task's original
 spec + acceptance criteria and the resulting diff — not the implementer's
@@ -163,6 +172,10 @@ entry, and make the final commit.
 - **Escalation:** you may ask the user questions at genuine decision points
   (plan contradiction, major caveat, 3-round cap exhausted, missing
   dependency). Do not ask for permission to proceed with the plan itself.
+  When a subagent's report back flags that it needs human input, or you
+  yourself hit a point that needs a human call, **pause the orchestration and
+  ask the user** — do not guess or improvise past it. Resume only once the
+  user has answered.
 - **Git rules:** you commit locally at green checkpoints with clear messages;
   **never push**; never delete files you didn't create this session.
 - **Checkpointing / running out of room:** phases 2 and 6 especially may not
